@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { zhCN } from '@mui/material/locale';
 
 type ClientThemeProviderProps = {
   children: ReactNode;
@@ -21,7 +22,7 @@ const theme = createTheme({
     },
   },
   shape: { borderRadius: 10 },
-});
+}, zhCN);
 
 export default function ClientThemeProvider({ children }: ClientThemeProviderProps) {
   return (

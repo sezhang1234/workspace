@@ -26,24 +26,33 @@ const initialNodes: Node[] = [
   {
     id: 'input',
     position: { x: 80, y: 120 },
-    data: { label: 'User Input' },
-    type: 'input',
+    data: { label: '输入' },
+    type: 'inputNode',
   },
   {
     id: 'llm',
     position: { x: 360, y: 120 },
-    data: { label: 'LLM Agent' },
+    data: { label: 'LLM' },
+    type: 'llmNode',
   },
   {
     id: 'tool',
     position: { x: 360, y: 260 },
-    data: { label: 'Tool Call' },
+    data: { label: '工具' },
+    type: 'toolNode',
+  },
+  {
+    id: 'output',
+    position: { x: 640, y: 120 },
+    data: { label: '输出' },
+    type: 'outputNode',
   },
 ];
 
 const initialEdges: Edge[] = [
   { id: 'e-input-llm', source: 'input', target: 'llm', animated: true },
   { id: 'e-llm-tool', source: 'llm', target: 'tool' },
+  { id: 'e-llm-output', source: 'llm', target: 'output' },
 ];
 
 export const useFlowStore = create<FlowState>((set, get) => ({
