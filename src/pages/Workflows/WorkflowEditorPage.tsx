@@ -129,7 +129,7 @@ const WorkflowEditorContent: React.FC = () => {
   const isNew = id === 'new'
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
-  const [showNodePanel, setShowNodePanel] = useState(true)
+  const [showNodePanel, setShowNodePanel] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
   const [nodeConfigDialog, setNodeConfigDialog] = useState(false)
 
