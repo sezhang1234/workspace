@@ -11,16 +11,18 @@ import WorkflowsPage from './pages/Workflows/WorkflowsPage'
 import WorkflowEditorPage from './pages/Workflows/WorkflowEditorPage'
 import PromptsPage from './pages/Prompts/PromptsPage'
 import PromptEditorPage from './pages/Prompts/PromptEditorPage'
+import ModelsPage from './pages/Models/ModelsPage'
+import AnalyticsPage from './pages/Analytics/AnalyticsPage'
 import SettingsPage from './pages/Settings/SettingsPage'
 import ProfilePage from './pages/Settings/ProfilePage'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore()
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />
   }
-  
+
   return <>{children}</>
 }
 
@@ -32,7 +34,7 @@ const App: React.FC = () => {
       {/* Public routes */}
       <Route path="/" element={<WelcomePage />} />
       <Route path="/login" element={<LoginPage />} />
-      
+
       {/* Protected routes */}
       <Route
         path="/dashboard"
@@ -52,10 +54,12 @@ const App: React.FC = () => {
         <Route path="prompts" element={<PromptsPage />} />
         <Route path="prompts/:id" element={<PromptEditorPage />} />
         <Route path="prompts/new" element={<PromptEditorPage />} />
+        <Route path="models" element={<ModelsPage />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="profile" element={<ProfilePage />} />
       </Route>
-      
+
       {/* Redirect to dashboard if authenticated, otherwise to welcome */}
       <Route
         path="*"
