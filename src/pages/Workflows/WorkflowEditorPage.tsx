@@ -16,7 +16,9 @@ import {
   Zap,
   Clock,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Repeat,
+  BarChart3
 } from 'lucide-react'
 import ReactFlow, {
   Node,
@@ -71,6 +73,7 @@ import CustomStartNode from '../../components/WorkflowNodes/CustomStartNode'
 import CustomActionNode from '../../components/WorkflowNodes/CustomActionNode'
 import CustomConditionNode from '../../components/WorkflowNodes/CustomConditionNode'
 import CustomEndNode from '../../components/WorkflowNodes/CustomEndNode'
+import CustomLoopNode from '../../components/WorkflowNodes/CustomLoopNode'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -104,6 +107,7 @@ const nodeTypes: NodeTypes = {
   actionNode: CustomActionNode,
   conditionNode: CustomConditionNode,
   endNode: CustomEndNode,
+  loopNode: CustomLoopNode,
 }
 
 const WorkflowEditorContent: React.FC = () => {
@@ -159,15 +163,81 @@ const WorkflowEditorContent: React.FC = () => {
   }
 
   const addNode = (type: string, position: { x: number; y: number }) => {
+    let defaultData: any = { label: '新节点' }
+    
+    switch (type) {
+      case 'startNode':
+        defaultData = { 
+          label: '开始', 
+          trigger: 'webhook',
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
+      case 'actionNode':
+        defaultData = { 
+          label: '动作', 
+          actionType: 'api_call',
+          timeout: 30,
+          retries: 3,
+          priority: 'normal',
+          status: 'ready',
+          avgDuration: 0,
+          successRate: 100,
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
+      case 'conditionNode':
+        defaultData = { 
+          label: '条件', 
+          conditionType: 'comparison',
+          condition: 'if (value > 0)',
+          truePath: '继续执行',
+          falsePath: '跳过执行',
+          priority: 'normal',
+          timeout: 10,
+          evaluationCount: 0,
+          lastEvaluated: '从未'
+        }
+        break
+      case 'loopNode':
+        defaultData = { 
+          label: '循环', 
+          loopType: 'while',
+          condition: 'while (condition)',
+          maxIterations: '∞',
+          timeout: 300,
+          status: 'ready',
+          currentIteration: 0,
+          totalIterations: 0,
+          avgIterationTime: 0,
+          successRate: 100,
+          variables: ['i', 'item'],
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
+      case 'endNode':
+        defaultData = { 
+          label: '结束', 
+          endType: 'success',
+          description: '工作流执行完成',
+          totalDuration: 0,
+          totalNodes: 0,
+          successNodes: 0,
+          failedNodes: 0,
+          completedAt: '刚刚',
+          executionCount: 1
+        }
+        break
+    }
+
     const newNode: Node = {
       id: `${type}-${Date.now()}`,
       type: type as any,
       position,
-      data: { 
-        label: type === 'startNode' ? '开始' : 
-               type === 'actionNode' ? '动作' :
-               type === 'conditionNode' ? '条件' : '结束'
-      }
+      data: defaultData
     }
     setNodes((nds) => [...nds, newNode])
   }
@@ -229,43 +299,78 @@ const WorkflowEditorContent: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
         <div className="flex items-center space-x-4">
           <Button
             variant="outlined"
             startIcon={<ArrowLeft />}
             onClick={() => navigate('/dashboard/workflows')}
+            className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300"
           >
             返回
           </Button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               {isNew ? '创建工作流' : '编辑工作流'}
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mt-1">
               {isNew ? '使用可视化编辑器设计自动化工作流' : '修改工作流配置和节点'}
             </p>
           </div>
         </div>
         
         <div className="flex items-center space-x-3">
+          {/* Import/Export buttons */}
+          <Tooltip title="导入工作流">
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<Upload />}
+              className="border-gray-200 text-gray-700 hover:bg-gray-50"
+            >
+              <input
+                type="file"
+                hidden
+                accept=".json"
+                onChange={handleImport}
+              />
+              导入
+            </Button>
+          </Tooltip>
+          
+          <Tooltip title="导出工作流">
+            <Button
+              variant="outlined"
+              startIcon={<Download />}
+              onClick={handleExport}
+              className="border-gray-200 text-gray-700 hover:bg-gray-50"
+            >
+              导出
+            </Button>
+          </Tooltip>
+
           <Button
             variant="outlined"
             startIcon={showNodePanel ? <EyeOff /> : <Eye />}
             onClick={() => setShowNodePanel(!showNodePanel)}
+            className="border-gray-200 text-gray-700 hover:bg-gray-50"
           >
             {showNodePanel ? '隐藏面板' : '显示面板'}
           </Button>
+          
           <Button
             variant="outlined"
             startIcon={<Play />}
+            className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300"
           >
             测试运行
           </Button>
+          
           <Button
             variant="contained"
             startIcon={<Save />}
             onClick={handleSave}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
           >
             保存
           </Button>
@@ -317,67 +422,148 @@ const WorkflowEditorContent: React.FC = () => {
 
             <Card>
               <CardContent>
-                <Typography variant="h6" className="mb-4">节点库</Typography>
-                <div className="space-y-2">
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    startIcon={<Plus />}
-                    onClick={() => addNode('startNode', { x: 100, y: 100 })}
-                  >
-                    开始节点
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    startIcon={<Zap />}
-                    onClick={() => addNode('actionNode', { x: 300, y: 200 })}
-                  >
-                    动作节点
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    startIcon={<Settings />}
-                    onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
-                  >
-                    条件节点
-                  </Button>
-                  <Button
-                    fullWidth
-                    variant="outlined"
-                    size="small"
-                    startIcon={<CheckCircle />}
-                    onClick={() => addNode('endNode', { x: 700, y: 300 })}
-                  >
-                    结束节点
-                  </Button>
+                <Typography variant="h6" className="mb-4 flex items-center">
+                  <Zap className="w-5 h-5 mr-2 text-blue-600" />
+                  节点库
+                </Typography>
+                <div className="space-y-3">
+                  {/* Start Node */}
+                  <div className="group">
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      startIcon={<Play className="w-4 h-4" />}
+                      onClick={() => addNode('startNode', { x: 100, y: 100 })}
+                      className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 transition-all duration-200"
+                    >
+                      开始节点
+                    </Button>
+                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      工作流的起点，定义触发条件
+                    </div>
+                  </div>
+
+                  {/* Action Node */}
+                  <div className="group">
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      startIcon={<Zap className="w-4 h-4" />}
+                      onClick={() => addNode('actionNode', { x: 300, y: 200 })}
+                      className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 transition-all duration-200"
+                    >
+                      动作节点
+                    </Button>
+                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      执行具体操作，如API调用、数据处理等
+                    </div>
+                  </div>
+
+                  {/* Condition Node */}
+                  <div className="group">
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      startIcon={<Settings className="w-4 h-4" />}
+                      onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
+                      className="border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 transition-all duration-200"
+                    >
+                      条件节点
+                    </Button>
+                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      根据条件决定执行路径
+                    </div>
+                  </div>
+
+                  {/* Loop Node */}
+                  <div className="group">
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      startIcon={<Repeat className="w-4 h-4" />}
+                      onClick={() => addNode('loopNode', { x: 400, y: 300 })}
+                      className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 transition-all duration-200"
+                    >
+                      循环节点
+                    </Button>
+                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      重复执行特定逻辑，支持多种循环类型
+                    </div>
+                  </div>
+
+                  {/* End Node */}
+                  <div className="group">
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      startIcon={<CheckCircle className="w-4 h-4" />}
+                      onClick={() => addNode('endNode', { x: 700, y: 300 })}
+                      className="border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 transition-all duration-200"
+                    >
+                      结束节点
+                    </Button>
+                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      工作流的终点，返回执行结果
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent>
-                <Typography variant="h6" className="mb-4">执行统计</Typography>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span>总执行次数:</span>
-                    <span className="font-medium">1,234</span>
+                <Typography variant="h6" className="mb-4 flex items-center">
+                  <BarChart3 className="w-5 h-5 mr-2 text-green-600" />
+                  执行统计
+                </Typography>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-3 rounded-lg border border-green-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-green-700">总执行次数</span>
+                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                          <Play className="w-4 h-4 text-green-600" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-bold text-green-800 mt-2">1,234</div>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-3 rounded-lg border border-blue-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-blue-700">成功率</span>
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 text-blue-600" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-bold text-blue-800 mt-2">98.5%</div>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>成功率:</span>
-                    <span className="font-medium text-green-600">98.5%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>平均执行时间:</span>
-                    <span className="font-medium">2.3s</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>最后执行:</span>
-                    <span className="font-medium">2小时前</span>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-3 rounded-lg border border-purple-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-purple-700">平均执行时间</span>
+                        <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                          <Clock className="w-4 h-4 text-purple-600" />
+                        </div>
+                      </div>
+                      <div className="text-2xl font-bold text-purple-800 mt-2">2.3s</div>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-3 rounded-lg border border-orange-200">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-orange-700">最后执行</span>
+                        <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
+                          <Zap className="w-4 h-4 text-orange-600" />
+                        </div>
+                      </div>
+                      <div className="text-lg font-bold text-orange-800 mt-2">2小时前</div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -386,51 +572,69 @@ const WorkflowEditorContent: React.FC = () => {
         )}
 
         {/* Main canvas area */}
-        <div className={`${showNodePanel ? 'lg:col-span-3' : 'lg:col-span-4'} h-[600px]`}>
-          <Card className="h-full">
+        <div className={`${showNodePanel ? 'lg:col-span-3' : 'lg:col-span-4'} h-[700px]`}>
+          <Card className="h-full shadow-lg border-0">
             <CardContent className="h-full p-0">
-              <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onNodeClick={onNodeClick}
-                nodeTypes={nodeTypes}
-                fitView
-                className="h-full"
-              >
-                <Controls />
-                <Background />
-                <MiniMap />
-                <Panel position="top-right" className="bg-white p-2 rounded shadow">
-                  <div className="flex space-x-2">
-                    <Tooltip title="导入工作流">
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        component="label"
-                        startIcon={<Upload />}
-                      >
-                        <input
-                          type="file"
-                          hidden
-                          accept=".json"
-                          onChange={handleImport}
-                        />
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="导出工作流">
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        startIcon={<Download />}
-                        onClick={handleExport}
-                      />
-                    </Tooltip>
-                  </div>
-                </Panel>
-              </ReactFlow>
+              <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100">
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  onConnect={onConnect}
+                  onNodeClick={onNodeClick}
+                  nodeTypes={nodeTypes}
+                  fitView
+                  attributionPosition="bottom-left"
+                  className="bg-transparent"
+                  proOptions={{ hideAttribution: true }}
+                >
+                  {/* Enhanced background with grid */}
+                  <Background 
+                    variant="dots" 
+                    gap={20} 
+                    size={1} 
+                    color="#e5e7eb"
+                    className="opacity-30"
+                  />
+                  
+                  {/* Enhanced controls */}
+                  <Controls 
+                    className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
+                    showZoom={true}
+                    showFitView={true}
+                    showInteractive={true}
+                  />
+                  
+                  {/* Enhanced minimap */}
+                  <MiniMap 
+                    className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
+                    nodeColor={(node) => {
+                      switch (node.type) {
+                        case 'startNode': return '#10b981'
+                        case 'actionNode': return '#3b82f6'
+                        case 'conditionNode': return '#f59e0b'
+                        case 'loopNode': return '#8b5cf6'
+                        case 'endNode': return '#ef4444'
+                        default: return '#6b7280'
+                      }
+                    }}
+                    nodeStrokeWidth={3}
+                    zoomable
+                    pannable
+                  />
+                  
+                  {/* Enhanced panel for workflow info */}
+                  <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
+                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span>节点: {nodes.length}</span>
+                      <span>•</span>
+                      <span>连接: {edges.length}</span>
+                    </div>
+                  </Panel>
+                </ReactFlow>
+              </div>
             </CardContent>
           </Card>
         </div>
