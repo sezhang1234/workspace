@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import { 
   Settings, 
-  User, 
-  Bell, 
+  Save, 
   Palette, 
   Key, 
-  Users, 
-  BarChart3,
-  Save,
-  RotateCcw,
+  BarChart3, 
+  Trash2, 
+  Eye, 
+  EyeOff,
+  Download,
+  Upload,
+  Plus,
+  Minus,
+  Copy,
   CheckCircle,
   AlertCircle,
-  Trash2,
-  Copy
+  Info
 } from 'lucide-react'
 import { 
   TextField, 
@@ -181,26 +184,6 @@ const SettingsPage: React.FC = () => {
     ]
   })
 
-  // Team settings state
-  const [teamSettings, setTeamSettings] = useState({
-    teamName: 'AI开发团队',
-    teamSize: 8,
-    enableCollaboration: true,
-    allowGuestAccess: false,
-    requireApproval: true,
-    enableRoleBasedAccess: true,
-    members: [
-      { id: '1', name: '张三', email: 'zhangsan@example.com', role: 'admin', status: 'active' },
-      { id: '2', name: '李四', email: 'lisi@example.com', role: 'developer', status: 'active' },
-      { id: '3', name: '王五', email: 'wangwu@example.com', role: 'viewer', status: 'pending' }
-    ],
-    roles: [
-      { name: 'admin', permissions: ['read', 'write', 'delete', 'manage_users'] },
-      { name: 'developer', permissions: ['read', 'write'] },
-      { name: 'viewer', permissions: ['read'] }
-    ]
-  })
-
   // Performance settings state
   const [performanceSettings, setPerformanceSettings] = useState({
     enableCaching: true,
@@ -260,27 +243,6 @@ const SettingsPage: React.FC = () => {
     })
   }
 
-  const addTeamMember = () => {
-    const newMember = {
-      id: Date.now().toString(),
-      name: '新成员',
-      email: 'newmember@example.com',
-      role: 'viewer',
-      status: 'pending'
-    }
-    setTeamSettings({
-      ...teamSettings,
-      members: [...teamSettings.members, newMember]
-    })
-  }
-
-  const removeTeamMember = (memberId: string) => {
-    setTeamSettings({
-      ...teamSettings,
-      members: teamSettings.members.filter(member => member.id !== memberId)
-    })
-  }
-
   return (
     <div className="space-y-6">
       {/* Page header */}
@@ -305,12 +267,11 @@ const SettingsPage: React.FC = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={activeTab} onChange={handleTabChange} aria-label="设置标签页" variant="scrollable">
             <Tab label="通用设置" icon={<Settings />} />
-            <Tab label="个人资料" icon={<User />} />
-            <Tab label="通知设置" icon={<Bell />} />
+            <Tab label="个人资料" icon={<Key />} />
+            <Tab label="通知设置" icon={<Info />} />
             <Tab label="外观设置" icon={<Palette />} />
             <Tab label="安全设置" icon={<Key />} />
             <Tab label="API设置" icon={<Key />} />
-            <Tab label="团队管理" icon={<Users />} />
             <Tab label="模型配置" icon={<Settings />} />
             <Tab label="性能设置" icon={<BarChart3 />} />
           </Tabs>
@@ -889,94 +850,8 @@ const SettingsPage: React.FC = () => {
           </div>
         </TabPanel>
 
-        {/* 团队管理 */}
-        <TabPanel value={activeTab} index={6}>
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <Typography variant="h6">团队成员</Typography>
-              <Button
-                variant="outlined"
-                startIcon={<Users />}
-                onClick={addTeamMember}
-              >
-                添加成员
-              </Button>
-            </div>
-
-            <div className="space-y-3">
-              {teamSettings.members.map((member) => (
-                <Card key={member.id} variant="outlined">
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <Avatar>{member.name[0]}</Avatar>
-                        <div>
-                          <Typography variant="subtitle1">{member.name}</Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {member.email}
-                          </Typography>
-                          <Chip
-                            label={member.role}
-                            size="small"
-                            color={member.role === 'admin' ? 'error' : member.role === 'developer' ? 'primary' : 'default'}
-                          />
-                          <Chip
-                            label={member.status}
-                            size="small"
-                            color={member.status === 'active' ? 'success' : 'warning'}
-                          />
-                        </div>
-                      </div>
-                      <IconButton
-                        color="error"
-                        onClick={() => removeTeamMember(member.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </IconButton>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <Divider />
-            
-            <Typography variant="h6">团队设置</Typography>
-            
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={teamSettings.enableCollaboration}
-                    onChange={(e) => setTeamSettings({ ...teamSettings, enableCollaboration: e.target.checked })}
-                  />
-                }
-                label="启用协作功能"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={teamSettings.allowGuestAccess}
-                    onChange={(e) => setTeamSettings({ ...teamSettings, allowGuestAccess: e.target.checked })}
-                  />
-                }
-                label="允许访客访问"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={teamSettings.requireApproval}
-                    onChange={(e) => setTeamSettings({ ...teamSettings, requireApproval: e.target.checked })}
-                  />
-                }
-                label="需要审批"
-              />
-            </FormGroup>
-          </div>
-        </TabPanel>
-
         {/* 模型配置 */}
-        <TabPanel value={activeTab} index={7}>
+        <TabPanel value={activeTab} index={6}>
           <div className="space-y-6">
             <Typography variant="h6">默认模型设置</Typography>
             
@@ -1076,7 +951,7 @@ const SettingsPage: React.FC = () => {
         </TabPanel>
 
         {/* 性能设置 */}
-        <TabPanel value={activeTab} index={8}>
+        <TabPanel value={activeTab} index={7}>
           <div className="space-y-6">
             <Typography variant="h6">缓存设置</Typography>
             
