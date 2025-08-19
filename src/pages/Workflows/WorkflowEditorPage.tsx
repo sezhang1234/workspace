@@ -201,10 +201,18 @@ const WorkflowEditorContent: React.FC = () => {
   
   const [edges, setEdges, onEdgesChange] = useEdgesState([])
 
-  const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  )
+  const onConnect = useCallback((params: any) => {
+    console.log('Connecting nodes:', params)
+    const newEdge: Edge = {
+      id: `e${Date.now()}`,
+      source: params.source,
+      target: params.target,
+      type: 'smoothstep',
+      style: { stroke: '#3b82f6', strokeWidth: 2 },
+      animated: false
+    }
+    setEdges((eds) => [...eds, newEdge])
+  }, [])
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node)
@@ -521,20 +529,43 @@ const WorkflowEditorContent: React.FC = () => {
           id: 'e1',
           source: 'start-1',
           target: 'llm-1',
-          type: 'smoothstep'
+          type: 'smoothstep',
+          style: { 
+            stroke: '#3b82f6', 
+            strokeWidth: 3,
+            zIndex: 1000
+          },
+          animated: false,
+          zIndex: 1000
         },
         {
           id: 'e2',
           source: 'llm-1',
           target: 'end-1',
-          type: 'smoothstep'
+          type: 'smoothstep',
+          style: { 
+            stroke: '#3b82f6', 
+            strokeWidth: 3,
+            zIndex: 1000
+          },
+          animated: false,
+          zIndex: 1000
         }
       ]
 
+      console.log('Setting default nodes:', defaultNodes)
+      console.log('Setting default edges:', defaultEdges)
+      
       setNodes(defaultNodes)
       setEdges(defaultEdges)
     }
   }, [isNew])
+
+  // Debug: Monitor nodes and edges state
+  useEffect(() => {
+    console.log('Current nodes:', nodes)
+    console.log('Current edges:', edges)
+  }, [nodes, edges])
 
   return (
     <div className="space-y-6">
@@ -683,6 +714,11 @@ const WorkflowEditorContent: React.FC = () => {
                   className="bg-transparent"
                   proOptions={{ hideAttribution: true }}
                   onClick={handleCanvasClick}
+                  defaultEdgeOptions={{
+                    type: 'smoothstep',
+                    style: { stroke: '#3b82f6', strokeWidth: 2 },
+                    animated: false
+                  }}
                 >
                   {/* Light grid background */}
                   <Background 
@@ -963,6 +999,8 @@ const WorkflowEditorContent: React.FC = () => {
                       <span>节点: {nodes.length}</span>
                       <span>•</span>
                       <span>连接: {edges.length}</span>
+                      <span>•</span>
+                      <span>默认: {isNew ? '是' : '否'}</span>
                     </div>
                   </Panel>
                 </ReactFlow>
