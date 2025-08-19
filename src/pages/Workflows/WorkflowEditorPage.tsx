@@ -573,7 +573,7 @@ const WorkflowEditorContent: React.FC = () => {
 
       <div className="grid grid-cols-1 gap-6">
         {/* Main canvas area - Full width */}
-        <div className="h-[800px]">
+        <div className="h-[900px]">
           {/* Workflow Configuration Panel */}
           <Card className="mb-4 shadow-lg border-0 bg-gradient-to-r from-blue-50 to-indigo-50">
             <CardContent className="p-4">
@@ -630,12 +630,12 @@ const WorkflowEditorContent: React.FC = () => {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {/* Workflow Canvas */}
-            <div className="lg:col-span-4">
-              <Card className="h-[720px] shadow-lg border-0">
+            <div className="w-full">
+              <Card className="h-[800px] shadow-lg border-0">
                 <CardContent className="h-full p-0">
-                  <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel ? 'backdrop-blur-sm' : ''}`}>
+                  <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel || selectedNode ? 'backdrop-blur-sm' : ''}`}>
                     <ReactFlow
                       nodes={nodes}
                       edges={edges}
@@ -903,6 +903,242 @@ const WorkflowEditorContent: React.FC = () => {
                           </div>
                         </Panel>
                       )}
+
+                      {/* Floating Node Configuration Panel */}
+                      {selectedNode && (
+                        <Panel 
+                          position="top-right" 
+                          className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-right duration-300 ease-out"
+                          style={{ 
+                            top: '20px', 
+                            right: '20px', 
+                            zIndex: 1000
+                          }}
+                        >
+                          <div className="flex items-center justify-between mb-4">
+                            <Typography variant="h6" className="text-gray-800 font-semibold text-sm">
+                              节点配置
+                            </Typography>
+                            <button
+                              onClick={() => setSelectedNode(null)}
+                              className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
+                              title="关闭"
+                            >
+                              <X className="w-3 h-3 text-gray-600/80" />
+                            </button>
+                          </div>
+                          
+                          <div className="space-y-4">
+                            {/* Node Type Display */}
+                            <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                              <Typography variant="subtitle2" className="text-blue-800 font-medium mb-1 text-xs">
+                                节点类型
+                              </Typography>
+                              <Typography variant="body2" className="text-blue-700 text-xs">
+                                {selectedNode.type === 'startNode' ? '开始节点' :
+                                 selectedNode.type === 'llmNode' ? 'LLM 节点' :
+                                 selectedNode.type === 'endNode' ? '结束节点' :
+                                 selectedNode.type === 'actionNode' ? '动作节点' :
+                                 selectedNode.type === 'conditionNode' ? '条件节点' :
+                                 selectedNode.type === 'loopNode' ? '循环节点' :
+                                 selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
+                                 selectedNode.type === 'questionClassifierNode' ? '问题分类节点' :
+                                 selectedNode.type === 'answerNode' ? '答案生成节点' :
+                                 selectedNode.type === 'variableAggregatorNode' ? '变量聚合节点' :
+                                 '未知节点'}
+                              </Typography>
+                            </div>
+
+                            {/* Node Label */}
+                            <div>
+                              <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                节点名称
+                              </Typography>
+                              <TextField
+                                fullWidth
+                                size="small"
+                                value={selectedNode.data.label || ''}
+                                onChange={(e) => {
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, label: e.target.value } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                                className="bg-white/80"
+                                inputProps={{ style: { fontSize: '12px' } }}
+                              />
+                            </div>
+
+                            {/* Node-specific Configuration */}
+                            {selectedNode.type === 'startNode' && (
+                              <div>
+                                <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                  触发器类型
+                                </Typography>
+                                <FormControl fullWidth size="small">
+                                  <Select
+                                    value={selectedNode.data.trigger || 'manual'}
+                                    onChange={(e: SelectChangeEvent) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                    size="small"
+                                  >
+                                    <MenuItem value="webhook">Webhook</MenuItem>
+                                    <MenuItem value="schedule">定时任务</MenuItem>
+                                    <MenuItem value="manual">手动触发</MenuItem>
+                                    <MenuItem value="event">事件驱动</MenuItem>
+                                  </Select>
+                                </FormControl>
+                              </div>
+                            )}
+
+                            {selectedNode.type === 'llmNode' && (
+                              <>
+                                <div>
+                                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                    AI 模型
+                                  </Typography>
+                                  <FormControl fullWidth size="small">
+                                    <Select
+                                      value={selectedNode.data.model || 'gpt-4'}
+                                      onChange={(e: SelectChangeEvent) => {
+                                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
+                                        setSelectedNode(updatedNode)
+                                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                      }}
+                                      className="bg-white/80"
+                                      size="small"
+                                    >
+                                      <MenuItem value="gpt-4">GPT-4</MenuItem>
+                                      <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+                                      <MenuItem value="claude-3">Claude 3</MenuItem>
+                                      <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
+                                    </Select>
+                                  </FormControl>
+                                </div>
+
+                                <div>
+                                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                    温度 (Temperature)
+                                  </Typography>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    type="number"
+                                    inputProps={{ min: 0, max: 2, step: 0.1, style: { fontSize: '12px' } }}
+                                    value={selectedNode.data.temperature || 0.7}
+                                    onChange={(e) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, temperature: parseFloat(e.target.value) } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                  />
+                                </div>
+
+                                <div>
+                                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                    最大令牌数
+                                  </Typography>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    type="number"
+                                    inputProps={{ min: 1, max: 4000, step: 1, style: { fontSize: '12px' } }}
+                                    value={selectedNode.data.maxTokens || 1000}
+                                    onChange={(e) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, maxTokens: parseInt(e.target.value) } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                  />
+                                </div>
+
+                                <div>
+                                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                    系统提示词
+                                  </Typography>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    multiline
+                                    rows={2}
+                                    value={selectedNode.data.systemMessage || ''}
+                                    onChange={(e) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemMessage: e.target.value } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                    inputProps={{ style: { fontSize: '12px' } }}
+                                  />
+                                </div>
+
+                                <div>
+                                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                    用户提示词
+                                  </Typography>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    multiline
+                                    rows={2}
+                                    value={selectedNode.data.prompt || ''}
+                                    onChange={(e) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, prompt: e.target.value } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                    inputProps={{ style: { fontSize: '12px' } }}
+                                  />
+                                </div>
+                              </>
+                            )}
+
+                            {selectedNode.type === 'endNode' && (
+                              <div>
+                                <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                  结束类型
+                                </Typography>
+                                <FormControl fullWidth size="small">
+                                  <Select
+                                    value={selectedNode.data.endType || 'success'}
+                                    onChange={(e: SelectChangeEvent) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value as 'success' | 'error' | 'warning' | 'timeout' } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                    size="small"
+                                  >
+                                    <MenuItem value="success">成功完成</MenuItem>
+                                    <MenuItem value="error">执行失败</MenuItem>
+                                    <MenuItem value="warning">警告完成</MenuItem>
+                                    <MenuItem value="timeout">超时结束</MenuItem>
+                                  </Select>
+                                </FormControl>
+                              </div>
+                            )}
+
+                            {/* Save Button */}
+                            <Button
+                              fullWidth
+                              variant="contained"
+                              size="small"
+                              onClick={() => {
+                                setSnackbar({ open: true, message: '节点配置已保存', severity: 'success' })
+                              }}
+                              className="bg-blue-600 hover:bg-blue-700 text-xs py-2"
+                            >
+                              保存配置
+                            </Button>
+                          </div>
+                        </Panel>
+                      )}
                       
                       {/* Enhanced minimap */}
                       <MiniMap 
@@ -928,7 +1164,7 @@ const WorkflowEditorContent: React.FC = () => {
                       />
                       
                       {/* Enhanced panel for workflow info */}
-                      <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
+                      <Panel position="top-left" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
                         <div className="flex items-center space-x-2 text-sm text-gray-600">
                           <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                           <span>节点: {nodes.length}</span>
@@ -944,247 +1180,7 @@ const WorkflowEditorContent: React.FC = () => {
               </Card>
             </div>
 
-            {/* Node Configuration Panel */}
-            <div className="lg:col-span-2">
-              {selectedNode ? (
-                <Card className="h-[720px] shadow-lg border-0 bg-gradient-to-r from-gray-50 to-white">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <Typography variant="h6" className="text-gray-800 font-semibold">
-                        节点配置
-                      </Typography>
-                      <Button
-                        size="small"
-                        variant="text"
-                        onClick={() => setSelectedNode(null)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      {/* Node Type Display */}
-                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                        <Typography variant="subtitle2" className="text-blue-800 font-medium mb-1">
-                          节点类型
-                        </Typography>
-                        <Typography variant="body2" className="text-blue-700">
-                          {selectedNode.type === 'startNode' ? '开始节点' :
-                           selectedNode.type === 'llmNode' ? 'LLM 节点' :
-                           selectedNode.type === 'endNode' ? '结束节点' :
-                           selectedNode.type === 'actionNode' ? '动作节点' :
-                           selectedNode.type === 'conditionNode' ? '条件节点' :
-                           selectedNode.type === 'loopNode' ? '循环节点' :
-                           selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
-                           selectedNode.type === 'questionClassifierNode' ? '问题分类节点' :
-                           selectedNode.type === 'answerNode' ? '答案生成节点' :
-                           selectedNode.type === 'variableAggregatorNode' ? '变量聚合节点' :
-                           '未知节点'}
-                        </Typography>
-                      </div>
-
-                      {/* Node Label */}
-                      <div>
-                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                          节点名称
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          value={selectedNode.data.label || ''}
-                          onChange={(e) => {
-                            const updatedNode = { ...selectedNode, data: { ...selectedNode.data, label: e.target.value } }
-                            setSelectedNode(updatedNode)
-                            setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                          }}
-                          className="bg-white"
-                        />
-                      </div>
-
-                      {/* Node-specific Configuration */}
-                      {selectedNode.type === 'startNode' && (
-                        <div>
-                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                            触发器类型
-                          </Typography>
-                          <FormControl fullWidth size="small">
-                            <Select
-                              value={selectedNode.data.trigger || 'manual'}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white"
-                            >
-                              <MenuItem value="webhook">Webhook</MenuItem>
-                              <MenuItem value="schedule">定时任务</MenuItem>
-                              <MenuItem value="manual">手动触发</MenuItem>
-                              <MenuItem value="event">事件驱动</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </div>
-                      )}
-
-                      {selectedNode.type === 'llmNode' && (
-                        <>
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              AI 模型
-                            </Typography>
-                            <FormControl fullWidth size="small">
-                              <Select
-                                value={selectedNode.data.model || 'gpt-4'}
-                                onChange={(e) => {
-                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
-                                  setSelectedNode(updatedNode)
-                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                                }}
-                                className="bg-white"
-                              >
-                                <MenuItem value="gpt-4">GPT-4</MenuItem>
-                                <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                                <MenuItem value="claude-3">Claude 3</MenuItem>
-                                <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </div>
-
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              温度 (Temperature)
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              type="number"
-                              inputProps={{ min: 0, max: 2, step: 0.1 }}
-                              value={selectedNode.data.temperature || 0.7}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, temperature: parseFloat(e.target.value) } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white"
-                            />
-                          </div>
-
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              最大令牌数
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              type="number"
-                              inputProps={{ min: 1, max: 4000, step: 1 }}
-                              value={selectedNode.data.maxTokens || 1000}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, maxTokens: parseInt(e.target.value) } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white"
-                            />
-                          </div>
-
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              系统提示词
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              multiline
-                              rows={3}
-                              value={selectedNode.data.systemMessage || ''}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemMessage: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white"
-                            />
-                          </div>
-
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              用户提示词
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              multiline
-                              rows={3}
-                              value={selectedNode.data.prompt || ''}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, prompt: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white"
-                            />
-                          </div>
-                        </>
-                      )}
-
-                      {selectedNode.type === 'endNode' && (
-                        <div>
-                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                            结束类型
-                          </Typography>
-                          <FormControl fullWidth size="small">
-                            <Select
-                              value={selectedNode.data.endType || 'success'}
-                              onChange={(e: SelectChangeEvent) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value as 'success' | 'error' | 'warning' | 'timeout' } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white"
-                            >
-                              <MenuItem value="success">成功完成</MenuItem>
-                              <MenuItem value="error">执行失败</MenuItem>
-                              <MenuItem value="warning">警告完成</MenuItem>
-                              <MenuItem value="timeout">超时结束</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </div>
-                      )}
-
-                      {/* Save Button */}
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={() => {
-                          setSnackbar({ open: true, message: '节点配置已保存', severity: 'success' })
-                        }}
-                        className="bg-blue-600 hover:bg-blue-700"
-                      >
-                        保存配置
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ) : (
-                <Card className="h-[720px] shadow-lg border-0 bg-gradient-to-r from-gray-50 to-white">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-center h-full">
-                      <div className="text-center text-gray-500">
-                        <Settings className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                        <Typography variant="h6" className="text-gray-400 mb-2">
-                          节点配置
-                        </Typography>
-                        <Typography variant="body2" className="text-gray-400">
-                          点击工作流中的节点来配置其参数
-                        </Typography>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+            {/* Remove the old static configuration panel */}
           </div>
         </div>
       </div>
