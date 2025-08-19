@@ -87,6 +87,10 @@ jiuwen-agent-studio/
 └── README.md                 # This file
 ```
 
+## Troubleshooting
+
+If you encounter any issues during setup, please check our [Troubleshooting Guide](TROUBLESHOOTING.md) for common solutions.
+
 ## Contributing
 
 We welcome contributions! Please read our contributing guidelines and code of conduct.

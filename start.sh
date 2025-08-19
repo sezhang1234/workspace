@@ -16,9 +16,15 @@ fi
 # Start backend
 echo "🐍 Starting FastAPI backend..."
 cd backend
-python3 -m venv venv
+
+# Setup environment if needed
+if [ ! -d "venv" ]; then
+    echo "🔄 Setting up backend environment..."
+    python3 setup.py
+fi
+
+# Activate virtual environment and start
 source venv/bin/activate
-pip install -r requirements.txt
 echo "📡 Backend starting on http://localhost:8000"
 echo "📚 API docs available at http://localhost:8000/docs"
 python3 main.py &
