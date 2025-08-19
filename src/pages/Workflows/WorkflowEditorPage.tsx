@@ -22,7 +22,8 @@ import {
   Search,
   Brain,
   MessageSquare,
-  Database
+  Database,
+  X
 } from 'lucide-react'
 import ReactFlow, {
   Node,
@@ -359,6 +360,13 @@ const WorkflowEditorContent: React.FC = () => {
     }
   }
 
+  // Close node panel when clicking outside
+  const handleCanvasClick = () => {
+    if (showNodePanel) {
+      setShowNodePanel(false)
+    }
+  }
+
   const handleExport = () => {
     const workflowData = {
       workflow,
@@ -466,325 +474,12 @@ const WorkflowEditorContent: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Left sidebar - Workflow configuration */}
-        {showNodePanel && (
-          <div className="lg:col-span-1 space-y-4 animate-in slide-in-from-left duration-300 ease-out">
-            <Card>
-              <CardContent>
-                <Typography variant="h6" className="mb-4">工作流配置</Typography>
-                <div className="space-y-4">
-                  <TextField
-                    fullWidth
-                    size="small"
-                    label="工作流名称"
-                    value={workflow.name}
-                    onChange={(e) => setWorkflow({ ...workflow, name: e.target.value })}
-                  />
-                  
-                  <FormControl fullWidth size="small">
-                    <InputLabel>触发器</InputLabel>
-                    <Select
-                      value={workflow.trigger}
-                      label="触发器"
-                      onChange={(e) => setWorkflow({ ...workflow, trigger: e.target.value })}
-                    >
-                      <MenuItem value="webhook">Webhook</MenuItem>
-                      <MenuItem value="schedule">定时任务</MenuItem>
-                      <MenuItem value="manual">手动触发</MenuItem>
-                      <MenuItem value="event">事件驱动</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={workflow.isActive}
-                        onChange={(e) => setWorkflow({ ...workflow, isActive: e.target.checked })}
-                      />
-                    }
-                    label="启用工作流"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-xl border-0 bg-gradient-to-br from-gray-50 to-white">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <Typography variant="h6" className="flex items-center text-gray-800 text-sm">
-                    <Zap className="w-5 h-5 mr-2 text-blue-600" />
-                    节点库
-                  </Typography>
-                  <div className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
-                    {nodes.length}
-                  </div>
-                </div>
-
-                {/* Trigger Nodes Category */}
-                <div className="mb-4">
-                  <div className="flex items-center mb-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    <span className="text-xs font-semibold text-gray-700">触发器</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Play className="w-3 h-3" />}
-                        onClick={() => addNode('startNode', { x: 100, y: 100 })}
-                        className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        开始节点
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* AI Processing Nodes Category */}
-                <div className="mb-4">
-                  <div className="flex items-center mb-2">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                    <span className="text-xs font-semibold text-gray-700">AI 处理</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Search className="w-3 h-3" />}
-                        onClick={() => addNode('knowledgeRetrievalNode', { x: 300, y: 150 })}
-                        className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        知识检索
-                      </Button>
-                    </div>
-
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Brain className="w-3 h-3" />}
-                        onClick={() => addNode('questionClassifierNode', { x: 300, y: 250 })}
-                        className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        问题分类
-                      </Button>
-                    </div>
-
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<MessageSquare className="w-3 h-3" />}
-                        onClick={() => addNode('answerNode', { x: 500, y: 200 })}
-                        className="border-pink-200 text-pink-700 hover:bg-pink-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        答案生成
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Logic Control Nodes Category */}
-                <div className="mb-4">
-                  <div className="flex items-center mb-2">
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
-                    <span className="text-xs font-semibold text-gray-700">逻辑控制</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Zap className="w-3 h-3" />}
-                        onClick={() => addNode('actionNode', { x: 300, y: 200 })}
-                        className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        动作节点
-                      </Button>
-                    </div>
-
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Settings className="w-3 h-3" />}
-                        onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
-                        className="border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        条件节点
-                      </Button>
-                    </div>
-
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Repeat className="w-3 h-3" />}
-                        onClick={() => addNode('loopNode', { x: 400, y: 300 })}
-                        className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        循环节点
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Data Processing Nodes Category */}
-                <div className="mb-4">
-                  <div className="flex items-center mb-2">
-                    <div className="w-2 h-2 bg-cyan-500 rounded-full mr-2"></div>
-                    <span className="text-xs font-semibold text-gray-700">数据处理</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<Database className="w-3 h-3" />}
-                        onClick={() => addNode('variableAggregatorNode', { x: 400, y: 400 })}
-                        className="border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        变量聚合
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Output Nodes Category */}
-                <div className="mb-4">
-                  <div className="flex items-center mb-2">
-                    <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                    <span className="text-xs font-semibold text-gray-700">输出</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="group">
-                      <Button
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        startIcon={<CheckCircle className="w-3 h-3" />}
-                        onClick={() => addNode('endNode', { x: 700, y: 300 })}
-                        className="border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 hover:shadow-md transition-all duration-200 group-hover:scale-105 text-xs py-1"
-                      >
-                        结束节点
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="pt-3 border-t border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-gray-700">快速操作</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button
-                      size="small"
-                      variant="text"
-                      startIcon={<Plus className="w-3 h-3" />}
-                      className="text-xs text-blue-600 hover:bg-blue-50 py-1"
-                      onClick={() => {
-                        const centerX = 400;
-                        const centerY = 300;
-                        addNode('startNode', { x: centerX - 100, y: centerY - 100 });
-                        addNode('endNode', { x: centerX + 100, y: centerY + 100 });
-                      }}
-                    >
-                      基础流程
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="text"
-                      startIcon={<Zap className="w-3 h-3" />}
-                      className="text-xs text-green-600 hover:bg-green-50 py-1"
-                      onClick={() => {
-                        const centerX = 400;
-                        const centerY = 300;
-                        addNode('startNode', { x: centerX - 150, y: centerY - 100 });
-                        addNode('knowledgeRetrievalNode', { x: centerX - 50, y: centerY - 50 });
-                        addNode('answerNode', { x: centerX + 50, y: centerY - 50 });
-                        addNode('endNode', { x: centerX + 150, y: centerY - 100 });
-                      }}
-                    >
-                      AI 问答
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent>
-                <Typography variant="h6" className="mb-4 flex items-center">
-                  <BarChart3 className="w-5 h-5 mr-2 text-green-600" />
-                  执行统计
-                </Typography>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-3 rounded-lg border border-green-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-green-700">总执行次数</span>
-                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                          <Play className="w-4 h-4 text-green-700" />
-                        </div>
-                      </div>
-                      <div className="text-2xl font-bold text-green-800 mt-2">1,234</div>
-                    </div>
-                    
-                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-3 rounded-lg border border-blue-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-blue-700">成功率</span>
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <CheckCircle className="w-4 h-4 text-blue-700" />
-                        </div>
-                      </div>
-                      <div className="text-2xl font-bold text-blue-800 mt-2">98.5%</div>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-3 rounded-lg border border-purple-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-purple-700">平均执行时间</span>
-                        <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-purple-700" />
-                        </div>
-                      </div>
-                      <div className="text-2xl font-bold text-purple-800 mt-2">2.3s</div>
-                    </div>
-                    
-                    <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-3 rounded-lg border border-orange-200">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-orange-700">最后执行</span>
-                        <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                          <Zap className="w-4 h-4 text-orange-700" />
-                        </div>
-                      </div>
-                      <div className="text-lg font-bold text-orange-800 mt-2">2小时前</div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Main canvas area */}
-        <div className={`${showNodePanel ? 'lg:col-span-4' : 'lg:col-span-5'} h-[800px]`}>
+      <div className="grid grid-cols-1 gap-6">
+        {/* Main canvas area - Full width */}
+        <div className="h-[800px]">
           <Card className="h-full shadow-lg border-0">
             <CardContent className="h-full p-0">
-              <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100">
+              <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel ? 'backdrop-blur-sm' : ''}`}>
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
@@ -797,6 +492,7 @@ const WorkflowEditorContent: React.FC = () => {
                   attributionPosition="bottom-left"
                   className="bg-transparent"
                   proOptions={{ hideAttribution: true }}
+                  onClick={handleCanvasClick}
                 >
                   {/* Light grid background */}
                   <Background 
@@ -807,34 +503,236 @@ const WorkflowEditorContent: React.FC = () => {
                     className="opacity-40"
                   />
                   
-                  {/* Enhanced controls with Add Node button */}
+                  {/* Enhanced controls with Add Node icon button */}
                   <Controls 
                     className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
                     showZoom={true}
                     showFitView={true}
                     showInteractive={true}
                   >
-                    {/* Custom Add Node button above zoom controls */}
+                    {/* Custom Add Node icon button above zoom controls */}
                     <div className="absolute -top-12 left-0 right-0 flex justify-center">
-                      <Button
-                        variant="contained"
-                        size="small"
-                        startIcon={<Plus className="w-4 h-4" />}
+                      <button
                         onClick={() => setShowNodePanel(!showNodePanel)}
-                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg text-white px-4 py-2 rounded-lg"
-                        sx={{
-                          minWidth: 'auto',
-                          '&:hover': {
-                            transform: 'translateY(-1px)',
-                            boxShadow: '0 10px 25px rgba(59, 130, 246, 0.3)'
-                          },
-                          transition: 'all 0.2s ease-in-out'
-                        }}
+                        className="w-8 h-8 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+                        title={showNodePanel ? '隐藏节点库' : '添加节点'}
                       >
-                        {showNodePanel ? '隐藏节点库' : '添加节点'}
-                      </Button>
+                        <Plus className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" />
+                      </button>
                     </div>
                   </Controls>
+                  
+                  {/* Floating Node Library Panel */}
+                  {showNodePanel && (
+                    <Panel 
+                      position="top-left" 
+                      className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-top duration-300 ease-out"
+                      style={{ 
+                        top: '60px', 
+                        left: '50%', 
+                        transform: 'translateX(-50%)',
+                        zIndex: 1000
+                      }}
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <Typography variant="h6" className="flex items-center text-gray-800 text-sm">
+                          <Zap className="w-5 h-5 mr-2 text-blue-600" />
+                          节点库
+                        </Typography>
+                        <div className="flex items-center space-x-2">
+                          <div className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
+                            {nodes.length}
+                          </div>
+                          <button
+                            onClick={() => setShowNodePanel(false)}
+                            className="w-6 h-6 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
+                            title="关闭"
+                          >
+                            <X className="w-3 h-3 text-gray-600" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Trigger Nodes Category */}
+                      <div className="mb-4">
+                        <div className="flex items-center mb-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700">触发器</span>
+                        </div>
+                        <div className="space-y-1">
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Play className="w-3 h-3" />}
+                            onClick={() => addNode('startNode', { x: 100, y: 100 })}
+                            className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            开始节点
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* AI Processing Nodes Category */}
+                      <div className="mb-4">
+                        <div className="flex items-center mb-2">
+                          <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700">AI 处理</span>
+                        </div>
+                        <div className="space-y-1">
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Search className="w-3 h-3" />}
+                            onClick={() => addNode('knowledgeRetrievalNode', { x: 300, y: 150 })}
+                            className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            知识检索
+                          </Button>
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Brain className="w-3 h-3" />}
+                            onClick={() => addNode('questionClassifierNode', { x: 300, y: 250 })}
+                            className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            问题分类
+                          </Button>
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<MessageSquare className="w-3 h-3" />}
+                            onClick={() => addNode('answerNode', { x: 500, y: 200 })}
+                            className="border-pink-200 text-pink-700 hover:bg-pink-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            答案生成
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Logic Control Nodes Category */}
+                      <div className="mb-4">
+                        <div className="flex items-center mb-2">
+                          <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700">逻辑控制</span>
+                        </div>
+                        <div className="space-y-1">
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Zap className="w-3 h-3" />}
+                            onClick={() => addNode('actionNode', { x: 300, y: 200 })}
+                            className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            动作节点
+                          </Button>
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Settings className="w-3 h-3" />}
+                            onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
+                            className="border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            条件节点
+                          </Button>
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Repeat className="w-3 h-3" />}
+                            onClick={() => addNode('loopNode', { x: 400, y: 300 })}
+                            className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            循环节点
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Data Processing Nodes Category */}
+                      <div className="mb-4">
+                        <div className="flex items-center mb-2">
+                          <div className="w-2 h-2 bg-cyan-500 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700">数据处理</span>
+                        </div>
+                        <div className="space-y-1">
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Database className="w-3 h-3" />}
+                            onClick={() => addNode('variableAggregatorNode', { x: 400, y: 400 })}
+                            className="border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            变量聚合
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Output Nodes Category */}
+                      <div className="mb-4">
+                        <div className="flex items-center mb-2">
+                          <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700">输出</span>
+                        </div>
+                        <div className="space-y-1">
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<CheckCircle className="w-3 h-3" />}
+                            onClick={() => addNode('endNode', { x: 700, y: 300 })}
+                            className="border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                          >
+                            结束节点
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Quick Actions */}
+                      <div className="pt-3 border-t border-gray-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-semibold text-gray-700">快速操作</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Button
+                            size="small"
+                            variant="text"
+                            startIcon={<Plus className="w-3 h-3" />}
+                            className="text-xs text-blue-600 hover:bg-blue-50 py-1"
+                            onClick={() => {
+                              const centerX = 400;
+                              const centerY = 300;
+                              addNode('startNode', { x: centerX - 100, y: centerY - 100 });
+                              addNode('endNode', { x: centerX + 100, y: centerY + 100 });
+                            }}
+                          >
+                            基础流程
+                          </Button>
+                          <Button
+                            size="small"
+                            variant="text"
+                            startIcon={<Zap className="w-3 h-3" />}
+                            className="text-xs text-green-600 hover:bg-green-50 py-1"
+                            onClick={() => {
+                              const centerX = 400;
+                              const centerY = 300;
+                              addNode('startNode', { x: centerX - 150, y: centerY - 100 });
+                              addNode('knowledgeRetrievalNode', { x: centerX - 50, y: centerY - 50 });
+                              addNode('answerNode', { x: centerX + 50, y: centerY - 50 });
+                              addNode('endNode', { x: centerX + 150, y: centerY - 100 });
+                            }}
+                          >
+                            AI 问答
+                          </Button>
+                        </div>
+                      </div>
+                    </Panel>
+                  )}
                   
                   {/* Enhanced minimap */}
                   <MiniMap 
