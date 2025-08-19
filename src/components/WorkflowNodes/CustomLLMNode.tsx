@@ -29,57 +29,23 @@ const CustomLLMNode: React.FC<NodeProps> = ({ data, selected }) => {
       
       {/* Main content */}
       <div className="relative z-10">
-        {/* Header with icon and status */}
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center space-x-1">
-            <div className="relative">
-              <div className="w-4 h-4 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center border border-white/30">
-                {getModelIcon(data.model || 'gpt-4')}
-              </div>
-              {/* Processing animation */}
-              <div className="absolute inset-0 w-4 h-4 bg-white/30 rounded animate-pulse" />
+        {/* Simple header with icon and label */}
+        <div className="flex items-center justify-center mb-1">
+          <div className="relative">
+            <div className="w-4 h-4 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center border border-white/30">
+              {getModelIcon(data.model || 'gpt-4')}
             </div>
-            <div>
-              <div className="text-xs font-bold text-white drop-shadow-sm">{data.label}</div>
-              <div className="text-[10px] text-white/80 font-medium">
-                {data.model || 'gpt-4'}
-              </div>
-            </div>
-          </div>
-          
-          {/* Status indicator */}
-          <div className="flex items-center space-x-0.5">
-            <div className={`w-1 h-1 rounded-full ${data.status === 'running' ? 'bg-yellow-400 animate-pulse' : 'bg-green-400'}`} />
-            <span className="text-[10px] text-white/80 font-medium">
-              {data.status === 'running' ? '执行中' : '就绪'}
-            </span>
+            {/* Processing animation */}
+            <div className="absolute inset-0 w-4 h-4 bg-white/30 rounded animate-pulse" />
           </div>
         </div>
 
-        {/* Model configuration */}
-        <div className="bg-white/10 backdrop-blur-sm rounded p-1 border border-white/20 mb-1">
-          <div className="text-[10px] text-white/90 font-medium mb-0.5">配置</div>
-          <div className="text-[10px] text-white/70">
-            Temp: {data.temperature || 0.7} | Tokens: {data.maxTokens || 1000}
+        {/* Simple label */}
+        <div className="text-center">
+          <div className="text-xs font-bold text-white drop-shadow-sm">{data.label}</div>
+          <div className="text-[10px] text-white/80 font-medium">
+            {data.model || 'gpt-4'}
           </div>
-        </div>
-
-        {/* Performance metrics */}
-        <div className="grid grid-cols-2 gap-1 mb-1">
-          <div className="bg-white/10 backdrop-blur-sm rounded p-1 text-center">
-            <div className="text-[8px] text-white/60">耗时</div>
-            <div className="text-[10px] font-bold text-white">{data.executionTime || 0}ms</div>
-          </div>
-          <div className="bg-white/10 backdrop-blur-sm rounded p-1 text-center">
-            <div className="text-[8px] text-white/60">成本</div>
-            <div className="text-[10px] font-bold text-white">${data.cost || 0}</div>
-          </div>
-        </div>
-
-        {/* Execution stats */}
-        <div className="flex items-center justify-between text-[10px] text-white/80">
-          <span>执行: {data.executionCount || 0}</span>
-          <span>成功率: {data.successRate || 100}%</span>
         </div>
       </div>
 

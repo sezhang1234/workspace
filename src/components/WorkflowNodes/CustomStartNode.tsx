@@ -41,47 +41,25 @@ const CustomStartNode: React.FC<NodeProps> = ({ data, selected }) => {
       
       {/* Main content */}
       <div className="relative z-10">
-        {/* Header with icon and status */}
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center space-x-1">
-            <div className="relative">
-              <div className="w-4 h-4 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center border border-white/30">
-                {getTriggerIcon(data.trigger || 'manual')}
-              </div>
-              {/* Pulse animation */}
-              <div className="absolute inset-0 w-4 h-4 bg-white/30 rounded animate-ping" />
+        {/* Simple header with icon and label */}
+        <div className="flex items-center justify-center mb-1">
+          <div className="relative">
+            <div className="w-4 h-4 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center border border-white/30">
+              {getTriggerIcon(data.trigger || 'manual')}
             </div>
-            <div>
-              <div className="text-xs font-bold text-white drop-shadow-sm">{data.label}</div>
-              <div className="text-[10px] text-white/80 font-medium">
-                {data.trigger === 'webhook' ? 'Webhook' : 
-                 data.trigger === 'schedule' ? '定时' : 
-                 data.trigger === 'manual' ? '手动' : '触发'}
-              </div>
-            </div>
-          </div>
-          
-          {/* Status indicator */}
-          <div className="flex items-center space-x-0.5">
-            <div className="w-1 h-1 bg-white rounded-full animate-pulse" />
-            <span className="text-[10px] text-white/80 font-medium">就绪</span>
+            {/* Pulse animation */}
+            <div className="absolute inset-0 w-4 h-4 bg-white/30 rounded animate-ping" />
           </div>
         </div>
 
-        {/* Trigger details */}
-        <div className="bg-white/10 backdrop-blur-sm rounded p-1 border border-white/20 mb-1">
-          <div className="text-[10px] text-white/90 font-medium mb-0.5">触发条件</div>
-          <div className="text-[10px] text-white/70">
-            {data.trigger === 'webhook' ? 'HTTP 请求' :
-             data.trigger === 'schedule' ? '计划执行' :
-             data.trigger === 'manual' ? '手动触发' : '自动触发'}
+        {/* Simple label */}
+        <div className="text-center">
+          <div className="text-xs font-bold text-white drop-shadow-sm">{data.label}</div>
+          <div className="text-[10px] text-white/80 font-medium">
+            {data.trigger === 'webhook' ? 'Webhook' : 
+             data.trigger === 'schedule' ? '定时' : 
+             data.trigger === 'manual' ? '手动' : '触发'}
           </div>
-        </div>
-
-        {/* Execution stats */}
-        <div className="flex items-center justify-between text-[10px] text-white/80">
-          <span>执行: {data.executionCount || 0}</span>
-          <span>最后: {data.lastExecuted || '从未'}</span>
         </div>
       </div>
 
