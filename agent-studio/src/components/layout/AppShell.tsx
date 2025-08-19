@@ -54,13 +54,13 @@ export default function AppShell({ title = 'Agent Studio', actions, children }: 
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton component={Link} href="#">
+              <ListItemButton component={Link} href="/datasets">
                 <ListItemIcon><Inventory2Icon /></ListItemIcon>
                 <ListItemText primary="数据集" />
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton component={Link} href="#">
+              <ListItemButton component={Link} href="/tools">
                 <ListItemIcon><BuildIcon /></ListItemIcon>
                 <ListItemText primary="工具" />
               </ListItemButton>
