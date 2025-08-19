@@ -9,7 +9,8 @@ import {
   RotateCcw,
   Filter,
   Eye,
-  EyeOff
+  EyeOff,
+  Check
 } from 'lucide-react'
 import { 
   Button, 
@@ -245,7 +246,7 @@ const AnalyticsPage: React.FC = () => {
           <Card>
             <CardContent className="text-center">
               <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mx-auto mb-3">
-                <CheckCircle className="w-6 h-6 text-green-600" />
+                <Check className="w-6 h-6 text-green-600" />
               </div>
               <Typography variant="h4" className="font-bold text-gray-900">
                 {analyticsData.overview.successRate}%
@@ -541,7 +542,7 @@ const AnalyticsPage: React.FC = () => {
             </Grid>
             <Grid item xs={12} md={4}>
               <div className="text-center p-4 bg-green-50 rounded-lg">
-                <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                <Check className="w-8 h-8 text-green-600 mx-auto mb-2" />
                 <Typography variant="h6" className="text-green-900 mb-1">
                   高可靠性
                 </Typography>
