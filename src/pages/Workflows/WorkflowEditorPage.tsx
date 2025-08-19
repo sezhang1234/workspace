@@ -585,7 +585,7 @@ const WorkflowEditorContent: React.FC = () => {
                       className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-top duration-300 ease-out"
                       style={{ 
                         top: '120px', 
-                        left: '20px', 
+                        left: '80px', 
                         zIndex: 1000
                       }}
                     >
