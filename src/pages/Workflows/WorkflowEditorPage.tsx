@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { 
-  Workflow, 
   ArrowLeft, 
   Save, 
   Play, 
@@ -11,14 +10,10 @@ import {
   Copy,
   Download,
   Upload,
-  Eye,
-  EyeOff,
   Zap,
-  Clock,
   CheckCircle,
   AlertCircle,
   Repeat,
-  BarChart3,
   Search,
   Brain,
   MessageSquare,
@@ -29,17 +24,12 @@ import {
 import ReactFlow, {
   Node,
   Edge,
-  addEdge,
-  Connection,
   useNodesState,
   useEdgesState,
   Controls,
   Background,
   MiniMap,
-  NodeTypes,
-  EdgeTypes,
   Panel,
-  useReactFlow,
   ReactFlowProvider
 } from 'reactflow'
 import 'reactflow/dist/style.css'
@@ -49,10 +39,8 @@ import {
   Select, 
   MenuItem, 
   FormControl, 
-  InputLabel, 
   Switch, 
   FormControlLabel,
-  Chip,
   Tabs,
   Tab,
   Box,
@@ -61,17 +49,7 @@ import {
   CardContent,
   Divider,
   Alert,
-  Snackbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  IconButton,
-  Tooltip
+  Snackbar
 } from '@mui/material'
 
 // Custom node types
@@ -134,7 +112,6 @@ const WorkflowEditorContent: React.FC = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [showNodePanel, setShowNodePanel] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
-  const [nodeConfigDialog, setNodeConfigDialog] = useState(false)
 
   // Workflow state
   const [workflow, setWorkflow] = useState({
@@ -216,7 +193,6 @@ const WorkflowEditorContent: React.FC = () => {
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node)
-    setNodeConfigDialog(true)
   }, [])
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -415,19 +391,7 @@ const WorkflowEditorContent: React.FC = () => {
     setEdges((eds) => eds.filter(edge => edge.source !== nodeId && edge.target !== nodeId))
   }
 
-  const handleNodeConfigSave = (nodeData: any) => {
-    if (selectedNode) {
-      setNodes((nds) =>
-        nds.map((node) =>
-          node.id === selectedNode.id
-            ? { ...node, data: { ...node.data, ...nodeData } }
-            : node
-        )
-      )
-      setNodeConfigDialog(false)
-      setSelectedNode(null)
-    }
-  }
+
 
   // Close node panel when clicking outside
   const handleCanvasClick = () => {
@@ -1205,8 +1169,8 @@ const WorkflowEditorContent: React.FC = () => {
                           <FormControl fullWidth size="small">
                             <Select
                               value={selectedNode.data.endType || 'success'}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value } }
+                              onChange={(e: SelectChangeEvent) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value as 'success' | 'error' | 'warning' | 'timeout' } }
                                 setSelectedNode(updatedNode)
                                 setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                               }}
@@ -1256,67 +1220,6 @@ const WorkflowEditorContent: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Node configuration dialog */}
-      <Dialog
-        open={nodeConfigDialog}
-        onClose={() => setNodeConfigDialog(false)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>
-          配置节点: {selectedNode?.data.label}
-        </DialogTitle>
-        <DialogContent>
-          <div className="space-y-4 pt-4">
-            <TextField
-              fullWidth
-              label="节点名称"
-              defaultValue={selectedNode?.data.label}
-            />
-            
-            {selectedNode?.type === 'actionNode' && (
-              <FormControl fullWidth>
-                <InputLabel>动作类型</InputLabel>
-                <Select defaultValue="api_call" label="动作类型">
-                  <MenuItem value="api_call">API调用</MenuItem>
-                  <MenuItem value="data_process">数据处理</MenuItem>
-                  <MenuItem value="notification">发送通知</MenuItem>
-                  <MenuItem value="file_operation">文件操作</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-
-            {selectedNode?.type === 'conditionNode' && (
-              <FormControl fullWidth>
-                <InputLabel>条件类型</InputLabel>
-                <Select defaultValue="if_else" label="条件类型">
-                  <MenuItem value="if_else">如果/否则</MenuItem>
-                  <MenuItem value="switch">开关判断</MenuItem>
-                  <MenuItem value="loop">循环判断</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-
-            <TextField
-              fullWidth
-              multiline
-              rows={3}
-              label="节点描述"
-              placeholder="描述此节点的功能和作用..."
-            />
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setNodeConfigDialog(false)}>取消</Button>
-          <Button 
-            variant="contained" 
-            onClick={() => handleNodeConfigSave({})}
-          >
-            保存
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       <Snackbar
         open={snackbar.open}
