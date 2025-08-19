@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { 
   Workflow, 
@@ -23,7 +23,8 @@ import {
   Brain,
   MessageSquare,
   Database,
-  X
+  X,
+  Bot
 } from 'lucide-react'
 import ReactFlow, {
   Node,
@@ -83,6 +84,7 @@ import CustomKnowledgeRetrievalNode from '../../components/WorkflowNodes/CustomK
 import CustomAnswerNode from '../../components/WorkflowNodes/CustomAnswerNode'
 import CustomQuestionClassifierNode from '../../components/WorkflowNodes/CustomQuestionClassifierNode'
 import CustomVariableAggregatorNode from '../../components/WorkflowNodes/CustomVariableAggregatorNode'
+import CustomLLMNode from '../../components/WorkflowNodes/CustomLLMNode'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -121,6 +123,7 @@ const nodeTypes: NodeTypes = {
   answerNode: CustomAnswerNode,
   questionClassifierNode: CustomQuestionClassifierNode,
   variableAggregatorNode: CustomVariableAggregatorNode,
+  llmNode: CustomLLMNode,
 }
 
 const WorkflowEditorContent: React.FC = () => {
@@ -150,8 +153,49 @@ const WorkflowEditorContent: React.FC = () => {
     {
       id: 'start-1',
       type: 'startNode',
-      position: { x: 100, y: 100 },
-      data: { label: '开始', trigger: 'webhook' }
+      position: { x: 100, y: 200 },
+      data: {
+        label: '开始',
+        trigger: 'manual',
+        executionCount: 0,
+        lastExecuted: '从未'
+      }
+    },
+    {
+      id: 'llm-1',
+      type: 'llmNode',
+      position: { x: 350, y: 200 },
+      data: {
+        label: 'LLM 节点',
+        model: 'gpt-4',
+        temperature: 0.7,
+        maxTokens: 1000,
+        prompt: '请根据输入生成回答',
+        systemMessage: '你是一个有用的AI助手',
+        status: 'ready',
+        executionTime: 0,
+        tokenUsage: 0,
+        cost: 0,
+        successRate: 100,
+        executionCount: 0,
+        lastExecuted: '从未'
+      }
+    },
+    {
+      id: 'end-1',
+      type: 'endNode',
+      position: { x: 600, y: 200 },
+      data: {
+        label: '结束',
+        endType: 'success',
+        description: '工作流执行完成',
+        totalDuration: 0,
+        totalNodes: 3,
+        successNodes: 0,
+        failedNodes: 0,
+        completedAt: '刚刚',
+        executionCount: 1
+      }
     }
   ])
   
@@ -317,6 +361,23 @@ const WorkflowEditorContent: React.FC = () => {
           lastExecuted: '从未'
         }
         break
+      case 'llmNode':
+        defaultData = {
+          label: 'LLM 节点',
+          model: 'gpt-4',
+          temperature: 0.7,
+          maxTokens: 1000,
+          prompt: '请根据输入生成回答',
+          systemMessage: '你是一个有用的AI助手',
+          status: 'ready',
+          executionTime: 0,
+          tokenUsage: 0,
+          cost: 0,
+          successRate: 100,
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
       case 'endNode':
         defaultData = { 
           label: '结束', 
@@ -401,6 +462,79 @@ const WorkflowEditorContent: React.FC = () => {
       reader.readAsText(file)
     }
   }
+
+  // Initialize default workflow
+  useEffect(() => {
+    if (isNew) {
+      const defaultNodes: Node[] = [
+        {
+          id: 'start-1',
+          type: 'startNode',
+          position: { x: 100, y: 200 },
+          data: {
+            label: '开始',
+            trigger: 'manual',
+            executionCount: 0,
+            lastExecuted: '从未'
+          }
+        },
+        {
+          id: 'llm-1',
+          type: 'llmNode',
+          position: { x: 350, y: 200 },
+          data: {
+            label: 'LLM 节点',
+            model: 'gpt-4',
+            temperature: 0.7,
+            maxTokens: 1000,
+            prompt: '请根据输入生成回答',
+            systemMessage: '你是一个有用的AI助手',
+            status: 'ready',
+            executionTime: 0,
+            tokenUsage: 0,
+            cost: 0,
+            successRate: 100,
+            executionCount: 0,
+            lastExecuted: '从未'
+          }
+        },
+        {
+          id: 'end-1',
+          type: 'endNode',
+          position: { x: 600, y: 200 },
+          data: {
+            label: '结束',
+            endType: 'success',
+            description: '工作流执行完成',
+            totalDuration: 0,
+            totalNodes: 3,
+            successNodes: 0,
+            failedNodes: 0,
+            completedAt: '刚刚',
+            executionCount: 1
+          }
+        }
+      ]
+
+      const defaultEdges: Edge[] = [
+        {
+          id: 'e1',
+          source: 'start-1',
+          target: 'llm-1',
+          type: 'smoothstep'
+        },
+        {
+          id: 'e2',
+          source: 'llm-1',
+          target: 'end-1',
+          type: 'smoothstep'
+        }
+      ]
+
+      setNodes(defaultNodes)
+      setEdges(defaultEdges)
+    }
+  }, [isNew])
 
   return (
     <div className="space-y-6">
@@ -665,6 +799,16 @@ const WorkflowEditorContent: React.FC = () => {
                           >
                             答案生成
                           </Button>
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            startIcon={<Bot className="w-3 h-3" />}
+                            onClick={() => addNode('llmNode', { x: 400, y: 200 })}
+                            className="border-emerald-200/70 text-emerald-700/90 hover:bg-emerald-50/80 hover:border-emerald-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                          >
+                            LLM 节点
+                          </Button>
                         </div>
                       </div>
 
@@ -802,6 +946,7 @@ const WorkflowEditorContent: React.FC = () => {
                         case 'questionClassifierNode': return '#6366f1'
                         case 'answerNode': return '#ec4899'
                         case 'variableAggregatorNode': return '#0891b2'
+                        case 'llmNode': return '#10b981'
                         case 'endNode': return '#ef4444'
                         default: return '#6b7280'
                       }
