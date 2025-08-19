@@ -449,15 +449,6 @@ const WorkflowEditorContent: React.FC = () => {
 
           <Button
             variant="outlined"
-            startIcon={showNodePanel ? <EyeOff /> : <Eye />}
-            onClick={() => setShowNodePanel(!showNodePanel)}
-            className="border-gray-200 text-gray-700 hover:bg-gray-50"
-          >
-            {showNodePanel ? '隐藏面板' : '显示面板'}
-          </Button>
-          
-          <Button
-            variant="outlined"
             startIcon={<Play />}
             className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300"
           >
@@ -478,7 +469,7 @@ const WorkflowEditorContent: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Left sidebar - Workflow configuration */}
         {showNodePanel && (
-          <div className="lg:col-span-1 space-y-4">
+          <div className="lg:col-span-1 space-y-4 animate-in slide-in-from-left duration-300 ease-out">
             <Card>
               <CardContent>
                 <Typography variant="h6" className="mb-4">工作流配置</Typography>
@@ -745,7 +736,7 @@ const WorkflowEditorContent: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-green-700">总执行次数</span>
                         <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                          <Play className="w-4 h-4 text-green-600" />
+                          <Play className="w-4 h-4 text-green-700" />
                         </div>
                       </div>
                       <div className="text-2xl font-bold text-green-800 mt-2">1,234</div>
@@ -755,7 +746,7 @@ const WorkflowEditorContent: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-blue-700">成功率</span>
                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <CheckCircle className="w-4 h-4 text-blue-600" />
+                          <CheckCircle className="w-4 h-4 text-blue-700" />
                         </div>
                       </div>
                       <div className="text-2xl font-bold text-blue-800 mt-2">98.5%</div>
@@ -767,7 +758,7 @@ const WorkflowEditorContent: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-purple-700">平均执行时间</span>
                         <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-purple-600" />
+                          <Clock className="w-4 h-4 text-purple-700" />
                         </div>
                       </div>
                       <div className="text-2xl font-bold text-purple-800 mt-2">2.3s</div>
@@ -777,7 +768,7 @@ const WorkflowEditorContent: React.FC = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-orange-700">最后执行</span>
                         <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                          <Zap className="w-4 h-4 text-orange-600" />
+                          <Zap className="w-4 h-4 text-orange-700" />
                         </div>
                       </div>
                       <div className="text-lg font-bold text-orange-800 mt-2">2小时前</div>
@@ -807,22 +798,43 @@ const WorkflowEditorContent: React.FC = () => {
                   className="bg-transparent"
                   proOptions={{ hideAttribution: true }}
                 >
-                  {/* Enhanced background with grid */}
+                  {/* Light grid background */}
                   <Background 
-                    variant="dots" 
-                    gap={20} 
+                    variant="grid" 
+                    gap={40} 
                     size={1} 
                     color="#e5e7eb"
-                    className="opacity-30"
+                    className="opacity-40"
                   />
                   
-                  {/* Enhanced controls */}
+                  {/* Enhanced controls with Add Node button */}
                   <Controls 
                     className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
                     showZoom={true}
                     showFitView={true}
                     showInteractive={true}
-                  />
+                  >
+                    {/* Custom Add Node button above zoom controls */}
+                    <div className="absolute -top-12 left-0 right-0 flex justify-center">
+                      <Button
+                        variant="contained"
+                        size="small"
+                        startIcon={<Plus className="w-4 h-4" />}
+                        onClick={() => setShowNodePanel(!showNodePanel)}
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg text-white px-4 py-2 rounded-lg"
+                        sx={{
+                          minWidth: 'auto',
+                          '&:hover': {
+                            transform: 'translateY(-1px)',
+                            boxShadow: '0 10px 25px rgba(59, 130, 246, 0.3)'
+                          },
+                          transition: 'all 0.2s ease-in-out'
+                        }}
+                      >
+                        {showNodePanel ? '隐藏节点库' : '添加节点'}
+                      </Button>
+                    </div>
+                  </Controls>
                   
                   {/* Enhanced minimap */}
                   <MiniMap 
