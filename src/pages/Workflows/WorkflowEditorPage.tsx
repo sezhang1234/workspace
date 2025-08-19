@@ -698,315 +698,562 @@ const WorkflowEditorContent: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="h-[720px] shadow-lg border-0">
-            <CardContent className="h-full p-0">
-              <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel ? 'backdrop-blur-sm' : ''}`}>
-                <ReactFlow
-                  nodes={nodes}
-                  edges={edges}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
-                  onConnect={onConnect}
-                  onNodeClick={onNodeClick}
-                  nodeTypes={nodeTypes}
-                  fitView
-                  attributionPosition="bottom-left"
-                  className="bg-transparent"
-                  proOptions={{ hideAttribution: true }}
-                  onClick={handleCanvasClick}
-                  defaultEdgeOptions={{
-                    type: 'smoothstep',
-                    style: { stroke: '#3b82f6', strokeWidth: 2 },
-                    animated: false
-                  }}
-                >
-                  {/* Light grid background */}
-                  <Background 
-                    variant="grid" 
-                    gap={40} 
-                    size={1} 
-                    color="#e5e7eb"
-                    className="opacity-40"
-                  />
-                  
-                  {/* Enhanced controls with Add Node icon button */}
-                  <Controls 
-                    className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
-                    showZoom={true}
-                    showFitView={true}
-                    showInteractive={true}
-                  >
-                    {/* Custom Add Node icon button above zoom controls */}
-                    <div className="absolute -top-14 left-0 right-0 flex justify-center">
-                      <button
-                        onClick={() => setShowNodePanel(!showNodePanel)}
-                        className="w-8 h-8 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-                        title={showNodePanel ? '隐藏节点库' : '添加节点'}
-                      >
-                        <Plus className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" />
-                      </button>
-                    </div>
-                  </Controls>
-                  
-                  {/* Floating Node Library Panel */}
-                  {showNodePanel && (
-                    <Panel 
-                      position="top-left" 
-                      className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-3 min-w-[220px] max-w-[260px] animate-in slide-in-from-top duration-300 ease-out"
-                      style={{ 
-                        top: '0px', 
-                        left: '30px', 
-                        zIndex: 1000
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
+            {/* Workflow Canvas */}
+            <div className="lg:col-span-4">
+              <Card className="h-[720px] shadow-lg border-0">
+                <CardContent className="h-full p-0">
+                  <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel ? 'backdrop-blur-sm' : ''}`}>
+                    <ReactFlow
+                      nodes={nodes}
+                      edges={edges}
+                      onNodesChange={onNodesChange}
+                      onEdgesChange={onEdgesChange}
+                      onConnect={onConnect}
+                      onNodeClick={onNodeClick}
+                      nodeTypes={nodeTypes}
+                      fitView
+                      attributionPosition="bottom-left"
+                      className="bg-transparent"
+                      proOptions={{ hideAttribution: true }}
+                      onClick={handleCanvasClick}
+                      defaultEdgeOptions={{
+                        type: 'smoothstep',
+                        style: { stroke: '#3b82f6', strokeWidth: 2 },
+                        animated: false
                       }}
                     >
-                      <div className="flex items-center justify-between mb-4">
-                        <Typography variant="h6" className="flex items-center text-gray-800/90 text-sm font-semibold">
-                          <Zap className="w-5 h-5 mr-2 text-blue-600/90" />
-                          节点库
-                        </Typography>
-                        <div className="flex items-center space-x-2">
-                          <div className="text-xs text-gray-600/80 bg-blue-50/70 px-2 py-1 rounded-full border border-blue-200/50">
-                            {nodes.length}
-                          </div>
+                      {/* Light grid background */}
+                      <Background 
+                        variant="grid" 
+                        gap={40} 
+                        size={1} 
+                        color="#e5e7eb"
+                        className="opacity-40"
+                      />
+                      
+                      {/* Enhanced controls with Add Node icon button */}
+                      <Controls 
+                        className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
+                        showZoom={true}
+                        showFitView={true}
+                        showInteractive={true}
+                      >
+                        {/* Custom Add Node icon button above zoom controls */}
+                        <div className="absolute -top-10 left-0 right-0 flex justify-center">
                           <button
-                            onClick={() => setShowNodePanel(false)}
-                            className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
-                            title="关闭"
+                            onClick={() => setShowNodePanel(!showNodePanel)}
+                            className="w-8 h-8 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+                            title={showNodePanel ? '隐藏节点库' : '添加节点'}
                           >
-                            <X className="w-3 h-3 text-gray-600/80" />
+                            <Plus className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" />
                           </button>
                         </div>
-                      </div>
+                      </Controls>
+                      
+                      {/* Floating Node Library Panel */}
+                      {showNodePanel && (
+                        <Panel 
+                          position="top-left" 
+                          className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-3 min-w-[220px] max-w-[260px] animate-in slide-in-from-top duration-300 ease-out"
+                          style={{ 
+                            top: '0px', 
+                            left: '30px', 
+                            zIndex: 1000
+                          }}
+                        >
+                          <div className="flex items-center justify-between mb-4">
+                            <Typography variant="h6" className="flex items-center text-gray-800 text-sm">
+                              <Zap className="w-5 h-5 mr-2 text-blue-600" />
+                              节点库
+                            </Typography>
+                            <div className="flex items-center space-x-2">
+                              <div className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
+                                {nodes.length}
+                              </div>
+                              <button
+                                onClick={() => setShowNodePanel(false)}
+                                className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
+                                title="关闭"
+                              >
+                                <X className="w-3 h-3 text-gray-600/80" />
+                              </button>
+                            </div>
+                          </div>
 
-                      {/* Trigger Nodes Category */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700">触发器</span>
-                        </div>
-                        <div className="space-y-1">
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Play className="w-3 h-3" />}
-                            onClick={() => addNode('startNode', { x: 100, y: 100 })}
-                            className="border-green-200/70 text-green-700/90 hover:bg-green-50/80 hover:border-green-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            开始节点
-                          </Button>
-                        </div>
-                      </div>
+                          {/* Trigger Nodes Category */}
+                          <div className="mb-4">
+                            <div className="flex items-center mb-2">
+                              <div className="w-2 h-2 bg-green-500/80 rounded-full mr-2"></div>
+                              <span className="text-xs font-semibold text-gray-700/90">触发器</span>
+                            </div>
+                            <div className="space-y-1">
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Play className="w-3 h-3" />}
+                                onClick={() => addNode('startNode', { x: 100, y: 100 })}
+                                className="border-green-200/70 text-green-700/90 hover:bg-green-50/80 hover:border-green-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                开始节点
+                              </Button>
+                            </div>
+                          </div>
 
-                      {/* AI Processing Nodes Category */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-purple-500/80 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700/90">AI 处理</span>
-                        </div>
-                        <div className="space-y-1">
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Search className="w-3 h-3" />}
-                            onClick={() => addNode('knowledgeRetrievalNode', { x: 300, y: 150 })}
-                            className="border-purple-200/70 text-purple-700/90 hover:bg-purple-50/80 hover:border-purple-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            知识检索
-                          </Button>
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Brain className="w-3 h-3" />}
-                            onClick={() => addNode('questionClassifierNode', { x: 300, y: 250 })}
-                            className="border-indigo-200/70 text-indigo-700/90 hover:bg-indigo-50/80 hover:border-indigo-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            问题分类
-                          </Button>
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<MessageSquare className="w-3 h-3" />}
-                            onClick={() => addNode('answerNode', { x: 500, y: 200 })}
-                            className="border-pink-200/70 text-pink-700/90 hover:bg-pink-50/80 hover:border-pink-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            答案生成
-                          </Button>
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Bot className="w-3 h-3" />}
-                            onClick={() => addNode('llmNode', { x: 400, y: 200 })}
-                            className="border-emerald-200/70 text-emerald-700/90 hover:bg-emerald-50/80 hover:border-emerald-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            LLM 节点
-                          </Button>
-                        </div>
-                      </div>
+                          {/* AI Processing Nodes Category */}
+                          <div className="mb-4">
+                            <div className="flex items-center mb-2">
+                              <div className="w-2 h-2 bg-purple-500/80 rounded-full mr-2"></div>
+                              <span className="text-xs font-semibold text-gray-700/90">AI 处理</span>
+                            </div>
+                            <div className="space-y-1">
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Search className="w-3 h-3" />}
+                                onClick={() => addNode('knowledgeRetrievalNode', { x: 300, y: 150 })}
+                                className="border-purple-200/70 text-purple-700/90 hover:bg-purple-50/80 hover:border-purple-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                知识检索
+                              </Button>
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Brain className="w-3 h-3" />}
+                                onClick={() => addNode('questionClassifierNode', { x: 300, y: 250 })}
+                                className="border-indigo-200/70 text-indigo-700/90 hover:bg-indigo-50/80 hover:border-indigo-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                问题分类
+                              </Button>
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<MessageSquare className="w-3 h-3" />}
+                                onClick={() => addNode('answerNode', { x: 500, y: 200 })}
+                                className="border-pink-200/70 text-pink-700/90 hover:bg-pink-50/80 hover:border-pink-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                答案生成
+                              </Button>
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Bot className="w-3 h-3" />}
+                                onClick={() => addNode('llmNode', { x: 400, y: 200 })}
+                                className="border-emerald-200/70 text-emerald-700/90 hover:bg-emerald-50/80 hover:border-emerald-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                LLM 节点
+                              </Button>
+                            </div>
+                          </div>
 
-                      {/* Logic Control Nodes Category */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-yellow-500/80 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700/90">逻辑控制</span>
-                        </div>
-                        <div className="space-y-1">
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Zap className="w-3 h-3" />}
-                            onClick={() => addNode('actionNode', { x: 300, y: 200 })}
-                            className="border-blue-200/70 text-blue-700/90 hover:bg-blue-50/80 hover:border-blue-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            动作节点
-                          </Button>
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Settings className="w-3 h-3" />}
-                            onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
-                            className="border-yellow-200/70 text-yellow-700/90 hover:bg-yellow-50/80 hover:border-yellow-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            条件节点
-                          </Button>
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Repeat className="w-3 h-3" />}
-                            onClick={() => addNode('loopNode', { x: 400, y: 300 })}
-                            className="border-purple-200/70 text-purple-700/90 hover:bg-purple-50/80 hover:border-purple-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            循环节点
-                          </Button>
-                        </div>
-                      </div>
+                          {/* Logic Control Nodes Category */}
+                          <div className="mb-4">
+                            <div className="flex items-center mb-2">
+                              <div className="w-2 h-2 bg-yellow-500/80 rounded-full mr-2"></div>
+                              <span className="text-xs font-semibold text-gray-700/90">逻辑控制</span>
+                            </div>
+                            <div className="space-y-1">
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Zap className="w-3 h-3" />}
+                                onClick={() => addNode('actionNode', { x: 300, y: 200 })}
+                                className="border-blue-200/70 text-blue-700/90 hover:bg-blue-50/80 hover:border-blue-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                动作节点
+                              </Button>
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Settings className="w-3 h-3" />}
+                                onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
+                                className="border-yellow-200/70 text-yellow-700/90 hover:bg-yellow-50/80 hover:border-yellow-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                条件节点
+                              </Button>
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Repeat className="w-3 h-3" />}
+                                onClick={() => addNode('loopNode', { x: 400, y: 300 })}
+                                className="border-purple-200/70 text-purple-700/90 hover:bg-purple-50/80 hover:border-purple-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                循环节点
+                              </Button>
+                            </div>
+                          </div>
 
-                      {/* Data Processing Nodes Category */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-cyan-500/80 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700/90">数据处理</span>
-                        </div>
-                        <div className="space-y-1">
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<Database className="w-3 h-3" />}
-                            onClick={() => addNode('variableAggregatorNode', { x: 400, y: 400 })}
-                            className="border-cyan-200/70 text-cyan-700/90 hover:bg-cyan-50/80 hover:border-cyan-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            变量聚合
-                          </Button>
-                        </div>
-                      </div>
+                          {/* Data Processing Nodes Category */}
+                          <div className="mb-4">
+                            <div className="flex items-center mb-2">
+                              <div className="w-2 h-2 bg-cyan-500/80 rounded-full mr-2"></div>
+                              <span className="text-xs font-semibold text-gray-700/90">数据处理</span>
+                            </div>
+                            <div className="space-y-1">
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Database className="w-3 h-3" />}
+                                onClick={() => addNode('variableAggregatorNode', { x: 400, y: 400 })}
+                                className="border-cyan-200/70 text-cyan-700/90 hover:bg-cyan-50/80 hover:border-cyan-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                变量聚合
+                              </Button>
+                            </div>
+                          </div>
 
-                      {/* Output Nodes Category */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-red-500/80 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700/90">输出</span>
-                        </div>
-                        <div className="space-y-1">
-                          <Button
-                            fullWidth
-                            variant="outlined"
-                            size="small"
-                            startIcon={<CheckCircle className="w-3 h-3" />}
-                            onClick={() => addNode('endNode', { x: 700, y: 300 })}
-                            className="border-red-200/70 text-red-700/90 hover:bg-red-50/80 hover:border-red-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                          >
-                            结束节点
-                          </Button>
-                        </div>
-                      </div>
+                          {/* Output Nodes Category */}
+                          <div className="mb-4">
+                            <div className="flex items-center mb-2">
+                              <div className="w-2 h-2 bg-red-500/80 rounded-full mr-2"></div>
+                              <span className="text-xs font-semibold text-gray-700/90">输出</span>
+                            </div>
+                            <div className="space-y-1">
+                              <Button
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                startIcon={<CheckCircle className="w-3 h-3" />}
+                                onClick={() => addNode('endNode', { x: 700, y: 300 })}
+                                className="border-red-200/70 text-red-700/90 hover:bg-red-50/80 hover:border-red-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
+                              >
+                                结束节点
+                              </Button>
+                            </div>
+                          </div>
 
-                      {/* Quick Actions */}
-                      <div className="pt-3 border-t border-gray-200/50">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-gray-700/90">快速操作</span>
+                          {/* Quick Actions */}
+                          <div className="pt-3 border-t border-gray-200/50">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-xs font-semibold text-gray-700/90">快速操作</span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                              <Button
+                                size="small"
+                                variant="text"
+                                startIcon={<Plus className="w-3 h-3" />}
+                                className="text-xs text-blue-600/90 hover:bg-blue-50/70 py-1 hover:text-blue-700"
+                                onClick={() => {
+                                  const centerX = 400;
+                                  const centerY = 300;
+                                  addNode('startNode', { x: centerX - 100, y: centerY - 100 });
+                                  addNode('endNode', { x: centerX + 100, y: centerY + 100 });
+                                }}
+                              >
+                                基础流程
+                              </Button>
+                              <Button
+                                size="small"
+                                variant="text"
+                                startIcon={<Zap className="w-3 h-3" />}
+                                className="text-xs text-green-600/90 hover:bg-green-50/70 py-1 hover:text-green-700"
+                                onClick={() => {
+                                  const centerX = 400;
+                                  const centerY = 300;
+                                  addNode('startNode', { x: centerX - 150, y: centerY - 100 });
+                                  addNode('knowledgeRetrievalNode', { x: centerX - 50, y: centerY - 50 });
+                                  addNode('answerNode', { x: centerX + 50, y: centerY - 50 });
+                                  addNode('endNode', { x: centerX + 150, y: centerY - 100 });
+                                }}
+                              >
+                                AI 问答
+                              </Button>
+                            </div>
+                          </div>
+                        </Panel>
+                      )}
+                      
+                      {/* Enhanced minimap */}
+                      <MiniMap 
+                        className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
+                        nodeColor={(node) => {
+                          switch (node.type) {
+                            case 'startNode': return '#10b981'
+                            case 'actionNode': return '#3b82f6'
+                            case 'conditionNode': return '#f59e0b'
+                            case 'loopNode': return '#8b5cf6'
+                            case 'knowledgeRetrievalNode': return '#06b6d4'
+                            case 'questionClassifierNode': return '#6366f1'
+                            case 'answerNode': return '#ec4899'
+                            case 'variableAggregatorNode': return '#0891b2'
+                            case 'llmNode': return '#10b981'
+                            case 'endNode': return '#ef4444'
+                            default: return '#6b7280'
+                          }
+                        }}
+                        nodeStrokeWidth={3}
+                        zoomable
+                        pannable
+                      />
+                      
+                      {/* Enhanced panel for workflow info */}
+                      <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
+                        <div className="flex items-center space-x-2 text-sm text-gray-600">
+                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                          <span>节点: {nodes.length}</span>
+                          <span>•</span>
+                          <span>连接: {edges.length}</span>
+                          <span>•</span>
+                          <span>默认: {isNew ? '是' : '否'}</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          <Button
-                            size="small"
-                            variant="text"
-                            startIcon={<Plus className="w-3 h-3" />}
-                            className="text-xs text-blue-600/90 hover:bg-blue-50/70 py-1 hover:text-blue-700"
-                            onClick={() => {
-                              const centerX = 400;
-                              const centerY = 300;
-                              addNode('startNode', { x: centerX - 100, y: centerY - 100 });
-                              addNode('endNode', { x: centerX + 100, y: centerY + 100 });
-                            }}
-                          >
-                            基础流程
-                          </Button>
-                          <Button
-                            size="small"
-                            variant="text"
-                            startIcon={<Zap className="w-3 h-3" />}
-                            className="text-xs text-green-600/90 hover:bg-green-50/70 py-1 hover:text-green-700"
-                            onClick={() => {
-                              const centerX = 400;
-                              const centerY = 300;
-                              addNode('startNode', { x: centerX - 150, y: centerY - 100 });
-                              addNode('knowledgeRetrievalNode', { x: centerX - 50, y: centerY - 50 });
-                              addNode('answerNode', { x: centerX + 50, y: centerY - 50 });
-                              addNode('endNode', { x: centerX + 150, y: centerY - 100 });
-                            }}
-                          >
-                            AI 问答
-                          </Button>
-                        </div>
-                      </div>
-                    </Panel>
-                  )}
-                  
-                  {/* Enhanced minimap */}
-                  <MiniMap 
-                    className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
-                    nodeColor={(node) => {
-                      switch (node.type) {
-                        case 'startNode': return '#10b981'
-                        case 'actionNode': return '#3b82f6'
-                        case 'conditionNode': return '#f59e0b'
-                        case 'loopNode': return '#8b5cf6'
-                        case 'knowledgeRetrievalNode': return '#06b6d4'
-                        case 'questionClassifierNode': return '#6366f1'
-                        case 'answerNode': return '#ec4899'
-                        case 'variableAggregatorNode': return '#0891b2'
-                        case 'llmNode': return '#10b981'
-                        case 'endNode': return '#ef4444'
-                        default: return '#6b7280'
-                      }
-                    }}
-                    nodeStrokeWidth={3}
-                    zoomable
-                    pannable
-                  />
-                  
-                  {/* Enhanced panel for workflow info */}
-                  <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span>节点: {nodes.length}</span>
-                      <span>•</span>
-                      <span>连接: {edges.length}</span>
-                      <span>•</span>
-                      <span>默认: {isNew ? '是' : '否'}</span>
+                      </Panel>
+                    </ReactFlow>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Node Configuration Panel */}
+            <div className="lg:col-span-2">
+              {selectedNode ? (
+                <Card className="h-[720px] shadow-lg border-0 bg-gradient-to-r from-gray-50 to-white">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <Typography variant="h6" className="text-gray-800 font-semibold">
+                        节点配置
+                      </Typography>
+                      <Button
+                        size="small"
+                        variant="text"
+                        onClick={() => setSelectedNode(null)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
                     </div>
-                  </Panel>
-                </ReactFlow>
-              </div>
-            </CardContent>
-          </Card>
+                    
+                    <div className="space-y-4">
+                      {/* Node Type Display */}
+                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                        <Typography variant="subtitle2" className="text-blue-800 font-medium mb-1">
+                          节点类型
+                        </Typography>
+                        <Typography variant="body2" className="text-blue-700">
+                          {selectedNode.type === 'startNode' ? '开始节点' :
+                           selectedNode.type === 'llmNode' ? 'LLM 节点' :
+                           selectedNode.type === 'endNode' ? '结束节点' :
+                           selectedNode.type === 'actionNode' ? '动作节点' :
+                           selectedNode.type === 'conditionNode' ? '条件节点' :
+                           selectedNode.type === 'loopNode' ? '循环节点' :
+                           selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
+                           selectedNode.type === 'questionClassifierNode' ? '问题分类节点' :
+                           selectedNode.type === 'answerNode' ? '答案生成节点' :
+                           selectedNode.type === 'variableAggregatorNode' ? '变量聚合节点' :
+                           '未知节点'}
+                        </Typography>
+                      </div>
+
+                      {/* Node Label */}
+                      <div>
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          节点名称
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          value={selectedNode.data.label || ''}
+                          onChange={(e) => {
+                            const updatedNode = { ...selectedNode, data: { ...selectedNode.data, label: e.target.value } }
+                            setSelectedNode(updatedNode)
+                            setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                          }}
+                          className="bg-white"
+                        />
+                      </div>
+
+                      {/* Node-specific Configuration */}
+                      {selectedNode.type === 'startNode' && (
+                        <div>
+                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                            触发器类型
+                          </Typography>
+                          <FormControl fullWidth size="small">
+                            <Select
+                              value={selectedNode.data.trigger || 'manual'}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              className="bg-white"
+                            >
+                              <MenuItem value="webhook">Webhook</MenuItem>
+                              <MenuItem value="schedule">定时任务</MenuItem>
+                              <MenuItem value="manual">手动触发</MenuItem>
+                              <MenuItem value="event">事件驱动</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                      )}
+
+                      {selectedNode.type === 'llmNode' && (
+                        <>
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              AI 模型
+                            </Typography>
+                            <FormControl fullWidth size="small">
+                              <Select
+                                value={selectedNode.data.model || 'gpt-4'}
+                                onChange={(e) => {
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                                className="bg-white"
+                              >
+                                <MenuItem value="gpt-4">GPT-4</MenuItem>
+                                <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+                                <MenuItem value="claude-3">Claude 3</MenuItem>
+                                <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              温度 (Temperature)
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              type="number"
+                              inputProps={{ min: 0, max: 2, step: 0.1 }}
+                              value={selectedNode.data.temperature || 0.7}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, temperature: parseFloat(e.target.value) } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              className="bg-white"
+                            />
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              最大令牌数
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              type="number"
+                              inputProps={{ min: 1, max: 4000, step: 1 }}
+                              value={selectedNode.data.maxTokens || 1000}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, maxTokens: parseInt(e.target.value) } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              className="bg-white"
+                            />
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              系统提示词
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              multiline
+                              rows={3}
+                              value={selectedNode.data.systemMessage || ''}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemMessage: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              className="bg-white"
+                            />
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              用户提示词
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              multiline
+                              rows={3}
+                              value={selectedNode.data.prompt || ''}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, prompt: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              className="bg-white"
+                            />
+                          </div>
+                        </>
+                      )}
+
+                      {selectedNode.type === 'endNode' && (
+                        <div>
+                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                            结束类型
+                          </Typography>
+                          <FormControl fullWidth size="small">
+                            <Select
+                              value={selectedNode.data.endType || 'success'}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              className="bg-white"
+                            >
+                              <MenuItem value="success">成功完成</MenuItem>
+                              <MenuItem value="error">执行失败</MenuItem>
+                              <MenuItem value="warning">警告完成</MenuItem>
+                              <MenuItem value="timeout">超时结束</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                      )}
+
+                      {/* Save Button */}
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() => {
+                          setSnackbar({ open: true, message: '节点配置已保存', severity: 'success' })
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        保存配置
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="h-[720px] shadow-lg border-0 bg-gradient-to-r from-gray-50 to-white">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-center h-full">
+                      <div className="text-center text-gray-500">
+                        <Settings className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                        <Typography variant="h6" className="text-gray-400 mb-2">
+                          节点配置
+                        </Typography>
+                        <Typography variant="body2" className="text-gray-400">
+                          点击工作流中的节点来配置其参数
+                        </Typography>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
