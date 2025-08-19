@@ -490,7 +490,7 @@ const PromptEditorPage: React.FC = () => {
                     placeholder="在这里编写您的提示词模板...\n\n使用 {{参数名}} 来定义变量，例如：\n{{customer_name}} 您好，请问有什么可以帮助您的？"
                   />
                   <div className="mt-2 text-sm text-gray-500">
-                    提示：使用 {{参数名}} 语法来定义变量，这些变量将在运行时被实际值替换。
+                    提示：使用 {'{{参数名}}'} 语法来定义变量，这些变量将在运行时被实际值替换。
                   </div>
                 </div>
 
