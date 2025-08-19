@@ -511,7 +511,7 @@ const WorkflowEditorContent: React.FC = () => {
                     showInteractive={true}
                   >
                     {/* Custom Add Node icon button above zoom controls */}
-                    <div className="absolute -top-12 left-0 right-0 flex justify-center">
+                    <div className="absolute -top-10 left-0 right-0 flex justify-center">
                       <button
                         onClick={() => setShowNodePanel(!showNodePanel)}
                         className="w-8 h-8 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
@@ -526,29 +526,28 @@ const WorkflowEditorContent: React.FC = () => {
                   {showNodePanel && (
                     <Panel 
                       position="top-left" 
-                      className="bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-top duration-300 ease-out"
+                      className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-top duration-300 ease-out"
                       style={{ 
-                        top: '60px', 
-                        left: '50%', 
-                        transform: 'translateX(-50%)',
+                        top: '80px', 
+                        left: '20px', 
                         zIndex: 1000
                       }}
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <Typography variant="h6" className="flex items-center text-gray-800 text-sm">
-                          <Zap className="w-5 h-5 mr-2 text-blue-600" />
+                        <Typography variant="h6" className="flex items-center text-gray-800/90 text-sm font-semibold">
+                          <Zap className="w-5 h-5 mr-2 text-blue-600/90" />
                           节点库
                         </Typography>
                         <div className="flex items-center space-x-2">
-                          <div className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
+                          <div className="text-xs text-gray-600/80 bg-blue-50/70 px-2 py-1 rounded-full border border-blue-200/50">
                             {nodes.length}
                           </div>
                           <button
                             onClick={() => setShowNodePanel(false)}
-                            className="w-6 h-6 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
+                            className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
                             title="关闭"
                           >
-                            <X className="w-3 h-3 text-gray-600" />
+                            <X className="w-3 h-3 text-gray-600/80" />
                           </button>
                         </div>
                       </div>
@@ -566,7 +565,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Play className="w-3 h-3" />}
                             onClick={() => addNode('startNode', { x: 100, y: 100 })}
-                            className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-green-200/70 text-green-700/90 hover:bg-green-50/80 hover:border-green-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             开始节点
                           </Button>
@@ -576,8 +575,8 @@ const WorkflowEditorContent: React.FC = () => {
                       {/* AI Processing Nodes Category */}
                       <div className="mb-4">
                         <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700">AI 处理</span>
+                          <div className="w-2 h-2 bg-purple-500/80 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700/90">AI 处理</span>
                         </div>
                         <div className="space-y-1">
                           <Button
@@ -586,7 +585,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Search className="w-3 h-3" />}
                             onClick={() => addNode('knowledgeRetrievalNode', { x: 300, y: 150 })}
-                            className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-purple-200/70 text-purple-700/90 hover:bg-purple-50/80 hover:border-purple-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             知识检索
                           </Button>
@@ -596,7 +595,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Brain className="w-3 h-3" />}
                             onClick={() => addNode('questionClassifierNode', { x: 300, y: 250 })}
-                            className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-indigo-200/70 text-indigo-700/90 hover:bg-indigo-50/80 hover:border-indigo-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             问题分类
                           </Button>
@@ -606,7 +605,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<MessageSquare className="w-3 h-3" />}
                             onClick={() => addNode('answerNode', { x: 500, y: 200 })}
-                            className="border-pink-200 text-pink-700 hover:bg-pink-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-pink-200/70 text-pink-700/90 hover:bg-pink-50/80 hover:border-pink-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             答案生成
                           </Button>
@@ -616,8 +615,8 @@ const WorkflowEditorContent: React.FC = () => {
                       {/* Logic Control Nodes Category */}
                       <div className="mb-4">
                         <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700">逻辑控制</span>
+                          <div className="w-2 h-2 bg-yellow-500/80 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700/90">逻辑控制</span>
                         </div>
                         <div className="space-y-1">
                           <Button
@@ -626,7 +625,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Zap className="w-3 h-3" />}
                             onClick={() => addNode('actionNode', { x: 300, y: 200 })}
-                            className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-blue-200/70 text-blue-700/90 hover:bg-blue-50/80 hover:border-blue-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             动作节点
                           </Button>
@@ -636,7 +635,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Settings className="w-3 h-3" />}
                             onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
-                            className="border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-yellow-200/70 text-yellow-700/90 hover:bg-yellow-50/80 hover:border-yellow-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             条件节点
                           </Button>
@@ -646,7 +645,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Repeat className="w-3 h-3" />}
                             onClick={() => addNode('loopNode', { x: 400, y: 300 })}
-                            className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-purple-200/70 text-purple-700/90 hover:bg-purple-50/80 hover:border-purple-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             循环节点
                           </Button>
@@ -656,8 +655,8 @@ const WorkflowEditorContent: React.FC = () => {
                       {/* Data Processing Nodes Category */}
                       <div className="mb-4">
                         <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-cyan-500 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700">数据处理</span>
+                          <div className="w-2 h-2 bg-cyan-500/80 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700/90">数据处理</span>
                         </div>
                         <div className="space-y-1">
                           <Button
@@ -666,7 +665,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<Database className="w-3 h-3" />}
                             onClick={() => addNode('variableAggregatorNode', { x: 400, y: 400 })}
-                            className="border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-cyan-200/70 text-cyan-700/90 hover:bg-cyan-50/80 hover:border-cyan-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             变量聚合
                           </Button>
@@ -676,8 +675,8 @@ const WorkflowEditorContent: React.FC = () => {
                       {/* Output Nodes Category */}
                       <div className="mb-4">
                         <div className="flex items-center mb-2">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                          <span className="text-xs font-semibold text-gray-700">输出</span>
+                          <div className="w-2 h-2 bg-red-500/80 rounded-full mr-2"></div>
+                          <span className="text-xs font-semibold text-gray-700/90">输出</span>
                         </div>
                         <div className="space-y-1">
                           <Button
@@ -686,7 +685,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             startIcon={<CheckCircle className="w-3 h-3" />}
                             onClick={() => addNode('endNode', { x: 700, y: 300 })}
-                            className="border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 hover:shadow-md transition-all duration-200 text-xs py-1"
+                            className="border-red-200/70 text-red-700/90 hover:bg-red-50/80 hover:border-red-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                           >
                             结束节点
                           </Button>
@@ -694,16 +693,16 @@ const WorkflowEditorContent: React.FC = () => {
                       </div>
 
                       {/* Quick Actions */}
-                      <div className="pt-3 border-t border-gray-200">
+                      <div className="pt-3 border-t border-gray-200/50">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-gray-700">快速操作</span>
+                          <span className="text-xs font-semibold text-gray-700/90">快速操作</span>
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                           <Button
                             size="small"
                             variant="text"
                             startIcon={<Plus className="w-3 h-3" />}
-                            className="text-xs text-blue-600 hover:bg-blue-50 py-1"
+                            className="text-xs text-blue-600/90 hover:bg-blue-50/70 py-1 hover:text-blue-700"
                             onClick={() => {
                               const centerX = 400;
                               const centerY = 300;
@@ -717,7 +716,7 @@ const WorkflowEditorContent: React.FC = () => {
                             size="small"
                             variant="text"
                             startIcon={<Zap className="w-3 h-3" />}
-                            className="text-xs text-green-600 hover:bg-green-50 py-1"
+                            className="text-xs text-green-600/90 hover:bg-green-50/70 py-1 hover:text-green-700"
                             onClick={() => {
                               const centerX = 400;
                               const centerY = 300;
