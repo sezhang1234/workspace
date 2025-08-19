@@ -511,7 +511,7 @@ const WorkflowEditorContent: React.FC = () => {
                     showInteractive={true}
                   >
                     {/* Custom Add Node icon button above zoom controls */}
-                    <div className="absolute -top-10 left-0 right-0 flex justify-center">
+                    <div className="absolute -top-14 left-0 right-0 flex justify-center">
                       <button
                         onClick={() => setShowNodePanel(!showNodePanel)}
                         className="w-8 h-8 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
@@ -528,7 +528,7 @@ const WorkflowEditorContent: React.FC = () => {
                       position="top-left" 
                       className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-top duration-300 ease-out"
                       style={{ 
-                        top: '80px', 
+                        top: '120px', 
                         left: '20px', 
                         zIndex: 1000
                       }}
