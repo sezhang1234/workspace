@@ -7,6 +7,8 @@ A modern, open-source Agent Studio platform for developing, debugging, and orche
 - 🤖 **Agent Development & Debugging**: Create and test AI agents with real-time debugging
 - 🎨 **Canvas-based Workflow Orchestration**: Visual workflow design with rich node library
 - 📝 **Prompt Management**: Develop, optimize, and manage prompts with version control
+- 🧠 **AI Model Management**: Configure and manage multiple AI models from various providers
+- ⚙️ **Settings & Configuration**: Comprehensive user preferences and account management
 - 🔐 **Account Management**: Secure authentication with welcome, login, and logout pages
 - 🚀 **Modern Tech Stack**: React, Zustand, MUI, TailwindCSS frontend with FastAPI backend
 
@@ -60,6 +62,13 @@ cp .env.example .env
 ```
 
 5. Run the development servers
+
+**Option 1: Use the startup script (recommended)**
+```bash
+./start.sh
+```
+
+**Option 2: Manual startup**
 ```bash
 # Frontend (in frontend directory)
 npm run dev
