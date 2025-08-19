@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Handle, Position, NodeProps } from 'reactflow'
-import { Database, Function, Calculator, Target, Zap, Clock, CheckCircle, AlertTriangle, Layers } from 'lucide-react'
+import { Database, FunctionSquare, Calculator, Target, Zap, Clock, CheckCircle, AlertTriangle, Layers, Hash } from 'lucide-react'
 
 const CustomVariableAggregatorNode: React.FC<NodeProps> = ({ data, selected }) => {
   const getAggregatorIcon = (aggregatorType: string) => {
@@ -8,7 +8,7 @@ const CustomVariableAggregatorNode: React.FC<NodeProps> = ({ data, selected }) =
       case 'sum':
         return <Calculator className="w-4 h-4 text-white" />
       case 'average':
-        return <Function className="w-4 h-4 text-white" />
+        return <FunctionSquare className="w-4 h-4 text-white" />
       case 'count':
         return <Hash className="w-4 h-4 text-white" />
       case 'min_max':
