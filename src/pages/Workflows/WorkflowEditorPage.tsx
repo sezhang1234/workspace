@@ -18,7 +18,11 @@ import {
   CheckCircle,
   AlertCircle,
   Repeat,
-  BarChart3
+  BarChart3,
+  Search,
+  Brain,
+  MessageSquare,
+  Database
 } from 'lucide-react'
 import ReactFlow, {
   Node,
@@ -226,6 +230,92 @@ const WorkflowEditorContent: React.FC = () => {
           lastExecuted: '从未'
         }
         break
+      case 'knowledgeRetrievalNode':
+        defaultData = { 
+          label: '知识检索', 
+          retrievalType: 'vector_search',
+          query: '用户查询内容...',
+          maxResults: 10,
+          similarityThreshold: 0.8,
+          timeout: 30,
+          sources: ['知识库1', '文档库2'],
+          status: 'ready',
+          resultsFound: 0,
+          searchTime: 0,
+          avgResponseTime: 0,
+          successRate: 100,
+          cacheHitRate: 0,
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
+      case 'questionClassifierNode':
+        defaultData = { 
+          label: '问题分类', 
+          classifierType: 'intent_classification',
+          inputQuestion: '用户输入的问题...',
+          confidenceThreshold: 0.8,
+          maxLabels: 5,
+          timeout: 30,
+          status: 'ready',
+          classificationResults: [
+            { label: '咨询类', confidence: 85 },
+            { label: '投诉类', confidence: 15 }
+          ],
+          topConfidence: 85,
+          classificationTime: 0,
+          modelName: 'intent-classifier-v1',
+          modelVersion: '1.0.0',
+          accuracy: 95,
+          avgResponseTime: 0,
+          successRate: 100,
+          cacheHitRate: 0,
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
+      case 'answerNode':
+        defaultData = { 
+          label: '答案生成', 
+          answerType: 'llm_generation',
+          inputContext: '用户问题和检索到的知识...',
+          maxLength: 500,
+          temperature: 0.7,
+          timeout: 60,
+          status: 'ready',
+          generatedAnswer: '',
+          relevanceScore: 0,
+          completenessScore: 0,
+          generationTime: 0,
+          tokensUsed: 0,
+          successRate: 100,
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
+      case 'variableAggregatorNode':
+        defaultData = { 
+          label: '变量聚合', 
+          aggregatorType: 'sum',
+          inputVariables: ['变量1', '变量2'],
+          groupBy: '无',
+          filterCondition: '无',
+          timeout: 30,
+          status: 'ready',
+          customFunction: '',
+          aggregationResults: {},
+          recordsProcessed: 0,
+          processingTime: 0,
+          validRecords: 0,
+          missingRecords: 0,
+          anomalyRecords: 0,
+          avgResponseTime: 0,
+          successRate: 100,
+          memoryUsage: 0,
+          executionCount: 0,
+          lastExecuted: '从未'
+        }
+        break
       case 'endNode':
         defaultData = { 
           label: '结束', 
@@ -428,96 +518,243 @@ const WorkflowEditorContent: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardContent>
-                <Typography variant="h6" className="mb-4 flex items-center">
-                  <Zap className="w-5 h-5 mr-2 text-blue-600" />
-                  节点库
-                </Typography>
-                <div className="space-y-3">
-                  {/* Start Node */}
-                  <div className="group">
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      startIcon={<Play className="w-4 h-4" />}
-                      onClick={() => addNode('startNode', { x: 100, y: 100 })}
-                      className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 transition-all duration-200"
-                    >
-                      开始节点
-                    </Button>
-                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      工作流的起点，定义触发条件
+            <Card className="shadow-xl border-0 bg-gradient-to-br from-gray-50 to-white">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <Typography variant="h6" className="flex items-center text-gray-800">
+                    <Zap className="w-6 h-6 mr-3 text-blue-600" />
+                    节点库
+                  </Typography>
+                  <div className="text-xs text-gray-500 bg-blue-50 px-2 py-1 rounded-full">
+                    {nodes.length} 个节点
+                  </div>
+                </div>
+
+                {/* Trigger Nodes Category */}
+                <div className="mb-6">
+                  <div className="flex items-center mb-3">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-gray-700">触发器节点</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Play className="w-4 h-4" />}
+                        onClick={() => addNode('startNode', { x: 100, y: 100 })}
+                        className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        开始节点
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        工作流的起点，定义触发条件
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Action Node */}
-                  <div className="group">
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      startIcon={<Zap className="w-4 h-4" />}
-                      onClick={() => addNode('actionNode', { x: 300, y: 200 })}
-                      className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 transition-all duration-200"
-                    >
-                      动作节点
-                    </Button>
-                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      执行具体操作，如API调用、数据处理等
+                {/* AI Processing Nodes Category */}
+                <div className="mb-6">
+                  <div className="flex items-center mb-3">
+                    <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-gray-700">AI 处理节点</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Search className="w-4 h-4" />}
+                        onClick={() => addNode('knowledgeRetrievalNode', { x: 300, y: 150 })}
+                        className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        知识检索
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        从知识库检索相关信息
+                      </div>
+                    </div>
+
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Brain className="w-4 h-4" />}
+                        onClick={() => addNode('questionClassifierNode', { x: 300, y: 250 })}
+                        className="border-indigo-200 text-indigo-700 hover:bg-indigo-50 hover:border-indigo-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        问题分类
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        智能分类用户问题意图
+                      </div>
+                    </div>
+
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<MessageSquare className="w-4 h-4" />}
+                        onClick={() => addNode('answerNode', { x: 500, y: 200 })}
+                        className="border-pink-200 text-pink-700 hover:bg-pink-50 hover:border-pink-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        答案生成
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        基于上下文生成智能答案
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Condition Node */}
-                  <div className="group">
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      startIcon={<Settings className="w-4 h-4" />}
-                      onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
-                      className="border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 transition-all duration-200"
-                    >
-                      条件节点
-                    </Button>
-                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      根据条件决定执行路径
+                {/* Logic Control Nodes Category */}
+                <div className="mb-6">
+                  <div className="flex items-center mb-3">
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-gray-700">逻辑控制节点</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Zap className="w-4 h-4" />}
+                        onClick={() => addNode('actionNode', { x: 300, y: 200 })}
+                        className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        动作节点
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        执行具体操作，如API调用、数据处理等
+                      </div>
+                    </div>
+
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Settings className="w-4 h-4" />}
+                        onClick={() => addNode('conditionNode', { x: 500, y: 200 })}
+                        className="border-yellow-200 text-yellow-700 hover:bg-yellow-50 hover:border-yellow-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        条件节点
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        根据条件决定执行路径
+                      </div>
+                    </div>
+
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Repeat className="w-4 h-4" />}
+                        onClick={() => addNode('loopNode', { x: 400, y: 300 })}
+                        className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        循环节点
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        重复执行特定逻辑，支持多种循环类型
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Loop Node */}
-                  <div className="group">
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      startIcon={<Repeat className="w-4 h-4" />}
-                      onClick={() => addNode('loopNode', { x: 400, y: 300 })}
-                      className="border-purple-200 text-purple-700 hover:bg-purple-50 hover:border-purple-300 transition-all duration-200"
-                    >
-                      循环节点
-                    </Button>
-                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      重复执行特定逻辑，支持多种循环类型
+                {/* Data Processing Nodes Category */}
+                <div className="mb-6">
+                  <div className="flex items-center mb-3">
+                    <div className="w-3 h-3 bg-cyan-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-gray-700">数据处理节点</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<Database className="w-4 h-4" />}
+                        onClick={() => addNode('variableAggregatorNode', { x: 400, y: 400 })}
+                        className="border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        变量聚合
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        聚合和处理多个变量数据
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* End Node */}
-                  <div className="group">
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      size="small"
-                      startIcon={<CheckCircle className="w-4 h-4" />}
-                      onClick={() => addNode('endNode', { x: 700, y: 300 })}
-                      className="border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 transition-all duration-200"
-                    >
-                      结束节点
-                    </Button>
-                    <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      工作流的终点，返回执行结果
+                {/* Output Nodes Category */}
+                <div className="mb-6">
+                  <div className="flex items-center mb-3">
+                    <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-gray-700">输出节点</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="group">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        startIcon={<CheckCircle className="w-4 h-4" />}
+                        onClick={() => addNode('endNode', { x: 700, y: 300 })}
+                        className="border-red-200 text-red-700 hover:bg-red-50 hover:border-red-300 hover:shadow-md transition-all duration-200 group-hover:scale-105"
+                      >
+                        结束节点
+                      </Button>
+                      <div className="text-xs text-gray-500 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-1">
+                        工作流的终点，返回执行结果
+                      </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-semibold text-gray-700">快速操作</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Button
+                      size="small"
+                      variant="text"
+                      startIcon={<Plus className="w-3 h-3" />}
+                      className="text-xs text-blue-600 hover:bg-blue-50"
+                      onClick={() => {
+                        const centerX = 400;
+                        const centerY = 300;
+                        addNode('startNode', { x: centerX - 100, y: centerY - 100 });
+                        addNode('endNode', { x: centerX + 100, y: centerY + 100 });
+                      }}
+                    >
+                      基础流程
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="text"
+                      startIcon={<Zap className="w-3 h-3" />}
+                      className="text-xs text-green-600 hover:bg-green-50"
+                      onClick={() => {
+                        const centerX = 400;
+                        const centerY = 300;
+                        addNode('startNode', { x: centerX - 150, y: centerY - 100 });
+                        addNode('knowledgeRetrievalNode', { x: centerX - 50, y: centerY - 50 });
+                        addNode('answerNode', { x: centerX + 50, y: centerY - 50 });
+                        addNode('endNode', { x: centerX + 150, y: centerY - 100 });
+                      }}
+                    >
+                      AI 问答
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -623,6 +860,10 @@ const WorkflowEditorContent: React.FC = () => {
                         case 'actionNode': return '#3b82f6'
                         case 'conditionNode': return '#f59e0b'
                         case 'loopNode': return '#8b5cf6'
+                        case 'knowledgeRetrievalNode': return '#06b6d4'
+                        case 'questionClassifierNode': return '#6366f1'
+                        case 'answerNode': return '#ec4899'
+                        case 'variableAggregatorNode': return '#0891b2'
                         case 'endNode': return '#ef4444'
                         default: return '#6b7280'
                       }
