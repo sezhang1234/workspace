@@ -74,6 +74,10 @@ import CustomActionNode from '../../components/WorkflowNodes/CustomActionNode'
 import CustomConditionNode from '../../components/WorkflowNodes/CustomConditionNode'
 import CustomEndNode from '../../components/WorkflowNodes/CustomEndNode'
 import CustomLoopNode from '../../components/WorkflowNodes/CustomLoopNode'
+import CustomKnowledgeRetrievalNode from '../../components/WorkflowNodes/CustomKnowledgeRetrievalNode'
+import CustomAnswerNode from '../../components/WorkflowNodes/CustomAnswerNode'
+import CustomQuestionClassifierNode from '../../components/WorkflowNodes/CustomQuestionClassifierNode'
+import CustomVariableAggregatorNode from '../../components/WorkflowNodes/CustomVariableAggregatorNode'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -108,6 +112,10 @@ const nodeTypes: NodeTypes = {
   conditionNode: CustomConditionNode,
   endNode: CustomEndNode,
   loopNode: CustomLoopNode,
+  knowledgeRetrievalNode: CustomKnowledgeRetrievalNode,
+  answerNode: CustomAnswerNode,
+  questionClassifierNode: CustomQuestionClassifierNode,
+  variableAggregatorNode: CustomVariableAggregatorNode,
 }
 
 const WorkflowEditorContent: React.FC = () => {
