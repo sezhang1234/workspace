@@ -1,50 +1,50 @@
-## Agent Studio (Dify-like) – Frontend
+## Agent Studio（类似 Dify 的前端）
 
-A Next.js + TypeScript app that provides an agent workflow canvas similar to Dify’s agent platform, using React Flow for diagramming and MUI for UI.
+基于 Next.js + TypeScript 的前端应用，提供类似 Dify Agent 平台的工作流画布。使用 React Flow 实现可视化编排，UI 采用 MUI（Material UI）。
 
-### Tech Stack
-- Next.js 14 (App Router) + TypeScript
-- MUI (Material UI) for components and theming
-- React Flow for the canvas
-- Zustand for lightweight state management
-- Tailwind base from the scaffold (minimal usage)
+### 技术栈
+- Next.js 14（App Router）+ TypeScript
+- MUI（Material UI）组件与主题
+- React Flow 画布编排
+- Zustand 作为轻量状态管理
+- Tailwind（来自脚手架，当前使用较少）
 
-### App Structure
-- `/` – Landing page with quick links
-- `/agents` – Placeholder agent list
-- `/agents/[id]` – Canvas + Inspector layout
+### 路由与结构
+- `/`：主页（快速入口）
+- `/agents`：Agent 列表占位页
+- `/agents/[id]`：画布 + 右侧属性面板布局
 
-Core components:
-- `src/components/AgentCanvas.tsx` – React Flow canvas
-- `src/components/InspectorPanel.tsx` – Node inspector
-- `src/components/layout/TopBar.tsx` – App top navigation
-- `src/components/providers/ClientThemeProvider.tsx` – MUI theme provider
-- `src/store/flowStore.ts` – Zustand store for nodes/edges
+核心组件：
+- `src/components/AgentCanvas.tsx`：React Flow 画布
+- `src/components/InspectorPanel.tsx`：节点属性编辑面板
+- `src/components/layout/TopBar.tsx`：顶栏导航
+- `src/components/providers/ClientThemeProvider.tsx`：全局 MUI 主题
+- `src/store/flowStore.ts`：Zustand 存储（节点与连线）
 
-### Getting Started
-Install dependencies and run the dev server:
+### 本地开发
+安装依赖并启动开发服务器：
 ```bash
 npm install
 npm run dev
 ```
-Open http://localhost:3000
+打开 http://localhost:3000 预览。
 
-### Build
+### 构建与启动
 ```bash
 npm run build
 npm run start
 ```
 
-### Development Notes
-- The canvas is pre-seeded with a simple graph. Click a node to edit its label in the inspector.
-- MUI theming is applied globally via `ClientThemeProvider` in `src/app/layout.tsx`.
+### 开发说明
+- 画布内预置了一个简易示例图。点击节点后，可在右侧面板编辑标签。
+- 全局 MUI 主题通过 `src/app/layout.tsx` 中的 `ClientThemeProvider` 生效。
 
-### Deploy
-You can deploy to any Node-compatible host. For Vercel:
+### 部署
+可部署到任意支持 Node.js 的平台。以 Vercel 为例：
 ```bash
 npm run build
-# Then connect the repo on Vercel and deploy
+# 在 Vercel 连接此仓库后进行部署
 ```
 
-### License
-MIT (or update as needed)
+### 许可证
+MIT（如需可自行调整）
