@@ -6,7 +6,7 @@ import {
   Activity, 
   Calendar,
   Download,
-  Refresh,
+  RotateCcw,
   Filter,
   Eye,
   EyeOff
@@ -201,7 +201,7 @@ const AnalyticsPage: React.FC = () => {
           </FormControl>
           <Button
             variant="outlined"
-            startIcon={<Refresh />}
+            startIcon={<RotateCcw />}
             onClick={handleRefresh}
             disabled={refreshData}
           >
