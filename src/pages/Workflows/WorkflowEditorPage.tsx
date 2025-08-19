@@ -6,13 +6,10 @@ import {
   Play, 
   Settings, 
   Plus,
-  Trash2,
-  Copy,
   Download,
   Upload,
   Zap,
   CheckCircle,
-  AlertCircle,
   Repeat,
   Search,
   Brain,
@@ -30,7 +27,8 @@ import ReactFlow, {
   Background,
   MiniMap,
   Panel,
-  ReactFlowProvider
+  ReactFlowProvider,
+  NodeTypes
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { 
@@ -41,15 +39,14 @@ import {
   FormControl, 
   Switch, 
   FormControlLabel,
-  Tabs,
-  Tab,
   Box,
   Typography,
   Card,
   CardContent,
-  Divider,
   Alert,
-  Snackbar
+  Snackbar,
+  Tooltip,
+  SelectChangeEvent
 } from '@mui/material'
 
 // Custom node types
@@ -64,31 +61,7 @@ import CustomQuestionClassifierNode from '../../components/WorkflowNodes/CustomQ
 import CustomVariableAggregatorNode from '../../components/WorkflowNodes/CustomVariableAggregatorNode'
 import CustomLLMNode from '../../components/WorkflowNodes/CustomLLMNode'
 
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`workflow-tabpanel-${index}`}
-      aria-labelledby={`workflow-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  )
-}
 
 // Node types for ReactFlow
 const nodeTypes: NodeTypes = {
@@ -108,7 +81,7 @@ const WorkflowEditorContent: React.FC = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const isNew = id === 'new'
-  const [activeTab, setActiveTab] = useState(0)
+
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [showNodePanel, setShowNodePanel] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
@@ -195,9 +168,7 @@ const WorkflowEditorContent: React.FC = () => {
     setSelectedNode(node)
   }, [])
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue)
-  }
+
 
   const handleSave = () => {
     setSnackbar({ open: true, message: '工作流保存成功！', severity: 'success' })
@@ -386,10 +357,7 @@ const WorkflowEditorContent: React.FC = () => {
     setNodes((nds) => [...nds, newNode])
   }
 
-  const deleteNode = (nodeId: string) => {
-    setNodes((nds) => nds.filter(node => node.id !== nodeId))
-    setEdges((eds) => eds.filter(edge => edge.source !== nodeId && edge.target !== nodeId))
-  }
+
 
 
 
@@ -689,7 +657,7 @@ const WorkflowEditorContent: React.FC = () => {
                     >
                       {/* Light grid background */}
                       <Background 
-                        variant="grid" 
+                        variant="dots" 
                         gap={40} 
                         size={1} 
                         color="#e5e7eb"
