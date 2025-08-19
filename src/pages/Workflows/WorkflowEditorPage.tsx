@@ -582,7 +582,7 @@ const WorkflowEditorContent: React.FC = () => {
                   {showNodePanel && (
                     <Panel 
                       position="top-left" 
-                      className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-top duration-300 ease-out"
+                      className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-3 min-w-[220px] max-w-[260px] animate-in slide-in-from-top duration-300 ease-out"
                       style={{ 
                         top: '0px', 
                         left: '30px', 
