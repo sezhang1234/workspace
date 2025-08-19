@@ -477,7 +477,63 @@ const WorkflowEditorContent: React.FC = () => {
       <div className="grid grid-cols-1 gap-6">
         {/* Main canvas area - Full width */}
         <div className="h-[800px]">
-          <Card className="h-full shadow-lg border-0">
+          {/* Workflow Configuration Panel */}
+          <Card className="mb-4 shadow-lg border-0 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <CardContent className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                    工作流名称
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    placeholder="输入工作流名称"
+                    value={workflow.name}
+                    onChange={(e) => setWorkflow({ ...workflow, name: e.target.value })}
+                    className="bg-white/80"
+                  />
+                </div>
+                
+                <div>
+                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                    触发器类型
+                  </Typography>
+                  <FormControl fullWidth size="small">
+                    <Select
+                      value={workflow.trigger}
+                      onChange={(e) => setWorkflow({ ...workflow, trigger: e.target.value })}
+                      className="bg-white/80"
+                    >
+                      <MenuItem value="webhook">Webhook</MenuItem>
+                      <MenuItem value="schedule">定时任务</MenuItem>
+                      <MenuItem value="manual">手动触发</MenuItem>
+                      <MenuItem value="event">事件驱动</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+
+                <div className="flex items-center justify-center">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={workflow.isActive}
+                        onChange={(e) => setWorkflow({ ...workflow, isActive: e.target.checked })}
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <Typography variant="subtitle2" className="text-gray-700 font-medium">
+                        启用工作流
+                      </Typography>
+                    }
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="h-[720px] shadow-lg border-0">
             <CardContent className="h-full p-0">
               <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel ? 'backdrop-blur-sm' : ''}`}>
                 <ReactFlow
