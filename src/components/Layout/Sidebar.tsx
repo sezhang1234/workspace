@@ -10,7 +10,8 @@ import {
   BarChart3, 
   Settings, 
   X, 
-  ChevronRight 
+  ChevronRight,
+  Zap
 } from 'lucide-react'
 
 interface SidebarProps {
