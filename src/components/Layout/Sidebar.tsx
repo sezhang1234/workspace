@@ -2,17 +2,15 @@ import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../stores/useAuthStore'
 import { 
+  Home, 
   Brain, 
   Workflow, 
   MessageSquare, 
+  Database, 
+  BarChart3, 
   Settings, 
-  Home,
-  X,
-  ChevronRight,
-  BarChart3,
-  Users,
-  Database,
-  Zap
+  X, 
+  ChevronRight 
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -27,7 +25,6 @@ const navigation = [
   { name: '提示词', href: '/dashboard/prompts', icon: MessageSquare },
   { name: '模型管理', href: '/dashboard/models', icon: Database },
   { name: '数据分析', href: '/dashboard/analytics', icon: BarChart3 },
-  { name: '用户管理', href: '/dashboard/users', icon: Users },
   { name: '系统设置', href: '/dashboard/settings', icon: Settings },
 ]
 
