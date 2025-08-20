@@ -1123,424 +1123,201 @@ const WorkflowCanvasContent: React.FC = () => {
                     </button>
                   </div>
                 </Panel>
+
+                {/* Floating Node Configuration Panel */}
+                {selectedNode && (
+                  <Panel 
+                    position="top-right" 
+                    className="bg-white/95 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[320px] max-w-[400px] max-h-[80vh] overflow-y-auto animate-in slide-in-from-right duration-300 ease-out"
+                    style={{ 
+                      top: '20px', 
+                      right: '20px', 
+                      zIndex: 1000
+                    }}
+                  >
+                    {/* Panel Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <Typography variant="h6" className="text-gray-800 font-semibold flex items-center">
+                        <Settings className="w-5 h-5 mr-2 text-blue-600" />
+                        配置节点: {selectedNode.data.label || '未命名节点'}
+                      </Typography>
+                      <button
+                        onClick={() => setSelectedNode(null)}
+                        className="w-6 h-6 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-all duration-200"
+                        title="关闭"
+                      >
+                        <X className="w-4 h-4 text-gray-600" />
+                      </button>
+                    </div>
+                    
+                    {/* Panel Content */}
+                    <div className="space-y-4">
+                      {/* Node Type Display */}
+                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                        <Typography variant="subtitle2" className="text-blue-800 font-medium mb-1">
+                          节点类型
+                        </Typography>
+                        <Typography variant="body2" className="text-blue-700">
+                          {selectedNode.type === 'startNode' ? '开始节点' :
+                           selectedNode.type === 'llmNode' ? 'LLM 节点' :
+                           selectedNode.type === 'endNode' ? '结束节点' :
+                           selectedNode.type === 'actionNode' ? '动作节点' :
+                           selectedNode.type === 'conditionNode' ? '条件节点' :
+                           selectedNode.type === 'loopNode' ? '循环节点' :
+                           selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
+                           selectedNode.type === 'questionClassifierNode' ? '问题分类节点' :
+                           selectedNode.type === 'answerNode' ? '答案生成节点' :
+                           selectedNode.type === 'variableAggregatorNode' ? '变量聚合节点' :
+                           '未知节点'}
+                        </Typography>
+                      </div>
+
+                      {/* Node Label */}
+                      <div>
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          节点名称
+                        </Typography>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          value={selectedNode.data.label || ''}
+                          onChange={(e) => {
+                            const updatedNode = { ...selectedNode, data: { ...selectedNode.data, label: e.target.value } }
+                            setSelectedNode(updatedNode)
+                            setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                          }}
+                          placeholder="输入节点名称..."
+                          className="bg-gray-50"
+                        />
+                      </div>
+
+                      {/* Node-specific Configuration */}
+                      {selectedNode.type === 'startNode' && (
+                        <div>
+                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                            触发器类型
+                          </Typography>
+                          <FormControl fullWidth size="small">
+                            <Select
+                              value={selectedNode.data.trigger || 'manual'}
+                              onChange={(e: SelectChangeEvent) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                            >
+                              <MenuItem value="webhook">Webhook</MenuItem>
+                              <MenuItem value="schedule">定时任务</MenuItem>
+                              <MenuItem value="manual">手动触发</MenuItem>
+                              <MenuItem value="event">事件驱动</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                      )}
+
+                      {selectedNode.type === 'llmNode' && (
+                        <>
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              AI 模型
+                            </Typography>
+                            <FormControl fullWidth size="small">
+                              <Select
+                                value={selectedNode.data.model || 'gpt-4'}
+                                onChange={(e: SelectChangeEvent) => {
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                              >
+                                <MenuItem value="gpt-4">GPT-4</MenuItem>
+                                <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+                                <MenuItem value="claude-3">Claude-3</MenuItem>
+                                <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
+                                <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              温度 (Temperature)
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              type="number"
+                              value={selectedNode.data.temperature || 0.7}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, temperature: parseFloat(e.target.value) } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              inputProps={{ min: 0, max: 2, step: 0.1 }}
+                              className="bg-gray-50"
+                            />
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              最大令牌数
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              type="number"
+                              value={selectedNode.data.maxTokens || 1000}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, maxTokens: parseInt(e.target.value) } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              inputProps={{ min: 100, max: 8000, step: 100 }}
+                              className="bg-gray-50"
+                            />
+                          </div>
+                        </>
+                      )}
+
+                      {/* Panel Footer */}
+                      <div className="flex items-center justify-end space-x-2 pt-3 border-t border-gray-200">
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => setSelectedNode(null)}
+                          className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                        >
+                          关闭
+                        </Button>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          onClick={() => setSelectedNode(null)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          保存
+                        </Button>
+                      </div>
+                    </div>
+                  </Panel>
+                )}
               </ReactFlow>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Node Configuration Dialog */}
-      {selectedNode && (
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setSelectedNode(null)
-            }
-          }}
-        >
 
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            {/* Dialog Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <Typography variant="h5" className="text-gray-800 font-semibold">
-                配置节点: {selectedNode.data.label || '未命名节点'}
-              </Typography>
-              <button
-                onClick={() => setSelectedNode(null)}
-                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-all duration-200"
-                title="关闭"
-              >
-                <X className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
+
+
+
             
-            {/* Dialog Content */}
-            <div className="p-6 space-y-6">
-              {/* Node Type Display */}
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <Typography variant="subtitle1" className="text-blue-800 font-medium mb-2">
-                  节点类型
-                </Typography>
-                <Typography variant="body1" className="text-blue-700">
-                  {selectedNode.type === 'startNode' ? '开始节点' :
-                   selectedNode.type === 'llmNode' ? 'LLM 节点' :
-                   selectedNode.type === 'endNode' ? '结束节点' :
-                   selectedNode.type === 'actionNode' ? '动作节点' :
-                   selectedNode.type === 'conditionNode' ? '条件节点' :
-                   selectedNode.type === 'loopNode' ? '循环节点' :
-                   selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
-                   selectedNode.type === 'questionClassifierNode' ? '问题分类节点' :
-                   selectedNode.type === 'answerNode' ? '答案生成节点' :
-                   selectedNode.type === 'variableAggregatorNode' ? '变量聚合节点' :
-                   '未知节点'}
-                </Typography>
-              </div>
 
-              {/* Node Label */}
-              <div>
-                <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                  节点名称
-                </Typography>
-                <TextField
-                  fullWidth
-                  value={selectedNode.data.label || ''}
-                  onChange={(e) => {
-                    const updatedNode = { ...selectedNode, data: { ...selectedNode.data, label: e.target.value } }
-                    setSelectedNode(updatedNode)
-                    setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                  }}
-                  placeholder="输入节点名称..."
-                  className="bg-gray-50"
-                />
-              </div>
+              
 
-              {/* Node-specific Configuration */}
-              {selectedNode.type === 'startNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    触发器类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.trigger || 'manual'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="webhook">Webhook</MenuItem>
-                      <MenuItem value="schedule">定时任务</MenuItem>
-                      <MenuItem value="manual">手动触发</MenuItem>
-                      <MenuItem value="event">事件驱动</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
+              
 
-              {selectedNode.type === 'llmNode' && (
-                <>
-                  <div>
-                    <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                      AI 模型
-                    </Typography>
-                    <FormControl fullWidth>
-                      <Select
-                        value={selectedNode.data.model || 'gpt-4'}
-                        onChange={(e: SelectChangeEvent) => {
-                          const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
-                          setSelectedNode(updatedNode)
-                          setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                        }}
-                      >
-                        <MenuItem value="gpt-4">GPT-4</MenuItem>
-                        <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                        <MenuItem value="claude-3">Claude 3</MenuItem>
-                        <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-
-                  <div>
-                    <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                      温度 (Temperature)
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      type="number"
-                      inputProps={{ min: 0, max: 2, step: 0.1 }}
-                      value={selectedNode.data.temperature || 0.7}
-                      onChange={(e) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, temperature: parseFloat(e.target.value) } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                      className="bg-gray-50"
-                    />
-                  </div>
-
-                  <div>
-                    <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                      最大令牌数
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      type="number"
-                      inputProps={{ min: 1, max: 4000, step: 1 }}
-                      value={selectedNode.data.maxTokens || 1000}
-                      onChange={(e) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, maxTokens: parseInt(e.target.value) } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                      className="bg-gray-50"
-                    />
-                  </div>
-
-                  <div>
-                    <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                      系统提示词
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      multiline
-                      rows={3}
-                      value={selectedNode.data.systemMessage || ''}
-                      onChange={(e) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemMessage: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                      placeholder="输入系统提示词..."
-                      className="bg-gray-50"
-                    />
-                  </div>
-
-                  <div>
-                    <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                      用户提示词
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      multiline
-                      rows={3}
-                      value={selectedNode.data.prompt || ''}
-                      onChange={(e) => { 
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, prompt: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                      placeholder="输入用户提示词..."
-                      className="bg-gray-50"
-                    />
-                  </div>
-                </>
-              )}
-
-              {selectedNode.type === 'endNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    结束类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.endType || 'success'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value as 'success' | 'error' | 'warning' | 'timeout' } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="success">成功</MenuItem>
-                      <MenuItem value="error">错误</MenuItem>
-                      <MenuItem value="warning">警告</MenuItem>
-                      <MenuItem value="timeout">超时</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Action Node Configuration */}
-              {selectedNode.type === 'actionNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    动作类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.actionType || 'api_call'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, actionType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="api_call">API 调用</MenuItem>
-                      <MenuItem value="database">数据库操作</MenuItem>
-                      <MenuItem value="llm">AI 模型</MenuItem>
-                      <MenuItem value="code">代码执行</MenuItem>
-                      <MenuItem value="message">消息处理</MenuItem>
-                      <MenuItem value="file">文件操作</MenuItem>
-                      <MenuItem value="processing">数据处理</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Condition Node Configuration */}
-              {selectedNode.type === 'conditionNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    条件类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.conditionType || 'comparison'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, conditionType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="comparison">比较条件</MenuItem>
-                      <MenuItem value="validation">验证条件</MenuItem>
-                      <MenuItem value="time">时间条件</MenuItem>
-                      <MenuItem value="custom">自定义条件</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Loop Node Configuration */}
-              {selectedNode.type === 'loopNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    循环类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.loopType || 'for'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, loopType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="for">For 循环</MenuItem>
-                      <MenuItem value="while">While 循环</MenuItem>
-                      <MenuItem value="foreach">ForEach 循环</MenuItem>
-                      <MenuItem value="do_while">Do-While 循环</MenuItem>
-                      <MenuItem value="timed">定时循环</MenuItem>
-                      <MenuItem value="data_driven">数据驱动循环</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Knowledge Retrieval Node Configuration */}
-              {selectedNode.type === 'knowledgeRetrievalNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    检索类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.retrievalType || 'vector_search'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, retrievalType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="vector_search">向量搜索</MenuItem>
-                      <MenuItem value="semantic_search">语义搜索</MenuItem>
-                      <MenuItem value="keyword_search">关键词搜索</MenuItem>
-                      <MenuItem value="document_search">文档搜索</MenuItem>
-                      <MenuItem value="knowledge_graph">知识图谱</MenuItem>
-                      <MenuItem value="hybrid_search">混合搜索</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Question Classifier Node Configuration */}
-              {selectedNode.type === 'questionClassifierNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    分类类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.classifierType || 'intent_classification'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, classifierType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="intent_classification">意图分类</MenuItem>
-                      <MenuItem value="topic_classification">主题分类</MenuItem>
-                      <MenuItem value="sentiment_analysis">情感分析</MenuItem>
-                      <MenuItem value="complexity_analysis">复杂度分析</MenuItem>
-                      <MenuItem value="multi_label">多标签分类</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Answer Node Configuration */}
-              {selectedNode.type === 'answerNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    生成类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.answerType || 'llm_generation'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, answerType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="llm_generation">LLM 生成</MenuItem>
-                      <MenuItem value="template_based">模板生成</MenuItem>
-                      <MenuItem value="rule_based">规则生成</MenuItem>
-                      <MenuItem value="hybrid">混合生成</MenuItem>
-                      <MenuItem value="context_aware">上下文感知</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-
-              {/* Variable Aggregator Node Configuration */}
-              {selectedNode.type === 'variableAggregatorNode' && (
-                <div>
-                  <Typography variant="subtitle1" className="text-gray-700 mb-3 font-medium">
-                    聚合类型
-                  </Typography>
-                  <FormControl fullWidth>
-                    <Select
-                      value={selectedNode.data.aggregatorType || 'sum'}
-                      onChange={(e: SelectChangeEvent) => {
-                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, aggregatorType: e.target.value } }
-                        setSelectedNode(updatedNode)
-                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                      }}
-                    >
-                      <MenuItem value="sum">求和聚合</MenuItem>
-                      <MenuItem value="average">平均值聚合</MenuItem>
-                      <MenuItem value="count">计数聚合</MenuItem>
-                      <MenuItem value="min_max">最值聚合</MenuItem>
-                      <MenuItem value="custom_function">自定义函数</MenuItem>
-                      <MenuItem value="data_transform">数据转换</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              )}
-            </div>
-
-            {/* Dialog Footer */}
-            <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-xl">
-              <Button
-                variant="outlined"
-                onClick={() => setSelectedNode(null)}
-                className="border-gray-300 text-gray-700 hover:bg-gray-50"
-              >
-                取消
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => setSelectedNode(null)}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                保存
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+              
 
       <Snackbar
         open={snackbar.open}
