@@ -11,12 +11,16 @@ import {
   Settings, 
   X, 
   ChevronRight,
-  Zap
+  Zap,
+  ChevronLeft,
+  ChevronRight as ChevronRightIcon
 } from 'lucide-react'
 
 interface SidebarProps {
   isOpen: boolean
   onClose: () => void
+  isCollapsed: boolean
+  onToggleCollapse: () => void
 }
 
 const navigation = [
@@ -29,7 +33,7 @@ const navigation = [
   { name: '系统设置', href: '/dashboard/settings', icon: Settings },
 ]
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
   const { user } = useAuthStore()
   const location = useLocation()
 
@@ -45,45 +49,61 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+        fixed inset-y-0 left-0 z-50 bg-white shadow-lg transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isCollapsed ? 'lg:w-16' : 'lg:w-64'}
       `}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200">
-          <div className="flex items-center space-x-2">
+        <div className={`flex items-center justify-between h-16 border-b border-gray-200 ${isCollapsed ? 'px-4' : 'px-6'}`}>
+          <div className={`flex items-center space-x-2 ${isCollapsed ? 'justify-center w-full' : ''}`}>
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
               <Brain className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">Jiuwen</span>
+            {!isCollapsed && (
+              <span className="text-xl font-bold text-gray-900">Jiuwen</span>
+            )}
           </div>
-          <button
-            onClick={onClose}
-            className="lg:hidden p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center space-x-2">
+            {/* Collapse toggle button - only show on desktop */}
+            <button
+              onClick={onToggleCollapse}
+              className="hidden lg:flex p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
+              title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
+            >
+              {isCollapsed ? <ChevronRightIcon className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            </button>
+            {/* Mobile close button */}
+            <button
+              onClick={onClose}
+              className="lg:hidden p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* User info */}
-        <div className="px-6 py-4 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
+        <div className={`border-b border-gray-200 ${isCollapsed ? 'px-2 py-4' : 'px-6 py-4'}`}>
+          <div className={`flex items-center space-x-3 ${isCollapsed ? 'justify-center' : ''}`}>
             <img
               className="w-10 h-10 rounded-full"
               src={user?.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'}
               alt={user?.username}
             />
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
-                {user?.username}
-              </p>
-              <p className="text-xs text-gray-500 truncate">
-                {user?.role === 'admin' ? '管理员' : user?.role === 'developer' ? '开发者' : '用户'}
-              </p>
-            </div>
+            {!isCollapsed && (
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {user?.username}
+                </p>
+                <p className="text-xs text-gray-500 truncate">
+                  {user?.role === 'admin' ? '管理员' : user?.role === 'developer' ? '开发者' : '用户'}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 py-6 space-y-1">
+        <nav className={`flex-1 py-6 space-y-1 ${isCollapsed ? 'px-2' : 'px-4'}`}>
           {navigation.map((item) => {
             const isActive = location.pathname === item.href || 
                            (item.href !== '/dashboard' && location.pathname.startsWith(item.href))
@@ -93,7 +113,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 key={item.name}
                 to={item.href}
                 className={`
-                  group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200
+                  group flex items-center font-medium rounded-lg transition-colors duration-200
+                  ${isCollapsed ? 'justify-center px-2 py-3' : 'px-3 py-2'}
                   ${isActive 
                     ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' 
                     : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
@@ -105,16 +126,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     onClose()
                   }
                 }}
+                title={isCollapsed ? item.name : undefined}
               >
                 <item.icon 
                   className={`
-                    mr-3 h-5 w-5 transition-colors duration-200
+                    transition-colors duration-200
+                    ${isCollapsed ? 'h-6 w-6' : 'mr-3 h-5 w-5'}
                     ${isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-500'}
                   `} 
                 />
-                {item.name}
-                {isActive && (
-                  <ChevronRight className="ml-auto h-4 w-4 text-blue-600" />
+                {!isCollapsed && (
+                  <>
+                    <span className="text-sm">{item.name}</span>
+                    {isActive && (
+                      <ChevronRight className="ml-auto h-4 w-4 text-blue-600" />
+                    )}
+                  </>
                 )}
               </NavLink>
             )
@@ -122,10 +149,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </nav>
 
         {/* Footer */}
-        <div className="px-4 py-4 border-t border-gray-200">
-          <div className="flex items-center space-x-2 text-xs text-gray-500">
+        <div className={`border-t border-gray-200 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
+          <div className={`flex items-center space-x-2 text-xs text-gray-500 ${isCollapsed ? 'justify-center' : ''}`}>
             <Zap className="w-4 h-4" />
-            <span>Jiuwen v1.0.0</span>
+            {!isCollapsed && <span>Jiuwen v1.0.0</span>}
           </div>
         </div>
       </div>

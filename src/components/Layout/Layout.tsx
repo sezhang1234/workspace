@@ -6,6 +6,7 @@ import Header from './Header'
 
 const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { user } = useAuthStore()
   const location = useLocation()
   const navigate = useNavigate()
@@ -21,11 +22,13 @@ const Layout: React.FC = () => {
       {/* Sidebar */}
       <Sidebar 
         isOpen={sidebarOpen} 
-        onClose={() => setSidebarOpen(false)} 
+        onClose={() => setSidebarOpen(false)}
+        isCollapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
 
       {/* Main content */}
-      <div className="flex-1 overflow-hidden flex flex-col">
+      <div className={`flex-1 overflow-hidden flex flex-col transition-all duration-300 ease-in-out ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
         {/* Header */}
         <Header 
           user={user}
