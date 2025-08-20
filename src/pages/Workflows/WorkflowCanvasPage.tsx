@@ -44,7 +44,9 @@ import {
   CardContent,
   Alert,
   Snackbar,
-  SelectChangeEvent
+  SelectChangeEvent,
+  FormControlLabel,
+  Switch
 } from '@mui/material'
 
 // Custom node types
@@ -703,26 +705,124 @@ const WorkflowCanvasContent: React.FC = () => {
 
                       {/* Node-specific Configuration */}
                       {selectedNode.type === 'startNode' && (
-                        <div>
-                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                            触发器类型
-                          </Typography>
-                          <FormControl fullWidth size="small">
-                            <Select
-                              value={selectedNode.data.trigger || 'manual'}
-                              onChange={(e: SelectChangeEvent) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                            >
-                              <MenuItem value="webhook">Webhook</MenuItem>
-                              <MenuItem value="schedule">定时任务</MenuItem>
-                              <MenuItem value="manual">手动触发</MenuItem>
-                              <MenuItem value="event">事件驱动</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </div>
+                        <>
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              触发器类型
+                            </Typography>
+                            <FormControl fullWidth size="small">
+                              <Select
+                                value={selectedNode.data.trigger || 'manual'}
+                                onChange={(e: SelectChangeEvent) => {
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                              >
+                                <MenuItem value="webhook">Webhook</MenuItem>
+                                <MenuItem value="schedule">定时任务</MenuItem>
+                                <MenuItem value="manual">手动触发</MenuItem>
+                                <MenuItem value="event">事件驱动</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              输入参数
+                            </Typography>
+                            <div className="space-y-2">
+                              {selectedNode.data.inputParameters && selectedNode.data.inputParameters.length > 0 ? (
+                                selectedNode.data.inputParameters.map((param: any, index: number) => (
+                                  <div key={index} className="flex items-center space-x-2 p-2 bg-gray-50 rounded border">
+                                    <TextField
+                                      size="small"
+                                      placeholder="参数名"
+                                      value={param.name || ''}
+                                      onChange={(e) => {
+                                        const updatedParams = [...(selectedNode.data.inputParameters || [])]
+                                        updatedParams[index] = { ...updatedParams[index], name: e.target.value }
+                                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, inputParameters: updatedParams } }
+                                        setSelectedNode(updatedNode)
+                                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                      }}
+                                      className="flex-1"
+                                    />
+                                    <FormControl size="small" sx={{ minWidth: 100 }}>
+                                      <Select
+                                        value={param.type || 'string'}
+                                        onChange={(e: SelectChangeEvent) => {
+                                          const updatedParams = [...(selectedNode.data.inputParameters || [])]
+                                          updatedParams[index] = { ...updatedParams[index], type: e.target.value }
+                                          const updatedNode = { ...selectedNode, data: { ...selectedNode.data, inputParameters: updatedParams } }
+                                          setSelectedNode(updatedNode)
+                                          setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                        }}
+                                      >
+                                        <MenuItem value="string">字符串</MenuItem>
+                                        <MenuItem value="number">数字</MenuItem>
+                                        <MenuItem value="boolean">布尔值</MenuItem>
+                                        <MenuItem value="array">数组</MenuItem>
+                                        <MenuItem value="object">对象</MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                    <FormControlLabel
+                                      control={
+                                        <Switch
+                                          checked={param.required || false}
+                                          onChange={(e) => {
+                                            const updatedParams = [...(selectedNode.data.inputParameters || [])]
+                                            updatedParams[index] = { ...updatedParams[index], required: e.target.checked }
+                                            const updatedNode = { ...selectedNode, data: { ...selectedNode.data, inputParameters: updatedParams } }
+                                            setSelectedNode(updatedNode)
+                                            setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                          }}
+                                          size="small"
+                                        />
+                                      }
+                                      label="必填"
+                                      className="text-xs"
+                                    />
+                                    <Button
+                                      size="small"
+                                      variant="outlined"
+                                      color="error"
+                                      onClick={() => {
+                                        const updatedParams = selectedNode.data.inputParameters.filter((_: any, i: number) => i !== index)
+                                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, inputParameters: updatedParams } }
+                                        setSelectedNode(updatedNode)
+                                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                      }}
+                                      className="min-w-0 px-2"
+                                    >
+                                      <X className="w-3 h-3" />
+                                    </Button>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-sm text-gray-500 text-center py-2">
+                                  暂无输入参数
+                                </div>
+                              )}
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                fullWidth
+                                onClick={() => {
+                                  const newParam = { name: '', type: 'string', required: false }
+                                  const updatedParams = [...(selectedNode.data.inputParameters || []), newParam]
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, inputParameters: updatedParams } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                                className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                              >
+                                <Plus className="w-4 h-4 mr-1" />
+                                添加参数
+                              </Button>
+                            </div>
+                          </div>
+                        </>
                       )}
 
                       {selectedNode.type === 'llmNode' && (
