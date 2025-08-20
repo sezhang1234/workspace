@@ -5,10 +5,9 @@ import { Repeat } from 'lucide-react'
 const CustomLoopNode: React.FC<NodeProps> = ({ data, selected }) => {
   return (
     <div className={`
-      relative px-4 py-3 shadow-lg rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 
-      border border-white/20 transition-all duration-200 ease-in-out
-      ${selected ? 'ring-2 ring-purple-300 shadow-xl' : 'hover:shadow-md'}
-      min-w-[120px] max-w-[160px]
+      relative bg-white rounded-lg border border-gray-200 shadow-sm transition-all duration-200
+      ${selected ? 'ring-2 ring-blue-500 ring-offset-2 shadow-md' : 'hover:shadow-md hover:border-gray-300'}
+      min-w-[160px] max-w-[220px]
     `}>
       {/* Main content */}
       <div className="flex items-center space-x-2">
