@@ -205,17 +205,7 @@ const WorkflowCanvasContent: React.FC = () => {
     setSelectedNode(node)
   }, [])
 
-  // Add execution animation styles to nodes
-  const getNodeStyle = useCallback((nodeId: string) => {
-    if (currentExecutingNode === nodeId) {
-      return {
-        boxShadow: '0 0 20px rgba(245, 158, 11, 0.6)',
-        border: '2px solid #f59e0b',
-        animation: 'pulse 1.5s infinite'
-      }
-    }
-    return {}
-  }, [currentExecutingNode])
+
 
   const handleSave = () => {
     setSnackbar({ open: true, message: '工作流保存成功！', severity: 'success' })
@@ -223,75 +213,76 @@ const WorkflowCanvasContent: React.FC = () => {
 
   const handleTestRun = () => {
     setShowDebugPanel(true)
-    setExecutionState('running')
+    setExecutionState('idle')
     setExecutionHistory([])
     setDebugOutput('')
-    
-    // Simulate workflow execution with animations
-    simulateWorkflowExecution()
   }
 
   const simulateWorkflowExecution = async () => {
     const startNode = nodes.find(node => node.type === 'startNode')
     if (!startNode) return
 
+    setExecutionState('running')
     setCurrentExecutingNode(startNode.id)
     
-    // Simulate execution through the workflow
-    for (const node of nodes) {
-      if (node.type === 'endNode') continue
-      
-      setCurrentExecutingNode(node.id)
-      
-      // Apply execution style to the current node
-      setNodes(prevNodes => prevNodes.map(n => 
-        n.id === node.id 
-          ? { 
-              ...n, 
-              style: {
-                boxShadow: '0 0 20px rgba(245, 158, 11, 0.8)',
-                border: '3px solid #f59e0b',
-                animation: 'pulse 1.5s infinite',
-                transform: 'scale(1.05)',
-                transition: 'all 0.3s ease-in-out'
+    try {
+      // Simulate execution through the workflow
+      for (const node of nodes) {
+        if (node.type === 'endNode') continue
+        
+        setCurrentExecutingNode(node.id)
+        
+        // Apply execution style to the current node
+        setNodes(prevNodes => prevNodes.map(n => 
+          n.id === node.id 
+            ? { 
+                ...n, 
+                style: {
+                  boxShadow: '0 0 20px rgba(245, 158, 11, 0.8)',
+                  border: '3px solid #f59e0b',
+                  transform: 'scale(1.05)',
+                  transition: 'all 0.3s ease-in-out'
+                }
               }
-            }
-          : { ...n, style: {} }
-      ))
-      
-      // Add execution step to history
-      const executionStep = {
-        id: Date.now() + Math.random(),
-        nodeId: node.id,
-        nodeName: node.data.label,
-        nodeType: node.type,
-        timestamp: new Date().toLocaleTimeString(),
-        status: 'executing',
-        input: debugInput || '默认输入',
-        output: `节点 ${node.data.label} 执行中...`,
-        duration: Math.random() * 2000 + 500
+            : { ...n, style: {} }
+        ))
+        
+        // Add execution step to history
+        const executionStep = {
+          id: Date.now() + Math.random(),
+          nodeId: node.id,
+          nodeName: node.data.label,
+          nodeType: node.type,
+          timestamp: new Date().toLocaleTimeString(),
+          status: 'executing',
+          input: debugInput || '默认输入',
+          output: `节点 ${node.data.label} 执行中...`,
+          duration: Math.random() * 2000 + 500
+        }
+        
+        setExecutionHistory(prev => [...prev, executionStep])
+        
+        // Simulate execution time
+        await new Promise(resolve => setTimeout(resolve, executionStep.duration))
+        
+        // Update execution step with completion
+        setExecutionHistory(prev => prev.map(step => 
+          step.id === executionStep.id 
+            ? { ...step, status: 'completed', output: `节点 ${node.data.label} 执行完成` }
+            : step
+        ))
       }
       
-      setExecutionHistory(prev => [...prev, executionStep])
-      
-      // Simulate execution time
-      await new Promise(resolve => setTimeout(resolve, executionStep.duration))
-      
-      // Update execution step with completion
-      setExecutionHistory(prev => prev.map(step => 
-        step.id === executionStep.id 
-          ? { ...step, status: 'completed', output: `节点 ${node.data.label} 执行完成` }
-          : step
-      ))
+      setExecutionState('completed')
+      setDebugOutput('工作流执行完成！所有节点已成功处理。')
+    } catch (error) {
+      setExecutionState('error')
+      setDebugOutput('工作流执行出错：' + error.message)
+    } finally {
+      // Clear all execution styles
+      setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
+      setCurrentExecutingNode(null)
     }
-    
-    // Clear all execution styles
-    setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
-    setCurrentExecutingNode(null)
-    setExecutionState('completed')
-    
-    // Set final output
-    setDebugOutput('工作流执行完成！所有节点已成功处理。')
   }
 
   const stopExecution = () => {
@@ -448,17 +439,7 @@ const WorkflowCanvasContent: React.FC = () => {
                   '--rf-node-selected-border-color': '#3b82f6',
                 } as any}
               >
-                <style>
-                  {`
-                    @keyframes pulse {
-                      0%, 100% { opacity: 1; }
-                      50% { opacity: 0.7; }
-                    }
-                    .executing-node {
-                      animation: pulse 1.5s infinite;
-                    }
-                  `}
-                </style>
+
                 {/* Light grid background */}
                 <Background 
                   variant="dots" 
