@@ -889,6 +889,112 @@ const WorkflowCanvasContent: React.FC = () => {
                         </>
                       )}
 
+                      {selectedNode.type === 'endNode' && (
+                        <>
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              结束类型
+                            </Typography>
+                            <FormControl fullWidth size="small">
+                              <Select
+                                value={selectedNode.data.endType || 'success'}
+                                onChange={(e: SelectChangeEvent) => {
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                              >
+                                <MenuItem value="success">成功完成</MenuItem>
+                                <MenuItem value="error">执行失败</MenuItem>
+                                <MenuItem value="warning">警告完成</MenuItem>
+                                <MenuItem value="timeout">超时结束</MenuItem>
+                                <MenuItem value="manual">手动停止</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              输出参数
+                            </Typography>
+                            <div className="space-y-2">
+                              {selectedNode.data.outputParameters && selectedNode.data.outputParameters.length > 0 ? (
+                                selectedNode.data.outputParameters.map((param: any, index: number) => (
+                                  <div key={index} className="flex items-center space-x-2 p-2 bg-gray-50 rounded border">
+                                    <TextField
+                                      size="small"
+                                      placeholder="参数名"
+                                      value={param.name || ''}
+                                      onChange={(e) => {
+                                        const updatedParams = [...(selectedNode.data.outputParameters || [])]
+                                        updatedParams[index] = { ...updatedParams[index], name: e.target.value }
+                                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                        setSelectedNode(updatedNode)
+                                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                      }}
+                                      className="flex-1"
+                                    />
+                                    <FormControl size="small" sx={{ minWidth: 100 }}>
+                                      <Select
+                                        value={param.type || 'string'}
+                                        onChange={(e: SelectChangeEvent) => {
+                                          const updatedParams = [...(selectedNode.data.outputParameters || [])]
+                                          updatedParams[index] = { ...updatedParams[index], type: e.target.value }
+                                          const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                          setSelectedNode(updatedNode)
+                                          setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                        }}
+                                      >
+                                        <MenuItem value="string">字符串</MenuItem>
+                                        <MenuItem value="number">数字</MenuItem>
+                                        <MenuItem value="boolean">布尔值</MenuItem>
+                                        <MenuItem value="array">数组</MenuItem>
+                                        <MenuItem value="object">对象</MenuItem>
+                                        <MenuItem value="streaming">流式文本</MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                    <Button
+                                      size="small"
+                                      variant="outlined"
+                                      color="error"
+                                      onClick={() => {
+                                        const updatedParams = selectedNode.data.outputParameters.filter((_: any, i: number) => i !== index)
+                                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                        setSelectedNode(updatedNode)
+                                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                      }}
+                                      className="min-w-0 px-2"
+                                    >
+                                      <X className="w-3 h-3" />
+                                    </Button>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-sm text-gray-500 text-center py-2">
+                                  暂无输出参数
+                                </div>
+                              )}
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                fullWidth
+                                onClick={() => {
+                                  const newParam = { name: '', type: 'string' }
+                                  const updatedParams = [...(selectedNode.data.outputParameters || []), newParam]
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                                className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                              >
+                                <Plus className="w-4 h-4 mr-1" />
+                                添加参数
+                              </Button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
                       {/* Panel Footer */}
                       <div className="flex items-center justify-end space-x-2 pt-3 border-t border-gray-200">
                         <Button

@@ -58,7 +58,7 @@ const CustomEndNode: React.FC<NodeProps> = ({ data, selected }) => {
     <div className={`
       relative bg-white rounded-lg border border-gray-200 shadow-sm transition-all duration-200
       ${selected ? 'ring-2 ring-blue-500 ring-offset-2 shadow-md' : 'hover:shadow-md hover:border-gray-300'}
-      min-w-[160px] max-w-[220px]
+      w-[300px] h-[100px]
     `}>
       {/* Header */}
       <div className="px-3 py-2 border-b border-gray-100">
@@ -77,36 +77,22 @@ const CustomEndNode: React.FC<NodeProps> = ({ data, selected }) => {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="px-3 py-2 space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">执行时间</span>
-          <span className="text-xs text-gray-600">{data.totalDuration || 0}ms</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">节点总数</span>
-          <span className="text-xs text-gray-600">{data.totalNodes || 0}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">成功率</span>
-          <span className="text-xs text-gray-600">
-            {data.totalNodes > 0 ? Math.round((data.successNodes || 0) / data.totalNodes * 100) : 0}%
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">状态</span>
-          <div className="flex items-center space-x-1">
-            <div className={`w-2 h-2 rounded-full ${
-              data.endType === 'success' ? 'bg-green-500' :
-              data.endType === 'error' ? 'bg-red-500' :
-              data.endType === 'warning' ? 'bg-yellow-500' : 'bg-gray-500'
-            }`}></div>
-            <span className="text-xs text-gray-600">
-              {data.endType === 'success' ? '成功' : 
-               data.endType === 'error' ? '失败' : 
-               data.endType === 'warning' ? '警告' : '完成'}
-            </span>
-          </div>
+      {/* Output Parameters */}
+      <div className="px-3 py-2">
+        <div className="text-xs text-gray-500 mb-1">输出参数</div>
+        <div className="text-xs text-gray-600">
+          {data.outputParameters && data.outputParameters.length > 0 ? (
+            <div className="truncate" title={data.outputParameters.map((param: any) => param.name || '未命名参数').join(', ')}>
+              {data.outputParameters.map((param: any, index: number) => (
+                <span key={index}>
+                  {param.name || `参数${index + 1}`}
+                  {index < data.outputParameters.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <span className="text-gray-400">无输出参数</span>
+          )}
         </div>
       </div>
 
