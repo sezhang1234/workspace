@@ -1,73 +1,36 @@
 import React, { memo } from 'react'
 import { Handle, Position, NodeProps } from 'reactflow'
-import { Bot, Cpu, Zap, Clock, Database, DollarSign, CheckCircle } from 'lucide-react'
+import { Bot } from 'lucide-react'
 
 const CustomLLMNode: React.FC<NodeProps> = ({ data, selected }) => {
-  const getModelIcon = (model: string) => {
-    if (model.includes('gpt')) return <Bot className="w-4 h-4 text-white" />
-    if (model.includes('claude')) return <Cpu className="w-4 h-4 text-white" />
-    if (model.includes('gemini')) return <Zap className="w-4 h-4 text-white" />
-    return <Bot className="w-4 h-4 text-white" />
-  }
-
-  const getModelColor = (model: string) => {
-    if (model.includes('gpt')) return 'from-emerald-500 to-teal-500'
-    if (model.includes('claude')) return 'from-purple-500 to-violet-500'
-    if (model.includes('gemini')) return 'from-orange-500 to-amber-500'
-    return 'from-blue-500 to-indigo-500'
-  }
-
   return (
     <div className={`
-      relative px-2 py-1.5 shadow-md rounded-lg bg-gradient-to-br ${getModelColor(data.model || 'gpt-4')} 
-      border border-white/20 backdrop-blur-sm transition-all duration-300 ease-in-out
-      ${selected ? 'scale-105 shadow-lg ring-1 ring-white/30' : 'hover:scale-102 hover:shadow-md'}
-      min-w-[80px] max-w-[120px]
+      relative px-4 py-3 shadow-lg rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 
+      border border-white/20 transition-all duration-200 ease-in-out
+      ${selected ? 'ring-2 ring-emerald-300 shadow-xl' : 'hover:shadow-md'}
+      min-w-[120px] max-w-[160px]
     `}>
-      {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg" />
-      
       {/* Main content */}
-      <div className="relative z-10">
-        {/* Simple header with icon and label */}
-        <div className="flex items-center justify-center mb-1">
-          <div className="relative">
-            <div className="w-4 h-4 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center border border-white/30">
-              {getModelIcon(data.model || 'gpt-4')}
-            </div>
-            {/* Processing animation */}
-            <div className="absolute inset-0 w-4 h-4 bg-white/30 rounded animate-pulse" />
-          </div>
+      <div className="flex items-center space-x-2">
+        <div className="w-6 h-6 bg-white/20 rounded-md flex items-center justify-center">
+          <Bot className="w-4 h-4 text-white" />
         </div>
-
-        {/* Simple label */}
-        <div className="text-center">
-          <div className="text-xs font-bold text-white drop-shadow-sm">{data.label}</div>
-          <div className="text-[10px] text-white/80 font-medium">
-            {data.model || 'gpt-4'}
-          </div>
+        <div className="text-sm font-medium text-white truncate">
+          {data.label || 'LLM 节点'}
         </div>
       </div>
 
-      {/* Connection handles */}
+      {/* Handles */}
       <Handle
         type="target"
         position={Position.Left}
-        className="w-2 h-2 bg-white border border-white/30 shadow-sm hover:scale-125 transition-transform duration-200"
-        style={{ top: '50%', transform: 'translateY(-50%)' }}
+        className="w-3 h-3 bg-white border-2 border-emerald-500"
       />
-      
       <Handle
         type="source"
         position={Position.Right}
-        className="w-2 h-2 bg-white border border-white/30 shadow-sm hover:scale-125 transition-transform duration-200"
-        style={{ top: '50%', transform: 'translateY(-50%)' }}
+        className="w-3 h-3 bg-white border-2 border-emerald-500"
       />
-      
-      {/* Node type badge */}
-      <div className="absolute -top-1 -left-1 bg-white/90 backdrop-blur-sm px-1 py-0.5 rounded text-[10px] font-bold text-gray-700 shadow-sm">
-        LLM
-      </div>
     </div>
   )
 }
