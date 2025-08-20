@@ -1124,7 +1124,52 @@ const WorkflowEditorContent: React.FC = () => {
                               </>
                             )}
 
+                            {selectedNode.type === 'endNode' && (
+                              <>
+                                <div>
+                                  <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                                    文本输出
+                                  </Typography>
+                                  <TextField
+                                    fullWidth
+                                    size="small"
+                                    multiline
+                                    rows={3}
+                                    placeholder="输入文本输出内容..."
+                                    value={selectedNode.data.textOutput || ''}
+                                    onChange={(e) => {
+                                      const updatedNode = { ...selectedNode, data: { ...selectedNode.data, textOutput: e.target.value } }
+                                      setSelectedNode(updatedNode)
+                                      setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                    }}
+                                    className="bg-white/80"
+                                    inputProps={{ style: { fontSize: '12px' } }}
+                                  />
+                                </div>
 
+                                <div>
+                                  <FormControlLabel
+                                    control={
+                                      <Switch
+                                        checked={selectedNode.data.streamingEnabled || false}
+                                        onChange={(e) => {
+                                          const updatedNode = { ...selectedNode, data: { ...selectedNode.data, streamingEnabled: e.target.checked } }
+                                          setSelectedNode(updatedNode)
+                                          setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                        }}
+                                        size="small"
+                                      />
+                                    }
+                                    label={
+                                      <Typography variant="body2" className="text-gray-700 text-xs">
+                                        启用流式输出
+                                      </Typography>
+                                    }
+                                    className="mb-2"
+                                  />
+                                </div>
+                              </>
+                            )}
 
                             {/* Save Button */}
                             <Button
