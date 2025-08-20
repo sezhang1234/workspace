@@ -51,7 +51,7 @@ const CustomConditionNode: React.FC<NodeProps> = ({ data, selected }) => {
       <Handle
         type="target"
         position={Position.Left}
-        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-gray-600 hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
+        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-[#3B82F6] hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
         style={{ 
           left: -8,
           top: '50%',
@@ -64,7 +64,7 @@ const CustomConditionNode: React.FC<NodeProps> = ({ data, selected }) => {
         type="source"
         position={Position.Right}
         id="true"
-        className="w-4 h-4 border-2 border-white bg-green-500 hover:bg-green-700 hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
+        className="w-4 h-4 border-2 border-white bg-green-500 hover:bg-[#3B82F6] hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
         style={{ 
           right: -8,
           top: '35%',
@@ -77,7 +77,7 @@ const CustomConditionNode: React.FC<NodeProps> = ({ data, selected }) => {
         type="source"
         position={Position.Right}
         id="false"
-        className="w-4 h-4 border-2 border-white bg-red-500 hover:bg-red-700 hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
+        className="w-4 h-4 border-2 border-white bg-red-500 hover:bg-[#3B82F6] hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
         style={{ 
           right: -8,
           top: '65%',
