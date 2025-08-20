@@ -33,12 +33,12 @@ const CustomStartNode: React.FC<NodeProps> = ({ data, selected }) => {
     <div className={`
       relative bg-white rounded-lg border border-gray-200 shadow-sm transition-all duration-200
       ${selected ? 'ring-2 ring-blue-500 ring-offset-2 shadow-md' : 'hover:shadow-md hover:border-gray-300'}
-      min-w-[140px] max-w-[200px]
+      w-[200px] h-[100px]
     `}>
       {/* Header */}
       <div className="px-3 py-2 border-b border-gray-100">
         <div className="flex items-center space-x-2">
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getTriggerColor(data.trigger || 'manual')}`}>
+          <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${getTriggerColor(data.trigger || 'manual')}`}>
             {getTriggerIcon(data.trigger || 'manual')}
           </div>
           <div className="flex-1 min-w-0">
@@ -54,14 +54,23 @@ const CustomStartNode: React.FC<NodeProps> = ({ data, selected }) => {
         </div>
       </div>
 
-      {/* Status indicator */}
+      {/* Input Parameters */}
       <div className="px-3 py-2">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">状态</span>
-          <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-xs text-gray-600">就绪</span>
-          </div>
+        <div className="text-xs text-gray-500 mb-1">输入参数</div>
+        <div className="space-y-1">
+          {data.inputParameters && data.inputParameters.length > 0 ? (
+            data.inputParameters.slice(0, 2).map((param: any, index: number) => (
+              <div key={index} className="flex items-center justify-between text-xs">
+                <span className="text-gray-600 truncate max-w-[70px]">{param.name || `参数${index + 1}`}</span>
+                <span className="text-gray-500 text-[10px]">{param.type || 'string'}</span>
+              </div>
+            ))
+          ) : (
+            <div className="text-xs text-gray-400">无输入参数</div>
+          )}
+          {data.inputParameters && data.inputParameters.length > 2 && (
+            <div className="text-xs text-gray-400">+{data.inputParameters.length - 2} 更多</div>
+          )}
         </div>
       </div>
 
