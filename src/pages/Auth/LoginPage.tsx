@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuthStore } from '../../stores/useAuthStore'
-import { Brain, Eye, EyeOff, Loader2 } from 'lucide-react'
+import JiuwenLogo from '../../components/Common/JiuwenLogo'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 
 interface LoginForm {
   email: string
@@ -59,8 +60,8 @@ const LoginPage: React.FC = () => {
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center">
-              <Brain className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 flex items-center justify-center">
+              <JiuwenLogo width={64} height={64} />
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
