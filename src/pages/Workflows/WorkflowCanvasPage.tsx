@@ -68,6 +68,12 @@ const WorkflowCanvasContent: React.FC = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [showNodePanel, setShowNodePanel] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
+  const [showDebugPanel, setShowDebugPanel] = useState(false)
+  const [executionState, setExecutionState] = useState<'idle' | 'running' | 'completed' | 'error'>('idle')
+  const [executionHistory, setExecutionHistory] = useState<any[]>([])
+  const [debugInput, setDebugInput] = useState('')
+  const [debugOutput, setDebugOutput] = useState('')
+  const [currentExecutingNode, setCurrentExecutingNode] = useState<string | null>(null)
 
   // Workflow state
   const [workflow, setWorkflow] = useState({
@@ -196,8 +202,87 @@ const WorkflowCanvasContent: React.FC = () => {
     setSelectedNode(node)
   }, [])
 
+  // Add execution animation styles to nodes
+  const getNodeStyle = useCallback((nodeId: string) => {
+    if (currentExecutingNode === nodeId) {
+      return {
+        boxShadow: '0 0 20px rgba(245, 158, 11, 0.6)',
+        border: '2px solid #f59e0b',
+        animation: 'pulse 1.5s infinite'
+      }
+    }
+    return {}
+  }, [currentExecutingNode])
+
   const handleSave = () => {
     setSnackbar({ open: true, message: '工作流保存成功！', severity: 'success' })
+  }
+
+  const handleTestRun = () => {
+    setShowDebugPanel(true)
+    setExecutionState('running')
+    setExecutionHistory([])
+    setDebugOutput('')
+    
+    // Simulate workflow execution with animations
+    simulateWorkflowExecution()
+  }
+
+  const simulateWorkflowExecution = async () => {
+    const startNode = nodes.find(node => node.type === 'startNode')
+    if (!startNode) return
+
+    setCurrentExecutingNode(startNode.id)
+    
+    // Simulate execution through the workflow
+    for (const node of nodes) {
+      if (node.type === 'endNode') continue
+      
+      setCurrentExecutingNode(node.id)
+      
+      // Add execution step to history
+      const executionStep = {
+        id: Date.now() + Math.random(),
+        nodeId: node.id,
+        nodeName: node.data.label,
+        nodeType: node.type,
+        timestamp: new Date().toLocaleTimeString(),
+        status: 'executing',
+        input: debugInput || '默认输入',
+        output: `节点 ${node.data.label} 执行中...`,
+        duration: Math.random() * 2000 + 500
+      }
+      
+      setExecutionHistory(prev => [...prev, executionStep])
+      
+      // Simulate execution time
+      await new Promise(resolve => setTimeout(resolve, executionStep.duration))
+      
+      // Update execution step with completion
+      setExecutionHistory(prev => prev.map(step => 
+        step.id === executionStep.id 
+          ? { ...step, status: 'completed', output: `节点 ${node.data.label} 执行完成` }
+          : step
+      ))
+    }
+    
+    setCurrentExecutingNode(null)
+    setExecutionState('completed')
+    
+    // Set final output
+    setDebugOutput('工作流执行完成！所有节点已成功处理。')
+  }
+
+  const stopExecution = () => {
+    setExecutionState('idle')
+    setCurrentExecutingNode(null)
+    setSnackbar({ open: true, message: '工作流执行已停止', severity: 'info' })
+  }
+
+  const clearDebugHistory = () => {
+    setExecutionHistory([])
+    setDebugOutput('')
+    setExecutionState('idle')
   }
 
   const addNode = (type: string, position: { x: number; y: number }) => {
@@ -333,7 +418,22 @@ const WorkflowCanvasContent: React.FC = () => {
                     color: '#3b82f6',
                   },
                 }}
+                style={{
+                  '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
+                  '--rf-node-selected-border-color': '#3b82f6',
+                } as any}
               >
+                <style>
+                  {`
+                    @keyframes pulse {
+                      0%, 100% { opacity: 1; }
+                      50% { opacity: 0.7; }
+                    }
+                    .executing-node {
+                      animation: pulse 1.5s infinite;
+                    }
+                  `}
+                </style>
                 {/* Light grid background */}
                 <Background 
                   variant="dots" 
@@ -818,6 +918,171 @@ const WorkflowCanvasContent: React.FC = () => {
                     </div>
                   </Panel>
                 )}
+
+                {/* Debug Panel - Right Side */}
+                {showDebugPanel && (
+                  <Panel 
+                    position="top-right" 
+                    className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[320px] max-w-[400px] animate-in slide-in-from-right duration-300 ease-out"
+                    style={{ 
+                      top: '80px', 
+                      right: '20px', 
+                      zIndex: 1000
+                    }}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <Typography variant="h6" className="text-gray-800 font-semibold text-sm flex items-center">
+                        <div className={`w-3 h-3 rounded-full mr-2 ${
+                          executionState === 'running' ? 'bg-orange-500 animate-pulse' :
+                          executionState === 'completed' ? 'bg-green-500' :
+                          executionState === 'error' ? 'bg-red-500' : 'bg-gray-400'
+                        }`} />
+                        调试控制台
+                      </Typography>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={clearDebugHistory}
+                          className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
+                          title="清除历史"
+                        >
+                          <X className="w-3 h-3 text-gray-600/80" />
+                        </button>
+                        <button
+                          onClick={() => setShowDebugPanel(false)}
+                          className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
+                          title="关闭"
+                        >
+                          <X className="w-3 h-3 text-gray-600/80" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Execution Status */}
+                    <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-medium text-gray-700">执行状态</span>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          executionState === 'running' ? 'bg-orange-100 text-orange-700' :
+                          executionState === 'completed' ? 'bg-green-100 text-green-700' :
+                          executionState === 'error' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
+                        }`}>
+                          {executionState === 'running' ? '执行中' :
+                           executionState === 'completed' ? '已完成' :
+                           executionState === 'error' ? '执行错误' : '空闲'}
+                        </span>
+                      </div>
+                      {executionState === 'running' && (
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                          <span className="text-xs text-gray-600">
+                            {currentExecutingNode ? `正在执行: ${nodes.find(n => n.id === currentExecutingNode)?.data.label}` : '准备中...'}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Input Section */}
+                    <div className="mb-4">
+                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                        输入参数
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        multiline
+                        rows={3}
+                        placeholder="输入测试数据或参数..."
+                        value={debugInput}
+                        onChange={(e) => setDebugInput(e.target.value)}
+                        className="bg-white/80"
+                        inputProps={{ style: { fontSize: '12px' } }}
+                      />
+                    </div>
+
+                    {/* Execution History Tree */}
+                    <div className="mb-4">
+                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                        执行历史
+                      </Typography>
+                      <div className="max-h-32 overflow-y-auto bg-gray-50 rounded-lg border border-gray-200 p-2">
+                        {executionHistory.length === 0 ? (
+                          <div className="text-xs text-gray-500 text-center py-4">
+                            暂无执行记录
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            {executionHistory.map((step, index) => (
+                              <div key={step.id} className="flex items-start space-x-2 p-2 bg-white rounded border border-gray-200">
+                                <div className={`w-2 h-2 rounded-full mt-1.5 ${
+                                  step.status === 'executing' ? 'bg-orange-500 animate-pulse' :
+                                  step.status === 'completed' ? 'bg-green-500' : 'bg-gray-400'
+                                }`} />
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <span className="text-xs font-medium text-gray-700">{step.nodeName}</span>
+                                    <span className="text-xs text-gray-500">{step.timestamp}</span>
+                                  </div>
+                                  <div className="text-xs text-gray-600 mb-1">{step.output}</div>
+                                  <div className="text-xs text-gray-500">
+                                    类型: {step.nodeType === 'startNode' ? '开始节点' :
+                                           step.nodeType === 'llmNode' ? 'LLM节点' :
+                                           step.nodeType === 'endNode' ? '结束节点' : step.nodeType}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Output Section */}
+                    <div className="mb-4">
+                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                        执行结果
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        multiline
+                        rows={3}
+                        placeholder="执行结果将在这里显示..."
+                        value={debugOutput}
+                        onChange={(e) => setDebugOutput(e.target.value)}
+                        className="bg-white/80"
+                        inputProps={{ style: { fontSize: '12px' } }}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                      />
+                    </div>
+
+                    {/* Control Buttons */}
+                    <div className="flex space-x-2">
+                      {executionState === 'running' ? (
+                        <Button
+                          fullWidth
+                          variant="outlined"
+                          size="small"
+                          onClick={stopExecution}
+                          className="border-red-200 text-red-700 hover:bg-red-50"
+                        >
+                          停止执行
+                        </Button>
+                      ) : (
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          size="small"
+                          onClick={handleTestRun}
+                          className="bg-orange-600 hover:bg-orange-700"
+                        >
+                          开始执行
+                        </Button>
+                      )}
+                    </div>
+                  </Panel>
+                )}
                 
                 {/* Enhanced minimap */}
                 <MiniMap 
@@ -883,11 +1148,19 @@ const WorkflowCanvasContent: React.FC = () => {
 
                     {/* Test Run Button */}
                     <button
-                      onClick={() => setSnackbar({ open: true, message: '开始测试运行工作流...', severity: 'success' })}
-                      className="w-10 h-10 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
-                      title="测试运行"
+                      onClick={handleTestRun}
+                      className={`w-10 h-10 border rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group ${
+                        executionState === 'running' 
+                          ? 'bg-red-50 hover:bg-red-100 border-red-300' 
+                          : 'bg-orange-50 hover:bg-orange-100 border-orange-200'
+                      }`}
+                      title={executionState === 'running' ? '停止执行' : '测试运行'}
                     >
-                      <Play className="w-5 h-5 text-orange-600 group-hover:text-orange-700" />
+                      {executionState === 'running' ? (
+                        <div className="w-5 h-5 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Play className="w-5 h-5 text-orange-600 group-hover:text-orange-700" />
+                      )}
                     </button>
 
                     {/* Save Button */}
