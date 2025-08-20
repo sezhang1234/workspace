@@ -6,15 +6,17 @@ Jiuwen Agent Studio 是一个专业的LLM智能体开发和管理平台，类似
 
 ### 核心功能
 - **智能体开发与管理** - 创建、训练和部署智能AI代理
-- **工作流编排** - 可视化工作流设计器，拖拽式节点配置
+- **工作流编排** - 可视化工作流设计器，拖拽式节点配置，智能自动布局
 - **提示词管理** - 专业的提示词编辑器，支持版本控制和A/B测试
 - **模型配置** - 灵活配置各种LLM模型参数，支持自定义模型接入
+- **工作流画布** - 高级ReactFlow画布，支持多种节点类型和连接样式
 
 ### 平台特性
 - **性能优化** - 智能缓存、并发控制、成本优化
 - **安全可靠** - 企业级安全防护，数据加密，权限管理
 - **团队协作** - 多用户协作开发，角色权限管理
 - **数据分析** - 详细的性能分析报告和监控
+- **智能布局** - 自动层次化布局算法，最小化边交叉
 
 ## 🛠️ 技术栈
 
@@ -27,6 +29,7 @@ Jiuwen Agent Studio 是一个专业的LLM智能体开发和管理平台，类似
 - **React Router** - 客户端路由
 - **React Hook Form** - 表单处理
 - **React Query** - 数据获取和缓存
+- **ReactFlow** - 专业的工作流画布组件
 
 ### 构建工具
 - **Vite** - 快速的构建工具
@@ -38,10 +41,20 @@ Jiuwen Agent Studio 是一个专业的LLM智能体开发和管理平台，类似
 ```
 src/
 ├── components/          # 可复用组件
-│   └── Layout/         # 布局组件
-│       ├── Layout.tsx
-│       ├── Sidebar.tsx
-│       └── Header.tsx
+│   ├── Layout/         # 布局组件
+│   │   ├── Layout.tsx
+│   │   ├── Sidebar.tsx
+│   │   └── Header.tsx
+│   └── WorkflowNodes/  # 工作流节点组件
+│       ├── CustomStartNode.tsx
+│       ├── CustomEndNode.tsx
+│       ├── CustomLLMNode.tsx
+│       ├── CustomConditionNode.tsx
+│       ├── CustomLoopNode.tsx
+│       ├── CustomKnowledgeRetrievalNode.tsx
+│       ├── CustomQuestionClassifierNode.tsx
+│       ├── CustomAnswerNode.tsx
+│       └── CustomVariableAggregatorNode.tsx
 ├── pages/              # 页面组件
 │   ├── WelcomePage.tsx # 欢迎页面
 │   ├── Auth/           # 认证相关页面
@@ -53,7 +66,8 @@ src/
 │   │   └── AgentEditorPage.tsx
 │   ├── Workflows/      # 工作流管理页面
 │   │   ├── WorkflowsPage.tsx
-│   │   └── WorkflowEditorPage.tsx
+│   │   ├── WorkflowEditorPage.tsx
+│   │   └── WorkflowCanvasPage.tsx  # 工作流画布页面
 │   ├── Prompts/        # 提示词管理页面
 │   │   ├── PromptsPage.tsx
 │   │   └── PromptEditorPage.tsx
@@ -148,6 +162,41 @@ TypeScript 配置文件位于 `tsconfig.json`，已配置路径别名 `@/*` 指�
 - 认证状态管理
 - 权限控制
 
+## 🎯 工作流画布功能
+
+### 核心特性
+- **统一控制面板** - 所有控制功能集成在一个面板中
+- **智能自动布局** - 层次化布局算法，自动优化节点位置
+- **多种连接样式** - 支持平滑曲线和直线连接
+- **实时节点配置** - 浮动配置面板，支持实时编辑
+
+### 控制面板功能
+- **节点管理** - 添加、删除、配置节点
+- **视图控制** - 缩放、适应视图、撤销/重做
+- **自动布局** - 一键优化工作流布局
+- **快速操作** - 基础流程、AI问答等预设模板
+
+### 节点类型
+- **触发器节点** - 开始节点（支持Webhook、定时、手动、事件触发）
+- **AI处理节点** - LLM节点、知识检索、问题分类、答案生成
+- **逻辑控制节点** - 条件节点、循环节点
+- **数据处理节点** - 变量聚合节点
+- **输出节点** - 结束节点
+
+### LLM节点配置
+- **模型选择** - 支持GPT-4、Claude-3、Gemini、Qwen、Llama等主流模型
+- **提示词管理** - 系统提示词、用户提示词配置
+- **智能生成** - 魔法棒按钮自动生成系统提示词
+- **参数配置** - 温度、最大令牌数等模型参数
+- **输出变量** - 自定义输出变量名称
+
+### 画布特性
+- **智能布局** - 三阶段布局算法，最小化边交叉
+- **连接优化** - 水平连接优先，平滑曲线过渡
+- **自动缩放** - 加载时自动适应视图
+- **统一尺寸** - 所有节点保持一致的300x100px尺寸
+- **简化显示** - 节点只显示核心信息（名称、模型、图标）
+
 ## 🚧 开发计划
 
 ### 已完成功能
@@ -156,10 +205,15 @@ TypeScript 配置文件位于 `tsconfig.json`，已配置路径别名 `@/*` 指�
 - ✅ 响应式布局
 - ✅ 状态管理
 - ✅ 路由系统
+- ✅ 工作流画布
+- ✅ 统一控制面板
+- ✅ 智能自动布局
+- ✅ LLM节点配置
+- ✅ 多种节点类型
+- ✅ 平滑连接样式
 
 ### 开发中功能
 - 🔄 智能体编辑器
-- 🔄 工作流设计器
 - 🔄 提示词编辑器
 - 🔄 模型管理
 
@@ -199,6 +253,7 @@ TypeScript 配置文件位于 `tsconfig.json`，已配置路径别名 `@/*` 指�
 
 感谢以下开源项目的支持：
 - [React](https://reactjs.org/)
+- [ReactFlow](https://reactflow.dev/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Material-UI](https://mui.com/)
 - [Zustand](https://github.com/pmndrs/zustand)
