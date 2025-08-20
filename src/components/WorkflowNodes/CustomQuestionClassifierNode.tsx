@@ -55,7 +55,7 @@ const CustomQuestionClassifierNode: React.FC<NodeProps> = ({ data, selected }) =
       <Handle
         type="target"
         position={Position.Left}
-        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-gray-600 hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
+        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-[#3B82F6] hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
         style={{ 
           left: -8,
           top: '50%',
@@ -65,7 +65,7 @@ const CustomQuestionClassifierNode: React.FC<NodeProps> = ({ data, selected }) =
       <Handle
         type="source"
         position={Position.Right}
-        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-gray-600 hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
+        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-[#3B82F6] hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
         style={{ 
           right: -8,
           top: '50%',
