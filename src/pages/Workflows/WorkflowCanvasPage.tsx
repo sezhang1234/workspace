@@ -16,7 +16,11 @@ import {
   MessageSquare,
   Database,
   X,
-  Bot
+  Bot,
+  Undo,
+  Redo,
+  Maximize2,
+  Network
 } from 'lucide-react'
 import ReactFlow, {
   Node,
@@ -46,7 +50,9 @@ import {
   Snackbar,
   SelectChangeEvent,
   FormControlLabel,
-  Switch
+  Switch,
+  IconButton,
+  Tooltip
 } from '@mui/material'
 
 // Custom node types
@@ -61,6 +67,7 @@ import CustomQuestionClassifierNode from '../../components/WorkflowNodes/CustomQ
 import CustomVariableAggregatorNode from '../../components/WorkflowNodes/CustomVariableAggregatorNode'
 import CustomLLMNode from '../../components/WorkflowNodes/CustomLLMNode'
 
+// Control Panel Component - will be defined inside ReactFlow
 const WorkflowCanvasContent: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -80,6 +87,10 @@ const WorkflowCanvasContent: React.FC = () => {
   const [debugInput, setDebugInput] = useState('')
   const [_debugOutput, setDebugOutput] = useState('')
   const [currentExecutingNode, setCurrentExecutingNode] = useState<string | null>(null)
+  
+  // Undo/Redo functionality
+  const [history, setHistory] = useState<Array<{ nodes: Node[], edges: Edge[] }>>([])
+  const [historyIndex, setHistoryIndex] = useState(-1)
 
   // Workflow state
   const [workflow, setWorkflow] = useState({
@@ -211,7 +222,19 @@ const WorkflowCanvasContent: React.FC = () => {
     setShowNodePanel(false) // Close the node library panel when a node is clicked
   }, [])
 
+  // Initialize history with initial state
+  useEffect(() => {
+    const initialState = { nodes, edges }
+    setHistory([initialState])
+    setHistoryIndex(0)
+  }, [])
 
+  // Save to history when nodes or edges change
+  useEffect(() => {
+    if (history.length > 0 && historyIndex >= 0) {
+      saveToHistory()
+    }
+  }, [nodes, edges])
 
   const handleSave = () => {
     setSnackbar({ open: true, message: '工作流保存成功！', severity: 'success' })
@@ -239,6 +262,44 @@ const WorkflowCanvasContent: React.FC = () => {
     // Clear all execution styles
     setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
   }
+
+  // Undo/Redo functions
+  const saveToHistory = useCallback(() => {
+    const currentState = { nodes, edges }
+    const newHistory = history.slice(0, historyIndex + 1)
+    newHistory.push(currentState)
+    setHistory(newHistory)
+    setHistoryIndex(newHistory.length - 1)
+  }, [nodes, edges, history, historyIndex])
+
+  const undo = useCallback(() => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1
+      const previousState = history[newIndex]
+      setNodes(previousState.nodes)
+      setEdges(previousState.edges)
+      setHistoryIndex(newIndex)
+    }
+  }, [history, historyIndex, setNodes, setEdges])
+
+  const redo = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      const newIndex = historyIndex + 1
+      const nextState = history[newIndex]
+      setNodes(nextState.nodes)
+      setEdges(nextState.edges)
+      setHistoryIndex(newIndex)
+    }
+  }, [history, historyIndex, setNodes, setEdges])
+
+  const fitView = useCallback(() => {
+    // This will be handled by ReactFlow's built-in fitView
+    const reactFlowInstance = document.querySelector('.react-flow__viewport')
+    if (reactFlowInstance) {
+      // Trigger a window resize to trigger fitView
+      window.dispatchEvent(new Event('resize'))
+    }
+  }, [])
 
   const addNode = (type: string, position: { x: number; y: number }) => {
     const newNode: Node = {
@@ -386,13 +447,13 @@ const WorkflowCanvasContent: React.FC = () => {
                 onPaneClick={() => {}}
               >
 
-                {/* Light grid background */}
+                {/* Dotted grid background with aliceblue color */}
                 <Background 
                   variant={BackgroundVariant.Dots} 
-                  gap={40} 
-                  size={1} 
-                  color="#e5e7eb"
-                  className="opacity-40"
+                  gap={30} 
+                  size={1.5} 
+                  color="#87CEEB"
+                  className="opacity-60"
                   style={{ backgroundColor: 'aliceblue' }}
                 />
                 
@@ -414,6 +475,60 @@ const WorkflowCanvasContent: React.FC = () => {
                     </button>
                   </div>
                 </Controls>
+
+                {/* Control Panel with undo, redo, fitview and auto layout */}
+                <Panel position="bottom-left" className="bg-transparent">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-2 flex items-center space-x-2">
+                    <Tooltip title="撤销">
+                      <IconButton 
+                        size="small" 
+                        onClick={undo} 
+                        disabled={historyIndex <= 0}
+                        className={`hover:bg-blue-50 ${historyIndex <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        <Undo className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                    
+                    <Tooltip title="重做">
+                      <IconButton 
+                        size="small" 
+                        onClick={redo} 
+                        disabled={historyIndex >= history.length - 1}
+                        className={`hover:bg-blue-50 ${historyIndex >= history.length - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        <Redo className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                    
+                    <Tooltip title="适应视图">
+                      <IconButton size="small" onClick={fitView} className="hover:bg-blue-50">
+                        <Maximize2 className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                    
+                    <Tooltip title="自动布局">
+                      <IconButton size="small" onClick={() => {
+                        // Simple auto-layout: arrange nodes in a grid
+                        const updatedNodes = nodes.map((node, index) => {
+                          const row = Math.floor(index / 3)
+                          const col = index % 3
+                          return {
+                            ...node,
+                            position: {
+                              x: col * 250 + 100,
+                              y: row * 150 + 100
+                            }
+                          }
+                        })
+                        setNodes(updatedNodes)
+                        saveToHistory() // Save to history after auto-layout
+                      }} className="hover:bg-blue-50">
+                        <Network className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                </Panel>
                 
                 {/* Floating Node Library Panel */}
                 {showNodePanel && (
