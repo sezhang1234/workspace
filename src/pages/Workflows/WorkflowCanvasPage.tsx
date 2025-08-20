@@ -36,7 +36,8 @@ import ReactFlow, {
   ReactFlowProvider,
   NodeTypes,
   MarkerType,
-  useReactFlow
+  useReactFlow,
+  ConnectionLineType
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { 
@@ -371,6 +372,125 @@ const WorkflowCanvasContent: React.FC = () => {
     }
   }
 
+  // Hierarchical layout function for straighter connections
+  const performHierarchicalLayout = useCallback((nodes: Node[], edges: Edge[]) => {
+    if (nodes.length === 0) return nodes
+
+    // Create adjacency lists and find root nodes
+    const adjacencyList = new Map<string, string[]>()
+    const inDegree = new Map<string, number>()
+    const nodeLevels = new Map<string, number>()
+    
+    // Initialize
+    nodes.forEach(node => {
+      adjacencyList.set(node.id, [])
+      inDegree.set(node.id, 0)
+      nodeLevels.set(node.id, 0)
+    })
+    
+    // Build adjacency list and calculate in-degrees
+    edges.forEach(edge => {
+      const source = edge.source
+      const target = edge.target
+      if (adjacencyList.has(source) && adjacencyList.has(target)) {
+        adjacencyList.get(source)!.push(target)
+        inDegree.set(target, (inDegree.get(target) || 0) + 1)
+      }
+    })
+    
+    // Find root nodes (nodes with no incoming edges)
+    const rootNodes = nodes.filter(node => (inDegree.get(node.id) || 0) === 0)
+    
+    // If no root nodes found, use the first node as root
+    if (rootNodes.length === 0) {
+      rootNodes.push(nodes[0])
+    }
+    
+    // Calculate levels using BFS for better hierarchy
+    const queue = [...rootNodes.map(n => ({ id: n.id, level: 0 }))]
+    const visited = new Set<string>()
+    
+    while (queue.length > 0) {
+      const { id, level } = queue.shift()!
+      if (visited.has(id)) continue
+      
+      visited.add(id)
+      nodeLevels.set(id, level)
+      
+      const neighbors = adjacencyList.get(id) || []
+      neighbors.forEach(neighbor => {
+        if (!visited.has(neighbor)) {
+          queue.push({ id: neighbor, level: level + 1 })
+        }
+      })
+    }
+    
+    // Group nodes by level
+    const levelGroups = new Map<number, string[]>()
+    nodes.forEach(node => {
+      const level = nodeLevels.get(node.id) || 0
+      if (!levelGroups.has(level)) {
+        levelGroups.set(level, [])
+      }
+      levelGroups.get(level)!.push(node.id)
+    })
+    
+    // Calculate positions with better spacing for straighter connections
+    const nodePositions = new Map<string, { x: number; y: number }>()
+    const levelWidth = 400
+    const levelHeight = 200
+    const maxNodesPerLevel = Math.max(...Array.from(levelGroups.values()).map(group => group.length))
+    
+    levelGroups.forEach((nodeIds, level) => {
+      const nodesInLevel = nodeIds.length
+      const startY = (maxNodesPerLevel - nodesInLevel) * levelHeight / 2
+      
+      // Sort nodes within each level to minimize edge crossings
+      const sortedNodeIds = [...nodeIds].sort((a, b) => {
+        const aConnections = adjacencyList.get(a) || []
+        const bConnections = adjacencyList.get(b) || []
+        return aConnections.length - bConnections.length
+      })
+      
+      sortedNodeIds.forEach((nodeId, index) => {
+        const x = level * levelWidth + 200
+        const y = startY + index * levelHeight + 100
+        
+        nodePositions.set(nodeId, { x, y })
+      })
+    })
+    
+    // Update node positions
+    return nodes.map(node => {
+      const position = nodePositions.get(node.id)
+      if (position) {
+        return { ...node, position }
+      }
+      return node
+    })
+  }, [])
+
+  // Optimize edges for straighter connections
+  const optimizeEdgesForStraightConnections = useCallback((_nodes: Node[], edges: Edge[]) => {
+    return edges.map(edge => ({
+      ...edge,
+      type: 'straight', // Force straight edges
+      style: {
+        ...edge.style,
+        stroke: '#3b82f6',
+        strokeWidth: 2,
+      },
+      // Add routing hints for better straightness
+      data: {
+        ...edge.data,
+        routing: 'straight'
+      },
+      // Ensure edges are as straight as possible
+      sourceHandle: edge.sourceHandle || null,
+      targetHandle: edge.targetHandle || null
+    }))
+  }, [])
+
   // Node types for ReactFlow - memoized to prevent recreation on every render
   const nodeTypes = useMemo<NodeTypes>(() => ({
     startNode: CustomStartNode,
@@ -428,7 +548,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 proOptions={{ hideAttribution: true }}
                 onClick={handleCanvasClick}
                 defaultEdgeOptions={{
-                  type: 'smoothstep',
+                  type: 'straight',
                   style: { stroke: '#3b82f6', strokeWidth: 2 },
                   animated: false,
                   markerEnd: {
@@ -438,6 +558,7 @@ const WorkflowCanvasContent: React.FC = () => {
                     color: '#3b82f6',
                   },
                 }}
+                connectionLineType={ConnectionLineType.Straight}
                 style={{
                   '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
                   '--rf-node-focus-ring': 'none',
@@ -523,19 +644,14 @@ const WorkflowCanvasContent: React.FC = () => {
                     {/* Auto Layout */}
                     <Tooltip title="自动布局">
                       <IconButton size="small" onClick={() => {
-                        // Simple auto-layout: arrange nodes in a grid
-                        const updatedNodes = nodes.map((node, index) => {
-                          const row = Math.floor(index / 3)
-                          const col = index % 3
-                          return {
-                            ...node,
-                            position: {
-                              x: col * 250 + 100,
-                              y: row * 150 + 100
-                            }
-                          }
-                        })
+                        // Improved hierarchical auto-layout for straighter connections
+                        const updatedNodes = performHierarchicalLayout(nodes, edges)
                         setNodes(updatedNodes)
+                        
+                        // Also optimize edges for straighter connections
+                        const updatedEdges = optimizeEdgesForStraightConnections(updatedNodes, edges)
+                        setEdges(updatedEdges)
+                        
                         saveToHistory() // Save to history after auto-layout
                       }} className="hover:bg-blue-50">
                         <Network className="w-4 h-4 text-gray-600" />
