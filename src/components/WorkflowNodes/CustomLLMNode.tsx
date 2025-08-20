@@ -7,7 +7,7 @@ const CustomLLMNode: React.FC<NodeProps> = ({ data, selected }) => {
     <div className={`
       relative bg-white rounded-lg border border-gray-200 shadow-sm transition-all duration-200
       ${selected ? 'ring-2 ring-blue-500 ring-offset-2 shadow-md' : 'hover:shadow-md hover:border-gray-300'}
-      min-w-[160px] max-w-[220px]
+      w-[300px] h-[100px]
     `}>
       {/* Header */}
       <div className="px-3 py-2">
