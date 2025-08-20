@@ -68,6 +68,18 @@ const WorkflowCanvasContent: React.FC = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [showNodePanel, setShowNodePanel] = useState(false)
   const [selectedNode, setSelectedNode] = useState<Node | null>(null)
+  
+  // Debug logging for selectedNode changes
+  useEffect(() => {
+    console.log('🔄 selectedNode state changed:', selectedNode)
+    if (selectedNode) {
+      console.log('🎯 Configuration dialog should now be visible')
+      console.log('📊 selectedNode type:', selectedNode.type)
+      console.log('📊 selectedNode data:', selectedNode.data)
+    } else {
+      console.log('❌ Configuration dialog should now be hidden')
+    }
+  }, [selectedNode])
   const [showDebugPanel, setShowDebugPanel] = useState(false)
   const [executionState, setExecutionState] = useState<'idle' | 'running' | 'completed' | 'error'>('idle')
   const [executionHistory, setExecutionHistory] = useState<any[]>([])
@@ -202,9 +214,17 @@ const WorkflowCanvasContent: React.FC = () => {
   }, [])
 
   const onNodeDoubleClick = useCallback((event: React.MouseEvent, node: Node) => {
+    console.log('🔍 Node double-click triggered!')
+    console.log('📋 Event:', event)
+    console.log('🔄 Node data:', node)
+    console.log('📍 Current selectedNode state:', selectedNode)
+    
     setSelectedNode(node)
     setShowNodePanel(false) // Close the node library panel when a node is clicked
-  }, [])
+    
+    console.log('✅ setSelectedNode called with:', node)
+    console.log('✅ setShowNodePanel(false) called')
+  }, [selectedNode])
 
 
 
@@ -440,6 +460,8 @@ const WorkflowCanvasContent: React.FC = () => {
                   '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
                   '--rf-node-selected-border-color': '#3b82f6',
                 } as any}
+                onPaneClick={() => console.log('🔍 Canvas pane clicked')}
+                onNodeClick={(event, node) => console.log('🔍 Node single-clicked:', node.id)}
               >
 
                 {/* Light grid background */}
@@ -1189,8 +1211,10 @@ const WorkflowCanvasContent: React.FC = () => {
       </div>
 
       {/* Node Configuration Dialog */}
+      {console.log('🔍 Rendering modal dialog check - selectedNode:', selectedNode)}
       {selectedNode && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          {console.log('🎯 Modal dialog is rendering!')}
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             {/* Dialog Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
