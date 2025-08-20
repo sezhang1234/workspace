@@ -1035,7 +1035,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 {selectedNode && (
                   <Panel 
                     position="top-right" 
-                    className="bg-white/95 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[320px] max-w-[400px] max-h-[80vh] overflow-y-auto animate-in slide-in-from-right duration-300 ease-out"
+                    className="bg-white/95 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[380px] max-w-[480px] max-h-[80vh] overflow-y-auto animate-in slide-in-from-right duration-300 ease-out"
                     style={{ 
                       top: '20px', 
                       right: '20px', 
@@ -1252,24 +1252,10 @@ const WorkflowCanvasContent: React.FC = () => {
                           </div>
 
                           <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              系统提示词 (System Prompt)
-                            </Typography>
-                            <div className="relative">
-                              <TextField
-                                size="small"
-                                fullWidth
-                                multiline
-                                rows={3}
-                                value={selectedNode.data.systemPrompt || ''}
-                                onChange={(e) => {
-                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: e.target.value } }
-                                  setSelectedNode(updatedNode)
-                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                                }}
-                                placeholder="输入系统提示词，定义AI助手的角色和行为..."
-                                className="bg-gray-50"
-                              />
+                            <div className="flex items-center justify-between mb-2">
+                              <Typography variant="subtitle2" className="text-gray-700 font-medium">
+                                系统提示词 (System Prompt)
+                              </Typography>
                               <Tooltip title="自动生成系统提示词">
                                 <IconButton
                                   size="small"
@@ -1279,7 +1265,7 @@ const WorkflowCanvasContent: React.FC = () => {
                                     setSelectedNode(updatedNode)
                                     setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                                   }}
-                                  className="absolute top-2 right-2 w-8 h-8 bg-purple-100 hover:bg-purple-200 text-purple-600 transition-all duration-200"
+                                  className="w-8 h-8 bg-purple-100 hover:bg-purple-200 text-purple-600 transition-all duration-200"
                                   sx={{
                                     '&:hover': {
                                       transform: 'scale(1.1)',
@@ -1291,6 +1277,20 @@ const WorkflowCanvasContent: React.FC = () => {
                                 </IconButton>
                               </Tooltip>
                             </div>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              multiline
+                              rows={3}
+                              value={selectedNode.data.systemPrompt || ''}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              placeholder="输入系统提示词，定义AI助手的角色和行为..."
+                              className="bg-gray-50"
+                            />
                           </div>
 
                           <div>
