@@ -76,7 +76,7 @@ const WorkflowCanvasContent: React.FC = () => {
   const [executionState, setExecutionState] = useState<'idle' | 'running' | 'completed' | 'error'>('idle')
   const [executionHistory, setExecutionHistory] = useState<any[]>([])
   const [debugInput, setDebugInput] = useState('')
-  const [debugOutput, setDebugOutput] = useState('')
+  const [_debugOutput, setDebugOutput] = useState('')
   const [currentExecutingNode, setCurrentExecutingNode] = useState<string | null>(null)
 
   // Workflow state
@@ -632,26 +632,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
                   </Panel>
-
-
-
-
-
-                    
-
-                    
-
-
-
-
-
-
-                
-
-                
-
-
-
+                )}
 
                 {/* Floating Node Configuration Panel */}
                 {selectedNode && (
@@ -981,6 +962,95 @@ const WorkflowCanvasContent: React.FC = () => {
                     </div>
                   </Panel>
                 )}
+
+                {/* Enhanced minimap */}
+                <MiniMap 
+                  className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
+                  nodeColor={(node) => {
+                    switch (node.type) {
+                      case 'startNode': return '#10b981'
+                      case 'actionNode': return '#3b82f6'
+                      case 'conditionNode': return '#f59e0b'
+                      case 'loopNode': return '#8b5cf6'
+                      case 'knowledgeRetrievalNode': return '#06b6d4'
+                      case 'questionClassifierNode': return '#6366f1'
+                      case 'answerNode': return '#ec4899'
+                      case 'variableAggregatorNode': return '#0891b2'
+                      case 'llmNode': return '#10b981'
+                      case 'endNode': return '#ef4444'
+                      default: return '#6b7280'
+                    }
+                  }}
+                  nodeStrokeWidth={3}
+                  zoomable
+                  pannable
+                />
+                
+                {/* Enhanced panel for workflow info */}
+                <Panel position="top-left" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                    <span>节点: {nodes.length}</span>
+                    <span>•</span>
+                    <span>连接: {edges.length}</span>
+                  </div>
+                </Panel>
+
+                {/* Floating Control Panel - Upper Right */}
+                <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-2">
+                  <div className="flex items-center space-x-2">
+                    {/* Import Button */}
+                    <button
+                      onClick={() => document.getElementById('import-file')?.click()}
+                      className="w-10 h-10 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
+                      title="导入工作流"
+                    >
+                      <input
+                        id="import-file"
+                        type="file"
+                        hidden
+                        accept=".json"
+                        onChange={handleImport}
+                      />
+                      <Upload className="w-5 h-5 text-blue-600 group-hover:text-blue-700" />
+                    </button>
+
+                    {/* Export Button */}
+                    <button
+                      onClick={handleExport}
+                      className="w-10 h-10 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
+                      title="导出工作流"
+                    >
+                      <Download className="w-5 h-5 text-green-600 group-hover:text-green-700" />
+                    </button>
+
+                    {/* Test Run Button */}
+                    <button
+                      onClick={handleTestRun}
+                      className={`w-10 h-10 border rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group ${
+                        executionState === 'running' 
+                          ? 'bg-red-50 hover:bg-red-100 border-red-300' 
+                          : 'bg-orange-50 hover:bg-orange-100 border-orange-200'
+                      }`}
+                      title={executionState === 'running' ? '停止执行' : '测试运行'}
+                    >
+                      {executionState === 'running' ? (
+                        <div className="w-5 h-5 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Play className="w-5 h-5 text-orange-600 group-hover:text-orange-700" />
+                      )}
+                    </button>
+
+                    {/* Save Button */}
+                    <button
+                      onClick={handleSave}
+                      className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 border border-blue-300 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-lg group shadow-md"
+                      title="保存工作流"
+                    >
+                      <Save className="w-5 h-5 text-white" />
+                    </button>
+                  </div>
+                </Panel>
               </ReactFlow>
             </div>
           </CardContent>
