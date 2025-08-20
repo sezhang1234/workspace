@@ -131,7 +131,7 @@ const WorkflowCanvasContent: React.FC = () => {
       position: { x: 350, y: 200 },
       data: {
         label: 'LLM 节点',
-        model: 'gpt-4',
+        model: 'deepseek-chat',
         systemPrompt: '你是一个有用的AI助手，请根据用户的问题提供准确、有帮助的回答。',
         userPrompt: '请根据输入生成回答',
         outputVariable: 'llm_output',
@@ -321,7 +321,7 @@ const WorkflowCanvasContent: React.FC = () => {
                type === 'variableAggregatorNode' ? '变量聚合节点' : '新节点',
         // LLM node specific fields
         ...(type === 'llmNode' && {
-          model: 'gpt-4',
+          model: 'deepseek-chat',
           systemPrompt: '你是一个有用的AI助手，请根据用户的问题提供准确、有帮助的回答。',
           userPrompt: '请根据输入生成回答',
           outputVariable: 'llm_output',
@@ -350,18 +350,13 @@ const WorkflowCanvasContent: React.FC = () => {
   // Generate system prompt based on model and context
   const generateSystemPrompt = useCallback((model: string, context?: string) => {
     const modelInfo = {
-      'gpt-4': 'GPT-4是一个强大的AI模型，擅长复杂推理和创造性任务',
-      'gpt-4-turbo': 'GPT-4 Turbo是GPT-4的优化版本，响应更快，成本更低',
-      'gpt-3.5-turbo': 'GPT-3.5 Turbo是一个平衡的模型，适合日常对话和任务',
-      'claude-3-opus': 'Claude-3 Opus是Anthropic最强大的模型，擅长复杂分析和写作',
-      'claude-3-sonnet': 'Claude-3 Sonnet是Claude-3的中等模型，平衡性能和速度',
-      'claude-3-haiku': 'Claude-3 Haiku是Claude-3的快速模型，适合实时应用',
-      'gemini-pro': 'Gemini Pro是Google的AI模型，擅长多模态理解和生成',
-      'gemini-ultra': 'Gemini Ultra是Google最先进的AI模型，具有强大的推理能力',
+      'deepseek-chat': 'DeepSeek Chat是一个强大的AI模型，擅长通用对话和推理任务',
+      'deepseek-coder': 'DeepSeek Coder是专门为编程任务优化的AI模型，擅长代码生成和调试',
+      'deepseek-math': 'DeepSeek Math是专门为数学任务优化的AI模型，擅长数学推理和计算',
       'qwen-plus': 'Qwen Plus是阿里巴巴的AI模型，擅长中文理解和生成',
       'qwen-turbo': 'Qwen Turbo是Qwen的快速版本，适合实时对话',
-      'llama-3-70b': 'Llama 3 70B是Meta的开源大模型，具有强大的语言理解能力',
-      'llama-3-8b': 'Llama 3 8B是Meta的轻量级模型，适合资源受限的环境'
+      'qwen-max': 'Qwen Max是Qwen系列最强大的模型，具有卓越的推理和生成能力',
+      'qwen-max-longcontext': 'Qwen Max LongContext是支持超长上下文的版本，适合处理长文档'
     }
 
     const basePrompt = `你是一个专业的AI助手，基于${modelInfo[model as keyof typeof modelInfo] || model}模型。你的任务是：\n\n1. 理解用户的需求和问题\n2. 提供准确、有用、详细的回答\n3. 保持专业、友好的语调\n4. 在不确定时主动询问澄清\n5. 提供可操作的解决方案和建议\n\n请始终以用户的最佳利益为重，确保回答的质量和实用性。`
@@ -1221,25 +1216,20 @@ const WorkflowCanvasContent: React.FC = () => {
                             </Typography>
                             <FormControl fullWidth size="small">
                               <Select
-                                value={selectedNode.data.model || 'gpt-4'}
+                                value={selectedNode.data.model || 'deepseek-chat'}
                                 onChange={(e: SelectChangeEvent) => {
                                   const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
                                   setSelectedNode(updatedNode)
                                   setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                                 }}
                               >
-                                <MenuItem value="gpt-4">GPT-4</MenuItem>
-                                <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                                <MenuItem value="gpt-4-turbo">GPT-4 Turbo</MenuItem>
-                                <MenuItem value="claude-3-opus">Claude-3 Opus</MenuItem>
-                                <MenuItem value="claude-3-sonnet">Claude-3 Sonnet</MenuItem>
-                                <MenuItem value="claude-3-haiku">Claude-3 Haiku</MenuItem>
-                                <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
-                                <MenuItem value="gemini-ultra">Gemini Ultra</MenuItem>
+                                <MenuItem value="deepseek-chat">DeepSeek Chat</MenuItem>
+                                <MenuItem value="deepseek-coder">DeepSeek Coder</MenuItem>
+                                <MenuItem value="deepseek-math">DeepSeek Math</MenuItem>
                                 <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
                                 <MenuItem value="qwen-turbo">Qwen Turbo</MenuItem>
-                                <MenuItem value="llama-3-70b">Llama 3 70B</MenuItem>
-                                <MenuItem value="llama-3-8b">Llama 3 8B</MenuItem>
+                                <MenuItem value="qwen-max">Qwen Max</MenuItem>
+                                <MenuItem value="qwen-max-longcontext">Qwen Max LongContext</MenuItem>
                               </Select>
                             </FormControl>
                           </div>
@@ -1253,7 +1243,7 @@ const WorkflowCanvasContent: React.FC = () => {
                                 <IconButton
                                   size="small"
                                   onClick={() => {
-                                    const generatedPrompt = generateSystemPrompt(selectedNode.data.model || 'gpt-4')
+                                    const generatedPrompt = generateSystemPrompt(selectedNode.data.model || 'deepseek-chat')
                                     const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: generatedPrompt } }
                                     setSelectedNode(updatedNode)
                                     setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
