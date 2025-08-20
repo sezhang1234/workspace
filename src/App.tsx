@@ -9,6 +9,8 @@ import AgentsPage from './pages/Agents/AgentsPage'
 import AgentEditorPage from './pages/Agents/AgentEditorPage'
 import WorkflowsPage from './pages/Workflows/WorkflowsPage'
 import WorkflowEditorPage from './pages/Workflows/WorkflowEditorPage'
+import WorkflowCreationPage from './pages/Workflows/WorkflowCreationPage'
+import WorkflowCanvasPage from './pages/Workflows/WorkflowCanvasPage'
 import PromptsPage from './pages/Prompts/PromptsPage'
 import PromptEditorPage from './pages/Prompts/PromptEditorPage'
 import ModelsPage from './pages/Models/ModelsPage'
@@ -50,7 +52,8 @@ const App: React.FC = () => {
         <Route path="agents/new" element={<AgentEditorPage />} />
         <Route path="workflows" element={<WorkflowsPage />} />
         <Route path="workflows/:id" element={<WorkflowEditorPage />} />
-        <Route path="workflows/new" element={<WorkflowEditorPage />} />
+        <Route path="workflows/new" element={<WorkflowCreationPage />} />
+        <Route path="workflows/editor" element={<WorkflowCanvasPage />} />
         <Route path="prompts" element={<PromptsPage />} />
         <Route path="prompts/:id" element={<PromptEditorPage />} />
         <Route path="prompts/new" element={<PromptEditorPage />} />
