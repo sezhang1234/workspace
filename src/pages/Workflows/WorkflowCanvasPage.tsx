@@ -98,7 +98,8 @@ const WorkflowCanvasContent: React.FC = () => {
         trigger: workflow.trigger,
         executionCount: 0,
         lastExecuted: '从未'
-      }
+      },
+      style: {}
     },
     {
       id: 'llm-1',
@@ -118,7 +119,8 @@ const WorkflowCanvasContent: React.FC = () => {
         successRate: 100,
         executionCount: 0,
         lastExecuted: '从未'
-      }
+      },
+      style: {}
     },
     {
       id: 'end-1',
@@ -134,7 +136,8 @@ const WorkflowCanvasContent: React.FC = () => {
         failedNodes: 0,
         completedAt: '刚刚',
         executionCount: 1
-      }
+      },
+      style: {}
     }
   ])
   
@@ -240,6 +243,22 @@ const WorkflowCanvasContent: React.FC = () => {
       
       setCurrentExecutingNode(node.id)
       
+      // Apply execution style to the current node
+      setNodes(prevNodes => prevNodes.map(n => 
+        n.id === node.id 
+          ? { 
+              ...n, 
+              style: {
+                boxShadow: '0 0 20px rgba(245, 158, 11, 0.8)',
+                border: '3px solid #f59e0b',
+                animation: 'pulse 1.5s infinite',
+                transform: 'scale(1.05)',
+                transition: 'all 0.3s ease-in-out'
+              }
+            }
+          : { ...n, style: {} }
+      ))
+      
       // Add execution step to history
       const executionStep = {
         id: Date.now() + Math.random(),
@@ -266,6 +285,8 @@ const WorkflowCanvasContent: React.FC = () => {
       ))
     }
     
+    // Clear all execution styles
+    setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
     setCurrentExecutingNode(null)
     setExecutionState('completed')
     
@@ -276,6 +297,8 @@ const WorkflowCanvasContent: React.FC = () => {
   const stopExecution = () => {
     setExecutionState('idle')
     setCurrentExecutingNode(null)
+    // Clear all execution styles
+    setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
     setSnackbar({ open: true, message: '工作流执行已停止', severity: 'info' })
   }
 
@@ -283,6 +306,8 @@ const WorkflowCanvasContent: React.FC = () => {
     setExecutionHistory([])
     setDebugOutput('')
     setExecutionState('idle')
+    // Clear all execution styles
+    setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
   }
 
   const addNode = (type: string, position: { x: number; y: number }) => {
@@ -393,7 +418,7 @@ const WorkflowCanvasContent: React.FC = () => {
       <div className="h-[900px]">
         <Card className="h-[800px] shadow-lg border-0">
           <CardContent className="h-full p-0">
-            <div className={`h-full bg-gradient-to-br from-gray-50 to-gray-100 transition-all duration-300 ${showNodePanel || selectedNode ? 'backdrop-blur-sm' : ''}`}>
+            <div className={`h-full bg-aliceblue transition-all duration-300 ${showNodePanel || selectedNode ? 'backdrop-blur-sm' : ''}`}>
               <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -441,6 +466,7 @@ const WorkflowCanvasContent: React.FC = () => {
                   size={1} 
                   color="#e5e7eb"
                   className="opacity-40"
+                  style={{ backgroundColor: 'aliceblue' }}
                 />
                 
                 {/* Enhanced controls with Add Node icon button */}
