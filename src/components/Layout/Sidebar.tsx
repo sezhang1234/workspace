@@ -62,23 +62,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               <span className="text-xl font-bold text-gray-900">Jiuwen</span>
             )}
           </div>
-          <div className="flex items-center space-x-2">
-            {/* Collapse toggle button - only show on desktop */}
-            <button
-              onClick={onToggleCollapse}
-              className="hidden lg:flex p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors duration-200"
-              title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
-            >
-              {isCollapsed ? <ChevronRightIcon className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-            </button>
-            {/* Mobile close button */}
-            <button
-              onClick={onClose}
-              className="lg:hidden p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          {/* Mobile close button only */}
+          <button
+            onClick={onClose}
+            className="lg:hidden p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* User info */}
@@ -147,6 +137,75 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
             )
           })}
         </nav>
+
+        {/* Collapse Toggle Button - Bottom Left */}
+        <div className={`border-t border-gray-200 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
+          <button
+            onClick={onToggleCollapse}
+            className={`
+              group w-full flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
+              ${isCollapsed ? 'px-2 py-3' : 'px-3 py-2'}
+              bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100
+              border border-blue-200/50 hover:border-blue-300/50
+              text-blue-600 hover:text-blue-700
+              shadow-sm hover:shadow-md
+            `}
+            title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
+          >
+            <div className="relative">
+              {/* Fancy animated icon container */}
+              <div className={`
+                relative w-6 h-6 flex items-center justify-center
+                transition-transform duration-300 ease-in-out
+                ${isCollapsed ? 'rotate-0' : 'rotate-180'}
+              `}>
+                {/* Main arrow icon */}
+                <div className={`
+                  absolute inset-0 flex items-center justify-center
+                  transition-all duration-300 ease-in-out
+                  ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}
+                `}>
+                  <ChevronRightIcon className="w-5 h-5" />
+                </div>
+                
+                {/* Alternative arrow icon */}
+                <div className={`
+                  absolute inset-0 flex items-center justify-center
+                  transition-all duration-300 ease-in-out
+                  ${isCollapsed ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}
+                `}>
+                  <ChevronLeft className="w-5 h-5" />
+                </div>
+                
+                {/* Decorative dots */}
+                <div className={`
+                  absolute -top-1 -right-1 w-2 h-2 bg-blue-400 rounded-full
+                  transition-all duration-300 ease-in-out
+                  ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
+                `} />
+                <div className={`
+                  absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-indigo-400 rounded-full
+                  transition-all duration-300 ease-in-out
+                  ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
+                `} />
+              </div>
+              
+              {/* Glow effect */}
+              <div className={`
+                absolute inset-0 w-6 h-6 bg-blue-400/20 rounded-full blur-sm
+                transition-all duration-300 ease-in-out
+                ${isCollapsed ? 'opacity-100 scale-125' : 'opacity-0 scale-100'}
+              `} />
+            </div>
+            
+            {/* Button text - only show when expanded */}
+            {!isCollapsed && (
+              <span className="ml-3 text-sm font-medium">
+                {isCollapsed ? '展开' : '收起'}
+              </span>
+            )}
+          </button>
+        </div>
 
         {/* Footer */}
         <div className={`border-t border-gray-200 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
