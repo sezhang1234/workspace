@@ -1128,8 +1128,90 @@ const WorkflowEditorContent: React.FC = () => {
                               <>
                                 <div>
                                   <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                                    文本输出
+                                    输出参数
                                   </Typography>
+                                  <div className="space-y-2">
+                                    {selectedNode.data.outputParameters && selectedNode.data.outputParameters.length > 0 ? (
+                                      selectedNode.data.outputParameters.map((param: any, index: number) => (
+                                        <div key={index} className="flex items-center space-x-2 p-2 bg-gray-50 rounded border">
+                                          <TextField
+                                            size="small"
+                                            placeholder="参数名"
+                                            value={param.name || ''}
+                                            onChange={(e) => {
+                                              const updatedParams = [...(selectedNode.data.outputParameters || [])]
+                                              updatedParams[index] = { ...updatedParams[index], name: e.target.value }
+                                              const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                              setSelectedNode(updatedNode)
+                                              setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                            }}
+                                            className="bg-white/80"
+                                            inputProps={{ style: { fontSize: '12px' } }}
+                                          />
+                                          <Button
+                                            size="small"
+                                            variant="outlined"
+                                            color="error"
+                                            onClick={() => {
+                                              const updatedParams = selectedNode.data.outputParameters.filter((_: any, i: number) => i !== index)
+                                              const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                              setSelectedNode(updatedNode)
+                                              setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                            }}
+                                            className="min-w-0 px-2"
+                                          >
+                                            <X className="w-3 h-3" />
+                                          </Button>
+                                        </div>
+                                      ))
+                                    ) : (
+                                      <div className="text-sm text-gray-500 text-center py-2">
+                                        暂无输出参数
+                                      </div>
+                                    )}
+                                    <Button
+                                      size="small"
+                                      variant="outlined"
+                                      fullWidth
+                                      onClick={() => {
+                                        const newParam = { name: '' }
+                                        const updatedParams = [...(selectedNode.data.outputParameters || []), newParam]
+                                        const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
+                                        setSelectedNode(updatedNode)
+                                        setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                      }}
+                                      className="bg-white/80 border-gray-300 text-gray-700 hover:bg-gray-50"
+                                    >
+                                      <Plus className="w-4 h-4 mr-1" />
+                                      添加参数
+                                    </Button>
+                                  </div>
+                                </div>
+
+                                <div>
+                                  <div className="flex items-center justify-between mb-2">
+                                    <Typography variant="subtitle2" className="text-gray-700 font-medium text-xs">
+                                      文本输出
+                                    </Typography>
+                                    <FormControlLabel
+                                      control={
+                                        <Switch
+                                          checked={selectedNode.data.streamingEnabled || false}
+                                          onChange={(e) => {
+                                            const updatedNode = { ...selectedNode, data: { ...selectedNode.data, streamingEnabled: e.target.checked } }
+                                            setSelectedNode(updatedNode)
+                                            setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                          }}
+                                          size="small"
+                                        />
+                                      }
+                                      label={
+                                        <Typography variant="body2" className="text-gray-700 text-xs">
+                                          启用流式输出
+                                        </Typography>
+                                      }
+                                    />
+                                  </div>
                                   <TextField
                                     fullWidth
                                     size="small"
@@ -1144,28 +1226,6 @@ const WorkflowEditorContent: React.FC = () => {
                                     }}
                                     className="bg-white/80"
                                     inputProps={{ style: { fontSize: '12px' } }}
-                                  />
-                                </div>
-
-                                <div>
-                                  <FormControlLabel
-                                    control={
-                                      <Switch
-                                        checked={selectedNode.data.streamingEnabled || false}
-                                        onChange={(e) => {
-                                          const updatedNode = { ...selectedNode, data: { ...selectedNode.data, streamingEnabled: e.target.checked } }
-                                          setSelectedNode(updatedNode)
-                                          setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                                        }}
-                                        size="small"
-                                      />
-                                    }
-                                    label={
-                                      <Typography variant="body2" className="text-gray-700 text-xs">
-                                        启用流式输出
-                                      </Typography>
-                                    }
-                                    className="mb-2"
                                   />
                                 </div>
                               </>
