@@ -632,497 +632,26 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
                   </Panel>
-                )}
 
-                {/* Floating Node Configuration Panel */}
-                {selectedNode && (
-                  <Panel 
-                    position="top-right" 
-                    className="bg-white/75 backdrop-blur-md border border-white/40 rounded-xl shadow-2xl p-4 min-w-[280px] max-w-[320px] animate-in slide-in-from-right duration-300 ease-out"
-                    style={{ 
-                      top: '20px', 
-                      right: '20px', 
-                      zIndex: 1000
-                    }}
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <Typography variant="h6" className="text-gray-800 font-semibold text-sm">
-                        节点配置
-                      </Typography>
-                      <button
-                        onClick={() => setSelectedNode(null)}
-                        className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
-                        title="关闭"
-                      >
-                        <X className="w-3 h-3 text-gray-600/80" />
-                      </button>
-                    </div>
+
+
+
+
                     
-                    <div className="space-y-4">
-                      {/* Node Type Display */}
-                      <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
-                        <Typography variant="subtitle2" className="text-blue-800 font-medium mb-1 text-xs">
-                          节点类型
-                        </Typography>
-                        <Typography variant="body2" className="text-blue-700 text-xs">
-                          {selectedNode.type === 'startNode' ? '开始节点' :
-                           selectedNode.type === 'llmNode' ? 'LLM 节点' :
-                           selectedNode.type === 'endNode' ? '结束节点' :
-                           selectedNode.type === 'actionNode' ? '动作节点' :
-                           selectedNode.type === 'conditionNode' ? '条件节点' :
-                           selectedNode.type === 'loopNode' ? '循环节点' :
-                           selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
-                           selectedNode.type === 'questionClassifierNode' ? '问题分类节点' :
-                           selectedNode.type === 'answerNode' ? '答案生成节点' :
-                           selectedNode.type === 'variableAggregatorNode' ? '变量聚合节点' :
-                           '未知节点'}
-                        </Typography>
-                      </div>
 
-                      {/* Node Label */}
-                      <div>
-                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                          节点名称
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          value={selectedNode.data.label || ''}
-                          onChange={(e) => {
-                            const updatedNode = { ...selectedNode, data: { ...selectedNode.data, label: e.target.value } }
-                            setSelectedNode(updatedNode)
-                            setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                          }}
-                          className="bg-white/80"
-                          inputProps={{ style: { fontSize: '12px' } }}
-                        />
-                      </div>
+                    
 
-                      {/* Node-specific Configuration */}
-                      {selectedNode.type === 'startNode' && (
-                        <div>
-                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                            触发器类型
-                          </Typography>
-                          <FormControl fullWidth size="small">
-                            <Select
-                              value={selectedNode.data.trigger || 'manual'}
-                              onChange={(e: SelectChangeEvent) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, trigger: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white/80"
-                              size="small"
-                            >
-                              <MenuItem value="webhook">Webhook</MenuItem>
-                              <MenuItem value="schedule">定时任务</MenuItem>
-                              <MenuItem value="manual">手动触发</MenuItem>
-                              <MenuItem value="event">事件驱动</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </div>
-                      )}
 
-                      {selectedNode.type === 'llmNode' && (
-                        <>
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                              AI 模型
-                            </Typography>
-                            <FormControl fullWidth size="small">
-                              <Select
-                                value={selectedNode.data.model || 'gpt-4'}
-                                onChange={(e: SelectChangeEvent) => {
-                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, model: e.target.value } }
-                                  setSelectedNode(updatedNode)
-                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                                }}
-                                className="bg-white/80"
-                                size="small"
-                              >
-                                <MenuItem value="gpt-4">GPT-4</MenuItem>
-                                <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                                <MenuItem value="claude-3">Claude 3</MenuItem>
-                                <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </div>
 
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                              温度 (Temperature)
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              type="number"
-                              inputProps={{ min: 0, max: 2, step: 0.1, style: { fontSize: '12px' } }}
-                              value={selectedNode.data.temperature || 0.7}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, temperature: parseFloat(e.target.value) } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white/80"
-                            />
-                          </div>
 
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                              最大令牌数
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              type="number"
-                              inputProps={{ min: 1, max: 4000, step: 1, style: { fontSize: '12px' } }}
-                              value={selectedNode.data.maxTokens || 1000}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, maxTokens: parseInt(e.target.value) } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white/80"
-                            />
-                          </div>
 
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                              系统提示词
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              multiline
-                              rows={2}
-                              value={selectedNode.data.systemMessage || ''}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemMessage: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white/80"
-                              inputProps={{ style: { fontSize: '12px' } }}
-                            />
-                          </div>
 
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                              用户提示词
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              multiline
-                              rows={2}
-                              value={selectedNode.data.prompt || ''}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, prompt: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white/80"
-                              inputProps={{ style: { fontSize: '12px' } }}
-                            />
-                          </div>
-                        </>
-                      )}
-
-                      {selectedNode.type === 'endNode' && (
-                        <div>
-                          <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                            结束类型
-                          </Typography>
-                          <FormControl fullWidth size="small">
-                            <Select
-                              value={selectedNode.data.endType || 'success'}
-                              onChange={(e: SelectChangeEvent) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value as 'success' | 'error' | 'warning' | 'timeout' } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              className="bg-white/80"
-                              size="small"
-                            >
-                              <MenuItem value="success">成功完成</MenuItem>
-                              <MenuItem value="error">执行失败</MenuItem>
-                              <MenuItem value="warning">警告完成</MenuItem>
-                              <MenuItem value="timeout">超时结束</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </div>
-                      )}
-
-                      {/* Save Button */}
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        size="small"
-                        onClick={() => {
-                          setSnackbar({ open: true, message: '节点配置已保存', severity: 'success' })
-                        }}
-                        className="bg-blue-600 hover:bg-blue-700 text-xs py-2"
-                      >
-                        保存配置
-                      </Button>
-                    </div>
-                  </Panel>
-                )}
-
-                {/* Debug Panel - Right Side */}
-                {showDebugPanel && (
-                  <Panel 
-                    position="top-right" 
-                    className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[320px] max-w-[400px] animate-in slide-in-from-right duration-300 ease-out"
-                    style={{ 
-                      top: '80px', 
-                      right: '20px', 
-                      zIndex: 1000
-                    }}
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <Typography variant="h6" className="text-gray-800 font-semibold text-sm flex items-center">
-                        <div className={`w-3 h-3 rounded-full mr-2 ${
-                          executionState === 'running' ? 'bg-orange-500 animate-pulse' :
-                          executionState === 'completed' ? 'bg-green-500' :
-                          executionState === 'error' ? 'bg-red-500' : 'bg-gray-400'
-                        }`} />
-                        调试控制台
-                      </Typography>
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={clearDebugHistory}
-                          className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
-                          title="清除历史"
-                        >
-                          <X className="w-3 h-3 text-gray-600/80" />
-                        </button>
-                        <button
-                          onClick={() => setShowDebugPanel(false)}
-                          className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
-                          title="关闭"
-                        >
-                          <X className="w-3 h-3 text-gray-600/80" />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Execution Status */}
-                    <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-medium text-gray-700">执行状态</span>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          executionState === 'running' ? 'bg-orange-100 text-orange-700' :
-                          executionState === 'completed' ? 'bg-green-100 text-green-700' :
-                          executionState === 'error' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
-                        }`}>
-                          {executionState === 'running' ? '执行中' :
-                           executionState === 'completed' ? '已完成' :
-                           executionState === 'error' ? '执行错误' : '空闲'}
-                        </span>
-                      </div>
-                      {executionState === 'running' && (
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                          <span className="text-xs text-gray-600">
-                            {currentExecutingNode ? `正在执行: ${nodes.find(n => n.id === currentExecutingNode)?.data.label}` : '准备中...'}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Input Section */}
-                    <div className="mb-4">
-                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                        输入参数
-                      </Typography>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        multiline
-                        rows={3}
-                        placeholder="输入测试数据或参数..."
-                        value={debugInput}
-                        onChange={(e) => setDebugInput(e.target.value)}
-                        className="bg-white/80"
-                        inputProps={{ style: { fontSize: '12px' } }}
-                      />
-                    </div>
-
-                    {/* Execution History Tree */}
-                    <div className="mb-4">
-                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                        执行历史
-                      </Typography>
-                      <div className="max-h-32 overflow-y-auto bg-gray-50 rounded-lg border border-gray-200 p-2">
-                        {executionHistory.length === 0 ? (
-                          <div className="text-xs text-gray-500 text-center py-4">
-                            暂无执行记录
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            {executionHistory.map((step, _index) => (
-                              <div key={step.id} className="flex items-start space-x-2 p-2 bg-white rounded border border-gray-200">
-                                <div className={`w-2 h-2 rounded-full mt-1.5 ${
-                                  step.status === 'executing' ? 'bg-orange-500 animate-pulse' :
-                                  step.status === 'completed' ? 'bg-green-500' : 'bg-gray-400'
-                                }`} />
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center justify-between mb-1">
-                                    <span className="text-xs font-medium text-gray-700">{step.nodeName}</span>
-                                    <span className="text-xs text-gray-500">{step.timestamp}</span>
-                                  </div>
-                                  <div className="text-xs text-gray-600 mb-1">{step.output}</div>
-                                  <div className="text-xs text-gray-500">
-                                    类型: {step.nodeType === 'startNode' ? '开始节点' :
-                                           step.nodeType === 'llmNode' ? 'LLM节点' :
-                                           step.nodeType === 'endNode' ? '结束节点' : step.nodeType}
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Output Section */}
-                    <div className="mb-4">
-                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
-                        执行结果
-                      </Typography>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        multiline
-                        rows={3}
-                        placeholder="执行结果将在这里显示..."
-                        value={debugOutput}
-                        onChange={(e) => setDebugOutput(e.target.value)}
-                        className="bg-white/80"
-                        inputProps={{ style: { fontSize: '12px' } }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </div>
-
-                    {/* Control Buttons */}
-                    <div className="flex space-x-2">
-                      {executionState === 'running' ? (
-                        <Button
-                          fullWidth
-                          variant="outlined"
-                          size="small"
-                          onClick={stopExecution}
-                          className="border-red-200 text-red-700 hover:bg-red-50"
-                        >
-                          停止执行
-                        </Button>
-                      ) : (
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          size="small"
-                          onClick={handleTestRun}
-                          className="bg-orange-600 hover:bg-orange-700"
-                        >
-                          开始执行
-                        </Button>
-                      )}
-                    </div>
-                  </Panel>
-                )}
                 
-                {/* Enhanced minimap */}
-                <MiniMap 
-                  className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
-                  nodeColor={(node) => {
-                    switch (node.type) {
-                      case 'startNode': return '#10b981'
-                      case 'actionNode': return '#3b82f6'
-                      case 'conditionNode': return '#f59e0b'
-                      case 'loopNode': return '#8b5cf6'
-                      case 'knowledgeRetrievalNode': return '#06b6d4'
-                      case 'questionClassifierNode': return '#6366f1'
-                      case 'answerNode': return '#ec4899'
-                      case 'variableAggregatorNode': return '#0891b2'
-                      case 'llmNode': return '#10b981'
-                      case 'endNode': return '#ef4444'
-                      default: return '#6b7280'
-                    }
-                  }}
-                  nodeStrokeWidth={3}
-                  zoomable
-                  pannable
-                />
+
                 
-                {/* Enhanced panel for workflow info */}
-                <Panel position="top-left" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                    <span>节点: {nodes.length}</span>
-                    <span>•</span>
-                    <span>连接: {edges.length}</span>
-                  </div>
-                </Panel>
 
-                {/* Floating Control Panel - Upper Right */}
-                <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-2">
-                  <div className="flex items-center space-x-2">
-                    {/* Import Button */}
-                    <button
-                      onClick={() => document.getElementById('import-file')?.click()}
-                      className="w-10 h-10 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
-                      title="导入工作流"
-                    >
-                      <input
-                        id="import-file"
-                        type="file"
-                        hidden
-                        accept=".json"
-                        onChange={handleImport}
-                      />
-                      <Upload className="w-5 h-5 text-blue-600 group-hover:text-blue-700" />
-                    </button>
 
-                    {/* Export Button */}
-                    <button
-                      onClick={handleExport}
-                      className="w-10 h-10 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
-                      title="导出工作流"
-                    >
-                      <Download className="w-5 h-5 text-green-600 group-hover:text-green-700" />
-                    </button>
 
-                    {/* Test Run Button */}
-                    <button
-                      onClick={handleTestRun}
-                      className={`w-10 h-10 border rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group ${
-                        executionState === 'running' 
-                          ? 'bg-red-50 hover:bg-red-100 border-red-300' 
-                          : 'bg-orange-50 hover:bg-orange-100 border-orange-200'
-                      }`}
-                      title={executionState === 'running' ? '停止执行' : '测试运行'}
-                    >
-                      {executionState === 'running' ? (
-                        <div className="w-5 h-5 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <Play className="w-5 h-5 text-orange-600 group-hover:text-orange-700" />
-                      )}
-                    </button>
-
-                    {/* Save Button */}
-                    <button
-                      onClick={handleSave}
-                      className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 border border-blue-300 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-lg group shadow-md"
-                      title="保存工作流"
-                    >
-                      <Save className="w-5 h-5 text-white" />
-                    </button>
-                  </div>
-                </Panel>
 
                 {/* Floating Node Configuration Panel */}
                 {selectedNode && (
@@ -1298,6 +827,157 @@ const WorkflowCanvasContent: React.FC = () => {
                           保存
                         </Button>
                       </div>
+                    </div>
+                  </Panel>
+                )}
+
+                {/* Debug Panel - Right Side */}
+                {showDebugPanel && (
+                  <Panel 
+                    position="top-right" 
+                    className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl p-4 min-w-[320px] max-w-[400px] animate-in slide-in-from-right duration-300 ease-out"
+                    style={{ 
+                      top: '80px', 
+                      right: '20px', 
+                      zIndex: 1000
+                    }}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <Typography variant="h6" className="text-gray-800 font-semibold text-sm flex items-center">
+                        <div className={`w-3 h-3 rounded-full mr-2 ${
+                          executionState === 'running' ? 'bg-orange-500 animate-pulse' :
+                          executionState === 'completed' ? 'bg-green-500' :
+                          executionState === 'error' ? 'bg-red-500' : 'bg-gray-400'
+                        }`} />
+                        调试控制台
+                      </Typography>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={clearDebugHistory}
+                          className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
+                          title="清除历史"
+                        >
+                          <X className="w-3 h-3 text-gray-600/80" />
+                        </button>
+                        <button
+                          onClick={() => setShowDebugPanel(false)}
+                          className="w-6 h-6 bg-gray-100/80 hover:bg-gray-200/90 rounded-full flex items-center justify-center transition-all duration-200 border border-gray-200/50"
+                          title="关闭"
+                        >
+                          <X className="w-3 h-3 text-gray-600/80" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Execution Status */}
+                    <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-medium text-gray-700">执行状态</span>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          executionState === 'running' ? 'bg-orange-100 text-orange-700' :
+                          executionState === 'completed' ? 'bg-green-100 text-green-700' :
+                          executionState === 'error' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
+                        }`}>
+                          {executionState === 'running' ? '执行中' :
+                           executionState === 'completed' ? '已完成' :
+                           executionState === 'error' ? '执行错误' : '空闲'}
+                        </span>
+                      </div>
+                      {executionState === 'running' && (
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
+                          <span className="text-xs text-gray-600">
+                            {currentExecutingNode ? `正在执行: ${nodes.find(n => n.id === currentExecutingNode)?.data.label}` : '准备中...'}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Input Section */}
+                    <div className="mb-4">
+                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                        输入参数
+                      </Typography>
+                      <TextField
+                        fullWidth
+                        size="small"
+                        multiline
+                        rows={3}
+                        placeholder="输入测试数据或参数..."
+                        value={debugInput}
+                        onChange={(e) => setDebugInput(e.target.value)}
+                        className="bg-white/80"
+                        inputProps={{ style: { fontSize: '12px' } }}
+                      />
+                    </div>
+
+                    {/* Execution History Tree */}
+                    <div className="mb-4">
+                      <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
+                        执行历史
+                      </Typography>
+                      <div className="max-h-32 overflow-y-auto bg-gray-50 rounded-lg border border-gray-200 p-2">
+                        {executionHistory.length === 0 ? (
+                          <div className="text-xs text-gray-500 text-center py-4">
+                            暂无执行记录
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            {executionHistory.map((step, _index) => (
+                              <div key={step.id} className="flex items-start space-x-2 p-2 bg-white rounded border border-gray-200">
+                                <div className={`w-2 h-2 rounded-full mt-1.5 ${
+                                  step.status === 'executing' ? 'bg-orange-500 animate-pulse' :
+                                  step.status === 'completed' ? 'bg-green-500' : 'bg-gray-400'
+                                }`}>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between mb-1">
+                                    <span className="text-xs font-medium text-gray-700 truncate">
+                                      {step.nodeName}
+                                    </span>
+                                    <span className={`text-xs px-2 py-1 rounded-full ${
+                                      step.status === 'executing' ? 'bg-orange-100 text-orange-700' :
+                                      step.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
+                                    }`}>
+                                      {step.status === 'executing' ? '执行中' :
+                                       step.status === 'completed' ? '已完成' : '等待中'}
+                                    </span>
+                                  </div>
+                                  <div className="text-xs text-gray-600 truncate">
+                                    {step.output}
+                                  </div>
+                                  <div className="text-xs text-gray-500 mt-1">
+                                    {step.timestamp} • {step.duration}ms
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Control Buttons */}
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        onClick={clearDebugHistory}
+                        className="border-gray-300 text-gray-700 hover:bg-gray-50 text-xs py-2"
+                      >
+                        清除历史
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        size="small"
+                        onClick={stopExecution}
+                        disabled={executionState === 'idle'}
+                        className="bg-red-600 hover:bg-red-700 text-white text-xs py-2 disabled:opacity-50"
+                      >
+                        停止执行
+                      </Button>
                     </div>
                   </Panel>
                 )}
