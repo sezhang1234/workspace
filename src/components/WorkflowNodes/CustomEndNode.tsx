@@ -114,9 +114,9 @@ const CustomEndNode: React.FC<NodeProps> = ({ data, selected }) => {
       <Handle
         type="target"
         position={Position.Left}
-        className="w-3 h-3 border-2 border-white bg-gray-400 hover:bg-gray-500 transition-colors"
+        className="w-4 h-4 border-2 border-white bg-gray-400 hover:bg-gray-600 hover:scale-125 transition-all duration-200 ease-out cursor-crosshair"
         style={{ 
-          left: -6,
+          left: -8,
           top: '50%',
           transform: 'translateY(-50%)'
         }}
