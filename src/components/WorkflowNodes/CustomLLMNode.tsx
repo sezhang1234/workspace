@@ -10,7 +10,7 @@ const CustomLLMNode: React.FC<NodeProps> = ({ data, selected }) => {
       min-w-[160px] max-w-[220px]
     `}>
       {/* Header */}
-      <div className="px-3 py-2 border-b border-gray-100">
+      <div className="px-3 py-2">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
             <Bot className="w-4 h-4" />
@@ -22,25 +22,6 @@ const CustomLLMNode: React.FC<NodeProps> = ({ data, selected }) => {
             <div className="text-xs text-gray-500">
               {data.model || 'GPT-4'}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="px-3 py-2 space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">温度</span>
-          <span className="text-xs text-gray-600">{data.temperature || 0.7}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">最大令牌</span>
-          <span className="text-xs text-gray-600">{data.maxTokens || 1000}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-gray-500">状态</span>
-          <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-xs text-gray-600">就绪</span>
           </div>
         </div>
       </div>
