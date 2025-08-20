@@ -28,7 +28,7 @@ const Layout: React.FC = () => {
       />
 
       {/* Main content */}
-      <div className={`flex-1 overflow-hidden flex flex-col transition-all duration-300 ease-in-out ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'}`}>
+      <div className={`flex-1 overflow-hidden flex flex-col transition-all duration-300 ease-in-out ${sidebarCollapsed ? 'lg:ml-12' : 'lg:ml-48'}`}>
         {/* Header */}
         <Header 
           user={user}
@@ -38,7 +38,7 @@ const Layout: React.FC = () => {
         {/* Page content */}
         <main className="flex-1 overflow-y-auto bg-gray-50">
           <div className="py-6">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-4 sm:px-6 lg:px-8">
               <Outlet />
             </div>
           </div>
