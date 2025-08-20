@@ -934,25 +934,7 @@ const WorkflowCanvasContent: React.FC = () => {
                                       }}
                                       className="flex-1"
                                     />
-                                    <FormControl size="small" sx={{ minWidth: 100 }}>
-                                      <Select
-                                        value={param.type || 'string'}
-                                        onChange={(e: SelectChangeEvent) => {
-                                          const updatedParams = [...(selectedNode.data.outputParameters || [])]
-                                          updatedParams[index] = { ...updatedParams[index], type: e.target.value }
-                                          const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
-                                          setSelectedNode(updatedNode)
-                                          setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                                        }}
-                                      >
-                                        <MenuItem value="string">字符串</MenuItem>
-                                        <MenuItem value="number">数字</MenuItem>
-                                        <MenuItem value="boolean">布尔值</MenuItem>
-                                        <MenuItem value="array">数组</MenuItem>
-                                        <MenuItem value="object">对象</MenuItem>
-                                        <MenuItem value="streaming">流式文本</MenuItem>
-                                      </Select>
-                                    </FormControl>
+
                                     <Button
                                       size="small"
                                       variant="outlined"
@@ -979,7 +961,7 @@ const WorkflowCanvasContent: React.FC = () => {
                                 variant="outlined"
                                 fullWidth
                                 onClick={() => {
-                                  const newParam = { name: '', type: 'string' }
+                                  const newParam = { name: '' }
                                   const updatedParams = [...(selectedNode.data.outputParameters || []), newParam]
                                   const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputParameters: updatedParams } }
                                   setSelectedNode(updatedNode)
