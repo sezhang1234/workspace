@@ -1,19 +1,14 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { 
-  MessageSquare, 
   ArrowLeft, 
   Save, 
   Play, 
-  Settings, 
   Copy,
   Download,
   Upload,
   Trash2,
-  History,
-  GitBranch,
   TestTube,
-  BarChart3,
   Eye,
   EyeOff,
   Plus,
@@ -35,21 +30,9 @@ import {
   Typography,
   Card,
   CardContent,
-  Divider,
   Alert,
   Snackbar,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  IconButton,
-  Tooltip,
-  Slider,
-  FormGroup
+  IconButton
 } from '@mui/material'
 
 interface TabPanelProps {
@@ -108,9 +91,7 @@ const PromptEditorPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [showPreview, setShowPreview] = useState(false)
-  const [versionDialog, setVersionDialog] = useState(false)
-  const [parameterDialog, setParameterDialog] = useState(false)
-  const [selectedParameter, setSelectedParameter] = useState<PromptParameter | null>(null)
+
 
   // Prompt state
   const [prompt, setPrompt] = useState({
@@ -171,7 +152,7 @@ const PromptEditorPage: React.FC = () => {
   const [testResult, setTestResult] = useState('')
   const [isTesting, setIsTesting] = useState(false)
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
 
@@ -279,7 +260,7 @@ const PromptEditorPage: React.FC = () => {
     }
   }
 
-  const renderParameterInput = (param: PromptParameter, index: number) => {
+  const renderParameterInput = (param: PromptParameter, _index: number) => {
     switch (param.type) {
       case 'string':
         return (
@@ -456,12 +437,13 @@ const PromptEditorPage: React.FC = () => {
                       size="small"
                       placeholder="添加标签"
                       onKeyPress={(e) => {
-                        if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                        const target = e.currentTarget as HTMLInputElement
+                        if (e.key === 'Enter' && target.value.trim()) {
                           setPrompt({
                             ...prompt,
-                            tags: [...prompt.tags, e.currentTarget.value.trim()]
+                            tags: [...prompt.tags, target.value.trim()]
                           })
-                          e.currentTarget.value = ''
+                          target.value = ''
                         }
                       }}
                     />

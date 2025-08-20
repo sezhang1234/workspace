@@ -25,6 +25,7 @@ import ReactFlow, {
   useEdgesState,
   Controls,
   Background,
+  BackgroundVariant,
   MiniMap,
   Panel,
   ReactFlowProvider,
@@ -38,16 +39,15 @@ import {
   Select, 
   MenuItem, 
   FormControl, 
-  Switch, 
-  FormControlLabel,
-  Box,
   Typography,
   Card,
   CardContent,
   Alert,
   Snackbar,
   Tooltip,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Switch,
+  FormControlLabel
 } from '@mui/material'
 
 // Custom node types
@@ -171,7 +171,7 @@ const WorkflowEditorContent: React.FC = () => {
     setEdges((eds) => [...eds, newEdge])
   }, [])
 
-  const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
+  const onNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
     setSelectedNode(node)
   }, [])
 
@@ -682,7 +682,7 @@ const WorkflowEditorContent: React.FC = () => {
                     >
                       {/* Light grid background */}
                       <Background 
-                        variant="dots" 
+                        variant={BackgroundVariant.Dots} 
                         gap={40} 
                         size={1} 
                         color="#e5e7eb"
