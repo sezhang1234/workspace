@@ -12,7 +12,8 @@ import {
   Eye,
   EyeOff,
   Plus,
-  Minus
+  Minus,
+  Wand2
 } from 'lucide-react'
 import { 
   TextField, 
@@ -223,6 +224,170 @@ const PromptEditorPage: React.FC = () => {
   const handleCopyPrompt = () => {
     navigator.clipboard.writeText(prompt.content)
     setSnackbar({ open: true, message: '提示词已复制到剪贴板', severity: 'success' })
+  }
+
+  const generatePromptContent = () => {
+    const category = prompt.category
+    let generatedContent = ''
+    
+    switch (category) {
+      case 'customer-service':
+        generatedContent = `你是一个专业的客户服务代表，请根据以下信息，用友好、专业的态度回复客户：
+
+客户问题：{{customer_question}}
+客户情绪：{{customer_mood}}
+产品信息：{{product_info}}
+
+请确保回复：
+1. 准确理解客户问题
+2. 提供清晰的解决方案
+3. 保持友好专业的语调
+4. 在必要时询问更多信息
+5. 体现专业性和同理心`
+        break
+        
+      case 'content-creation':
+        generatedContent = `你是一个专业的内容创作助手，请根据以下要求创作高质量内容：
+
+主题：{{topic}}
+目标受众：{{target_audience}}
+内容类型：{{content_type}}
+风格要求：{{style_requirements}}
+
+请确保内容：
+1. 结构清晰，逻辑连贯
+2. 语言生动，富有感染力
+3. 符合目标受众的阅读习惯
+4. 包含实用的信息和见解
+5. 具有原创性和创新性`
+        break
+        
+      case 'data-analysis':
+        generatedContent = `你是一个专业的数据分析师，请根据以下数据进行分析和解读：
+
+数据来源：{{data_source}}
+分析目标：{{analysis_goal}}
+关键指标：{{key_metrics}}
+时间范围：{{time_period}}
+
+请提供：
+1. 数据概览和关键发现
+2. 趋势分析和模式识别
+3. 异常值检测和解释
+4. 数据质量评估
+5.  actionable insights和建议`
+        break
+        
+      case 'code-generation':
+        generatedContent = `你是一个专业的程序员，请根据以下需求生成高质量的代码：
+
+编程语言：{{programming_language}}
+功能需求：{{functional_requirements}}
+技术要求：{{technical_requirements}}
+代码风格：{{code_style}}
+
+请确保代码：
+1. 功能完整，逻辑正确
+2. 遵循最佳实践和设计模式
+3. 具有良好的可读性和可维护性
+4. 包含必要的注释和文档
+5. 考虑边界情况和错误处理`
+        break
+        
+      case 'translation':
+        generatedContent = `你是一个专业的翻译专家，请将以下内容进行高质量的翻译：
+
+原文语言：{{source_language}}
+目标语言：{{target_language}}
+内容类型：{{content_type}}
+专业领域：{{domain}}
+
+请确保翻译：
+1. 准确传达原文含义
+2. 符合目标语言的表达习惯
+3. 保持原文的风格和语调
+4. 使用恰当的术语和表达
+5. 考虑文化背景和语境`
+        break
+        
+      default:
+        generatedContent = `你是一个专业的AI助手，请根据以下信息提供专业的帮助：
+
+任务类型：{{task_type}}
+具体要求：{{specific_requirements}}
+背景信息：{{background_info}}
+期望输出：{{expected_output}}
+
+请确保：
+1. 准确理解任务需求
+2. 提供专业的解决方案
+3. 保持清晰的逻辑结构
+4. 使用恰当的表达方式
+5. 在必要时询问澄清`
+    }
+    
+    // Update prompt content and add relevant parameters
+    setPrompt({ ...prompt, content: generatedContent })
+    
+    // Add relevant parameters based on category
+    const newParameters: PromptParameter[] = []
+    
+    switch (category) {
+      case 'customer-service':
+        newParameters.push(
+          { name: 'customer_question', type: 'string', description: '客户的具体问题或咨询', required: true, defaultValue: '' },
+          { name: 'customer_mood', type: 'select', description: '客户的情绪状态', required: false, defaultValue: 'neutral', options: ['positive', 'neutral', 'negative', 'angry'] },
+          { name: 'product_info', type: 'string', description: '相关产品信息', required: false, defaultValue: '' }
+        )
+        break
+        
+      case 'content-creation':
+        newParameters.push(
+          { name: 'topic', type: 'string', description: '内容主题', required: true, defaultValue: '' },
+          { name: 'target_audience', type: 'string', description: '目标受众', required: true, defaultValue: '' },
+          { name: 'content_type', type: 'select', description: '内容类型', required: true, defaultValue: 'article', options: ['article', 'blog', 'social_media', 'email', 'report'] },
+          { name: 'style_requirements', type: 'string', description: '风格要求', required: false, defaultValue: '' }
+        )
+        break
+        
+      case 'data-analysis':
+        newParameters.push(
+          { name: 'data_source', type: 'string', description: '数据来源', required: true, defaultValue: '' },
+          { name: 'analysis_goal', type: 'string', description: '分析目标', required: true, defaultValue: '' },
+          { name: 'key_metrics', type: 'string', description: '关键指标', required: true, defaultValue: '' },
+          { name: 'time_period', type: 'string', description: '时间范围', required: false, defaultValue: '' }
+        )
+        break
+        
+      case 'code-generation':
+        newParameters.push(
+          { name: 'programming_language', type: 'string', description: '编程语言', required: true, defaultValue: '' },
+          { name: 'functional_requirements', type: 'string', description: '功能需求', required: true, defaultValue: '' },
+          { name: 'technical_requirements', type: 'string', description: '技术要求', required: false, defaultValue: '' },
+          { name: 'code_style', type: 'select', description: '代码风格', required: false, defaultValue: 'clean', options: ['clean', 'concise', 'detailed', 'enterprise'] }
+        )
+        break
+        
+      case 'translation':
+        newParameters.push(
+          { name: 'source_language', type: 'string', description: '原文语言', required: true, defaultValue: '' },
+          { name: 'target_language', type: 'string', description: '目标语言', required: true, defaultValue: '' },
+          { name: 'content_type', type: 'select', description: '内容类型', required: false, defaultValue: 'general', options: ['general', 'technical', 'literary', 'business', 'academic'] },
+          { name: 'domain', type: 'string', description: '专业领域', required: false, defaultValue: '' }
+        )
+        break
+        
+      default:
+        newParameters.push(
+          { name: 'task_type', type: 'string', description: '任务类型', required: true, defaultValue: '' },
+          { name: 'specific_requirements', type: 'string', description: '具体要求', required: true, defaultValue: '' },
+          { name: 'background_info', type: 'string', description: '背景信息', required: false, defaultValue: '' },
+          { name: 'expected_output', type: 'string', description: '期望输出', required: false, defaultValue: '' }
+        )
+    }
+    
+    setParameters(newParameters)
+    setSnackbar({ open: true, message: '提示词已自动生成！', severity: 'success' })
   }
 
   const handleExport = () => {
@@ -455,13 +620,23 @@ const PromptEditorPage: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700">
                       提示词内容
                     </label>
-                    <Button
-                      size="small"
-                      startIcon={<Copy />}
-                      onClick={handleCopyPrompt}
-                    >
-                      复制
-                    </Button>
+                    <div className="flex items-center space-x-2">
+                      <Button
+                        size="small"
+                        startIcon={<Wand2 />}
+                        onClick={generatePromptContent}
+                        className="bg-purple-100 hover:bg-purple-200 text-purple-700 border-purple-300"
+                      >
+                        自动生成
+                      </Button>
+                      <Button
+                        size="small"
+                        startIcon={<Copy />}
+                        onClick={handleCopyPrompt}
+                      >
+                        复制
+                      </Button>
+                    </div>
                   </div>
                   <TextField
                     fullWidth
