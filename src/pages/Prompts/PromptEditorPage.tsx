@@ -11,8 +11,6 @@ import {
   TestTube,
   Eye,
   EyeOff,
-  Plus,
-  Minus,
   Wand2
 } from 'lucide-react'
 import { 
@@ -21,9 +19,7 @@ import {
   Select, 
   MenuItem, 
   FormControl, 
-  InputLabel, 
-  Switch, 
-  FormControlLabel,
+  InputLabel,
   Tabs,
   Tab,
   Box,
@@ -31,8 +27,7 @@ import {
   Card,
   CardContent,
   Alert,
-  Snackbar,
-  IconButton
+  Snackbar
 } from '@mui/material'
 
 interface TabPanelProps {
@@ -61,20 +56,10 @@ function TabPanel(props: TabPanelProps) {
   )
 }
 
-interface PromptParameter {
-  name: string
-  type: 'string' | 'number' | 'boolean' | 'select'
-  description: string
-  required: boolean
-  defaultValue?: string | number | boolean
-  options?: string[]
-}
-
 interface PromptVersion {
   id: string
   version: string
   content: string
-  parameters: PromptParameter[]
   createdAt: string
   isActive: boolean
   performance: {
@@ -102,31 +87,7 @@ const PromptEditorPage: React.FC = () => {
     language: isNew ? 'zh-CN' : 'zh-CN'
   })
 
-  // Parameters state
-  const [parameters, setParameters] = useState<PromptParameter[]>([
-    {
-      name: 'customer_question',
-      type: 'string',
-      description: '客户的具体问题或咨询',
-      required: true,
-      defaultValue: ''
-    },
-    {
-      name: 'customer_mood',
-      type: 'select',
-      description: '客户的情绪状态',
-      required: false,
-      defaultValue: 'neutral',
-      options: ['positive', 'neutral', 'negative', 'angry']
-    },
-    {
-      name: 'product_info',
-      type: 'string',
-      description: '相关产品信息',
-      required: false,
-      defaultValue: ''
-    }
-  ])
+
 
   // Versions state
   const [versions, setVersions] = useState<PromptVersion[]>([
@@ -134,7 +95,6 @@ const PromptEditorPage: React.FC = () => {
       id: 'v1',
       version: '1.0.0',
       content: prompt.content,
-      parameters: parameters,
       createdAt: '2024-01-15T10:00:00Z',
       isActive: true,
       performance: {
@@ -146,7 +106,6 @@ const PromptEditorPage: React.FC = () => {
   ])
 
   // Test state
-  const [testValues, setTestValues] = useState<Record<string, any>>({})
   const [testResult, setTestResult] = useState('')
   const [isTesting, setIsTesting] = useState(false)
 
@@ -160,7 +119,6 @@ const PromptEditorPage: React.FC = () => {
       id: `v${versions.length + 1}`,
       version: `${Math.floor(versions.length / 10) + 1}.${versions.length % 10}.0`,
       content: prompt.content,
-      parameters: parameters,
       createdAt: new Date().toISOString(),
       isActive: true,
       performance: {
@@ -184,39 +142,12 @@ const PromptEditorPage: React.FC = () => {
     
     // Simulate prompt processing
     setTimeout(() => {
-      let processedContent = prompt.content
-      
-      // Replace parameters with test values
-      parameters.forEach(param => {
-        const value = testValues[param.name] || param.defaultValue || `{{${param.name}}}`
-        processedContent = processedContent.replace(new RegExp(`{{${param.name}}}`, 'g'), String(value))
-      })
-      
-      setTestResult(processedContent)
+      setTestResult(prompt.content)
       setIsTesting(false)
     }, 1000)
   }
 
-  const addParameter = () => {
-    const newParameter: PromptParameter = {
-      name: `param_${parameters.length + 1}`,
-      type: 'string',
-      description: '',
-      required: false,
-      defaultValue: ''
-    }
-    setParameters([...parameters, newParameter])
-  }
 
-  const removeParameter = (index: number) => {
-    setParameters(parameters.filter((_, i) => i !== index))
-  }
-
-  const updateParameter = (index: number, updates: Partial<PromptParameter>) => {
-    const updatedParameters = [...parameters]
-    updatedParameters[index] = { ...updatedParameters[index], ...updates }
-    setParameters(updatedParameters)
-  }
 
   const handleCopyPrompt = () => {
     navigator.clipboard.writeText(prompt.content)
@@ -323,74 +254,15 @@ const PromptEditorPage: React.FC = () => {
 5. 在必要时询问澄清`
     }
     
-    // Update prompt content and add relevant parameters
+    // Update prompt content
     setPrompt({ ...prompt, content: generatedContent })
     
-    // Add relevant parameters based on category
-    const newParameters: PromptParameter[] = []
-    
-    switch (category) {
-      case 'customer-service':
-        newParameters.push(
-          { name: 'customer_question', type: 'string', description: '客户的具体问题或咨询', required: true, defaultValue: '' },
-          { name: 'customer_mood', type: 'select', description: '客户的情绪状态', required: false, defaultValue: 'neutral', options: ['positive', 'neutral', 'negative', 'angry'] },
-          { name: 'product_info', type: 'string', description: '相关产品信息', required: false, defaultValue: '' }
-        )
-        break
-        
-      case 'content-creation':
-        newParameters.push(
-          { name: 'topic', type: 'string', description: '内容主题', required: true, defaultValue: '' },
-          { name: 'target_audience', type: 'string', description: '目标受众', required: true, defaultValue: '' },
-          { name: 'content_type', type: 'select', description: '内容类型', required: true, defaultValue: 'article', options: ['article', 'blog', 'social_media', 'email', 'report'] },
-          { name: 'style_requirements', type: 'string', description: '风格要求', required: false, defaultValue: '' }
-        )
-        break
-        
-      case 'data-analysis':
-        newParameters.push(
-          { name: 'data_source', type: 'string', description: '数据来源', required: true, defaultValue: '' },
-          { name: 'analysis_goal', type: 'string', description: '分析目标', required: true, defaultValue: '' },
-          { name: 'key_metrics', type: 'string', description: '关键指标', required: true, defaultValue: '' },
-          { name: 'time_period', type: 'string', description: '时间范围', required: false, defaultValue: '' }
-        )
-        break
-        
-      case 'code-generation':
-        newParameters.push(
-          { name: 'programming_language', type: 'string', description: '编程语言', required: true, defaultValue: '' },
-          { name: 'functional_requirements', type: 'string', description: '功能需求', required: true, defaultValue: '' },
-          { name: 'technical_requirements', type: 'string', description: '技术要求', required: false, defaultValue: '' },
-          { name: 'code_style', type: 'select', description: '代码风格', required: false, defaultValue: 'clean', options: ['clean', 'concise', 'detailed', 'enterprise'] }
-        )
-        break
-        
-      case 'translation':
-        newParameters.push(
-          { name: 'source_language', type: 'string', description: '原文语言', required: true, defaultValue: '' },
-          { name: 'target_language', type: 'string', description: '目标语言', required: true, defaultValue: '' },
-          { name: 'content_type', type: 'select', description: '内容类型', required: false, defaultValue: 'general', options: ['general', 'technical', 'literary', 'business', 'academic'] },
-          { name: 'domain', type: 'string', description: '专业领域', required: false, defaultValue: '' }
-        )
-        break
-        
-      default:
-        newParameters.push(
-          { name: 'task_type', type: 'string', description: '任务类型', required: true, defaultValue: '' },
-          { name: 'specific_requirements', type: 'string', description: '具体要求', required: true, defaultValue: '' },
-          { name: 'background_info', type: 'string', description: '背景信息', required: false, defaultValue: '' },
-          { name: 'expected_output', type: 'string', description: '期望输出', required: false, defaultValue: '' }
-        )
-    }
-    
-    setParameters(newParameters)
     setSnackbar({ open: true, message: '提示词已自动生成！', severity: 'success' })
   }
 
   const handleExport = () => {
     const promptData = {
       prompt,
-      parameters,
       versions
     }
     const dataStr = JSON.stringify(promptData, null, 2)
@@ -411,7 +283,6 @@ const PromptEditorPage: React.FC = () => {
         try {
           const importedPrompt = JSON.parse(e.target?.result as string)
           setPrompt(importedPrompt.prompt)
-          setParameters(importedPrompt.parameters)
           setVersions(importedPrompt.versions)
           setSnackbar({ open: true, message: '提示词配置导入成功', severity: 'success' })
         } catch (error) {
@@ -422,64 +293,7 @@ const PromptEditorPage: React.FC = () => {
     }
   }
 
-  const renderParameterInput = (param: PromptParameter, _index: number) => {
-    switch (param.type) {
-      case 'string':
-        return (
-          <TextField
-            fullWidth
-            size="small"
-            label={param.name}
-            value={testValues[param.name] || param.defaultValue || ''}
-            onChange={(e) => setTestValues({ ...testValues, [param.name]: e.target.value })}
-            placeholder={`输入 ${param.name}`}
-          />
-        )
-      case 'number':
-        return (
-          <TextField
-            fullWidth
-            size="small"
-            type="number"
-            label={param.name}
-            value={testValues[param.name] || param.defaultValue || ''}
-            onChange={(e) => setTestValues({ ...testValues, [param.name]: e.target.value })}
-            placeholder={`输入 ${param.name}`}
-          />
-        )
-      case 'boolean':
-        return (
-          <FormControlLabel
-            control={
-              <Switch
-                checked={testValues[param.name] ?? param.defaultValue ?? false}
-                onChange={(e) => setTestValues({ ...testValues, [param.name]: e.target.checked })}
-              />
-            }
-            label={param.name}
-          />
-        )
-      case 'select':
-        return (
-          <FormControl fullWidth size="small">
-            <InputLabel>{param.name}</InputLabel>
-            <Select
-              value={testValues[param.name] || param.defaultValue || ''}
-              label={param.name}
-              onChange={(e) => setTestValues({ ...testValues, [param.name]: e.target.value })}
-            >
-              {param.options?.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )
-      default:
-        return null
-    }
-  }
+
 
   return (
     <div className="space-y-6">
@@ -535,7 +349,6 @@ const PromptEditorPage: React.FC = () => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={activeTab} onChange={handleTabChange} aria-label="提示词编辑标签页">
                 <Tab label="编写提示词" />
-                <Tab label="参数配置" />
                 <Tab label="版本管理" />
                 <Tab label="测试调试" />
               </Tabs>
@@ -622,111 +435,10 @@ const PromptEditorPage: React.FC = () => {
               </div>
             </TabPanel>
 
-            {/* 参数配置 */}
-            <TabPanel value={activeTab} index={1}>
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <Typography variant="h6">参数配置</Typography>
-                  <Button
-                    variant="outlined"
-                    startIcon={<Plus />}
-                    onClick={addParameter}
-                  >
-                    添加参数
-                  </Button>
-                </div>
 
-                <div className="space-y-4">
-                  {parameters.map((param, index) => (
-                    <Card key={index} variant="outlined">
-                      <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                          <TextField
-                            size="small"
-                            label="参数名"
-                            value={param.name}
-                            onChange={(e) => updateParameter(index, { name: e.target.value })}
-                          />
-                          
-                          <FormControl size="small">
-                            <InputLabel>类型</InputLabel>
-                            <Select
-                              value={param.type}
-                              label="类型"
-                              onChange={(e) => updateParameter(index, { type: e.target.value as any })}
-                            >
-                              <MenuItem value="string">文本</MenuItem>
-                              <MenuItem value="number">数字</MenuItem>
-                              <MenuItem value="boolean">布尔值</MenuItem>
-                              <MenuItem value="select">选择</MenuItem>
-                            </Select>
-                          </FormControl>
-
-                          <TextField
-                            size="small"
-                            label="默认值"
-                            value={param.defaultValue || ''}
-                            onChange={(e) => updateParameter(index, { defaultValue: e.target.value })}
-                          />
-
-                          <div className="flex items-center space-x-2">
-                            <FormControlLabel
-                              control={
-                                <Switch
-                                  checked={param.required}
-                                  onChange={(e) => updateParameter(index, { required: e.target.checked })}
-                                />
-                              }
-                              label="必填"
-                            />
-                            <IconButton
-                              size="small"
-                              color="error"
-                              onClick={() => removeParameter(index)}
-                            >
-                              <Minus className="w-4 h-4" />
-                            </IconButton>
-                          </div>
-                        </div>
-
-                        <TextField
-                          fullWidth
-                          size="small"
-                          label="描述"
-                          value={param.description}
-                          onChange={(e) => updateParameter(index, { description: e.target.value })}
-                          placeholder="描述此参数的用途"
-                          className="mt-3"
-                        />
-
-                        {param.type === 'select' && (
-                          <TextField
-                            fullWidth
-                            size="small"
-                            label="选项（用逗号分隔）"
-                            value={param.options?.join(', ') || ''}
-                            onChange={(e) => updateParameter(index, { 
-                              options: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
-                            })}
-                            placeholder="选项1, 选项2, 选项3"
-                            className="mt-3"
-                          />
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-
-                <Alert severity="info">
-                  <Typography variant="body2">
-                    参数配置提示：为每个参数提供清晰的描述和合适的默认值，这样用户在使用时就能更好地理解如何填写。
-                  </Typography>
-                </Alert>
-              </div>
-            </TabPanel>
 
             {/* 版本管理 */}
-            <TabPanel value={activeTab} index={2}>
+            <TabPanel value={activeTab} index={1}>
               <div className="space-y-6">
                 <Typography variant="h6">版本历史</Typography>
                 
@@ -771,24 +483,10 @@ const PromptEditorPage: React.FC = () => {
             </TabPanel>
 
             {/* 测试调试 */}
-            <TabPanel value={activeTab} index={3}>
+            <TabPanel value={activeTab} index={2}>
               <div className="space-y-6">
                 <Typography variant="h6">测试提示词</Typography>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {parameters.map((param) => (
-                    <div key={param.name}>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {param.name} {param.required && <span className="text-red-500">*</span>}
-                      </label>
-                      {renderParameterInput(param, 0)}
-                      {param.description && (
-                        <div className="text-xs text-gray-500 mt-1">{param.description}</div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
                 <div className="flex space-x-3">
                   <Button
                     variant="contained"
@@ -801,7 +499,6 @@ const PromptEditorPage: React.FC = () => {
                   <Button
                     variant="outlined"
                     onClick={() => {
-                      setTestValues({})
                       setTestResult('')
                     }}
                   >
