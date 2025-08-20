@@ -172,7 +172,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: 'e1',
       source: 'start-1',
       target: 'llm-1',
-      type: 'step',
+      type: 'smoothstep',
       style: {
         stroke: '#3b82f6',
         strokeWidth: 2,
@@ -191,7 +191,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: 'e2',
       source: 'llm-1',
       target: 'end-1',
-      type: 'step',
+      type: 'smoothstep',
       style: {
         stroke: '#3b82f6',
         strokeWidth: 2,
@@ -213,7 +213,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: `e${Date.now()}`,
       source: params.source,
       target: params.target,
-      type: 'step',
+      type: 'smoothstep',
       style: { stroke: '#3b82f6', strokeWidth: 2 },
       animated: false,
       markerEnd: {
@@ -578,8 +578,8 @@ const WorkflowCanvasContent: React.FC = () => {
         // Calculate if connection should be horizontal
         const isHorizontal = Math.abs(sourceNode.position.y - targetNode.position.y) < 50
         
-        // Use step edges for better horizontal routing
-        const edgeType = isHorizontal ? 'step' : 'straight'
+        // Use smoothstep edges for better horizontal routing
+        const edgeType = isHorizontal ? 'smoothstep' : 'straight'
         
         return {
           ...edge,
@@ -698,7 +698,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 proOptions={{ hideAttribution: true }}
                 onClick={handleCanvasClick}
                 defaultEdgeOptions={{
-                  type: 'step',
+                  type: 'smoothstep',
                   style: { stroke: '#3b82f6', strokeWidth: 2 },
                   animated: false,
                   markerEnd: {
@@ -708,7 +708,7 @@ const WorkflowCanvasContent: React.FC = () => {
                     color: '#3b82f6',
                   },
                 }}
-                connectionLineType={ConnectionLineType.Step}
+                connectionLineType={ConnectionLineType.SmoothStep}
                 style={{
                   '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
                   '--rf-node-focus-ring': 'none',
