@@ -101,7 +101,6 @@ const PromptEditorPage: React.FC = () => {
     category: isNew ? 'customer-service' : 'customer-service',
     content: isNew ? '' : '你是一个专业的客户服务代表。请根据以下信息，用友好、专业的态度回复客户：\n\n客户问题：{{customer_question}}\n客户情绪：{{customer_mood}}\n产品信息：{{product_info}}\n\n请确保回复：\n1. 准确理解客户问题\n2. 提供清晰的解决方案\n3. 保持友好专业的语调\n4. 在必要时询问更多信息',
     tags: isNew ? [] : ['客服', '回复模板', '专业'],
-    isPublic: isNew ? false : false,
     language: isNew ? 'zh-CN' : 'zh-CN'
   })
 
@@ -651,15 +650,7 @@ const PromptEditorPage: React.FC = () => {
                   </div>
                 </div>
 
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={prompt.isPublic}
-                      onChange={(e) => setPrompt({ ...prompt, isPublic: e.target.checked })}
-                    />
-                  }
-                  label="公开分享此提示词"
-                />
+
               </div>
             </TabPanel>
 
