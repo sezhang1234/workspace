@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
             onClick={onToggleCollapse}
             className={`
               group w-full flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
-              ${isCollapsed ? 'px-2 py-3' : 'px-3 py-2'}
+              py-3
               bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100
               border border-blue-200/50 hover:border-blue-300/50
               text-blue-600 hover:text-blue-700
@@ -198,12 +198,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               `} />
             </div>
             
-            {/* Button text - only show when expanded */}
-            {!isCollapsed && (
-              <span className="ml-3 text-sm font-medium">
-                {isCollapsed ? '展开' : '收起'}
-              </span>
-            )}
+
           </button>
         </div>
 
