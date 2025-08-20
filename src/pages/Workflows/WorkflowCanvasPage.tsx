@@ -203,6 +203,12 @@ const WorkflowCanvasContent: React.FC = () => {
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node)
+    setShowNodePanel(false) // Close the node library panel when a node is clicked
+  }, [])
+
+  const onNodeDoubleClick = useCallback((event: React.MouseEvent, node: Node) => {
+    setSelectedNode(node)
+    setShowNodePanel(false) // Close the node library panel when a node is clicked
   }, [])
 
 
@@ -325,11 +331,12 @@ const WorkflowCanvasContent: React.FC = () => {
     setNodes((nds) => [...nds, newNode])
   }
 
-  // Close node panel when clicking outside
+  // Close panels when clicking on canvas
   const handleCanvasClick = () => {
     if (showNodePanel) {
       setShowNodePanel(false)
     }
+    // Don't clear selectedNode here to allow configuration panel to stay open
   }
 
   const handleExport = () => {
@@ -417,6 +424,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onNodeClick={onNodeClick}
+                onNodeDoubleClick={onNodeDoubleClick}
                 nodeTypes={nodeTypes}
                 fitView
                 attributionPosition="bottom-left"
