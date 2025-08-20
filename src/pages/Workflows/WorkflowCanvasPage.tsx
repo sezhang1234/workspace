@@ -218,13 +218,26 @@ const WorkflowCanvasContent: React.FC = () => {
     console.log('📋 Event:', event)
     console.log('🔄 Node data:', node)
     console.log('📍 Current selectedNode state:', selectedNode)
+    console.log('🔧 Event type:', event.type)
+    console.log('🔧 Event target:', event.target)
+    console.log('🔧 Event currentTarget:', event.currentTarget)
     
-    setSelectedNode(node)
+    // Force immediate state update for debugging
+    const newSelectedNode = node
+    console.log('🎯 About to set selectedNode to:', newSelectedNode)
+    
+    setSelectedNode(newSelectedNode)
     setShowNodePanel(false) // Close the node library panel when a node is clicked
     
-    console.log('✅ setSelectedNode called with:', node)
+    console.log('✅ setSelectedNode called with:', newSelectedNode)
     console.log('✅ setShowNodePanel(false) called')
-  }, [selectedNode])
+    
+    // Verify state was set
+    setTimeout(() => {
+      console.log('⏰ After timeout - selectedNode should be:', newSelectedNode)
+      console.log('⏰ Actual selectedNode state:', selectedNode)
+    }, 100)
+  }, [])
 
 
 
@@ -348,10 +361,30 @@ const WorkflowCanvasContent: React.FC = () => {
 
   // Close panels when clicking on canvas
   const handleCanvasClick = () => {
+    console.log('🔍 Canvas clicked - handleCanvasClick called')
+    console.log('📍 Current showNodePanel:', showNodePanel)
+    console.log('📍 Current selectedNode:', selectedNode)
+    
     if (showNodePanel) {
+      console.log('✅ Closing showNodePanel')
       setShowNodePanel(false)
     }
+    
     // Don't clear selectedNode here to allow configuration panel to stay open
+    console.log('🔒 Keeping selectedNode as:', selectedNode)
+  }
+  
+  // Handle node click to prevent canvas click interference
+  const handleNodeClick = (event: React.MouseEvent, node: Node) => {
+    console.log('🔍 Node single-clicked:', node.id)
+    console.log('📍 Event target:', event.target)
+    console.log('📍 Event currentTarget:', event.currentTarget)
+    
+    // Prevent event bubbling to canvas
+    event.stopPropagation()
+    
+    // Don't change selectedNode on single click
+    console.log('🔒 Keeping selectedNode as:', selectedNode)
   }
 
   const handleExport = () => {
@@ -438,6 +471,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                onNodeClick={handleNodeClick}
                 onNodeDoubleClick={onNodeDoubleClick}
                 nodeTypes={nodeTypes}
                 fitView
@@ -458,10 +492,9 @@ const WorkflowCanvasContent: React.FC = () => {
                 }}
                 style={{
                   '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
-                  '--rf-node-selected-border-color': '#3b82f6',
+                  '--rf-node-focus-ring': 'none',
                 } as any}
                 onPaneClick={() => console.log('🔍 Canvas pane clicked')}
-                onNodeClick={(event, node) => console.log('🔍 Node single-clicked:', node.id)}
               >
 
                 {/* Light grid background */}
@@ -1213,7 +1246,15 @@ const WorkflowCanvasContent: React.FC = () => {
       {/* Node Configuration Dialog */}
       {console.log('🔍 Rendering modal dialog check - selectedNode:', selectedNode)}
       {selectedNode && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              console.log('🔍 Modal backdrop clicked, closing dialog')
+              setSelectedNode(null)
+            }
+          }}
+        >
           {console.log('🎯 Modal dialog is rendering!')}
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             {/* Dialog Header */}
