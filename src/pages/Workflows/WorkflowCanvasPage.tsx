@@ -20,21 +20,23 @@ import {
   Undo,
   Redo,
   Maximize2,
-  Network
+  Network,
+  ZoomIn,
+  ZoomOut
 } from 'lucide-react'
 import ReactFlow, {
   Node,
   Edge,
   useNodesState,
   useEdgesState,
-  Controls,
   Background,
   BackgroundVariant,
   MiniMap,
   Panel,
   ReactFlowProvider,
   NodeTypes,
-  MarkerType
+  MarkerType,
+  useReactFlow
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { 
@@ -72,6 +74,7 @@ const WorkflowCanvasContent: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const workflowData = location.state?.workflowData || {}
+  const { zoomIn, zoomOut, fitView: reactFlowFitView } = useReactFlow()
   
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [showNodePanel, setShowNodePanel] = useState(false)
@@ -293,13 +296,8 @@ const WorkflowCanvasContent: React.FC = () => {
   }, [history, historyIndex, setNodes, setEdges])
 
   const fitView = useCallback(() => {
-    // This will be handled by ReactFlow's built-in fitView
-    const reactFlowInstance = document.querySelector('.react-flow__viewport')
-    if (reactFlowInstance) {
-      // Trigger a window resize to trigger fitView
-      window.dispatchEvent(new Event('resize'))
-    }
-  }, [])
+    reactFlowFitView()
+  }, [reactFlowFitView])
 
   const addNode = (type: string, position: { x: number; y: number }) => {
     const newNode: Node = {
@@ -457,28 +455,24 @@ const WorkflowCanvasContent: React.FC = () => {
                   style={{ backgroundColor: 'aliceblue' }}
                 />
                 
-                {/* Enhanced controls with Add Node icon button */}
-                <Controls 
-                  className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
-                  showZoom={true}
-                  showFitView={true}
-                  showInteractive={true}
-                >
-                  {/* Custom Add Node icon button above zoom controls */}
-                  <div className="absolute -top-10 left-0 right-0 flex justify-center">
-                    <button
-                      onClick={() => setShowNodePanel(!showNodePanel)}
-                      className="w-8 h-8 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg hover:bg-white hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
-                      title={showNodePanel ? '隐藏节点库' : '添加节点'}
-                    >
-                      <Plus className="w-4 h-4 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" />
-                    </button>
-                  </div>
-                </Controls>
-
-                {/* Control Panel with undo, redo, fitview and auto layout */}
+                {/* Unified Control Panel with all icons */}
                 <Panel position="bottom-left" className="bg-transparent">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-2 flex items-center space-x-2">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 p-3 flex items-center space-x-3">
+                    {/* Add Node Button */}
+                    <Tooltip title={showNodePanel ? '隐藏节点库' : '添加节点'}>
+                      <IconButton 
+                        size="small" 
+                        onClick={() => setShowNodePanel(!showNodePanel)}
+                        className="hover:bg-blue-50 border border-gray-200"
+                      >
+                        <Plus className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                    
+                    {/* Divider */}
+                    <div className="w-px h-6 bg-gray-300"></div>
+                    
+                    {/* Undo/Redo */}
                     <Tooltip title="撤销">
                       <IconButton 
                         size="small" 
@@ -501,12 +495,32 @@ const WorkflowCanvasContent: React.FC = () => {
                       </IconButton>
                     </Tooltip>
                     
+                    {/* Divider */}
+                    <div className="w-px h-6 bg-gray-300"></div>
+                    
+                    {/* Zoom Controls */}
+                    <Tooltip title="放大">
+                      <IconButton size="small" onClick={() => zoomIn()} className="hover:bg-blue-50">
+                        <ZoomIn className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                    
+                    <Tooltip title="缩小">
+                      <IconButton size="small" onClick={() => zoomOut()} className="hover:bg-blue-50">
+                        <ZoomOut className="w-4 h-4 text-gray-600" />
+                      </IconButton>
+                    </Tooltip>
+                    
                     <Tooltip title="适应视图">
                       <IconButton size="small" onClick={fitView} className="hover:bg-blue-50">
                         <Maximize2 className="w-4 h-4 text-gray-600" />
                       </IconButton>
                     </Tooltip>
                     
+                    {/* Divider */}
+                    <div className="w-px h-6 bg-gray-300"></div>
+                    
+                    {/* Auto Layout */}
                     <Tooltip title="自动布局">
                       <IconButton size="small" onClick={() => {
                         // Simple auto-layout: arrange nodes in a grid
