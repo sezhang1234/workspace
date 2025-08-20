@@ -4,12 +4,8 @@ import {
   TrendingUp, 
   Users, 
   Activity, 
-  Calendar,
   Download,
   RotateCcw,
-  Filter,
-  Eye,
-  EyeOff,
   Check
 } from 'lucide-react'
 import { 
@@ -23,18 +19,14 @@ import {
   FormControl,
   InputLabel,
   Chip,
-  IconButton,
-  Tooltip,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Switch,
-  FormControlLabel,
-  FormGroup
+  FormControlLabel
 } from '@mui/material'
 
 interface AnalyticsData {

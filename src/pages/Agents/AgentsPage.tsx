@@ -4,15 +4,13 @@ import {
   Brain, 
   Plus, 
   Search, 
-  Filter, 
   Play, 
   Pause, 
   Edit, 
   Trash2,
   MoreVertical,
   Settings,
-  Copy,
-  Download
+  Copy
 } from 'lucide-react'
 
 interface Agent {

@@ -5,14 +5,8 @@ import {
   Settings, 
   Trash2, 
   Copy, 
-  TestTube, 
-  CheckCircle, 
-  AlertCircle,
-  Zap,
-  Eye,
-  EyeOff,
-  Download,
-  Upload
+  TestTube,
+  CheckCircle
 } from 'lucide-react'
 import { 
   Button, 
@@ -42,10 +36,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Slider,
-  FormGroup,
-  Divider
+  FormGroup
 } from '@mui/material'
 
 interface ModelConfig {
@@ -286,11 +278,7 @@ const ModelsPage: React.FC = () => {
     ))
   }
 
-  const addTag = (modelId: string, tag: string) => {
-    setModels(models.map(model => 
-      model.id === modelId ? { ...model, tags: [...model.tags, tag] } : model
-    ))
-  }
+
 
   const removeTag = (modelId: string, tagIndex: number) => {
     setModels(models.map(model => 
@@ -459,7 +447,7 @@ const ModelsPage: React.FC = () => {
                           size="small"
                           onClick={() => toggleModelStatus(model.id)}
                         >
-                          {model.isActive ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                          {model.isActive ? <CheckCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="复制API密钥">

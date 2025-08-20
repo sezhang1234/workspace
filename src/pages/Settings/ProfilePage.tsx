@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
 import { useAuthStore } from '../../stores/useAuthStore'
 import { 
-  User, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar,
   Save,
   Camera,
   Edit3,

@@ -25,6 +25,8 @@ interface WorkflowFormData {
   trigger: string
   isActive: boolean
   tags: string[]
+  timeout: number
+  retryCount: number
 }
 
 const WorkflowCreationPage: React.FC = () => {
@@ -34,7 +36,9 @@ const WorkflowCreationPage: React.FC = () => {
     description: '',
     trigger: 'webhook',
     isActive: true,
-    tags: []
+    tags: [],
+    timeout: 300,
+    retryCount: 3
   })
 
   const [newTag, setNewTag] = useState('')

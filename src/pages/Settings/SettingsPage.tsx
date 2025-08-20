@@ -6,15 +6,7 @@ import {
   Key, 
   BarChart3, 
   Trash2, 
-  Eye, 
-  EyeOff,
-  Download,
-  Upload,
-  Plus,
-  Minus,
   Copy,
-  CheckCircle,
-  AlertCircle,
   Info
 } from 'lucide-react'
 import { 
@@ -33,25 +25,19 @@ import {
   Typography,
   Card,
   CardContent,
-  Divider,
   Alert,
   Snackbar,
   Slider,
-  FormGroup,
   Grid,
   Avatar,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  ListItemSecondaryAction,
   IconButton,
-  Tooltip,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  InputAdornment
+  InputAdornment,
+  Divider,
+  FormGroup
 } from '@mui/material'
 
 interface TabPanelProps {
@@ -188,6 +174,7 @@ const SettingsPage: React.FC = () => {
   const [performanceSettings, setPerformanceSettings] = useState({
     enableCaching: true,
     cacheSize: 1000,
+    cacheTTL: 300,
     enableCompression: true,
     enableMinification: true,
     enableCDN: false,
@@ -200,7 +187,7 @@ const SettingsPage: React.FC = () => {
     retryDelay: 1000
   })
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
 
@@ -461,12 +448,13 @@ const SettingsPage: React.FC = () => {
                 size="small"
                 placeholder="添加技能"
                 onKeyPress={(e) => {
-                  if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                  const target = e.currentTarget as HTMLInputElement
+                  if (e.key === 'Enter' && target.value.trim()) {
                     setProfileSettings({
                       ...profileSettings,
-                      skills: [...profileSettings.skills, e.currentTarget.value.trim()]
+                      skills: [...profileSettings.skills, target.value.trim()]
                     })
-                    e.currentTarget.value = ''
+                    target.value = ''
                   }
                 }}
               />

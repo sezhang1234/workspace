@@ -25,6 +25,7 @@ import ReactFlow, {
   useEdgesState,
   Controls,
   Background,
+  BackgroundVariant,
   MiniMap,
   Panel,
   ReactFlowProvider,
@@ -38,8 +39,6 @@ import {
   Select, 
   MenuItem, 
   FormControl, 
-  Switch, 
-  FormControlLabel,
   Typography,
   Card,
   CardContent,
@@ -71,14 +70,7 @@ const WorkflowCanvasContent: React.FC = () => {
   
   // Debug logging for selectedNode changes
   useEffect(() => {
-    console.log('🔄 selectedNode state changed:', selectedNode)
-    if (selectedNode) {
-      console.log('🎯 Configuration dialog should now be visible')
-      console.log('📊 selectedNode type:', selectedNode.type)
-      console.log('📊 selectedNode data:', selectedNode.data)
-    } else {
-      console.log('❌ Configuration dialog should now be hidden')
-    }
+    // selectedNode state changed
   }, [selectedNode])
   const [showDebugPanel, setShowDebugPanel] = useState(false)
   const [executionState, setExecutionState] = useState<'idle' | 'running' | 'completed' | 'error'>('idle')
@@ -195,7 +187,6 @@ const WorkflowCanvasContent: React.FC = () => {
   ])
 
   const onConnect = useCallback((params: any) => {
-    console.log('Connecting nodes:', params)
     const newEdge: Edge = {
       id: `e${Date.now()}`,
       source: params.source,
@@ -213,30 +204,9 @@ const WorkflowCanvasContent: React.FC = () => {
     setEdges((eds) => [...eds, newEdge])
   }, [])
 
-  const onNodeDoubleClick = useCallback((event: React.MouseEvent, node: Node) => {
-    console.log('🔍 Node double-click triggered!')
-    console.log('📋 Event:', event)
-    console.log('🔄 Node data:', node)
-    console.log('📍 Current selectedNode state:', selectedNode)
-    console.log('🔧 Event type:', event.type)
-    console.log('🔧 Event target:', event.target)
-    console.log('🔧 Event currentTarget:', event.currentTarget)
-    
-    // Force immediate state update for debugging
-    const newSelectedNode = node
-    console.log('🎯 About to set selectedNode to:', newSelectedNode)
-    
-    setSelectedNode(newSelectedNode)
+  const onNodeDoubleClick = useCallback((_event: React.MouseEvent, node: Node) => {
+    setSelectedNode(node)
     setShowNodePanel(false) // Close the node library panel when a node is clicked
-    
-    console.log('✅ setSelectedNode called with:', newSelectedNode)
-    console.log('✅ setShowNodePanel(false) called')
-    
-    // Verify state was set
-    setTimeout(() => {
-      console.log('⏰ After timeout - selectedNode should be:', newSelectedNode)
-      console.log('⏰ Actual selectedNode state:', selectedNode)
-    }, 100)
   }, [])
 
 
@@ -252,79 +222,12 @@ const WorkflowCanvasContent: React.FC = () => {
     setDebugOutput('')
   }
 
-  const simulateWorkflowExecution = async () => {
-    const startNode = nodes.find(node => node.type === 'startNode')
-    if (!startNode) return
-
-    setExecutionState('running')
-    setCurrentExecutingNode(startNode.id)
-    
-    try {
-      // Simulate execution through the workflow
-      for (const node of nodes) {
-        if (node.type === 'endNode') continue
-        
-        setCurrentExecutingNode(node.id)
-        
-        // Apply execution style to the current node
-        setNodes(prevNodes => prevNodes.map(n => 
-          n.id === node.id 
-            ? { 
-                ...n, 
-                style: {
-                  boxShadow: '0 0 20px rgba(245, 158, 11, 0.8)',
-                  border: '3px solid #f59e0b',
-                  transform: 'scale(1.05)',
-                  transition: 'all 0.3s ease-in-out'
-                }
-              }
-            : { ...n, style: {} }
-        ))
-        
-        // Add execution step to history
-        const executionStep = {
-          id: Date.now() + Math.random(),
-          nodeId: node.id,
-          nodeName: node.data.label,
-          nodeType: node.type,
-          timestamp: new Date().toLocaleTimeString(),
-          status: 'executing',
-          input: debugInput || '默认输入',
-          output: `节点 ${node.data.label} 执行中...`,
-          duration: Math.random() * 2000 + 500
-        }
-        
-        setExecutionHistory(prev => [...prev, executionStep])
-        
-        // Simulate execution time
-        await new Promise(resolve => setTimeout(resolve, executionStep.duration))
-        
-        // Update execution step with completion
-        setExecutionHistory(prev => prev.map(step => 
-          step.id === executionStep.id 
-            ? { ...step, status: 'completed', output: `节点 ${node.data.label} 执行完成` }
-            : step
-        ))
-      }
-      
-      setExecutionState('completed')
-      setDebugOutput('工作流执行完成！所有节点已成功处理。')
-    } catch (error) {
-      setExecutionState('error')
-      setDebugOutput('工作流执行出错：' + error.message)
-    } finally {
-      // Clear all execution styles
-      setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
-      setCurrentExecutingNode(null)
-    }
-  }
-
   const stopExecution = () => {
     setExecutionState('idle')
     setCurrentExecutingNode(null)
     // Clear all execution styles
     setNodes(prevNodes => prevNodes.map(n => ({ ...n, style: {} })))
-    setSnackbar({ open: true, message: '工作流执行已停止', severity: 'info' })
+    setSnackbar({ open: true, message: '工作流执行已停止', severity: 'success' })
   }
 
   const clearDebugHistory = () => {
@@ -361,30 +264,15 @@ const WorkflowCanvasContent: React.FC = () => {
 
   // Close panels when clicking on canvas
   const handleCanvasClick = () => {
-    console.log('🔍 Canvas clicked - handleCanvasClick called')
-    console.log('📍 Current showNodePanel:', showNodePanel)
-    console.log('📍 Current selectedNode:', selectedNode)
-    
     if (showNodePanel) {
-      console.log('✅ Closing showNodePanel')
       setShowNodePanel(false)
     }
-    
-    // Don't clear selectedNode here to allow configuration panel to stay open
-    console.log('🔒 Keeping selectedNode as:', selectedNode)
   }
   
   // Handle node click to prevent canvas click interference
-  const handleNodeClick = (event: React.MouseEvent, node: Node) => {
-    console.log('🔍 Node single-clicked:', node.id)
-    console.log('📍 Event target:', event.target)
-    console.log('📍 Event currentTarget:', event.currentTarget)
-    
+  const handleNodeClick = (event: React.MouseEvent, _node: Node) => {
     // Prevent event bubbling to canvas
     event.stopPropagation()
-    
-    // Don't change selectedNode on single click
-    console.log('🔒 Keeping selectedNode as:', selectedNode)
   }
 
   const handleExport = () => {
@@ -460,7 +348,6 @@ const WorkflowCanvasContent: React.FC = () => {
         </div>
       </div>
 
-      {/* Main canvas area - Full width */}
       <div className="h-[900px]">
         <Card className="h-[800px] shadow-lg border-0">
           <CardContent className="h-full p-0">
@@ -494,12 +381,12 @@ const WorkflowCanvasContent: React.FC = () => {
                   '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
                   '--rf-node-focus-ring': 'none',
                 } as any}
-                onPaneClick={() => console.log('🔍 Canvas pane clicked')}
+                onPaneClick={() => {}}
               >
 
                 {/* Light grid background */}
                 <Background 
-                  variant="dots" 
+                  variant={BackgroundVariant.Dots} 
                   gap={40} 
                   size={1} 
                   color="#e5e7eb"
@@ -1075,7 +962,7 @@ const WorkflowCanvasContent: React.FC = () => {
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            {executionHistory.map((step, index) => (
+                            {executionHistory.map((step, _index) => (
                               <div key={step.id} className="flex items-start space-x-2 p-2 bg-white rounded border border-gray-200">
                                 <div className={`w-2 h-2 rounded-full mt-1.5 ${
                                   step.status === 'executing' ? 'bg-orange-500 animate-pulse' :
@@ -1186,7 +1073,6 @@ const WorkflowCanvasContent: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     {/* Import Button */}
                     <button
-                      component="label"
                       onClick={() => document.getElementById('import-file')?.click()}
                       className="w-10 h-10 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
                       title="导入工作流"
@@ -1244,18 +1130,16 @@ const WorkflowCanvasContent: React.FC = () => {
       </div>
 
       {/* Node Configuration Dialog */}
-      {console.log('🔍 Rendering modal dialog check - selectedNode:', selectedNode)}
       {selectedNode && (
         <div 
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
-              console.log('🔍 Modal backdrop clicked, closing dialog')
               setSelectedNode(null)
             }
           }}
         >
-          {console.log('🎯 Modal dialog is rendering!')}
+
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             {/* Dialog Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">

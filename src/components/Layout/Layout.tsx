@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../stores/useAuthStore'
 import Sidebar from './Sidebar'
 import Header from './Header'
@@ -8,7 +8,6 @@ const Layout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { user } = useAuthStore()
-  const location = useLocation()
   const navigate = useNavigate()
 
   // 如果用户未登录，重定向到登录页

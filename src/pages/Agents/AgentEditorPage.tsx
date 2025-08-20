@@ -1,13 +1,9 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { 
-  Brain, 
   ArrowLeft, 
   Save, 
   Play, 
-  Settings, 
-  MessageSquare, 
-  Zap,
   TestTube,
   Copy,
   Download,
@@ -29,8 +25,6 @@ import {
   Box,
   Typography,
   Card,
-  CardContent,
-  Divider,
   Alert,
   Snackbar
 } from '@mui/material'
@@ -88,7 +82,7 @@ const AgentEditorPage: React.FC = () => {
   const [testHistory, setTestHistory] = useState<Array<{ role: 'user' | 'assistant', content: string }>>([])
   const [isTesting, setIsTesting] = useState(false)
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
 
@@ -217,12 +211,12 @@ const AgentEditorPage: React.FC = () => {
               <FormControl fullWidth>
                 <InputLabel>状态</InputLabel>
                 <Select
-                  value={agent.isActive}
+                  value={agent.isActive.toString()}
                   label="状态"
-                  onChange={(e) => setAgent({ ...agent, isActive: e.target.value as boolean })}
+                  onChange={(e) => setAgent({ ...agent, isActive: e.target.value === 'true' })}
                 >
-                  <MenuItem value={true}>启用</MenuItem>
-                  <MenuItem value={false}>禁用</MenuItem>
+                  <MenuItem value="true">启用</MenuItem>
+                  <MenuItem value="false">禁用</MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -256,12 +250,13 @@ const AgentEditorPage: React.FC = () => {
                   size="small"
                   placeholder="添加标签"
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter' && e.currentTarget.value.trim()) {
+                    const target = e.currentTarget as HTMLInputElement
+                    if (e.key === 'Enter' && target.value.trim()) {
                       setAgent({
                         ...agent,
-                        tags: [...agent.tags, e.currentTarget.value.trim()]
+                        tags: [...agent.tags, target.value.trim()]
                       })
-                      e.currentTarget.value = ''
+                      target.value = ''
                     }
                   }}
                 />
