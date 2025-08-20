@@ -139,11 +139,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
         </nav>
 
         {/* Collapse Toggle Button - Bottom Left */}
-        <div className={`border-t border-gray-200 py-4`}>
+        <div className={`border-t border-gray-200 py-4 ${isCollapsed ? 'px-2' : 'px-4'}`}>
           <button
             onClick={onToggleCollapse}
             className={`
-              group mx-auto flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
+              group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
               w-12 h-12
               bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100
               border border-blue-200/50 hover:border-blue-300/50
