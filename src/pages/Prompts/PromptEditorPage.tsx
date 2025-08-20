@@ -24,7 +24,6 @@ import {
   InputLabel, 
   Switch, 
   FormControlLabel,
-  Chip,
   Tabs,
   Tab,
   Box,
@@ -100,7 +99,6 @@ const PromptEditorPage: React.FC = () => {
     description: isNew ? '' : '专业的客户服务回复提示词模板',
     category: isNew ? 'customer-service' : 'customer-service',
     content: isNew ? '' : '你是一个专业的客户服务代表。请根据以下信息，用友好、专业的态度回复客户：\n\n客户问题：{{customer_question}}\n客户情绪：{{customer_mood}}\n产品信息：{{product_info}}\n\n请确保回复：\n1. 准确理解客户问题\n2. 提供清晰的解决方案\n3. 保持友好专业的语调\n4. 在必要时询问更多信息',
-    tags: isNew ? [] : ['客服', '回复模板', '专业'],
     language: isNew ? 'zh-CN' : 'zh-CN'
   })
 
@@ -582,37 +580,7 @@ const PromptEditorPage: React.FC = () => {
                   placeholder="描述提示词的用途和特点"
                 />
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    标签
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    {prompt.tags.map((tag, index) => (
-                      <Chip
-                        key={index}
-                        label={tag}
-                        onDelete={() => setPrompt({ 
-                          ...prompt, 
-                          tags: prompt.tags.filter((_, i) => i !== index) 
-                        })}
-                      />
-                    ))}
-                    <TextField
-                      size="small"
-                      placeholder="添加标签"
-                      onKeyPress={(e) => {
-                        const target = e.currentTarget as HTMLInputElement
-                        if (e.key === 'Enter' && target.value.trim()) {
-                          setPrompt({
-                            ...prompt,
-                            tags: [...prompt.tags, target.value.trim()]
-                          })
-                          target.value = ''
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
+
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
@@ -786,11 +754,13 @@ const PromptEditorPage: React.FC = () => {
                               <div className="text-sm text-gray-500">成功率</div>
                               <div className="font-medium">{version.performance.successRate}%</div>
                             </div>
-                            <Chip
-                              label={version.isActive ? '当前版本' : '历史版本'}
-                              color={version.isActive ? 'primary' : 'default'}
-                              size="small"
-                            />
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                              version.isActive 
+                                ? 'bg-blue-100 text-blue-800' 
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                              {version.isActive ? '当前版本' : '历史版本'}
+                            </span>
                           </div>
                         </div>
                       </CardContent>
