@@ -914,16 +914,7 @@ const WorkflowCanvasContent: React.FC = () => {
                         <span className="text-xs font-semibold text-gray-700/90">逻辑控制</span>
                       </div>
                       <div className="space-y-1">
-                        <Button
-                          fullWidth
-                          variant="outlined"
-                          size="small"
-                          startIcon={<Zap className="w-3 h-3" />}
-                          onClick={() => addNode('actionNode', { x: 300, y: 200 })}
-                          className="border-blue-200/70 text-blue-700/90 hover:bg-blue-50/80 hover:border-blue-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
-                        >
-                          动作节点
-                        </Button>
+
                         <Button
                           fullWidth
                           variant="outlined"
@@ -1683,7 +1674,6 @@ const WorkflowCanvasContent: React.FC = () => {
                   nodeColor={(node) => {
                     switch (node.type) {
                       case 'startNode': return '#10b981'
-                      case 'actionNode': return '#3b82f6'
                       case 'conditionNode': return '#f59e0b'
                       case 'loopNode': return '#8b5cf6'
                       case 'knowledgeRetrievalNode': return '#06b6d4'
