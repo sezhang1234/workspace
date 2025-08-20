@@ -132,10 +132,11 @@ const WorkflowCanvasContent: React.FC = () => {
       data: {
         label: 'LLM 节点',
         model: 'gpt-4',
+        systemPrompt: '你是一个有用的AI助手，请根据用户的问题提供准确、有帮助的回答。',
+        userPrompt: '请根据输入生成回答',
+        outputVariable: 'llm_output',
         temperature: 0.7,
         maxTokens: 1000,
-        prompt: '请根据输入生成回答',
-        systemMessage: '你是一个有用的AI助手',
         status: 'ready',
         executionTime: 0,
         tokenUsage: 0,
@@ -319,6 +320,21 @@ const WorkflowCanvasContent: React.FC = () => {
                type === 'questionClassifierNode' ? '问题分类节点' :
                type === 'answerNode' ? '答案生成节点' :
                type === 'variableAggregatorNode' ? '变量聚合节点' : '新节点',
+        // LLM node specific fields
+        ...(type === 'llmNode' && {
+          model: 'gpt-4',
+          systemPrompt: '你是一个有用的AI助手，请根据用户的问题提供准确、有帮助的回答。',
+          userPrompt: '请根据输入生成回答',
+          outputVariable: 'llm_output',
+          temperature: 0.7,
+          maxTokens: 1000,
+          status: 'ready',
+          executionTime: 0,
+          tokenUsage: 0,
+          cost: 0,
+          successRate: 100
+        }),
+        // Common fields
         trigger: 'manual',
         executionCount: 0,
         lastExecuted: '从未'
@@ -1194,11 +1210,76 @@ const WorkflowCanvasContent: React.FC = () => {
                               >
                                 <MenuItem value="gpt-4">GPT-4</MenuItem>
                                 <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                                <MenuItem value="claude-3">Claude-3</MenuItem>
+                                <MenuItem value="gpt-4-turbo">GPT-4 Turbo</MenuItem>
+                                <MenuItem value="claude-3-opus">Claude-3 Opus</MenuItem>
+                                <MenuItem value="claude-3-sonnet">Claude-3 Sonnet</MenuItem>
+                                <MenuItem value="claude-3-haiku">Claude-3 Haiku</MenuItem>
                                 <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
+                                <MenuItem value="gemini-ultra">Gemini Ultra</MenuItem>
                                 <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
+                                <MenuItem value="qwen-turbo">Qwen Turbo</MenuItem>
+                                <MenuItem value="llama-3-70b">Llama 3 70B</MenuItem>
+                                <MenuItem value="llama-3-8b">Llama 3 8B</MenuItem>
                               </Select>
                             </FormControl>
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              系统提示词 (System Prompt)
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              multiline
+                              rows={3}
+                              value={selectedNode.data.systemPrompt || ''}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              placeholder="输入系统提示词，定义AI助手的角色和行为..."
+                              className="bg-gray-50"
+                            />
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              用户提示词 (User Prompt)
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              multiline
+                              rows={3}
+                              value={selectedNode.data.userPrompt || ''}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, userPrompt: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              placeholder="输入用户提示词，定义具体的任务和要求..."
+                              className="bg-gray-50"
+                            />
+                          </div>
+
+                          <div>
+                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                              输出变量名
+                            </Typography>
+                            <TextField
+                              size="small"
+                              fullWidth
+                              value={selectedNode.data.outputVariable || 'llm_output'}
+                              onChange={(e) => {
+                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, outputVariable: e.target.value } }
+                                setSelectedNode(updatedNode)
+                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              placeholder="定义输出变量的名称..."
+                              className="bg-gray-50"
+                            />
                           </div>
 
                           <div>
