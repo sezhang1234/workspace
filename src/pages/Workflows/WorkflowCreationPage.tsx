@@ -5,26 +5,18 @@ import {
   Play, 
   Settings, 
   Plus,
-  Zap,
-  Clock,
-  Webhook,
-  Calendar,
   Bot,
   CheckCircle
 } from 'lucide-react'
 import { 
   Button, 
   TextField, 
-  Select, 
-  MenuItem, 
-  FormControl, 
   Switch, 
   FormControlLabel,
   Typography,
   Card,
   CardContent,
-  Chip,
-  Box
+  Chip
 } from '@mui/material'
 
 interface WorkflowFormData {
@@ -33,9 +25,6 @@ interface WorkflowFormData {
   trigger: string
   isActive: boolean
   tags: string[]
-  executionMode: string
-  timeout: number
-  retryCount: number
 }
 
 const WorkflowCreationPage: React.FC = () => {
@@ -45,10 +34,7 @@ const WorkflowCreationPage: React.FC = () => {
     description: '',
     trigger: 'webhook',
     isActive: true,
-    tags: [],
-    executionMode: 'sequential',
-    timeout: 300,
-    retryCount: 3
+    tags: []
   })
 
   const [newTag, setNewTag] = useState('')
@@ -82,18 +68,7 @@ const WorkflowCreationPage: React.FC = () => {
     navigate('/dashboard/workflows')
   }
 
-  const triggerOptions = [
-    { value: 'webhook', label: 'Webhook', icon: Webhook, description: '通过HTTP请求触发' },
-    { value: 'schedule', label: '定时任务', icon: Clock, description: '按计划时间执行' },
-    { value: 'manual', label: '手动触发', icon: Play, description: '用户手动启动' },
-    { value: 'event', label: '事件驱动', icon: Zap, description: '响应系统事件' }
-  ]
 
-  const executionModes = [
-    { value: 'sequential', label: '顺序执行', description: '节点按顺序依次执行' },
-    { value: 'parallel', label: '并行执行', description: '多个节点同时执行' },
-    { value: 'conditional', label: '条件执行', description: '根据条件选择执行路径' }
-  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -124,7 +99,7 @@ const WorkflowCreationPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Workflow Form */}
           <div className="space-y-6">
-            <Card className="shadow-lg border-0">
+            <Card className="shadow-lg border-0 h-full">
               <CardContent className="p-6">
                 <Typography variant="h6" className="text-gray-800 font-semibold mb-4">
                   基本信息
@@ -155,7 +130,7 @@ const WorkflowCreationPage: React.FC = () => {
                       fullWidth
                       size="small"
                       multiline
-                      rows={3}
+                      rows={6}
                       placeholder="描述工作流的功能和用途..."
                       value={formData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
@@ -163,66 +138,7 @@ const WorkflowCreationPage: React.FC = () => {
                     />
                   </div>
 
-                  {/* Trigger Type */}
-                  <div>
-                    <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                      触发方式 *
-                    </Typography>
-                    <div className="grid grid-cols-2 gap-3">
-                      {triggerOptions.map((option) => (
-                        <div
-                          key={option.value}
-                          className={`
-                            p-3 border rounded-lg cursor-pointer transition-all duration-200
-                            ${formData.trigger === option.value 
-                              ? 'border-blue-500 bg-blue-50' 
-                              : 'border-gray-200 hover:border-gray-300'
-                            }
-                          `}
-                          onClick={() => handleInputChange('trigger', option.value)}
-                        >
-                          <div className="flex items-center space-x-2 mb-2">
-                            <option.icon className={`w-4 h-4 ${
-                              formData.trigger === option.value ? 'text-blue-600' : 'text-gray-500'
-                            }`} />
-                            <span className={`text-sm font-medium ${
-                              formData.trigger === option.value ? 'text-blue-700' : 'text-gray-700'
-                            }`}>
-                              {option.label}
-                            </span>
-                          </div>
-                          <p className={`text-xs ${
-                            formData.trigger === option.value ? 'text-blue-600' : 'text-gray-500'
-                          }`}>
-                            {option.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  {/* Execution Mode */}
-                  <div>
-                    <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                      执行模式
-                    </Typography>
-                    <FormControl fullWidth size="small">
-                      <Select
-                        value={formData.executionMode}
-                        onChange={(e) => handleInputChange('executionMode', e.target.value)}
-                        className="bg-white"
-                      >
-                        {executionModes.map((mode) => (
-                          <MenuItem key={mode.value} value={mode.value}>
-                            <div>
-                              <div className="font-medium">{mode.label}</div>
-                              <div className="text-xs text-gray-500">{mode.description}</div>
-                            </div>
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
 
                   {/* Tags */}
                   <div>
@@ -319,7 +235,7 @@ const WorkflowCreationPage: React.FC = () => {
 
           {/* Right Side - Demonstration Image */}
           <div className="space-y-6">
-            <Card className="shadow-lg border-0">
+            <Card className="shadow-lg border-0 h-full">
               <CardContent className="p-6">
                 <Typography variant="h6" className="text-gray-800 font-semibold mb-4">
                   工作流画布预览
