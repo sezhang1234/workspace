@@ -387,9 +387,8 @@ const WorkflowCanvasContent: React.FC = () => {
                   className="opacity-40"
                 />
                 
-                {/* Enhanced controls with Add Node icon button - Left Center */}
+                {/* Enhanced controls with Add Node icon button */}
                 <Controls 
-                  position="left"
                   className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
                   showZoom={true}
                   showFitView={true}
