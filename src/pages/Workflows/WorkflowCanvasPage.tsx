@@ -22,7 +22,8 @@ import {
   Maximize2,
   Network,
   ZoomIn,
-  ZoomOut
+  ZoomOut,
+  Wand2
 } from 'lucide-react'
 import ReactFlow, {
   Node,
@@ -347,6 +348,32 @@ const WorkflowCanvasContent: React.FC = () => {
       setHasAutoLayouted(false)
     }, 100)
   }
+
+  // Generate system prompt based on model and context
+  const generateSystemPrompt = useCallback((model: string, context?: string) => {
+    const modelInfo = {
+      'gpt-4': 'GPT-4是一个强大的AI模型，擅长复杂推理和创造性任务',
+      'gpt-4-turbo': 'GPT-4 Turbo是GPT-4的优化版本，响应更快，成本更低',
+      'gpt-3.5-turbo': 'GPT-3.5 Turbo是一个平衡的模型，适合日常对话和任务',
+      'claude-3-opus': 'Claude-3 Opus是Anthropic最强大的模型，擅长复杂分析和写作',
+      'claude-3-sonnet': 'Claude-3 Sonnet是Claude-3的中等模型，平衡性能和速度',
+      'claude-3-haiku': 'Claude-3 Haiku是Claude-3的快速模型，适合实时应用',
+      'gemini-pro': 'Gemini Pro是Google的AI模型，擅长多模态理解和生成',
+      'gemini-ultra': 'Gemini Ultra是Google最先进的AI模型，具有强大的推理能力',
+      'qwen-plus': 'Qwen Plus是阿里巴巴的AI模型，擅长中文理解和生成',
+      'qwen-turbo': 'Qwen Turbo是Qwen的快速版本，适合实时对话',
+      'llama-3-70b': 'Llama 3 70B是Meta的开源大模型，具有强大的语言理解能力',
+      'llama-3-8b': 'Llama 3 8B是Meta的轻量级模型，适合资源受限的环境'
+    }
+
+    const basePrompt = `你是一个专业的AI助手，基于${modelInfo[model as keyof typeof modelInfo] || model}模型。你的任务是：\n\n1. 理解用户的需求和问题\n2. 提供准确、有用、详细的回答\n3. 保持专业、友好的语调\n4. 在不确定时主动询问澄清\n5. 提供可操作的解决方案和建议\n\n请始终以用户的最佳利益为重，确保回答的质量和实用性。`
+
+    if (context) {
+      return `${basePrompt}\n\n特殊要求：${context}`
+    }
+
+    return basePrompt
+  }, [])
 
   // Close panels when clicking on canvas
   const handleCanvasClick = () => {
@@ -1228,20 +1255,42 @@ const WorkflowCanvasContent: React.FC = () => {
                             <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
                               系统提示词 (System Prompt)
                             </Typography>
-                            <TextField
-                              size="small"
-                              fullWidth
-                              multiline
-                              rows={3}
-                              value={selectedNode.data.systemPrompt || ''}
-                              onChange={(e) => {
-                                const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: e.target.value } }
-                                setSelectedNode(updatedNode)
-                                setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                              }}
-                              placeholder="输入系统提示词，定义AI助手的角色和行为..."
-                              className="bg-gray-50"
-                            />
+                            <div className="relative">
+                              <TextField
+                                size="small"
+                                fullWidth
+                                multiline
+                                rows={3}
+                                value={selectedNode.data.systemPrompt || ''}
+                                onChange={(e) => {
+                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: e.target.value } }
+                                  setSelectedNode(updatedNode)
+                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                }}
+                                placeholder="输入系统提示词，定义AI助手的角色和行为..."
+                                className="bg-gray-50"
+                              />
+                              <Tooltip title="自动生成系统提示词">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    const generatedPrompt = generateSystemPrompt(selectedNode.data.model || 'gpt-4')
+                                    const updatedNode = { ...selectedNode, data: { ...selectedNode.data, systemPrompt: generatedPrompt } }
+                                    setSelectedNode(updatedNode)
+                                    setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                                  }}
+                                  className="absolute top-2 right-2 w-8 h-8 bg-purple-100 hover:bg-purple-200 text-purple-600 transition-all duration-200"
+                                  sx={{
+                                    '&:hover': {
+                                      transform: 'scale(1.1)',
+                                      boxShadow: '0 4px 12px rgba(147, 51, 234, 0.3)'
+                                    }
+                                  }}
+                                >
+                                  <Wand2 className="w-4 h-4" />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
                           </div>
 
                           <div>
