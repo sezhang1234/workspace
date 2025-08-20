@@ -6,75 +6,76 @@ const CustomStartNode: React.FC<NodeProps> = ({ data, selected }) => {
   const getTriggerIcon = (triggerType: string) => {
     switch (triggerType) {
       case 'webhook':
-        return <Zap className="w-4 h-4 text-white" />
+        return <Zap className="w-4 h-4" />
       case 'schedule':
-        return <Clock className="w-4 h-4 text-white" />
+        return <Clock className="w-4 h-4" />
       case 'manual':
-        return <Bell className="w-4 h-4 text-white" />
+        return <Bell className="w-4 h-4" />
       default:
-        return <Play className="w-4 h-4 text-white" />
+        return <Play className="w-4 h-4" />
     }
   }
 
   const getTriggerColor = (triggerType: string) => {
     switch (triggerType) {
       case 'webhook':
-        return 'from-purple-500 to-pink-500'
+        return 'text-purple-600 bg-purple-50'
       case 'schedule':
-        return 'from-blue-500 to-cyan-500'
+        return 'text-blue-600 bg-blue-50'
       case 'manual':
-        return 'from-orange-500 to-red-500'
+        return 'text-orange-600 bg-orange-50'
       default:
-        return 'from-green-500 to-emerald-500'
+        return 'text-green-600 bg-green-50'
     }
   }
 
   return (
     <div className={`
-      relative px-2 py-1.5 shadow-md rounded-lg bg-gradient-to-br ${getTriggerColor(data.trigger || 'manual')} 
-      border border-white/20 backdrop-blur-sm transition-all duration-300 ease-in-out
-      ${selected ? 'scale-105 shadow-lg ring-1 ring-white/30' : 'hover:scale-102 hover:shadow-md'}
-      min-w-[80px] max-w-[120px]
+      relative bg-white rounded-lg border border-gray-200 shadow-sm transition-all duration-200
+      ${selected ? 'ring-2 ring-blue-500 ring-offset-2 shadow-md' : 'hover:shadow-md hover:border-gray-300'}
+      min-w-[140px] max-w-[200px]
     `}>
-      {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg" />
-      
-      {/* Main content */}
-      <div className="relative z-10">
-        {/* Simple header with icon and label */}
-        <div className="flex items-center justify-center mb-1">
-          <div className="relative">
-            <div className="w-4 h-4 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center border border-white/30">
-              {getTriggerIcon(data.trigger || 'manual')}
-            </div>
-            {/* Pulse animation */}
-            <div className="absolute inset-0 w-4 h-4 bg-white/30 rounded animate-ping" />
+      {/* Header */}
+      <div className="px-3 py-2 border-b border-gray-100">
+        <div className="flex items-center space-x-2">
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${getTriggerColor(data.trigger || 'manual')}`}>
+            {getTriggerIcon(data.trigger || 'manual')}
           </div>
-        </div>
-
-        {/* Simple label */}
-        <div className="text-center">
-          <div className="text-xs font-bold text-white drop-shadow-sm">{data.label}</div>
-          <div className="text-[10px] text-white/80 font-medium">
-            {data.trigger === 'webhook' ? 'Webhook' : 
-             data.trigger === 'schedule' ? '定时' : 
-             data.trigger === 'manual' ? '手动' : '触发'}
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-medium text-gray-900 truncate">
+              {data.label || '开始'}
+            </div>
+            <div className="text-xs text-gray-500">
+              {data.trigger === 'webhook' ? 'Webhook触发' : 
+               data.trigger === 'schedule' ? '定时触发' : 
+               data.trigger === 'manual' ? '手动触发' : '事件触发'}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Connection handles */}
+      {/* Status indicator */}
+      <div className="px-3 py-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-gray-500">状态</span>
+          <div className="flex items-center space-x-1">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-xs text-gray-600">就绪</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Connection handle */}
       <Handle
         type="source"
         position={Position.Right}
-        className="w-2 h-2 bg-white border border-white/30 shadow-sm hover:scale-125 transition-transform duration-200"
-        style={{ top: '50%', transform: 'translateY(-50%)' }}
+        className="w-3 h-3 border-2 border-white bg-gray-400 hover:bg-gray-500 transition-colors"
+        style={{ 
+          right: -6,
+          top: '50%',
+          transform: 'translateY(-50%)'
+        }}
       />
-      
-      {/* Node type badge */}
-      <div className="absolute -top-1 -left-1 bg-white/90 backdrop-blur-sm px-1 py-0.5 rounded text-[10px] font-bold text-gray-700 shadow-sm">
-        开始
-      </div>
     </div>
   )
 }
