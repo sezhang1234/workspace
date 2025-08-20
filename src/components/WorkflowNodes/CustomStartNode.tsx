@@ -57,22 +57,18 @@ const CustomStartNode: React.FC<NodeProps> = ({ data, selected }) => {
       {/* Input Parameters */}
       <div className="px-3 py-2">
         <div className="text-xs text-gray-500 mb-1">输入参数</div>
-        <div className="space-y-1">
+        <div className="text-xs text-gray-600">
           {data.inputParameters && data.inputParameters.length > 0 ? (
-            data.inputParameters.slice(0, 4).map((param: any, index: number) => (
-              <div key={index} className="flex items-center justify-between text-xs">
-                <div className="flex items-center space-x-2">
-                  <span className="text-gray-600 truncate max-w-[100px]">{param.name || `参数${index + 1}`}</span>
-                  {param.required && <span className="text-red-500 text-[10px]">*</span>}
-                </div>
-                <span className="text-gray-500 text-[10px]">{param.type || 'string'}</span>
-              </div>
-            ))
+            <div className="truncate" title={data.inputParameters.map((param: any) => param.name || '未命名参数').join(', ')}>
+              {data.inputParameters.map((param: any, index: number) => (
+                <span key={index}>
+                  {param.name || `参数${index + 1}`}
+                  {index < data.inputParameters.length - 1 ? ', ' : ''}
+                </span>
+              ))}
+            </div>
           ) : (
-            <div className="text-xs text-gray-400">无输入参数</div>
-          )}
-          {data.inputParameters && data.inputParameters.length > 4 && (
-            <div className="text-xs text-gray-400">+{data.inputParameters.length - 4} 更多</div>
+            <span className="text-gray-400">无输入参数</span>
           )}
         </div>
       </div>
