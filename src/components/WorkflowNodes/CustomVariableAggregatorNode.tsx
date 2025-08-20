@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Handle, Position, NodeProps } from 'reactflow'
-import { Hash, Variable } from 'lucide-react'
+import { Hash } from 'lucide-react'
 
 const CustomVariableAggregatorNode: React.FC<NodeProps> = ({ data, selected }) => {
   return (

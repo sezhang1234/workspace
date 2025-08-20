@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Handle, Position, NodeProps } from 'reactflow'
-import { Search, Database } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 const CustomKnowledgeRetrievalNode: React.FC<NodeProps> = ({ data, selected }) => {
   return (
