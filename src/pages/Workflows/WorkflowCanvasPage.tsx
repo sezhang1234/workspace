@@ -282,7 +282,7 @@ const WorkflowCanvasContent: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
+      {/* Page header - Simplified with floating control panel */}
       <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100 w-full">
         <div className="flex items-center space-x-4">
           <Button
@@ -301,50 +301,6 @@ const WorkflowCanvasContent: React.FC = () => {
               使用可视化编辑器设计自动化工作流
             </p>
           </div>
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          {/* Import/Export buttons */}
-          <Button
-            variant="outlined"
-            component="label"
-            startIcon={<Upload />}
-            className="border-gray-200 text-gray-700 hover:bg-gray-50"
-          >
-            <input
-              type="file"
-              hidden
-              accept=".json"
-              onChange={handleImport}
-            />
-            导入
-          </Button>
-          
-          <Button
-            variant="outlined"
-            startIcon={<Download />}
-            onClick={handleExport}
-            className="border-gray-200 text-gray-700 hover:bg-gray-50"
-          >
-            导出
-          </Button>
-
-          <Button
-            variant="outlined"
-            startIcon={<Play />}
-            className="border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300"
-          >
-            测试运行
-          </Button>
-          
-          <Button
-            variant="contained"
-            startIcon={<Save />}
-            onClick={handleSave}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
-          >
-            保存
-          </Button>
         </div>
       </div>
 
@@ -893,6 +849,55 @@ const WorkflowCanvasContent: React.FC = () => {
                     <span>节点: {nodes.length}</span>
                     <span>•</span>
                     <span>连接: {edges.length}</span>
+                  </div>
+                </Panel>
+
+                {/* Floating Control Panel - Upper Right */}
+                <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-2">
+                  <div className="flex items-center space-x-2">
+                    {/* Import Button */}
+                    <button
+                      component="label"
+                      onClick={() => document.getElementById('import-file')?.click()}
+                      className="w-10 h-10 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
+                      title="导入工作流"
+                    >
+                      <input
+                        id="import-file"
+                        type="file"
+                        hidden
+                        accept=".json"
+                        onChange={handleImport}
+                      />
+                      <Upload className="w-5 h-5 text-blue-600 group-hover:text-blue-700" />
+                    </button>
+
+                    {/* Export Button */}
+                    <button
+                      onClick={handleExport}
+                      className="w-10 h-10 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
+                      title="导出工作流"
+                    >
+                      <Download className="w-5 h-5 text-green-600 group-hover:text-green-700" />
+                    </button>
+
+                    {/* Test Run Button */}
+                    <button
+                      onClick={() => setSnackbar({ open: true, message: '开始测试运行工作流...', severity: 'success' })}
+                      className="w-10 h-10 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
+                      title="测试运行"
+                    >
+                      <Play className="w-5 h-5 text-orange-600 group-hover:text-orange-700" />
+                    </button>
+
+                    {/* Save Button */}
+                    <button
+                      onClick={handleSave}
+                      className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 border border-blue-300 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-lg group shadow-md"
+                      title="保存工作流"
+                    >
+                      <Save className="w-5 h-5 text-white" />
+                    </button>
                   </div>
                 </Panel>
               </ReactFlow>
