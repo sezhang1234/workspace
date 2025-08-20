@@ -28,7 +28,7 @@ const Layout: React.FC = () => {
       />
 
       {/* Main content */}
-      <div className={`flex-1 overflow-hidden flex flex-col transition-all duration-300 ease-in-out ${sidebarCollapsed ? 'lg:ml-12' : 'lg:ml-48'}`}>
+      <div className="flex-1 overflow-hidden flex flex-col transition-all duration-300 ease-in-out">
         {/* Header */}
         <Header 
           user={user}
