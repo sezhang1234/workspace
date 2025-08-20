@@ -1095,6 +1095,9 @@ const WorkflowCanvasContent: React.FC = () => {
                           }}
                           placeholder="输入节点名称..."
                           className="bg-gray-50"
+                          inputProps={{
+                            style: { color: '#6b7280' }
+                          }}
                         />
                       </div>
 
@@ -1142,6 +1145,9 @@ const WorkflowCanvasContent: React.FC = () => {
                                         setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                                       }}
                                       className="flex-1"
+                                      inputProps={{
+                                        style: { color: '#6b7280' }
+                                      }}
                                     />
                                     <FormControl size="small" sx={{ minWidth: 100 }}>
                                       <Select
@@ -1290,6 +1296,9 @@ const WorkflowCanvasContent: React.FC = () => {
                               }}
                               placeholder="输入系统提示词，定义AI助手的角色和行为..."
                               className="bg-gray-50"
+                              inputProps={{
+                                style: { color: '#6b7280' }
+                              }}
                             />
                           </div>
 
@@ -1310,6 +1319,9 @@ const WorkflowCanvasContent: React.FC = () => {
                               }}
                               placeholder="输入用户提示词，定义具体的任务和要求..."
                               className="bg-gray-50"
+                              inputProps={{
+                                style: { color: '#6b7280' }
+                              }}
                             />
                           </div>
 
@@ -1328,6 +1340,9 @@ const WorkflowCanvasContent: React.FC = () => {
                               }}
                               placeholder="定义输出变量的名称..."
                               className="bg-gray-50"
+                              inputProps={{
+                                style: { color: '#6b7280' }
+                              }}
                             />
                           </div>
 
@@ -1345,7 +1360,12 @@ const WorkflowCanvasContent: React.FC = () => {
                                 setSelectedNode(updatedNode)
                                 setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                               }}
-                              inputProps={{ min: 0, max: 2, step: 0.1 }}
+                              inputProps={{ 
+                                min: 0, 
+                                max: 2, 
+                                step: 0.1,
+                                style: { color: '#6b7280' }
+                              }}
                               className="bg-gray-50"
                             />
                           </div>
@@ -1364,7 +1384,12 @@ const WorkflowCanvasContent: React.FC = () => {
                                 setSelectedNode(updatedNode)
                                 setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                               }}
-                              inputProps={{ min: 100, max: 8000, step: 100 }}
+                              inputProps={{ 
+                                min: 100, 
+                                max: 8000, 
+                                step: 100,
+                                style: { color: '#6b7280' }
+                              }}
                               className="bg-gray-50"
                             />
                           </div>
@@ -1393,6 +1418,9 @@ const WorkflowCanvasContent: React.FC = () => {
                                         setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
                                       }}
                                       className="flex-1"
+                                      inputProps={{
+                                        style: { color: '#6b7280' }
+                                      }}
                                     />
 
                                     <Button
@@ -1470,6 +1498,9 @@ const WorkflowCanvasContent: React.FC = () => {
                                 const updatedNode = { ...selectedNode, data: { ...selectedNode.data, textOutput: e.target.value } }
                                 setSelectedNode(updatedNode)
                                 setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
+                              }}
+                              inputProps={{
+                                style: { color: '#6b7280' }
                               }}
                             />
                           </div>
