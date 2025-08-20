@@ -85,6 +85,9 @@ const WorkflowCanvasContent: React.FC = () => {
   useEffect(() => {
     // selectedNode state changed
   }, [selectedNode])
+
+  // Auto-layout state
+  const [hasAutoLayouted, setHasAutoLayouted] = useState(false)
   const [showDebugPanel, setShowDebugPanel] = useState(false)
   const [executionState, setExecutionState] = useState<'idle' | 'running' | 'completed' | 'error'>('idle')
   const [executionHistory, setExecutionHistory] = useState<any[]>([])
@@ -167,10 +170,10 @@ const WorkflowCanvasContent: React.FC = () => {
       id: 'e1',
       source: 'start-1',
       target: 'llm-1',
-      type: 'smoothstep',
+      type: 'straight',
       style: {
         stroke: '#3b82f6',
-        strokeWidth: 3,
+        strokeWidth: 2,
         zIndex: 1000
       },
       animated: false,
@@ -186,10 +189,10 @@ const WorkflowCanvasContent: React.FC = () => {
       id: 'e2',
       source: 'llm-1',
       target: 'end-1',
-      type: 'smoothstep',
+      type: 'straight',
       style: {
         stroke: '#3b82f6',
-        strokeWidth: 3,
+        strokeWidth: 2,
         zIndex: 1000
       },
       animated: false,
@@ -208,7 +211,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: `e${Date.now()}`,
       source: params.source,
       target: params.target,
-      type: 'smoothstep',
+      type: 'straight',
       style: { stroke: '#3b82f6', strokeWidth: 2 },
       animated: false,
       markerEnd: {
@@ -322,6 +325,11 @@ const WorkflowCanvasContent: React.FC = () => {
       }
     }
     setNodes((nds) => [...nds, newNode])
+    
+    // Trigger auto layout after adding a new node
+    setTimeout(() => {
+      setHasAutoLayouted(false)
+    }, 100)
   }
 
   // Close panels when clicking on canvas
@@ -504,6 +512,30 @@ const WorkflowCanvasContent: React.FC = () => {
     variableAggregatorNode: CustomVariableAggregatorNode,
     llmNode: CustomLLMNode,
   }), [])
+
+  // Auto-layout on initial load and zoom out for better overview
+  useEffect(() => {
+    if (nodes.length > 0 && !hasAutoLayouted) {
+      const timer = setTimeout(() => {
+        // Apply auto layout
+        const updatedNodes = performHierarchicalLayout(nodes, edges)
+        setNodes(updatedNodes)
+        
+        // Optimize edges for straighter connections
+        const updatedEdges = optimizeEdgesForStraightConnections(updatedNodes, edges)
+        setEdges(updatedEdges)
+        
+        // Zoom out for better overview after a short delay
+        setTimeout(() => {
+          reactFlowFitView({ padding: 0.3, duration: 500 })
+        }, 200)
+        
+        setHasAutoLayouted(true)
+      }, 300) // Allow time for ReactFlow to fully initialize
+
+      return () => clearTimeout(timer)
+    }
+  }, [nodes.length, edges.length, hasAutoLayouted, performHierarchicalLayout, optimizeEdgesForStraightConnections, setNodes, setEdges, reactFlowFitView])
 
   return (
     <div className="space-y-6">
