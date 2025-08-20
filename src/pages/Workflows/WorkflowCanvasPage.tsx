@@ -170,7 +170,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: 'e1',
       source: 'start-1',
       target: 'llm-1',
-      type: 'straight',
+      type: 'step',
       style: {
         stroke: '#3b82f6',
         strokeWidth: 2,
@@ -189,7 +189,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: 'e2',
       source: 'llm-1',
       target: 'end-1',
-      type: 'straight',
+      type: 'step',
       style: {
         stroke: '#3b82f6',
         strokeWidth: 2,
@@ -211,7 +211,7 @@ const WorkflowCanvasContent: React.FC = () => {
       id: `e${Date.now()}`,
       source: params.source,
       target: params.target,
-      type: 'straight',
+      type: 'step',
       style: { stroke: '#3b82f6', strokeWidth: 2 },
       animated: false,
       markerEnd: {
@@ -443,12 +443,13 @@ const WorkflowCanvasContent: React.FC = () => {
       levelGroups.get(level)!.push(node.id)
     })
     
-    // Calculate positions with better spacing for straighter connections
+    // Calculate positions for horizontal and straight connections
     const nodePositions = new Map<string, { x: number; y: number }>()
-    const levelWidth = 400
-    const levelHeight = 200
+    const levelWidth = 350
+    const levelHeight = 150
     const maxNodesPerLevel = Math.max(...Array.from(levelGroups.values()).map(group => group.length))
     
+    // First pass: calculate basic positions
     levelGroups.forEach((nodeIds, level) => {
       const nodesInLevel = nodeIds.length
       const startY = (maxNodesPerLevel - nodesInLevel) * levelHeight / 2
@@ -461,11 +462,57 @@ const WorkflowCanvasContent: React.FC = () => {
       })
       
       sortedNodeIds.forEach((nodeId, index) => {
-        const x = level * levelWidth + 200
+        const x = level * levelWidth + 150
         const y = startY + index * levelHeight + 100
         
         nodePositions.set(nodeId, { x, y })
       })
+    })
+    
+    // Second pass: optimize positions for horizontal connections
+    levelGroups.forEach((nodeIds, level) => {
+      if (level === 0) return // Skip root level
+      
+      nodeIds.forEach(nodeId => {
+        const incomingEdges = edges.filter(edge => edge.target === nodeId)
+        if (incomingEdges.length > 0) {
+          // Find the source node with the most connections to this node
+          const sourceNode = incomingEdges[0].source
+          const sourcePosition = nodePositions.get(sourceNode)
+          const currentPosition = nodePositions.get(nodeId)
+          
+          if (sourcePosition && currentPosition) {
+            // Align Y position with source node for horizontal connection
+            const newY = sourcePosition.y
+            nodePositions.set(nodeId, { ...currentPosition, y: newY })
+          }
+        }
+      })
+    })
+    
+    // Third pass: adjust positions to prevent overlapping
+    levelGroups.forEach((nodeIds, level) => {
+      if (level === 0) return // Skip root level
+      
+      const sortedNodes = [...nodeIds].sort((a, b) => {
+        const posA = nodePositions.get(a)!
+        const posB = nodePositions.get(b)!
+        return posA.y - posB.y
+      })
+      
+      // Ensure minimum vertical spacing between nodes
+      const minSpacing = 120
+      for (let i = 1; i < sortedNodes.length; i++) {
+        const prevNode = sortedNodes[i - 1]
+        const currentNode = sortedNodes[i]
+        const prevPos = nodePositions.get(prevNode)!
+        const currentPos = nodePositions.get(currentNode)!
+        
+        if (currentPos.y - prevPos.y < minSpacing) {
+          const newY = prevPos.y + minSpacing
+          nodePositions.set(currentNode, { ...currentPos, y: newY })
+        }
+      }
     })
     
     // Update node positions
@@ -478,25 +525,53 @@ const WorkflowCanvasContent: React.FC = () => {
     })
   }, [])
 
-  // Optimize edges for straighter connections
-  const optimizeEdgesForStraightConnections = useCallback((_nodes: Node[], edges: Edge[]) => {
-    return edges.map(edge => ({
-      ...edge,
-      type: 'straight', // Force straight edges
-      style: {
-        ...edge.style,
-        stroke: '#3b82f6',
-        strokeWidth: 2,
-      },
-      // Add routing hints for better straightness
-      data: {
-        ...edge.data,
-        routing: 'straight'
-      },
-      // Ensure edges are as straight as possible
-      sourceHandle: edge.sourceHandle || null,
-      targetHandle: edge.targetHandle || null
-    }))
+  // Optimize edges for horizontal and straight connections
+  const optimizeEdgesForStraightConnections = useCallback((nodes: Node[], edges: Edge[]) => {
+    return edges.map(edge => {
+      const sourceNode = nodes.find(n => n.id === edge.source)
+      const targetNode = nodes.find(n => n.id === edge.target)
+      
+      if (sourceNode && targetNode) {
+        // Calculate if connection should be horizontal
+        const isHorizontal = Math.abs(sourceNode.position.y - targetNode.position.y) < 50
+        
+        // Use step edges for better horizontal routing
+        const edgeType = isHorizontal ? 'step' : 'straight'
+        
+        return {
+          ...edge,
+          type: edgeType,
+          style: {
+            ...edge.style,
+            stroke: '#3b82f6',
+            strokeWidth: 2,
+          },
+          // Add routing hints for horizontal connections
+          data: {
+            ...edge.data,
+            routing: 'horizontal',
+            isHorizontal: isHorizontal
+          },
+          // Ensure edges are as straight as possible
+          sourceHandle: edge.sourceHandle || null,
+          targetHandle: edge.targetHandle || null
+        }
+      }
+      
+      return {
+        ...edge,
+        type: 'straight',
+        style: {
+          ...edge.style,
+          stroke: '#3b82f6',
+          strokeWidth: 2,
+        },
+        data: {
+          ...edge.data,
+          routing: 'straight'
+        }
+      }
+    })
   }, [])
 
   // Node types for ReactFlow - memoized to prevent recreation on every render
@@ -580,7 +655,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 proOptions={{ hideAttribution: true }}
                 onClick={handleCanvasClick}
                 defaultEdgeOptions={{
-                  type: 'straight',
+                  type: 'step',
                   style: { stroke: '#3b82f6', strokeWidth: 2 },
                   animated: false,
                   markerEnd: {
@@ -590,7 +665,7 @@ const WorkflowCanvasContent: React.FC = () => {
                     color: '#3b82f6',
                   },
                 }}
-                connectionLineType={ConnectionLineType.Straight}
+                connectionLineType={ConnectionLineType.Step}
                 style={{
                   '--rf-node-selected-box-shadow': '0 0 20px rgba(59, 130, 246, 0.6)',
                   '--rf-node-focus-ring': 'none',
