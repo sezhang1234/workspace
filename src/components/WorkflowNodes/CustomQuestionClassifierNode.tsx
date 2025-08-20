@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Handle, Position, NodeProps } from 'reactflow'
-import { Brain, Tags } from 'lucide-react'
+import { Brain } from 'lucide-react'
 
 const CustomQuestionClassifierNode: React.FC<NodeProps> = ({ data, selected }) => {
   return (
