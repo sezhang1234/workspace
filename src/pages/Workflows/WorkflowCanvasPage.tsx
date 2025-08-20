@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { 
   ArrowLeft, 
@@ -422,8 +422,8 @@ const WorkflowCanvasContent: React.FC = () => {
     }
   }
 
-  // Node types for ReactFlow
-  const nodeTypes: NodeTypes = {
+  // Node types for ReactFlow - memoized to prevent recreation on every render
+  const nodeTypes = useMemo<NodeTypes>(() => ({
     startNode: CustomStartNode,
     actionNode: CustomActionNode,
     conditionNode: CustomConditionNode,
@@ -434,7 +434,7 @@ const WorkflowCanvasContent: React.FC = () => {
     questionClassifierNode: CustomQuestionClassifierNode,
     variableAggregatorNode: CustomVariableAggregatorNode,
     llmNode: CustomLLMNode,
-  }
+  }), [])
 
   return (
     <div className="space-y-6">
