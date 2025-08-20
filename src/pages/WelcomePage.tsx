@@ -160,8 +160,8 @@ const WelcomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 flex items-center justify-center">
+                <JiuwenLogo width={32} height={32} />
               </div>
               <span className="text-xl font-bold">Jiuwen</span>
             </div>
