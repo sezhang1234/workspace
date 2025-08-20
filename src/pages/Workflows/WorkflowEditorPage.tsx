@@ -1200,41 +1200,7 @@ const WorkflowEditorContent: React.FC = () => {
                         </div>
                       </Panel>
 
-                      {/* Connections Array Display Panel */}
-                      <Panel position="bottom-left" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3 max-w-md">
-                        <div className="mb-2">
-                          <Typography variant="subtitle2" className="text-gray-700 font-medium text-xs mb-2">
-                            连接数组 (Edges)
-                          </Typography>
-                          <div className="text-xs text-gray-600 mb-2">
-                            共 {edges.length} 个连接
-                          </div>
-                        </div>
-                        
-                        {edges.length > 0 ? (
-                          <div className="space-y-2 max-h-32 overflow-y-auto">
-                            {edges.map((edge, index) => (
-                              <div key={edge.id} className="bg-blue-50 p-2 rounded border border-blue-200">
-                                <div className="flex items-center justify-between text-xs">
-                                  <span className="text-blue-700 font-medium">
-                                    {index + 1}. {edge.source} → {edge.target}
-                                  </span>
-                                  <span className="text-blue-500 text-[10px]">
-                                    ID: {edge.id}
-                                  </span>
-                                </div>
-                                <div className="text-[10px] text-blue-600 mt-1">
-                                  类型: {edge.type || 'smoothstep'}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="text-xs text-gray-500 italic">
-                            暂无连接
-                          </div>
-                        )}
-                      </Panel>
+
 
 
                     </ReactFlow>
