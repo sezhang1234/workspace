@@ -28,7 +28,8 @@ import ReactFlow, {
   MiniMap,
   Panel,
   ReactFlowProvider,
-  NodeTypes
+  NodeTypes,
+  MarkerType
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { 
@@ -159,7 +160,13 @@ const WorkflowEditorContent: React.FC = () => {
       target: params.target,
       type: 'smoothstep',
       style: { stroke: '#3b82f6', strokeWidth: 2 },
-      animated: false
+      animated: false,
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 20,
+        height: 20,
+        color: '#3b82f6',
+      },
     }
     setEdges((eds) => [...eds, newEdge])
   }, [])
@@ -468,9 +475,15 @@ const WorkflowEditorContent: React.FC = () => {
             zIndex: 1000
           },
           animated: false,
-          zIndex: 1000
+          zIndex: 1000,
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: '#3b82f6',
+          },
         },
-        {
+                {
           id: 'e2',
           source: 'llm-1',
           target: 'end-1',
@@ -481,7 +494,13 @@ const WorkflowEditorContent: React.FC = () => {
             zIndex: 1000
           },
           animated: false,
-          zIndex: 1000
+          zIndex: 1000,
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: '#3b82f6',
+          },
         }
       ]
 
@@ -652,7 +671,13 @@ const WorkflowEditorContent: React.FC = () => {
                       defaultEdgeOptions={{
                         type: 'smoothstep',
                         style: { stroke: '#3b82f6', strokeWidth: 2 },
-                        animated: false
+                        animated: false,
+                        markerEnd: {
+                          type: MarkerType.ArrowClosed,
+                          width: 20,
+                          height: 20,
+                          color: '#3b82f6',
+                        },
                       }}
                     >
                       {/* Light grid background */}
@@ -1211,41 +1236,7 @@ const WorkflowEditorContent: React.FC = () => {
                         )}
                       </Panel>
 
-                      {/* Nodes Array Display Panel */}
-                      <Panel position="bottom-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3 max-w-md">
-                        <div className="mb-2">
-                          <Typography variant="subtitle2" className="text-gray-700 font-medium text-xs mb-2">
-                            节点数组 (Nodes)
-                          </Typography>
-                          <div className="text-xs text-gray-600 mb-2">
-                            共 {nodes.length} 个节点
-                          </div>
-                        </div>
-                        
-                        {nodes.length > 0 ? (
-                          <div className="space-y-2 max-h-32 overflow-y-auto">
-                            {nodes.map((node, index) => (
-                              <div key={node.id} className="bg-green-50 p-2 rounded border border-green-200">
-                                <div className="flex items-center justify-between text-xs">
-                                  <span className="text-green-700 font-medium">
-                                    {index + 1}. {node.data.label || node.type}
-                                  </span>
-                                  <span className="text-green-500 text-[10px]">
-                                    {node.type}
-                                  </span>
-                                </div>
-                                <div className="text-[10px] text-green-600 mt-1">
-                                  位置: ({Math.round(node.position.x)}, {Math.round(node.position.y)})
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="text-xs text-gray-500 italic">
-                            暂无节点
-                          </div>
-                        )}
-                      </Panel>
+
                     </ReactFlow>
                   </div>
                 </CardContent>
