@@ -61,7 +61,6 @@ import {
 
 // Custom node types
 import CustomStartNode from '../../components/WorkflowNodes/CustomStartNode'
-import CustomActionNode from '../../components/WorkflowNodes/CustomActionNode'
 import CustomConditionNode from '../../components/WorkflowNodes/CustomConditionNode'
 import CustomEndNode from '../../components/WorkflowNodes/CustomEndNode'
 import CustomLoopNode from '../../components/WorkflowNodes/CustomLoopNode'
@@ -314,7 +313,6 @@ const WorkflowCanvasContent: React.FC = () => {
         label: type === 'startNode' ? '开始' :
                type === 'llmNode' ? 'LLM 节点' :
                type === 'endNode' ? '结束' :
-               type === 'actionNode' ? '动作节点' :
                type === 'conditionNode' ? '条件节点' :
                type === 'loopNode' ? '循环节点' :
                type === 'knowledgeRetrievalNode' ? '知识检索节点' :
@@ -620,7 +618,6 @@ const WorkflowCanvasContent: React.FC = () => {
   // Node types for ReactFlow - memoized to prevent recreation on every render
   const nodeTypes = useMemo<NodeTypes>(() => ({
     startNode: CustomStartNode,
-    actionNode: CustomActionNode,
     conditionNode: CustomConditionNode,
     endNode: CustomEndNode,
     loopNode: CustomLoopNode,
@@ -1068,7 +1065,6 @@ const WorkflowCanvasContent: React.FC = () => {
                           {selectedNode.type === 'startNode' ? '开始节点' :
                            selectedNode.type === 'llmNode' ? 'LLM 节点' :
                            selectedNode.type === 'endNode' ? '结束节点' :
-                           selectedNode.type === 'actionNode' ? '动作节点' :
                            selectedNode.type === 'conditionNode' ? '条件节点' :
                            selectedNode.type === 'loopNode' ? '循环节点' :
                            selectedNode.type === 'knowledgeRetrievalNode' ? '知识检索节点' :
