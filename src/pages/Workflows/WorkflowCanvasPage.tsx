@@ -1671,20 +1671,7 @@ const WorkflowCanvasContent: React.FC = () => {
                 {/* Enhanced minimap */}
                 <MiniMap 
                   className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
-                  nodeColor={(node) => {
-                    switch (node.type) {
-                      case 'startNode': return '#10b981'
-                      case 'conditionNode': return '#f59e0b'
-                      case 'loopNode': return '#8b5cf6'
-                      case 'knowledgeRetrievalNode': return '#06b6d4'
-                      case 'questionClassifierNode': return '#6366f1'
-                      case 'answerNode': return '#ec4899'
-                      case 'variableAggregatorNode': return '#0891b2'
-                      case 'llmNode': return '#10b981'
-                      case 'endNode': return '#ef4444'
-                      default: return '#6b7280'
-                    }
-                  }}
+                  nodeColor={() => '#6b7280'}
                   nodeStrokeWidth={3}
                   zoomable
                   pannable
