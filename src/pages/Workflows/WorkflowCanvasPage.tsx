@@ -893,28 +893,6 @@ const WorkflowCanvasContent: React.FC = () => {
                         <>
                           <div>
                             <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                              结束类型
-                            </Typography>
-                            <FormControl fullWidth size="small">
-                              <Select
-                                value={selectedNode.data.endType || 'success'}
-                                onChange={(e: SelectChangeEvent) => {
-                                  const updatedNode = { ...selectedNode, data: { ...selectedNode.data, endType: e.target.value } }
-                                  setSelectedNode(updatedNode)
-                                  setNodes(nodes.map(node => node.id === selectedNode.id ? updatedNode : node))
-                                }}
-                              >
-                                <MenuItem value="success">成功完成</MenuItem>
-                                <MenuItem value="error">执行失败</MenuItem>
-                                <MenuItem value="warning">警告完成</MenuItem>
-                                <MenuItem value="timeout">超时结束</MenuItem>
-                                <MenuItem value="manual">手动停止</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </div>
-
-                          <div>
-                            <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
                               输出参数
                             </Typography>
                             <div className="space-y-2">
