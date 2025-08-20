@@ -234,14 +234,14 @@ const WorkflowCreationPage: React.FC = () => {
           </div>
 
           {/* Right Side - Demonstration Image */}
-          <div className="space-y-6">
+          <div className="h-full">
             <Card className="shadow-lg border-0 h-full">
-              <CardContent className="p-6">
+              <CardContent className="p-6 h-full flex flex-col">
                 <Typography variant="h6" className="text-gray-800 font-semibold mb-4">
                   工作流画布预览
                 </Typography>
                 
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-dashed border-blue-200 p-8 text-center">
+                <div className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-dashed border-blue-200 p-8 text-center flex flex-col justify-center">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Bot className="w-8 h-8 text-blue-600" />
                   </div>
