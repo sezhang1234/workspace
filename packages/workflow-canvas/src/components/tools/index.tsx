@@ -18,7 +18,7 @@ import { ToolContainer, ToolSection } from './styles';
 import { Readonly } from './readonly';
 import { MinimapSwitch } from './minimap-switch';
 import { Minimap } from './minimap';
-import { Interactive } from './interactive';
+
 import { FitView } from './fit-view';
 import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
@@ -46,7 +46,7 @@ export const DemoTools = () => {
   return (
     <ToolContainer className="demo-free-layout-tools">
       <ToolSection>
-        <Interactive />
+
         <AutoLayout />
         <SwitchLine />
         <ZoomSelect />
