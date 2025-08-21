@@ -53,6 +53,22 @@ const WorkflowCanvasPage: React.FC = () => {
 
       {/* Workflow Canvas */}
       <div className="relative z-10">
+        {/* Back Button Overlay */}
+        <div className="absolute top-4 left-4 z-20">
+          <Button
+            variant="outlined"
+            startIcon={<ArrowLeft />}
+            onClick={() => {
+              if (window.confirm('确定要离开吗？未保存的更改将会丢失。')) {
+                navigate('/workflows');
+              }
+            }}
+            className="bg-white/90 backdrop-blur-sm border-gray-300 text-gray-700 hover:bg-white hover:border-gray-400 shadow-md"
+          >
+            返回
+          </Button>
+        </div>
+        
         <div className="w-full h-[calc(100vh-120px)] relative overflow-hidden">
           <Editor />
         </div>
