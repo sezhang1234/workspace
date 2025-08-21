@@ -85,29 +85,29 @@
   border-radius: 8px;
 }
 
-/* Workflow canvas wrapper - expand to fill entire page height */
+/* Workflow canvas wrapper - adjust height to leave space for control panel */
 .workflow-canvas-wrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 100vh;
+  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
   overflow: hidden;
 }
 
 .doc-free-feature-overview {
   position: relative;
-  height: 100vh;
+  height: calc(100vh - 120px);
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   overflow: hidden;
 }
 
 .demo-editor {
   flex-grow: 1;
   position: relative;
-  height: 100vh;
+  height: calc(100vh - 120px);
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   overflow: hidden;
 }
 
@@ -117,8 +117,8 @@
   top: 0px;
   display: flex;
   width: 100%;
-  height: 100vh;
-  min-height: 100vh;
+  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
   flex-direction: column;
   overflow: hidden;
 }
