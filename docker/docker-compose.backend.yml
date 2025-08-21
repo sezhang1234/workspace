@@ -1,27 +1,6 @@
 version: '3.8'
 
 services:
-  # Frontend Service (Development)
-  frontend-dev:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - VITE_API_BASE_URL=http://localhost:8000/api
-    volumes:
-      - ../frontend:/app
-      - ../frontend/packages:/app/packages
-      - /app/node_modules
-      - /app/packages/workflow-canvas/node_modules
-    depends_on:
-      - backend-dev
-    networks:
-      - jiuwen-dev-network
-    restart: unless-stopped
-
   # Backend Service (Development)
   backend-dev:
     build:
@@ -42,7 +21,7 @@ services:
       - postgres-dev
       - redis-dev
     networks:
-      - jiuwen-dev-network
+      - jiuwen-backend-network
     restart: unless-stopped
 
   # PostgreSQL Database (Development)
@@ -57,7 +36,7 @@ services:
     volumes:
       - postgres_dev_data:/var/lib/postgresql/data
     networks:
-      - jiuwen-dev-network
+      - jiuwen-backend-network
     restart: unless-stopped
 
   # Redis Cache (Development)
@@ -68,7 +47,7 @@ services:
     volumes:
       - redis_dev_data:/data
     networks:
-      - jiuwen-dev-network
+      - jiuwen-backend-network
     restart: unless-stopped
 
 volumes:
@@ -76,5 +55,5 @@ volumes:
   redis_dev_data:
 
 networks:
-  jiuwen-dev-network:
+  jiuwen-backend-network:
     driver: bridge
