@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { 
-  Workflow, 
+  Workflow as WorkflowIcon, 
   Plus, 
   Search, 
   Play, 
@@ -143,7 +143,7 @@ const WorkflowsPage: React.FC = () => {
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Workflow className="w-5 h-5 text-blue-600" />
+                  <WorkflowIcon className="w-5 h-5 text-blue-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900">{workflow.name}</h3>
@@ -243,7 +243,7 @@ const WorkflowsPage: React.FC = () => {
       {/* Empty state */}
       {filteredWorkflows.length === 0 && (
         <div className="text-center py-12">
-          <Workflow className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <WorkflowIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到工作流</h3>
           <p className="text-gray-500 mb-6">
             {searchTerm || statusFilter !== 'all' 
