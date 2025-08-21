@@ -9,6 +9,7 @@ import { useRefresh } from '@flowgram.ai/free-layout-editor';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
 import { Tooltip, IconButton, Divider, Button, Select } from '@douyinfe/semi-ui';
 import { IconUndo, IconRedo, IconArrowLeft } from '@douyinfe/semi-icons';
+import { getAllWorkflows, type Workflow } from '../../../../src/services/workflowService';
 
 import { TestRunButton } from '../testrun/testrun-button';
 import { AddNode } from '../add-node';
@@ -33,6 +34,9 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
   const { history, playground } = useClientContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
+  const [currentWorkflowId, setCurrentWorkflowId] = useState('1');
+  const workflows = getAllWorkflows();
+  const currentWorkflow = workflows.find(w => w.id === currentWorkflowId) || workflows[0];
   useEffect(() => {
     const disposable = history.undoRedoService.onChange(() => {
       setCanUndo(history.canUndo());
@@ -52,6 +56,12 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
       // Navigate back to workflows list
       window.history.back();
     }
+  };
+
+  const handleWorkflowChange = (workflowId: string) => {
+    setCurrentWorkflowId(workflowId);
+    // Here you could also load the workflow data into the canvas
+    // For now, we'll just update the selected workflow
   };
 
   return (
@@ -129,14 +139,16 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
             工作流切换
           </span>
           <Select
-            defaultValue="current"
-            style={{ width: '120px' }}
+            value={currentWorkflowId}
+            onChange={handleWorkflowChange}
+            style={{ width: '200px' }}
             size="small"
           >
-            <Select.Option value="current">当前工作流</Select.Option>
-            <Select.Option value="workflow1">工作流 1</Select.Option>
-            <Select.Option value="workflow2">工作流 2</Select.Option>
-            <Select.Option value="workflow3">工作流 3</Select.Option>
+            {workflows.map((workflow) => (
+              <Select.Option key={workflow.id} value={workflow.id}>
+                {workflow.name}
+              </Select.Option>
+            ))}
           </Select>
           <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
           <Button
