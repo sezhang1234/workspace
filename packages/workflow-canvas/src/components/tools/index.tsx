@@ -91,7 +91,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
           <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
           <Readonly />
           <Comment />
-          <WorkflowOperations currentWorkflow={currentWorkflow} />
+          <WorkflowOperations currentWorkflow={currentWorkflow} isNewWorkflow={isNewWorkflow} />
           <Tooltip content="撤销">
             <IconButton
               type="tertiary"

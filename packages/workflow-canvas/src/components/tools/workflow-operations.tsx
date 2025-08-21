@@ -17,9 +17,10 @@ interface WorkflowOperationsProps {
     description: string;
     tags: string[];
   };
+  isNewWorkflow?: boolean;
 }
 
-export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentWorkflow }) => {
+export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentWorkflow, isNewWorkflow }) => {
   const context = useClientContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [saveModalVisible, setSaveModalVisible] = useState(false);
@@ -30,18 +31,13 @@ export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentW
 
   const handleSave = () => {
     // If editing existing workflow, save directly without modal
-    if (currentWorkflow) {
+    if (currentWorkflow && !isNewWorkflow) {
       handleSaveToBackend();
     } else {
       // Show save modal for new workflows
       setSaveModalVisible(true);
-      // Set default name based on current date/time
-      setWorkflowName(`工作流_${new Date().toLocaleString('zh-CN', { 
-        month: '2-digit', 
-        day: '2-digit', 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      })}`);
+      // If it's a new workflow, the name and description should already be set
+      // from the creation page, so we don't need to generate a default name
     }
   };
 
