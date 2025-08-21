@@ -57,8 +57,8 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
 
   const handleBack = () => {
     if (window.confirm('确定要离开吗？未保存的更改将会丢失。')) {
-      // Navigate back to workflows list
-      window.history.back();
+      // Navigate directly to workflows list page
+      window.location.href = '/dashboard/workflows';
     }
   };
 
