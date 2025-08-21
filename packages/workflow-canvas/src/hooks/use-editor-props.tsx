@@ -27,7 +27,6 @@ import { WorkflowRuntimeService } from '../plugins/runtime-plugin/runtime-servic
 import {
   createRuntimePlugin,
   createContextMenuPlugin,
-  createVariablePanelPlugin,
 } from '../plugins';
 import { defaultFormMeta } from '../nodes/default-form-meta';
 import { WorkflowNodeType } from '../nodes';
@@ -367,11 +366,7 @@ export function useEditorProps(
           // },
         }),
 
-        /**
-         * Variable panel plugin
-         * 变量面板插件
-         */
-        createVariablePanelPlugin({}),
+
       ],
     }),
     []
