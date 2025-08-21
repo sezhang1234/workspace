@@ -44,11 +44,12 @@ export const SelectZoom = styled.span`
 `;
 
 export const MinimapContainer = styled.div`
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
+  position: fixed !important;
+  bottom: 16px !important;
+  left: 16px !important;
   width: 198px;
-  z-index: 99;
+  z-index: 9999;
+  pointer-events: auto;
 `;
 
 export const UIIconMinimap = styled(IconMinimap)<{ visible: boolean }>`
