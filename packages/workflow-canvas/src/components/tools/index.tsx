@@ -44,7 +44,8 @@ export const DemoTools = () => {
   }, [playground]);
 
   return (
-    <ToolContainer className="demo-free-layout-tools">
+    <>
+      <ToolContainer className="demo-free-layout-tools">
       <ToolSection>
 
         <AutoLayout />
@@ -52,7 +53,6 @@ export const DemoTools = () => {
         <ZoomSelect />
         <FitView />
         <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
-        <Minimap visible={minimapVisible} />
         <Readonly />
         <Comment />
         <WorkflowOperations />
@@ -77,7 +77,11 @@ export const DemoTools = () => {
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <AddNode disabled={playground.config.readonly} />
         <TestRunButton disabled={playground.config.readonly} />
-      </ToolSection>
-    </ToolContainer>
+              </ToolSection>
+      </ToolContainer>
+      
+      {/* Minimap positioned independently outside the control panel */}
+      <Minimap visible={minimapVisible} />
+    </>
   );
 };
