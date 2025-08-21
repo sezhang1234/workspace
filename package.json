@@ -32,7 +32,9 @@
     "axios": "^1.5.0",
     "dayjs": "^1.11.9",
     "clsx": "^2.0.0",
-    "lucide-react": "^0.263.1"
+    "lucide-react": "^0.263.1",
+    "@babel/plugin-proposal-decorators": "~7.23.6",
+    "workflow-canvas":"workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -44,6 +46,10 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "typescript": "^5.0.2",
+    "less": "^4.4.1",
     "vite": "^4.4.5"
-  }
+  },
+  "workspaces": [
+    "packages/**/*"
+  ]
 }

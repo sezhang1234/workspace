@@ -17,6 +17,7 @@ import ModelsPage from './pages/Models/ModelsPage'
 import AnalyticsPage from './pages/Analytics/AnalyticsPage'
 import SettingsPage from './pages/Settings/SettingsPage'
 import ProfilePage from './pages/Settings/ProfilePage'
+import { DemoFreeLayout } from 'workflow-canvas'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore()
@@ -53,7 +54,7 @@ const App: React.FC = () => {
         <Route path="workflows" element={<WorkflowsPage />} />
         <Route path="workflows/:id" element={<WorkflowEditorPage />} />
         <Route path="workflows/new" element={<WorkflowCreationPage />} />
-        <Route path="workflows/editor" element={<WorkflowCanvasPage />} />
+        <Route path="workflows/editor" element={<DemoFreeLayout />} />
         <Route path="prompts" element={<PromptsPage />} />
         <Route path="prompts/:id" element={<PromptEditorPage />} />
         <Route path="prompts/new" element={<PromptEditorPage />} />
