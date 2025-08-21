@@ -56,12 +56,11 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
 
   return (
     <>
-      {/* Minimap positioned at the top of the workflow canvas */}
+      {/* Minimap positioned at the upper left corner of the workflow canvas */}
       <div style={{ 
         position: 'fixed', 
         top: '120px', 
-        left: '50%',
-        transform: 'translateX(-50%)',
+        left: '280px', // Account for sidebar width
         zIndex: 9999 
       }}>
         <Minimap visible={minimapVisible} />
