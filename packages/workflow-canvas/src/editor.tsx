@@ -20,26 +20,45 @@ export const Editor = () => {
   const [minimapVisible, setMinimapVisible] = useState(true);
 
   return (
-    <div className="doc-free-feature-overview" style={{ width: '100%', height: '100%' }}>
-      <FreeLayoutEditorProvider {...editorProps}>
-        <SidebarProvider>
-          <div className="demo-container" style={{ width: '100%', height: '100%' }}>
-            <EditorRenderer className="demo-editor" style={{ width: '100%', height: '100%' }} />
-            
-            {/* Minimap positioned in upper left corner of canvas */}
-            <div style={{ 
-              position: 'absolute', 
-              top: '16px', 
-              left: '16px', 
-              zIndex: 9999 
+    <div className="workflow-canvas-wrapper" style={{ 
+      width: '100%', 
+      height: '100%',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div className="doc-free-feature-overview" style={{ 
+        width: '100%', 
+        height: '100%',
+        position: 'relative'
+      }}>
+        <FreeLayoutEditorProvider {...editorProps}>
+          <SidebarProvider>
+            <div className="demo-container" style={{ 
+              width: '100%', 
+              height: '100%',
+              position: 'relative'
             }}>
-              <Minimap visible={minimapVisible} />
+              <EditorRenderer className="demo-editor" style={{ 
+                width: '100%', 
+                height: '100%',
+                position: 'relative'
+              }} />
+              
+              {/* Minimap positioned in upper left corner of canvas */}
+              <div style={{ 
+                position: 'absolute', 
+                top: '16px', 
+                left: '16px', 
+                zIndex: 9999 
+              }}>
+                <Minimap visible={minimapVisible} />
+              </div>
             </div>
-          </div>
-          <DemoTools minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
-          <SidebarRenderer />
-        </SidebarProvider>
-      </FreeLayoutEditorProvider>
+            <DemoTools minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
+            <SidebarRenderer />
+          </SidebarProvider>
+        </FreeLayoutEditorProvider>
+      </div>
     </div>
   );
 };
