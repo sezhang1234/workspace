@@ -67,8 +67,8 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
         <Minimap visible={minimapVisible} />
       </div>
 
-      {/* Left Control Panel */}
-      <ToolContainer className="demo-free-layout-tools" style={{ left: 'calc(50% - 200px)' }}>
+      {/* Bottom Center Control Panel */}
+      <ToolContainer className="demo-free-layout-tools">
         <ToolSection>
           <AutoLayout />
           <SwitchLine />
