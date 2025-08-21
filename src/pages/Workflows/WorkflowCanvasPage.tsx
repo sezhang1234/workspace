@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import { Button, Card, CardContent, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { Editor } from '../../../packages/workflow-canvas/src/editor';
 
 const WorkflowCanvasPage: React.FC = () => {
@@ -9,14 +9,13 @@ const WorkflowCanvasPage: React.FC = () => {
   const location = useLocation();
   const workflowData = location.state?.workflowData || {};
 
-
   // Note: Save, Import, and Export functionality is now handled in the bottom control panel
   // via the WorkflowOperations component
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-full flex flex-col bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 relative z-50">
+      <div className="bg-white border-b border-gray-200 px-6 py-4 relative z-50 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button
@@ -52,25 +51,23 @@ const WorkflowCanvasPage: React.FC = () => {
       </div>
 
       {/* Workflow Canvas */}
-      <div className="relative z-10">
-        <div className="w-full h-[calc(100vh-120px)] relative overflow-hidden">
-          <Editor />
-          
-          {/* Back Button Overlay */}
-          <div className="absolute top-4 left-4 z-50 pointer-events-auto">
-            <Button
-              variant="outlined"
-              startIcon={<ArrowLeft />}
-              onClick={() => {
-                if (window.confirm('确定要离开吗？未保存的更改将会丢失。')) {
-                  navigate('/workflows');
-                }
-              }}
-              className="bg-white/90 backdrop-blur-sm border-gray-300 text-gray-700 hover:bg-white hover:border-gray-400 shadow-md"
-            >
-              返回
-            </Button>
-          </div>
+      <div className="flex-1 relative overflow-hidden">
+        <Editor />
+        
+        {/* Back Button Overlay */}
+        <div className="absolute top-4 left-4 z-50 pointer-events-auto">
+          <Button
+            variant="outlined"
+            startIcon={<ArrowLeft />}
+            onClick={() => {
+              if (window.confirm('确定要离开吗？未保存的更改将会丢失。')) {
+                navigate('/workflows');
+              }
+            }}
+            className="bg-white/90 backdrop-blur-sm border-gray-300 text-gray-700 hover:bg-white hover:border-gray-400 shadow-md"
+          >
+            返回
+          </Button>
         </div>
       </div>
 
