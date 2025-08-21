@@ -13,7 +13,7 @@ import { initialData } from './initial-data';
 import { useEditorProps } from './hooks';
 import { DemoTools } from './components/tools';
 import { SidebarProvider, SidebarRenderer } from './components/sidebar';
-import { Minimap } from './components/minimap';
+import { Minimap } from './components/tools/minimap';
 
 export const Editor = () => {
   const editorProps = useEditorProps(initialData, nodeRegistries);
