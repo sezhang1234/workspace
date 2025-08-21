@@ -60,7 +60,7 @@ export function TestRunButton(props: { disabled: boolean }) {
         icon={<IconPlay size="small" />}
         className={styles.testrunSuccessButton}
       >
-        Test Run
+        测试运行
       </Button>
     ) : (
       <Badge count={errorCount} position="rightTop" type="danger">
@@ -71,7 +71,7 @@ export function TestRunButton(props: { disabled: boolean }) {
           icon={<IconPlay size="small" />}
           className={styles.testrunErrorButton}
         >
-            Test Run
+                       测试运行
         </Button>
       </Badge>
     );

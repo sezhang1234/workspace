@@ -15,7 +15,7 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
   info: {
     icon: iconLLM,
     description:
-      'Call the large language model and use variables and prompt words to generate responses.',
+      '调用大语言模型，使用变量和提示词生成响应。',
   },
   meta: {
     size: {
