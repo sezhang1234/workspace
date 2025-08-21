@@ -36,7 +36,7 @@ jiuwen-agent-studio/
 - Node.js 18+
 - Python 3.11+
 
-### **一键设置开发环境**
+### **设置开发环境**
 
 ```bash
 # 克隆项目
