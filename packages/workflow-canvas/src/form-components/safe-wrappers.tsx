@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+// Import only the components that actually exist and work
 import { 
   DynamicValueInput, 
   PromptEditorWithVariables, 
@@ -10,7 +11,6 @@ import {
   CodeEditor,
   DisplaySchemaTag,
   DisplayOutputs,
-  IJsonSchema,
   JsonSchemaEditor,
   provideJsonSchemaOutputs,
   syncVariableTitle,
@@ -27,8 +27,10 @@ import {
   createInferAssignPlugin
 } from '@flowgram.ai/form-materials';
 
-// Define IFlowValue type locally since it's not exported from form-materials
+// Define types locally since they're not exported from form-materials
 export type IFlowValue = any;
+export type IJsonSchema = any;
+export type IFlowTemplateValue = any;
 
 // Wrapper component to filter out problematic props like localeCode
 export const SafeDynamicValueInput = (props: any) => {
@@ -116,6 +118,5 @@ export {
   listenRefSchemaChange,
   autoRenameRefEffect,
   createInferInputsPlugin,
-  createInferAssignPlugin,
-  IJsonSchema
+  createInferAssignPlugin
 };

@@ -3,7 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import type { IJsonSchema, IBasicJsonSchema } from '@flowgram.ai/form-materials';
+// Define types locally since they're not exported from form-materials
+export type IJsonSchema = any;
+export type IBasicJsonSchema = any;
 
 export type BasicType = IBasicJsonSchema;
 export type JsonSchema = IJsonSchema;
