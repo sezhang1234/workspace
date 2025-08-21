@@ -268,6 +268,8 @@ export function useEditorProps(
       onAllLayersRendered(ctx) {
         ctx.tools.autoLayout(); // init auto layout
         ctx.tools.fitView(false);
+        // Set default zoom to 80% so all nodes are fully visible
+        ctx.tools.setZoom(0.8);
         console.log('--- Playground rendered ---');
       },
       /**
