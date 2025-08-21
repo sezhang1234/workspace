@@ -45,7 +45,7 @@ export const Interactive = () => {
   const [showInteractivePanel, setShowInteractivePanel] = useState(false);
 
   const mousePadTooltip =
-    interactiveType === InteractiveType.Mouse ? 'Mouse-Friendly' : 'Touchpad-Friendly';
+    interactiveType === InteractiveType.Mouse ? '鼠标友好' : '触控板友好';
 
   useEffect(() => {
     tools.setMouseScrollDelta((zoom) => zoom / 20);

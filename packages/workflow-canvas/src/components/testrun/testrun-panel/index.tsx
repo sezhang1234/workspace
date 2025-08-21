@@ -96,15 +96,15 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
   const renderRunning = (
     <div className={styles['testrun-panel-running']}>
       <IconSpin spin size="large" />
-      <div className={styles.text}>Running...</div>
+      <div className={styles.text}>运行中...</div>
     </div>
   );
 
   const renderForm = (
     <div className={styles['testrun-panel-form']}>
       <div className={styles['testrun-panel-input']}>
-        <div className={styles.title}>Input Form</div>
-        <div>JSON Mode</div>
+        <div className={styles.title}>输入表单</div>
+        <div>JSON 模式</div>
         <Switch
           checked={inputJSONMode}
           onChange={(checked: boolean) => setInputJSONMode(checked)}
@@ -121,8 +121,8 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
           {e}
         </div>
       ))}
-      <NodeStatusGroup title="Inputs Result" data={result?.inputs} optional disableCollapse />
-      <NodeStatusGroup title="Outputs Result" data={result?.outputs} optional disableCollapse />
+      <NodeStatusGroup title="输入结果" data={result?.inputs} optional disableCollapse />
+      <NodeStatusGroup title="输出结果" data={result?.outputs} optional disableCollapse />
     </div>
   );
 
@@ -135,13 +135,13 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
         [styles.default]: !isRunning,
       })}
     >
-      {isRunning ? 'Cancel' : 'Test Run'}
+      {isRunning ? '取消' : '测试运行'}
     </Button>
   );
 
   return (
     <SideSheet
-      title="Test Run"
+      title="测试运行"
       visible={visible}
       mask={false}
       motion={false}
@@ -160,7 +160,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
     >
       <div className={styles['testrun-panel-container']}>
         <div className={styles['testrun-panel-header']}>
-          <div className={styles['testrun-panel-title']}>Test Run</div>
+          <div className={styles['testrun-panel-title']}>测试运行</div>
           <Button
             className={styles['testrun-panel-title']}
             type="tertiary"

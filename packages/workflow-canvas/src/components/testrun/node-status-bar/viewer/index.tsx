@@ -38,9 +38,9 @@ const TreeNode: React.FC<TreeNodeProps> = ({ label, value, level, isLast = false
 
   const renderPrimitiveValue = (val: any) => {
     if (val === null)
-      return <span className={classnames(styles.primitiveValue, styles.null)}>null</span>;
+      return <span className={classnames(styles.primitiveValue, styles.null)}>空</span>;
     if (val === undefined)
-      return <span className={classnames(styles.primitiveValue, styles.undefined)}>undefined</span>;
+      return <span className={classnames(styles.primitiveValue, styles.undefined)}>未定义</span>;
 
     switch (typeof val) {
       case 'string':
