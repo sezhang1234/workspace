@@ -9,7 +9,7 @@ import { FormItem } from '../form-item';
 import { Feedback } from '../feedback';
 import { JsonSchema } from '../../typings';
 import { useNodeRenderContext } from '../../hooks';
-import { SafeDynamicValueInput, SafePromptEditorWithVariables } from './safe-wrappers';
+import { SafeDynamicValueInput, SafePromptEditorWithVariables } from '../safe-wrappers';
 
 export function FormInputs() {
   const { readonly } = useNodeRenderContext();
