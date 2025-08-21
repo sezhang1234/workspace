@@ -46,7 +46,7 @@ export const SelectZoom = styled.span`
 export const MinimapContainer = styled.div`
   position: fixed !important;
   bottom: 16px !important;
-  right: 16px !important;
+  left: 16px !important;
   width: 198px;
   z-index: 9999;
   pointer-events: auto;
