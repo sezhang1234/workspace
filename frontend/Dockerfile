@@ -4,12 +4,12 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files first
 COPY package*.json ./
 COPY packages/ ./packages/
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies with legacy peer deps to avoid conflicts
+RUN npm ci --only=production --legacy-peer-deps
 
 # Copy source code
 COPY . .
