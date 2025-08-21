@@ -4,11 +4,12 @@
  */
 
 import { Field } from '@flowgram.ai/free-layout-editor';
-import { IFlowTemplateValue, PromptEditorWithVariables } from '@flowgram.ai/form-materials';
+import { IFlowTemplateValue } from '@flowgram.ai/form-materials';
 import { Select } from '@douyinfe/semi-ui';
 
 import { useNodeRenderContext } from '../../../hooks';
 import { FormItem } from '../../../form-components';
+import { SafePromptEditorWithVariables } from '../../../form-components/safe-wrappers';
 
 export function Api() {
   const { readonly } = useNodeRenderContext();
@@ -41,7 +42,7 @@ export function Api() {
 
           <Field<IFlowTemplateValue> name="api.url">
             {({ field }) => (
-              <PromptEditorWithVariables
+              <SafePromptEditorWithVariables
                 disableMarkdownHighlight
                 readonly={readonly}
                 style={{ flexGrow: 1 }}
