@@ -6,13 +6,12 @@
 import { Field } from '@flowgram.ai/free-layout-editor';
 import {
   IFlowTemplateValue,
-  JsonEditorWithVariables,
-  PromptEditorWithVariables,
 } from '@flowgram.ai/form-materials';
 import { Select } from '@douyinfe/semi-ui';
 
 import { useNodeRenderContext } from '../../../hooks';
 import { FormItem } from '../../../form-components';
+import { SafeJsonEditorWithVariables, SafePromptEditorWithVariables } from '../../../form-components/safe-wrappers';
 
 const BODY_TYPE_OPTIONS = [
   {
@@ -38,7 +37,7 @@ export function Body() {
         return (
           <Field<IFlowTemplateValue> name="body.json">
             {({ field }) => (
-              <JsonEditorWithVariables
+              <SafeJsonEditorWithVariables
                 value={field.value?.content}
                 readonly={readonly}
                 activeLinePlaceholder="use var by '@'"
@@ -53,7 +52,7 @@ export function Body() {
         return (
           <Field<IFlowTemplateValue> name="body.rawText">
             {({ field }) => (
-              <PromptEditorWithVariables
+              <SafePromptEditorWithVariables
                 disableMarkdownHighlight
                 readonly={readonly}
                 style={{ flexGrow: 1 }}

@@ -4,12 +4,12 @@
  */
 
 import { Field } from '@flowgram.ai/free-layout-editor';
-import { DynamicValueInput, PromptEditorWithVariables } from '@flowgram.ai/form-materials';
 
 import { FormItem } from '../form-item';
 import { Feedback } from '../feedback';
 import { JsonSchema } from '../../typings';
 import { useNodeRenderContext } from '../../hooks';
+import { SafeDynamicValueInput, SafePromptEditorWithVariables } from './safe-wrappers';
 
 export function FormInputs() {
   const { readonly } = useNodeRenderContext();
@@ -39,7 +39,7 @@ export function FormInputs() {
                   required={required.includes(key)}
                 >
                   {formComponent === 'prompt-editor' && (
-                    <PromptEditorWithVariables
+                    <SafePromptEditorWithVariables
                       value={field.value}
                       onChange={field.onChange}
                       readonly={readonly}
@@ -47,7 +47,7 @@ export function FormInputs() {
                     />
                   )}
                   {!formComponent && (
-                    <DynamicValueInput
+                    <SafeDynamicValueInput
                       value={field.value}
                       onChange={field.onChange}
                       readonly={readonly}
