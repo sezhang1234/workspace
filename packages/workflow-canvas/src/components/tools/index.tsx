@@ -114,36 +114,44 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
         </ToolSection>
       </ToolContainer>
 
-      {/* Right Control Panel - Workflow Navigation */}
-      <ToolContainer className="demo-free-layout-tools" style={{ left: 'calc(50% + 200px)' }}>
-        <ToolSection>
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '8px',
-            padding: '0 8px'
+      {/* Top Center Workflow Switch Panel */}
+      <div style={{
+        position: 'fixed',
+        top: '120px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 9999
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          backgroundColor: '#fff',
+          border: '1px solid rgba(68, 83, 130, 0.25)',
+          borderRadius: '10px',
+          padding: '8px 12px',
+          boxShadow: 'rgba(0, 0, 0, 0.04) 0px 2px 6px 0px, rgba(0, 0, 0, 0.02) 0px 4px 12px 0px'
+        }}>
+          <span style={{ 
+            fontSize: '12px', 
+            color: '#666',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            whiteSpace: 'nowrap'
           }}>
-            <span style={{ 
-              fontSize: '12px', 
-              color: '#666',
-              fontFamily: 'Inter, system-ui, sans-serif',
-              whiteSpace: 'nowrap'
-            }}>
-              工作流切换
-            </span>
-            <Select
-              defaultValue="current"
-              style={{ width: '120px' }}
-              size="small"
-            >
-              <Select.Option value="current">当前工作流</Select.Option>
-              <Select.Option value="workflow1">工作流 1</Select.Option>
-              <Select.Option value="workflow2">工作流 2</Select.Option>
-              <Select.Option value="workflow3">工作流 3</Select.Option>
-            </Select>
-          </div>
-        </ToolSection>
-      </ToolContainer>
+            工作流切换
+          </span>
+          <Select
+            defaultValue="current"
+            style={{ width: '120px' }}
+            size="small"
+          >
+            <Select.Option value="current">当前工作流</Select.Option>
+            <Select.Option value="workflow1">工作流 1</Select.Option>
+            <Select.Option value="workflow2">工作流 2</Select.Option>
+            <Select.Option value="workflow3">工作流 3</Select.Option>
+          </Select>
+        </div>
+      </div>
     </>
   );
 }
