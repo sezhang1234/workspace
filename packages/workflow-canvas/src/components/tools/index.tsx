@@ -37,7 +37,10 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
   const [canRedo, setCanRedo] = useState(false);
   const [currentWorkflowId, setCurrentWorkflowId] = useState(workflowId || '1');
   const workflows = getAllWorkflows();
-  const currentWorkflow = workflows.find(w => w.id === currentWorkflowId) || workflows[0];
+  const currentWorkflow = workflows.find(w => w.id === currentWorkflowId);
+  
+  // If no current workflow found, this might be a new workflow being created
+  const isNewWorkflow = !currentWorkflow && workflowId;
   useEffect(() => {
     const disposable = history.undoRedoService.onChange(() => {
       setCanUndo(history.canUndo());
@@ -150,6 +153,11 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
                 {workflow.name}
               </Select.Option>
             ))}
+            {isNewWorkflow && (
+              <Select.Option value={workflowId} disabled>
+                新工作流 (正在创建...)
+              </Select.Option>
+            )}
           </Select>
           <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
           <Button
