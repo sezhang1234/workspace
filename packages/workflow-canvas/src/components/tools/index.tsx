@@ -116,7 +116,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
       <div style={{
         position: 'fixed',
         top: '120px',
-        left: '50%',
+        left: 'calc(256px + (100vw - 256px) / 2)', // Center in main content area (after sidebar)
         transform: 'translateX(-50%)',
         zIndex: 9999
       }}>
