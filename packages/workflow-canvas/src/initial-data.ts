@@ -43,7 +43,7 @@ export const initialData: FlowDocumentJSON = {
         },
       },
       data: {
-        title: 'AI 分析',
+        title: 'LLM',
         inputsValues: {
           modelName: {
             type: 'constant',
