@@ -3,7 +3,9 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./packages/**/*.{js,ts,jsx,tsx}",
+    // Only include specific package source files, not entire packages directory
+    // to avoid scanning node_modules and other unnecessary files
+    "./packages/workflow-canvas/src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
