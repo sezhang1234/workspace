@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { 
   Workflow as WorkflowIcon, 
   Plus, 
@@ -16,14 +16,35 @@ import {
   AlertCircle,
   PauseCircle
 } from 'lucide-react'
-import { getAllWorkflows, type Workflow } from '../../services/workflowService'
+import { getAllWorkflows, deleteWorkflow, type Workflow } from '../../services/workflowService'
 
 const WorkflowsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState<string>('name')
+  const [workflows, setWorkflows] = useState<Workflow[]>(getAllWorkflows())
 
-  const workflows = getAllWorkflows()
+  // Refresh workflows list
+  const refreshWorkflows = () => {
+    setWorkflows(getAllWorkflows())
+  }
+
+  // Handle workflow deletion
+  const handleDeleteWorkflow = (workflowId: string, workflowName: string) => {
+    if (window.confirm(`确定要删除工作流"${workflowName}"吗？此操作无法撤销。`)) {
+      const success = deleteWorkflow(workflowId)
+      if (success) {
+        refreshWorkflows()
+        // You could add a toast notification here
+      }
+    }
+  }
+
+  // Refresh workflows when returning from canvas
+  const location = useLocation()
+  useEffect(() => {
+    refreshWorkflows()
+  }, [location.pathname])
 
   const filteredWorkflows = workflows.filter(workflow => {
     const matchesSearch = workflow.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -231,7 +252,11 @@ const WorkflowsPage: React.FC = () => {
                 <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
                   <Copy className="w-4 h-4" />
                 </button>
-                <button className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg">
+                <button 
+                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                  onClick={() => handleDeleteWorkflow(workflow.id, workflow.name)}
+                  title="删除工作流"
+                >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
