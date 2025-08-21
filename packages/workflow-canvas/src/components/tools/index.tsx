@@ -24,11 +24,15 @@ import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
 import { WorkflowOperations } from './workflow-operations';
 
-export function DemoTools() {
+interface DemoToolsProps {
+  minimapVisible: boolean;
+  setMinimapVisible: (visible: boolean) => void;
+}
+
+export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps) {
   const { history, playground } = useClientContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [minimapVisible, setMinimapVisible] = useState(true);
   useEffect(() => {
     const disposable = history.undoRedoService.onChange(() => {
       setCanUndo(history.canUndo());
@@ -51,62 +55,50 @@ export function DemoTools() {
   };
 
   return (
-    <>
-      <ToolContainer className="demo-free-layout-tools">
-        <ToolSection>
-          <AutoLayout />
-          <SwitchLine />
-          <ZoomSelect />
-          <FitView />
-          <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
-          <Readonly />
-          <Comment />
-          <WorkflowOperations />
-          <Tooltip content="撤销">
-            <IconButton
-              type="tertiary"
-              theme="borderless"
-              icon={<IconUndo />}
-              disabled={!canUndo || playground.config.readonly}
-              onClick={() => history.undo()}
-            />
-          </Tooltip>
-          <Tooltip content="重做">
-            <IconButton
-              type="tertiary"
-              theme="borderless"
-              icon={<IconRedo />}
-              disabled={!canRedo || playground.config.readonly}
-              onClick={() => history.redo()}
-            />
-          </Tooltip>
-          <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
-          <AddNode disabled={playground.config.readonly} />
-          <TestRunButton disabled={playground.config.readonly} />
-          <Button
+    <ToolContainer className="demo-free-layout-tools">
+      <ToolSection>
+        <AutoLayout />
+        <SwitchLine />
+        <ZoomSelect />
+        <FitView />
+        <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
+        <Readonly />
+        <Comment />
+        <WorkflowOperations />
+        <Tooltip content="撤销">
+          <IconButton
             type="tertiary"
             theme="borderless"
-            icon={<IconArrowLeft />}
-            onClick={handleBack}
-            style={{ 
-              color: '#8B5CF6', // Different font color (purple)
-              fontWeight: '500'
-            }}
-          >
-            返回
-          </Button>
-        </ToolSection>
-      </ToolContainer>
-      
-      {/* Minimap positioned independently in upper left corner of canvas */}
-      <div style={{ 
-        position: 'absolute', 
-        top: '16px', 
-        left: '16px', 
-        zIndex: 9999 
-      }}>
-        <Minimap visible={minimapVisible} />
-      </div>
-    </>
+            icon={<IconUndo />}
+            disabled={!canUndo || playground.config.readonly}
+            onClick={() => history.undo()}
+          />
+        </Tooltip>
+        <Tooltip content="重做">
+          <IconButton
+            type="tertiary"
+            theme="borderless"
+            icon={<IconRedo />}
+            disabled={!canRedo || playground.config.readonly}
+            onClick={() => history.redo()}
+          />
+        </Tooltip>
+        <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
+        <AddNode disabled={playground.config.readonly} />
+        <TestRunButton disabled={playground.config.readonly} />
+        <Button
+          type="tertiary"
+          theme="borderless"
+          icon={<IconArrowLeft />}
+          onClick={handleBack}
+          style={{ 
+            color: '#8B5CF6', // Different font color (purple)
+            fontWeight: '500'
+          }}
+        >
+          返回
+        </Button>
+      </ToolSection>
+    </ToolContainer>
   );
 }
