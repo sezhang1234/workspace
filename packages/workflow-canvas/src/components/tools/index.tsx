@@ -9,7 +9,7 @@ import { useRefresh } from '@flowgram.ai/free-layout-editor';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
 import { Tooltip, IconButton, Divider, Button, Select } from '@douyinfe/semi-ui';
 import { IconUndo, IconRedo, IconArrowLeft } from '@douyinfe/semi-icons';
-import { getAllWorkflows, type Workflow } from '../../../../src/services/workflowService';
+import { getAllWorkflows, type Workflow } from '../../../src/services/workflowService';
 
 import { TestRunButton } from '../testrun/testrun-button';
 import { AddNode } from '../add-node';
