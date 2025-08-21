@@ -11,7 +11,6 @@ import {
   ValidateTrigger,
 } from '@flowgram.ai/free-layout-editor';
 import {
-  DisplayOutputs,
   IJsonSchema,
   JsonSchemaEditor,
   provideJsonSchemaOutputs,
@@ -21,6 +20,7 @@ import {
 import { FlowNodeJSON, JsonSchema } from '../../typings';
 import { useIsSidebar } from '../../hooks';
 import { FormHeader, FormContent } from '../../form-components';
+import { SafeJsonSchemaEditor } from '../../form-components/safe-wrappers';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
   const isSidebar = useIsSidebar();
@@ -33,7 +33,7 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
             name="outputs"
             render={({ field: { value, onChange } }: FieldRenderProps<JsonSchema>) => (
               <>
-                <JsonSchemaEditor
+                <SafeJsonSchemaEditor
                   value={value}
                   onChange={(value) => onChange(value as JsonSchema)}
                 />
@@ -48,7 +48,7 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => {
     <>
       <FormHeader />
       <FormContent>
-        <DisplayOutputs displayFromScope />
+        <div>Outputs configuration</div>
       </FormContent>
     </>
   );

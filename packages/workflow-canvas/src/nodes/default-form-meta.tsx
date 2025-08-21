@@ -4,19 +4,19 @@
  */
 
 import { FormRenderProps, FormMeta, ValidateTrigger } from '@flowgram.ai/free-layout-editor';
-import {
-  autoRenameRefEffect,
-  provideJsonSchemaOutputs,
-  syncVariableTitle,
-  DisplayOutputs,
-  validateFlowValue,
-  validateWhenVariableSync,
-  listenRefSchemaChange,
-} from '@flowgram.ai/form-materials';
 import { Divider } from '@douyinfe/semi-ui';
 
 import { FlowNodeJSON } from '../typings';
 import { FormHeader, FormContent, FormInputs } from '../form-components';
+import { 
+  SafeDisplayOutputs,
+  provideJsonSchemaOutputs,
+  syncVariableTitle,
+  validateFlowValue,
+  validateWhenVariableSync,
+  listenRefSchemaChange,
+  autoRenameRefEffect
+} from '../form-components/safe-wrappers';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
   <>
@@ -24,7 +24,7 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
     <FormContent>
       <FormInputs />
       <Divider />
-      <DisplayOutputs displayFromScope />
+      <SafeDisplayOutputs displayFromScope />
     </FormContent>
   </>
 );
