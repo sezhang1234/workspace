@@ -16,11 +16,11 @@ import { SidebarProvider, SidebarRenderer } from './components/sidebar';
 export const Editor = () => {
   const editorProps = useEditorProps(initialData, nodeRegistries);
   return (
-    <div className="doc-free-feature-overview">
+    <div className="doc-free-feature-overview" style={{ width: '100%', height: '100%' }}>
       <FreeLayoutEditorProvider {...editorProps}>
         <SidebarProvider>
-          <div className="demo-container">
-            <EditorRenderer className="demo-editor" />
+          <div className="demo-container" style={{ width: '100%', height: '100%' }}>
+            <EditorRenderer className="demo-editor" style={{ width: '100%', height: '100%' }} />
           </div>
           <DemoTools />
           <SidebarRenderer />
