@@ -130,7 +130,7 @@ const WorkflowCanvasContent: React.FC = () => {
       type: 'llmNode',
       position: { x: 350, y: 200 },
       data: {
-        label: 'LLM 节点',
+        label: '大语言模型节点',
         model: 'deepseek-chat',
         systemPrompt: '你是一个有用的AI助手，请根据用户的问题提供准确、有帮助的回答。',
         userPrompt: '请根据输入生成回答',
@@ -311,7 +311,7 @@ const WorkflowCanvasContent: React.FC = () => {
       position,
       data: {
         label: type === 'startNode' ? '开始' :
-               type === 'llmNode' ? 'LLM 节点' :
+               type === 'llmNode' ? '大语言模型节点' :
                type === 'endNode' ? '结束' :
                type === 'conditionNode' ? '条件节点' :
                type === 'loopNode' ? '循环节点' :
@@ -832,7 +832,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Trigger Nodes Category */}
+                    {/* 触发器节点分类 */}
                     <div className="mb-4">
                       <div className="flex items-center mb-2">
                         <div className="w-2 h-2 bg-green-500/80 rounded-full mr-2"></div>
@@ -852,7 +852,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* AI Processing Nodes Category */}
+                    {/* AI 处理节点分类 */}
                     <div className="mb-4">
                       <div className="flex items-center mb-2">
                         <div className="w-2 h-2 bg-purple-500/80 rounded-full mr-2"></div>
@@ -897,12 +897,12 @@ const WorkflowCanvasContent: React.FC = () => {
                           onClick={() => addNode('llmNode', { x: 400, y: 200 })}
                           className="border-emerald-200/70 text-emerald-700/90 hover:bg-emerald-50/80 hover:border-emerald-300/80 hover:shadow-md transition-all duration-200 text-xs py-1 bg-white/60 hover:bg-white/80"
                         >
-                          LLM 节点
+                          大语言模型节点
                         </Button>
                       </div>
                     </div>
 
-                    {/* Logic Control Nodes Category */}
+                    {/* 逻辑控制节点分类 */}
                     <div className="mb-4">
                       <div className="flex items-center mb-2">
                         <div className="w-2 h-2 bg-yellow-500/80 rounded-full mr-2"></div>
@@ -933,7 +933,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Data Processing Nodes Category */}
+                    {/* 数据处理节点分类 */}
                     <div className="mb-4">
                       <div className="flex items-center mb-2">
                         <div className="w-2 h-2 bg-cyan-500/80 rounded-full mr-2"></div>
@@ -953,7 +953,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Output Nodes Category */}
+                    {/* 输出节点分类 */}
                     <div className="mb-4">
                       <div className="flex items-center mb-2">
                         <div className="w-2 h-2 bg-red-500/80 rounded-full mr-2"></div>
@@ -973,7 +973,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Quick Actions */}
+                    {/* 快速操作 */}
                     <div className="pt-3 border-t border-gray-200/50">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-semibold text-gray-700/90">快速操作</span>
@@ -1014,7 +1014,7 @@ const WorkflowCanvasContent: React.FC = () => {
                   </Panel>
                 )}
 
-                {/* Floating Node Configuration Panel */}
+                {/* 浮动节点配置面板 */}
                 {selectedNode && (
                   <Panel 
                     position="top-right" 
@@ -1025,7 +1025,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       zIndex: 1000
                     }}
                   >
-                    {/* Panel Header */}
+                    {/* 面板头部 */}
                     <div className="flex items-center justify-between mb-4">
                       <Typography variant="h6" className="text-gray-800 font-semibold flex items-center">
                         <Settings className="w-5 h-5 mr-2 text-blue-600" />
@@ -1040,16 +1040,16 @@ const WorkflowCanvasContent: React.FC = () => {
                       </button>
                     </div>
                     
-                    {/* Panel Content */}
+                    {/* 面板内容 */}
                     <div className="space-y-4">
-                      {/* Node Type Display */}
+                      {/* 节点类型显示 */}
                       <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
                         <Typography variant="subtitle2" className="text-blue-800 font-medium mb-1">
                           节点类型
                         </Typography>
                         <Typography variant="body2" className="text-blue-700">
                           {selectedNode.type === 'startNode' ? '开始节点' :
-                           selectedNode.type === 'llmNode' ? 'LLM 节点' :
+                           selectedNode.type === 'llmNode' ? '大语言模型节点' :
                            selectedNode.type === 'endNode' ? '结束节点' :
                            selectedNode.type === 'conditionNode' ? '条件节点' :
                            selectedNode.type === 'loopNode' ? '循环节点' :
@@ -1061,7 +1061,7 @@ const WorkflowCanvasContent: React.FC = () => {
                         </Typography>
                       </div>
 
-                      {/* Node Label */}
+                      {/* 节点标签 */}
                       <div>
                         <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
                           节点名称
@@ -1083,7 +1083,7 @@ const WorkflowCanvasContent: React.FC = () => {
                         />
                       </div>
 
-                      {/* Node-specific Configuration */}
+                      {/* 节点特定配置 */}
                       {selectedNode.type === 'startNode' && (
                         <>
                           <div>
@@ -1484,7 +1484,7 @@ const WorkflowCanvasContent: React.FC = () => {
                         </>
                       )}
 
-                      {/* Panel Footer */}
+                      {/* 面板底部 */}
                       <div className="flex items-center justify-end space-x-2 pt-3 border-t border-gray-200">
                         <Button
                           size="small"
@@ -1507,7 +1507,7 @@ const WorkflowCanvasContent: React.FC = () => {
                   </Panel>
                 )}
 
-                {/* Debug Panel - Right Side */}
+                {/* 调试面板 - 右侧 */}
                 {showDebugPanel && (
                   <Panel 
                     position="top-right" 
@@ -1545,7 +1545,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Execution Status */}
+                    {/* 执行状态 */}
                     <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-medium text-gray-700">执行状态</span>
@@ -1569,7 +1569,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       )}
                     </div>
 
-                    {/* Input Section */}
+                    {/* 输入部分 */}
                     <div className="mb-4">
                       <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
                         输入参数
@@ -1587,7 +1587,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       />
                     </div>
 
-                    {/* Execution History Tree */}
+                    {/* 执行历史树 */}
                     <div className="mb-4">
                       <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium text-xs">
                         执行历史
@@ -1633,7 +1633,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Control Buttons */}
+                    {/* 控制按钮 */}
                     <div className="flex items-center space-x-2">
                       <Button
                         fullWidth
@@ -1658,7 +1658,7 @@ const WorkflowCanvasContent: React.FC = () => {
                   </Panel>
                 )}
 
-                {/* Enhanced minimap */}
+                {/* 增强型小地图 */}
                 <MiniMap 
                   className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg"
                   nodeColor={() => '#6b7280'}
@@ -1667,7 +1667,7 @@ const WorkflowCanvasContent: React.FC = () => {
                   pannable
                 />
                 
-                {/* Enhanced panel for workflow info */}
+                {/* 工作流信息增强面板 */}
                 <Panel position="top-left" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-3">
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -1677,10 +1677,10 @@ const WorkflowCanvasContent: React.FC = () => {
                   </div>
                 </Panel>
 
-                {/* Floating Control Panel - Upper Right */}
+                {/* 浮动控制面板 - 右上角 */}
                 <Panel position="top-right" className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-lg p-2">
                   <div className="flex items-center space-x-2">
-                    {/* Import Button */}
+                    {/* 导入按钮 */}
                     <button
                       onClick={() => document.getElementById('import-file')?.click()}
                       className="w-10 h-10 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
@@ -1696,7 +1696,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       <Upload className="w-5 h-5 text-blue-600 group-hover:text-blue-700" />
                     </button>
 
-                    {/* Export Button */}
+                    {/* 导出按钮 */}
                     <button
                       onClick={handleExport}
                       className="w-10 h-10 bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group"
@@ -1705,7 +1705,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       <Download className="w-5 h-5 text-green-600 group-hover:text-green-700" />
                     </button>
 
-                    {/* Test Run Button */}
+                    {/* 测试运行按钮 */}
                     <button
                       onClick={handleTestRun}
                       className={`w-10 h-10 border rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-md group ${
@@ -1722,7 +1722,7 @@ const WorkflowCanvasContent: React.FC = () => {
                       )}
                     </button>
 
-                    {/* Save Button */}
+                    {/* 保存按钮 */}
                     <button
                       onClick={handleSave}
                       className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 border border-blue-300 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-lg group shadow-md"
