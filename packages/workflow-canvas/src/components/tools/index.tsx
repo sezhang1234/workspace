@@ -100,8 +100,8 @@ export function DemoTools() {
       
       {/* Minimap positioned independently in upper left corner of canvas */}
       <div style={{ 
-        position: 'fixed', 
-        top: '120px', 
+        position: 'absolute', 
+        top: '16px', 
         left: '16px', 
         zIndex: 9999 
       }}>
