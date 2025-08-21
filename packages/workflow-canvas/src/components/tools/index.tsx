@@ -120,19 +120,6 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
           padding: '8px 12px',
           boxShadow: 'rgba(0, 0, 0, 0.04) 0px 2px 6px 0px, rgba(0, 0, 0, 0.02) 0px 4px 12px 0px'
         }}>
-          <Button
-            type="tertiary"
-            theme="borderless"
-            icon={<IconArrowLeft />}
-            onClick={handleBack}
-            style={{ 
-              color: '#3B82F6', // Eye-catching blue color
-              fontWeight: '500'
-            }}
-          >
-            返回
-          </Button>
-          <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
           <span style={{ 
             fontSize: '12px', 
             color: '#666',
@@ -151,6 +138,19 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
             <Select.Option value="workflow2">工作流 2</Select.Option>
             <Select.Option value="workflow3">工作流 3</Select.Option>
           </Select>
+          <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
+          <Button
+            type="tertiary"
+            theme="borderless"
+            icon={<IconArrowLeft />}
+            onClick={handleBack}
+            style={{ 
+              color: '#F97316', // Orange color
+              fontWeight: '500'
+            }}
+          >
+            返回
+          </Button>
         </div>
       </div>
     </>
