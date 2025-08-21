@@ -20,11 +20,12 @@ export const Minimap = ({ visible }: { visible?: boolean }) => {
         panelStyles={{}}
         containerStyles={{
           pointerEvents: 'auto',
-          position: 'relative',
+          position: 'fixed',
           top: 'unset',
           right: 'unset',
-          bottom: 'unset',
-          left: 'unset',
+          bottom: '16px',
+          left: '16px',
+          zIndex: 9999,
         }}
         inactiveStyle={{
           opacity: 1,
