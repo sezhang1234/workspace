@@ -52,14 +52,16 @@
   border: 1px dashed rgb(78, 64, 229) !important;
   border-radius: 8px;
 }
+
 .demo-editor {
   flex-grow: 1;
   position: relative;
   height: 100%;
+  width: 100%;
 }
 
 .demo-container {
-  position: absolute;
+  position: relative;
   left: 0px;
   top: 0px;
   display: flex;
