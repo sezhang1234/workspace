@@ -11,6 +11,7 @@ export interface Workflow {
   nodes: number
   tags: string[]
   createdAt: string
+  workflowData?: any // Store the actual workflow canvas data
 }
 
 // Shared workflow data - this will be the single source of truth
@@ -140,4 +141,43 @@ export const deleteWorkflow = (id: string): boolean => {
     return true
   }
   return false
+}
+
+// Save workflow data (creates new or updates existing)
+export const saveWorkflow = (
+  name: string, 
+  description: string, 
+  workflowData: any, 
+  tags: string[] = [],
+  existingId?: string
+): Workflow => {
+  if (existingId) {
+    // Update existing workflow
+    const updated = updateWorkflow(existingId, {
+      name,
+      description,
+      workflowData,
+      tags,
+      lastRun: '刚刚',
+      executionTime: '0.1s'
+    })
+    if (updated) {
+      return updated
+    }
+  }
+  
+  // Create new workflow
+  return addWorkflow({
+    name,
+    description,
+    status: 'stopped',
+    trigger: '手动',
+    lastRun: '从未运行',
+    nextRun: '手动触发',
+    successRate: 0,
+    executionTime: '0s',
+    nodes: workflowData.nodes?.length || 0,
+    tags,
+    workflowData
+  })
 }

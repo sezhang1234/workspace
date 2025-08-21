@@ -3,33 +3,72 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { Tooltip, IconButton, Divider, Toast } from '@douyinfe/semi-ui';
+import { Tooltip, IconButton, Divider, Toast, Modal, Input, Button, Tag } from '@douyinfe/semi-ui';
 import { IconDownload, IconUpload, IconSave } from '@douyinfe/semi-icons';
+import { saveWorkflow } from '../../../../src/services/workflowService';
 
 export const WorkflowOperations: React.FC = () => {
   const context = useClientContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [saveModalVisible, setSaveModalVisible] = useState(false);
+  const [workflowName, setWorkflowName] = useState('');
+  const [workflowDescription, setWorkflowDescription] = useState('');
+  const [workflowTags, setWorkflowTags] = useState<string[]>([]);
+  const [currentTag, setCurrentTag] = useState('');
 
   const handleSave = () => {
+    // Show save modal instead of downloading
+    setSaveModalVisible(true);
+    // Set default name based on current date/time
+    setWorkflowName(`工作流_${new Date().toLocaleString('zh-CN', { 
+      month: '2-digit', 
+      day: '2-digit', 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    })}`);
+  };
+
+  const handleSaveToBackend = () => {
     try {
+      if (!workflowName.trim()) {
+        Toast.error('请输入工作流名称');
+        return;
+      }
+
       const workflowData = context.document.toJSON();
-      const dataStr = JSON.stringify(workflowData, null, 2);
-      const dataBlob = new Blob([dataStr], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(dataBlob);
-      link.download = `workflow-${new Date().toISOString().split('T')[0]}.json`;
-      link.click();
-      URL.revokeObjectURL(link.href);
-      
-      // Show success message
-      Toast.success('工作流保存成功！');
+      const savedWorkflow = saveWorkflow(
+        workflowName.trim(),
+        workflowDescription.trim() || '无描述',
+        workflowData,
+        workflowTags
+      );
+
+      // Close modal and reset form
+      setSaveModalVisible(false);
+      setWorkflowName('');
+      setWorkflowDescription('');
+      setWorkflowTags([]);
+      setCurrentTag('');
+
+      Toast.success(`工作流"${savedWorkflow.name}"保存成功！`);
     } catch (error) {
       Toast.error('保存工作流失败');
       console.error('保存工作流失败:', error);
     }
+  };
+
+  const handleAddTag = () => {
+    if (currentTag.trim() && !workflowTags.includes(currentTag.trim())) {
+      setWorkflowTags([...workflowTags, currentTag.trim()]);
+      setCurrentTag('');
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setWorkflowTags(workflowTags.filter(tag => tag !== tagToRemove));
   };
 
   const handleExport = () => {
@@ -117,6 +156,74 @@ export const WorkflowOperations: React.FC = () => {
         onChange={handleImport}
         style={{ display: 'none' }}
       />
+
+      {/* Save Workflow Modal */}
+      <Modal
+        title="保存工作流"
+        visible={saveModalVisible}
+        onOk={handleSaveToBackend}
+        onCancel={() => setSaveModalVisible(false)}
+        okText="保存"
+        cancelText="取消"
+        width={500}
+      >
+        <div style={{ padding: '20px 0' }}>
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+              工作流名称 *
+            </label>
+            <Input
+              value={workflowName}
+              onChange={setWorkflowName}
+              placeholder="请输入工作流名称"
+              size="large"
+            />
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+              描述
+            </label>
+            <Input
+              value={workflowDescription}
+              onChange={setWorkflowDescription}
+              placeholder="请输入工作流描述（可选）"
+              size="large"
+            />
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+              标签
+            </label>
+            <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+              <Input
+                value={currentTag}
+                onChange={setCurrentTag}
+                placeholder="输入标签"
+                size="large"
+                onPressEnter={handleAddTag}
+                style={{ flex: 1 }}
+              />
+              <Button onClick={handleAddTag} size="large">
+                添加
+              </Button>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {workflowTags.map((tag, index) => (
+                <Tag
+                  key={index}
+                  closable
+                  onClose={() => handleRemoveTag(tag)}
+                  style={{ margin: 0 }}
+                >
+                  {tag}
+                </Tag>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };
