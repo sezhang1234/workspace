@@ -17,6 +17,7 @@ export const ToolContainer = styled.div`
   min-width: 360px;
   pointer-events: none;
   gap: 8px;
+  font-family: 'Inter', system-ui, sans-serif;
 
   z-index: 99;
 `;
@@ -32,6 +33,7 @@ export const ToolSection = styled.div`
   height: 40px;
   padding: 0 4px;
   pointer-events: auto;
+  font-family: 'Inter', system-ui, sans-serif;
 `;
 
 export const SelectZoom = styled.span`
@@ -39,6 +41,7 @@ export const SelectZoom = styled.span`
   border-radius: 8px;
   border: 1px solid rgba(68, 83, 130, 0.25);
   font-size: 12px;
+  font-family: 'Inter', system-ui, sans-serif;
   width: 50px;
   cursor: pointer;
 `;

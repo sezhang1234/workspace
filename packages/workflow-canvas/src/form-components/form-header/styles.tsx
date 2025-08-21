@@ -14,6 +14,7 @@ export const Header = styled.div`
   column-gap: 8px;
   border-radius: 8px 8px 0 0;
   cursor: move;
+  font-family: 'Inter', system-ui, sans-serif;
 
   background: linear-gradient(#f2f2ff 0%, rgb(251, 251, 251) 100%);
   overflow: hidden;
@@ -23,6 +24,7 @@ export const Header = styled.div`
 
 export const Title = styled.div`
   font-size: 20px;
+  font-family: 'Inter', system-ui, sans-serif;
   flex: 1;
   width: 0;
 `;

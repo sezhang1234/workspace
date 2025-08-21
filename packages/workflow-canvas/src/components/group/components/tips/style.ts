@@ -36,6 +36,7 @@ export const GroupTipsStyle = styled.div`
         font-size: 14px;
         font-weight: 400;
         font-style: normal;
+        font-family: 'Inter', system-ui, sans-serif;
         line-height: 20px;
         color: rgba(15, 21, 40, 82%);
         text-overflow: ellipsis;
@@ -63,6 +64,7 @@ export const GroupTipsStyle = styled.div`
         font-size: 12px;
         font-weight: 400;
         font-style: normal;
+        font-family: 'Inter', system-ui, sans-serif;
         line-height: 12px;
         color: rgba(32, 41, 69, 62%);
         margin: 0;
