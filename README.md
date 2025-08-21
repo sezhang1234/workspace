@@ -50,6 +50,10 @@ chmod +x setup_dev.sh
 # 启动开发环境
 chmod +x start_dev.sh
 ./start_dev.sh
+
+# 或者仅启动后端服务（前端本地运行）
+chmod +x start_dev_simple.sh
+./start_dev_simple.sh
 ```
 
 ### **手动设置**
