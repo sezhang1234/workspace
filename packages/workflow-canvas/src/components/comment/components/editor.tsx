@@ -21,7 +21,7 @@ export const CommentEditor: FC<ICommentEditor> = (props) => {
   const { model, style, onChange } = props;
   const playground = usePlayground();
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
-  const placeholder = model.value || model.focused ? undefined : 'Enter a comment...';
+  const placeholder = model.value || model.focused ? undefined : '输入注释...';
 
   // 同步编辑器内部值变化
   useEffect(() => {

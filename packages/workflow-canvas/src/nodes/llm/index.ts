@@ -48,11 +48,11 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
           },
           systemPrompt: {
             type: 'template',
-            content: '# Role\nYou are an AI assistant.\n',
+            content: '# 角色\n你是一个专业的AI助手，擅长分析和解决问题。\n\n# 任务\n请根据用户的问题提供详细、准确的分析和解决方案。',
           },
           prompt: {
             type: 'template',
-            content: '',
+            content: '# 用户问题\n{{start_0.query}}\n\n请分析这个问题并提供解决方案。',
           },
         },
         inputs: {
