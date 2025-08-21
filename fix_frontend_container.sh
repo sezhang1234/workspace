@@ -33,7 +33,7 @@ docker-compose -f docker-compose.dev.yml ps
 
 echo ""
 echo "🔍 Checking frontend logs..."
-docker-compose -f docker-compose.dev.yml logs frontend-dev --tail=20
+docker-compose -f docker-compose.dev.yml logs --tail=20 frontend-dev
 
 echo ""
 echo "✅ Frontend container should now be working!"
