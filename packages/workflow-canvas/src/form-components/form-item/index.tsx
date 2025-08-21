@@ -5,9 +5,9 @@
 
 import React, { useCallback } from 'react';
 
-import { DisplaySchemaTag } from '@flowgram.ai/form-materials';
 import { Typography, Tooltip } from '@douyinfe/semi-ui';
 
+import { SafeDisplaySchemaTag } from './safe-wrappers';
 import './index.css';
 
 const { Text } = Typography;
@@ -78,7 +78,7 @@ export function FormItem({
           ...labelStyle,
         }}
       >
-        {type && <DisplaySchemaTag value={{ type }} />}
+        {type && <SafeDisplaySchemaTag value={{ type }} />}
         {description ? <Tooltip content={description}>{renderTitle()}</Tooltip> : renderTitle(true)}
       </div>
 

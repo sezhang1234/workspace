@@ -6,14 +6,13 @@
 import { Field, FormMeta } from '@flowgram.ai/free-layout-editor';
 import {
   createInferInputsPlugin,
-  DisplayInputsValues,
   IFlowValue,
-  InputsValues,
 } from '@flowgram.ai/form-materials';
 
 import { defaultFormMeta } from '../default-form-meta';
 import { useIsSidebar } from '../../hooks';
 import { FormHeader, FormContent } from '../../form-components';
+import { SafeInputsValues, SafeDisplayInputsValues } from '../../form-components/safe-wrappers';
 
 export const renderForm = () => {
   const isSidebar = useIsSidebar();
@@ -25,7 +24,7 @@ export const renderForm = () => {
           <Field<Record<string, IFlowValue | undefined> | undefined> name="inputsValues">
             {({ field: { value, onChange } }) => (
               <>
-                <InputsValues value={value} onChange={(_v) => onChange(_v)} />
+                <SafeInputsValues value={value} onChange={(_v) => onChange(_v)} />
               </>
             )}
           </Field>
@@ -40,7 +39,7 @@ export const renderForm = () => {
         <Field<Record<string, IFlowValue | undefined> | undefined> name="inputsValues">
           {({ field: { value } }) => (
             <>
-              <DisplayInputsValues value={value} />
+              <SafeDisplayInputsValues value={value} />
             </>
           )}
         </Field>
