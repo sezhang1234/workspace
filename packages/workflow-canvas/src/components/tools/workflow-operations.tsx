@@ -6,7 +6,7 @@
 import React, { useRef } from 'react';
 
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { Tooltip, IconButton, Divider } from '@douyinfe/semi-ui';
+import { Tooltip, IconButton, Divider, Toast } from '@douyinfe/semi-ui';
 import { IconDownload, IconUpload, IconSave } from '@douyinfe/semi-icons';
 
 export const WorkflowOperations: React.FC = () => {
@@ -24,9 +24,10 @@ export const WorkflowOperations: React.FC = () => {
       link.click();
       URL.revokeObjectURL(link.href);
       
-      // Show success message (you can implement a toast notification here)
-      console.log('工作流保存成功！');
+      // Show success message
+      Toast.success('工作流保存成功！');
     } catch (error) {
+      Toast.error('保存工作流失败');
       console.error('保存工作流失败:', error);
     }
   };
@@ -42,8 +43,9 @@ export const WorkflowOperations: React.FC = () => {
       link.click();
       URL.revokeObjectURL(link.href);
       
-      console.log('工作流导出成功！');
+      Toast.success('工作流导出成功！');
     } catch (error) {
+      Toast.error('导出工作流失败');
       console.error('导出工作流失败:', error);
     }
   };
@@ -58,8 +60,9 @@ export const WorkflowOperations: React.FC = () => {
           // Clear current workflow and load imported data
           context.document.clear();
           context.document.loadFromJSON(importedData);
-          console.log('工作流导入成功！');
+          Toast.success('工作流导入成功！');
         } catch (error) {
+          Toast.error('导入失败：文件格式错误');
           console.error('导入失败：文件格式错误', error);
         }
       };
