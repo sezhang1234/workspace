@@ -1,21 +1,27 @@
 # Development Dockerfile for frontend
 FROM node:18-alpine
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy package files first
 COPY package*.json ./
 COPY packages/ ./packages/
 
-# Install dependencies
-RUN npm install
+# Install dependencies with legacy peer deps
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
 
+# Make scripts executable
+RUN chmod +x healthcheck.sh start-dev.sh
+
 # Expose port
 EXPOSE 3000
 
-# Start development server
-CMD ["npm", "run", "dev"]
+# Start development server using startup script
+CMD ["./start-dev.sh"]

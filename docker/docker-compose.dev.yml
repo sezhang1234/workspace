@@ -11,6 +11,8 @@ services:
     environment:
       - NODE_ENV=development
       - VITE_API_BASE_URL=http://localhost:8000/api
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     volumes:
       - ../frontend:/app
       - ../frontend/packages:/app/packages
@@ -21,6 +23,12 @@ services:
     networks:
       - jiuwen-dev-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "./healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # Backend Service (Development)
   backend-dev:
