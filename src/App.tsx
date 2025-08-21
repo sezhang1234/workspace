@@ -10,7 +10,6 @@ import AgentEditorPage from './pages/Agents/AgentEditorPage'
 import WorkflowsPage from './pages/Workflows/WorkflowsPage'
 
 import WorkflowCreationPage from './pages/Workflows/WorkflowCreationPage'
-import WorkflowCanvasPage from './pages/Workflows/WorkflowCanvasPage'
 import PromptsPage from './pages/Prompts/PromptsPage'
 import PromptEditorPage from './pages/Prompts/PromptEditorPage'
 import ModelsPage from './pages/Models/ModelsPage'

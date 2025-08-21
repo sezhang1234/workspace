@@ -58,8 +58,7 @@ src/
 │   │   └── AgentEditorPage.tsx
 │   ├── Workflows/      # 工作流管理页面
 │   │   ├── WorkflowsPage.tsx
-
-│   │   └── WorkflowCanvasPage.tsx  # 工作流画布页面
+│   │   └── WorkflowCreationPage.tsx
 │   ├── Prompts/        # 提示词管理页面
 │   │   ├── PromptsPage.tsx
 │   │   └── PromptEditorPage.tsx
