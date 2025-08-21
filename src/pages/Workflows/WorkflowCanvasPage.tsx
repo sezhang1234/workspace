@@ -52,14 +52,10 @@ const WorkflowCanvasPage: React.FC = () => {
       </div>
 
       {/* Workflow Canvas */}
-      <div className="p-6 relative z-10">
-        <Card className="shadow-lg border-0">
-          <CardContent className="p-0">
-            <div className="w-full h-[calc(100vh-200px)] relative overflow-hidden">
-              <Editor />
-            </div>
-          </CardContent>
-        </Card>
+      <div className="relative z-10">
+        <div className="w-full h-[calc(100vh-120px)] relative overflow-hidden">
+          <Editor />
+        </div>
       </div>
 
       {/* Note: Notifications for workflow operations are handled in the bottom control panel */}

@@ -61,10 +61,10 @@
 .demo-container {
   position: absolute;
   left: 0px;
-  top: 120px;
+  top: 0px;
   display: flex;
   width: 100%;
-  height: calc(100% - 120px);
+  height: 100%;
   flex-direction: column;
 }
 
