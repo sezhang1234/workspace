@@ -23,13 +23,7 @@ services:
     networks:
       - jiuwen-dev-network
     restart: unless-stopped
-    # Health check temporarily disabled for debugging
-    # healthcheck:
-    #   test: ["CMD", "./healthcheck.sh"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3
-    #   start_period: 40s
+
 
   # Backend Service (Development)
   backend-dev:
