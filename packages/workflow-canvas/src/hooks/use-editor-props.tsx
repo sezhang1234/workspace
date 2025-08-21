@@ -267,7 +267,7 @@ export function useEditorProps(
        * Playground render
        */
       onAllLayersRendered(ctx) {
-        // ctx.tools.autoLayout(); // init auto layout
+        ctx.tools.autoLayout(); // init auto layout
         ctx.tools.fitView(false);
         console.log('--- Playground rendered ---');
       },
