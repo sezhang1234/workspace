@@ -103,6 +103,10 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
             theme="borderless"
             icon={<IconArrowLeft />}
             onClick={handleBack}
+            style={{ 
+              color: '#3B82F6', // Eye-catching blue color
+              fontWeight: '500'
+            }}
           >
             返回
           </Button>
