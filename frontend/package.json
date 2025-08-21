@@ -31,7 +31,7 @@
     "clsx": "^2.0.0",
     "lucide-react": "^0.263.1",
     "@babel/plugin-proposal-decorators": "~7.23.6",
-    "workflow-canvas":"workspace:*"
+    "workflow-canvas": "file:./packages/workflow-canvas"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

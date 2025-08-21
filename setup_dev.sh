@@ -79,6 +79,12 @@ cd frontend
 echo "Installing Node.js dependencies..."
 npm install
 
+# Install local package dependencies
+echo "Installing local package dependencies..."
+cd packages/workflow-canvas
+npm install
+cd ../..
+
 # Create .env file if it doesn't exist
 if [ ! -f ".env" ]; then
     echo "Creating .env file..."
