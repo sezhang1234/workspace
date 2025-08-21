@@ -55,6 +55,7 @@ export const DemoTools = () => {
         <Minimap visible={minimapVisible} />
         <Readonly />
         <Comment />
+        <WorkflowOperations />
         <Tooltip content="撤销">
           <IconButton
             type="tertiary"
@@ -75,8 +76,6 @@ export const DemoTools = () => {
         </Tooltip>
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <AddNode disabled={playground.config.readonly} />
-        <WorkflowOperations />
-        <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <TestRunButton disabled={playground.config.readonly} />
       </ToolSection>
     </ToolContainer>

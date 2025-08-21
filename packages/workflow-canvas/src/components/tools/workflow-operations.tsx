@@ -76,8 +76,6 @@ export const WorkflowOperations: React.FC = () => {
 
   return (
     <>
-      <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
-      
       {/* Save Button */}
       <Tooltip content="保存工作流">
         <IconButton
