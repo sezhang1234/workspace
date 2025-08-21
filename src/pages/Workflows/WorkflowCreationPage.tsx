@@ -18,6 +18,7 @@ import {
   CardContent,
   Chip
 } from '@mui/material'
+import { addWorkflow } from '../../services/workflowService'
 
 interface WorkflowFormData {
   name: string
