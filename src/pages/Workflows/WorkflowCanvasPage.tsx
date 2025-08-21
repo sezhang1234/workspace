@@ -55,7 +55,7 @@ const WorkflowCanvasPage: React.FC = () => {
       <div className="p-6 relative z-10">
         <Card className="shadow-lg border-0">
           <CardContent className="p-0">
-            <div className="w-full h-[calc(100vh-200px)]">
+            <div className="w-full h-[calc(100vh-200px)] relative overflow-hidden">
               <Editor />
             </div>
           </CardContent>
