@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 import { useRefresh } from '@flowgram.ai/free-layout-editor';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { Tooltip, IconButton, Divider, Button } from '@douyinfe/semi-ui';
+import { Tooltip, IconButton, Divider, Button, Select } from '@douyinfe/semi-ui';
 import { IconUndo, IconRedo, IconArrowLeft } from '@douyinfe/semi-icons';
 
 import { TestRunButton } from '../testrun/testrun-button';
@@ -67,7 +67,8 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
         <Minimap visible={minimapVisible} />
       </div>
 
-      <ToolContainer className="demo-free-layout-tools">
+      {/* Left Control Panel */}
+      <ToolContainer className="demo-free-layout-tools" style={{ left: 'calc(50% - 200px)' }}>
         <ToolSection>
           <AutoLayout />
           <SwitchLine />
@@ -110,6 +111,37 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
           >
             返回
           </Button>
+        </ToolSection>
+      </ToolContainer>
+
+      {/* Right Control Panel - Workflow Navigation */}
+      <ToolContainer className="demo-free-layout-tools" style={{ left: 'calc(50% + 200px)' }}>
+        <ToolSection>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            padding: '0 8px'
+          }}>
+            <span style={{ 
+              fontSize: '12px', 
+              color: '#666',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              whiteSpace: 'nowrap'
+            }}>
+              工作流切换
+            </span>
+            <Select
+              defaultValue="current"
+              style={{ width: '120px' }}
+              size="small"
+            >
+              <Select.Option value="current">当前工作流</Select.Option>
+              <Select.Option value="workflow1">工作流 1</Select.Option>
+              <Select.Option value="workflow2">工作流 2</Select.Option>
+              <Select.Option value="workflow3">工作流 3</Select.Option>
+            </Select>
+          </div>
         </ToolSection>
       </ToolContainer>
     </>
