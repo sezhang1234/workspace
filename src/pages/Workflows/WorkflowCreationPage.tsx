@@ -59,13 +59,23 @@ const WorkflowCreationPage: React.FC = () => {
   }
 
   const handleCreate = () => {
-    // Navigate to the workflow editor with the form data
-    navigate('/dashboard/workflows/editor', { 
-      state: { 
-        isNew: true, 
-        workflowData: formData 
-      } 
+    // Create the workflow immediately
+    const newWorkflow = addWorkflow({
+      name: formData.name,
+      description: formData.description,
+      status: 'stopped',
+      trigger: formData.trigger,
+      lastRun: '从未运行',
+      nextRun: '手动触发',
+      successRate: 0,
+      executionTime: '0s',
+      nodes: 0, // Will be updated when workflow is saved in canvas
+      tags: formData.tags,
+      workflowData: null // Will be populated when saved in canvas
     })
+    
+    // Navigate to the workflow editor with the new workflow ID
+    navigate(`/dashboard/workflows/editor/${newWorkflow.id}`)
   }
 
   const handleCancel = () => {
