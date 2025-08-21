@@ -45,8 +45,10 @@ export const SelectZoom = styled.span`
 
 export const MinimapContainer = styled.div`
   position: absolute;
-  bottom: 60px;
+  bottom: 16px;
+  left: 16px;
   width: 198px;
+  z-index: 99;
 `;
 
 export const UIIconMinimap = styled(IconMinimap)<{ visible: boolean }>`
