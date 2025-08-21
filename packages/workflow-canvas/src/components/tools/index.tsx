@@ -22,6 +22,7 @@ import { Interactive } from './interactive';
 import { FitView } from './fit-view';
 import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
+import { WorkflowOperations } from './workflow-operations';
 
 export const DemoTools = () => {
   const { history, playground } = useClientContext();
@@ -74,6 +75,7 @@ export const DemoTools = () => {
         </Tooltip>
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <AddNode disabled={playground.config.readonly} />
+        <WorkflowOperations />
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <TestRunButton disabled={playground.config.readonly} />
       </ToolSection>
