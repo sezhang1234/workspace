@@ -316,7 +316,7 @@ const WorkflowsPage: React.FC = () => {
                   </button>
                 )}
                 <Link
-                  to={`/dashboard/workflows/${workflow.id}`}
+                  to={`/dashboard/workflows/editor?id=${workflow.id}`}
                   className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
                 >
                   <Edit className="w-4 h-4" />

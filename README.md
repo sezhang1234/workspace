@@ -9,7 +9,7 @@ Jiuwen Agent Studio 是一个专业的LLM智能体开发和管理平台，类似
 - **工作流编排** - 可视化工作流设计器，拖拽式节点配置，智能自动布局
 - **提示词管理** - 专业的提示词编辑器，支持版本控制和A/B测试
 - **模型配置** - 灵活配置各种LLM模型参数，支持自定义模型接入
-- **工作流画布** - 高级ReactFlow画布，支持多种节点类型和连接样式
+- **工作流画布** - 基于FlowGram.AI的高级工作流编辑器，支持多种节点类型和智能布局
 
 ### 平台特性
 - **性能优化** - 智能缓存、并发控制、成本优化
@@ -29,7 +29,7 @@ Jiuwen Agent Studio 是一个专业的LLM智能体开发和管理平台，类似
 - **React Router** - 客户端路由
 - **React Hook Form** - 表单处理
 - **React Query** - 数据获取和缓存
-- **ReactFlow** - 专业的工作流画布组件
+- **FlowGram.AI** - 专业的工作流编辑器框架
 
 ### 构建工具
 - **Vite** - 快速的构建工具
@@ -45,16 +45,8 @@ src/
 │   │   ├── Layout.tsx
 │   │   ├── Sidebar.tsx
 │   │   └── Header.tsx
-│   └── WorkflowNodes/  # 工作流节点组件
-│       ├── CustomStartNode.tsx
-│       ├── CustomEndNode.tsx
-│       ├── CustomLLMNode.tsx
-│       ├── CustomConditionNode.tsx
-│       ├── CustomLoopNode.tsx
-│       ├── CustomKnowledgeRetrievalNode.tsx
-│       ├── CustomQuestionClassifierNode.tsx
-│       ├── CustomAnswerNode.tsx
-│       └── CustomVariableAggregatorNode.tsx
+
+
 ├── pages/              # 页面组件
 │   ├── WelcomePage.tsx # 欢迎页面
 │   ├── Auth/           # 认证相关页面
@@ -66,7 +58,7 @@ src/
 │   │   └── AgentEditorPage.tsx
 │   ├── Workflows/      # 工作流管理页面
 │   │   ├── WorkflowsPage.tsx
-│   │   ├── WorkflowEditorPage.tsx
+
 │   │   └── WorkflowCanvasPage.tsx  # 工作流画布页面
 │   ├── Prompts/        # 提示词管理页面
 │   │   ├── PromptsPage.tsx
@@ -253,7 +245,7 @@ TypeScript 配置文件位于 `tsconfig.json`，已配置路径别名 `@/*` 指�
 
 感谢以下开源项目的支持：
 - [React](https://reactjs.org/)
-- [ReactFlow](https://reactflow.dev/)
+- [FlowGram.AI](https://github.com/flowgram-ai/flowgram)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Material-UI](https://mui.com/)
 - [Zustand](https://github.com/pmndrs/zustand)
