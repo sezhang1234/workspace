@@ -96,10 +96,10 @@ export const DemoTools = () => {
         </Button>
       </ToolSection>
       
-      {/* Minimap positioned in left bottom corner of canvas */}
+      {/* Minimap positioned in upper left corner of canvas */}
       <div style={{ 
         position: 'absolute', 
-        bottom: '16px', 
+        top: '16px', 
         left: '16px', 
         zIndex: 9999 
       }}>
