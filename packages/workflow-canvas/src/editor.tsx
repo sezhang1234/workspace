@@ -5,6 +5,7 @@
 
 import { EditorRenderer, FreeLayoutEditorProvider } from '@flowgram.ai/free-layout-editor';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import '@flowgram.ai/free-layout-editor/index.css';
 import './styles/index.css';
@@ -15,6 +16,7 @@ import { DemoTools } from './components/tools';
 import { SidebarProvider, SidebarRenderer } from './components/sidebar';
 
 export const Editor = () => {
+  const { id: workflowId } = useParams<{ id: string }>();
   const editorProps = useEditorProps(initialData, nodeRegistries);
   const [minimapVisible, setMinimapVisible] = useState(true);
 
@@ -47,7 +49,11 @@ export const Editor = () => {
                 position: 'relative'
               }} />
             </div>
-            <DemoTools minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
+            <DemoTools 
+              minimapVisible={minimapVisible} 
+              setMinimapVisible={setMinimapVisible} 
+              workflowId={workflowId}
+            />
             <SidebarRenderer />
           </SidebarProvider>
         </FreeLayoutEditorProvider>

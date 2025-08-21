@@ -28,13 +28,14 @@ import { WorkflowOperations } from './workflow-operations';
 interface DemoToolsProps {
   minimapVisible: boolean;
   setMinimapVisible: (visible: boolean) => void;
+  workflowId?: string;
 }
 
-export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps) {
+export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: DemoToolsProps) {
   const { history, playground } = useClientContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [currentWorkflowId, setCurrentWorkflowId] = useState('1');
+  const [currentWorkflowId, setCurrentWorkflowId] = useState(workflowId || '1');
   const workflows = getAllWorkflows();
   const currentWorkflow = workflows.find(w => w.id === currentWorkflowId) || workflows[0];
   useEffect(() => {
@@ -87,7 +88,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
           <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
           <Readonly />
           <Comment />
-          <WorkflowOperations />
+          <WorkflowOperations currentWorkflow={currentWorkflow} />
           <Tooltip content="撤销">
             <IconButton
               type="tertiary"

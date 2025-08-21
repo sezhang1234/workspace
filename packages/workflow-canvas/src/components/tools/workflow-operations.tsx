@@ -10,25 +10,39 @@ import { Tooltip, IconButton, Divider, Toast, Modal, Input, Button, Tag } from '
 import { IconDownload, IconUpload, IconSave } from '@douyinfe/semi-icons';
 import { saveWorkflow } from '/src/services/workflowService';
 
-export const WorkflowOperations: React.FC = () => {
+interface WorkflowOperationsProps {
+  currentWorkflow?: {
+    id: string;
+    name: string;
+    description: string;
+    tags: string[];
+  };
+}
+
+export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentWorkflow }) => {
   const context = useClientContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [saveModalVisible, setSaveModalVisible] = useState(false);
-  const [workflowName, setWorkflowName] = useState('');
-  const [workflowDescription, setWorkflowDescription] = useState('');
-  const [workflowTags, setWorkflowTags] = useState<string[]>([]);
+  const [workflowName, setWorkflowName] = useState(currentWorkflow?.name || '');
+  const [workflowDescription, setWorkflowDescription] = useState(currentWorkflow?.description || '');
+  const [workflowTags, setWorkflowTags] = useState<string[]>(currentWorkflow?.tags || []);
   const [currentTag, setCurrentTag] = useState('');
 
   const handleSave = () => {
-    // Show save modal instead of downloading
-    setSaveModalVisible(true);
-    // Set default name based on current date/time
-    setWorkflowName(`工作流_${new Date().toLocaleString('zh-CN', { 
-      month: '2-digit', 
-      day: '2-digit', 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    })}`);
+    // If editing existing workflow, save directly without modal
+    if (currentWorkflow) {
+      handleSaveToBackend();
+    } else {
+      // Show save modal for new workflows
+      setSaveModalVisible(true);
+      // Set default name based on current date/time
+      setWorkflowName(`工作流_${new Date().toLocaleString('zh-CN', { 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })}`);
+    }
   };
 
   const handleSaveToBackend = () => {
@@ -43,7 +57,8 @@ export const WorkflowOperations: React.FC = () => {
         workflowName.trim(),
         workflowDescription.trim() || '无描述',
         workflowData,
-        workflowTags
+        workflowTags,
+        currentWorkflow?.id // Pass existing ID if editing
       );
 
       // Close modal and reset form
@@ -53,7 +68,7 @@ export const WorkflowOperations: React.FC = () => {
       setWorkflowTags([]);
       setCurrentTag('');
 
-      Toast.success(`工作流"${savedWorkflow.name}"保存成功！`);
+      Toast.success(`工作流"${savedWorkflow.name}"${currentWorkflow ? '更新' : '保存'}成功！`);
     } catch (error) {
       Toast.error('保存工作流失败');
       console.error('保存工作流失败:', error);
