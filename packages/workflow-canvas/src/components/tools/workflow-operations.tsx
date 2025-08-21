@@ -8,7 +8,7 @@ import React, { useRef, useState } from 'react';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
 import { Tooltip, IconButton, Divider, Toast, Modal, Input, Button, Tag } from '@douyinfe/semi-ui';
 import { IconDownload, IconUpload, IconSave } from '@douyinfe/semi-icons';
-import { saveWorkflow } from '../../../../src/services/workflowService';
+import { saveWorkflow } from '/src/services/workflowService';
 
 export const WorkflowOperations: React.FC = () => {
   const context = useClientContext();
