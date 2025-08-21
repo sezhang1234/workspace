@@ -20,13 +20,15 @@ import {
   autoRenameRefEffect,
   createInferInputsPlugin,
   DisplayInputsValues,
-  IFlowValue,
   InputsValues,
   ConditionRow,
   ConditionRowValueType,
   AssignRows,
   createInferAssignPlugin
 } from '@flowgram.ai/form-materials';
+
+// Define IFlowValue type locally since it's not exported from form-materials
+export type IFlowValue = any;
 
 // Wrapper component to filter out problematic props like localeCode
 export const SafeDynamicValueInput = (props: any) => {
@@ -115,6 +117,5 @@ export {
   autoRenameRefEffect,
   createInferInputsPlugin,
   createInferAssignPlugin,
-  IFlowValue,
   IJsonSchema
 };
