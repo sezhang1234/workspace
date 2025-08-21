@@ -51,10 +51,8 @@ export const DemoTools = () => {
   };
 
   return (
-    <>
-      <ToolContainer className="demo-free-layout-tools">
+    <ToolContainer className="demo-free-layout-tools">
       <ToolSection>
-
         <AutoLayout />
         <SwitchLine />
         <ZoomSelect />
@@ -96,11 +94,17 @@ export const DemoTools = () => {
         >
           返回
         </Button>
-              </ToolSection>
-      </ToolContainer>
+      </ToolSection>
       
-      {/* Minimap positioned independently outside the control panel */}
-      <Minimap visible={minimapVisible} />
-    </>
+      {/* Minimap positioned in left bottom corner of canvas */}
+      <div style={{ 
+        position: 'absolute', 
+        bottom: '16px', 
+        left: '16px', 
+        zIndex: 9999 
+      }}>
+        <Minimap visible={minimapVisible} />
+      </div>
+    </ToolContainer>
   );
 };
