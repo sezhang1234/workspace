@@ -22,9 +22,9 @@ export const Minimap = ({ visible }: { visible?: boolean }) => {
           pointerEvents: 'auto',
           position: 'fixed',
           top: 'unset',
-          right: 'unset',
+          right: '16px',
           bottom: '16px',
-          left: '16px',
+          left: 'unset',
           zIndex: 9999,
         }}
         inactiveStyle={{
