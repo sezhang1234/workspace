@@ -16,7 +16,7 @@ const WorkflowCanvasPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
+      <div className="bg-white border-b border-gray-200 px-6 py-4 relative z-50">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button
@@ -52,7 +52,7 @@ const WorkflowCanvasPage: React.FC = () => {
       </div>
 
       {/* Workflow Canvas */}
-      <div className="p-6">
+      <div className="p-6 relative z-10">
         <Card className="shadow-lg border-0">
           <CardContent className="p-0">
             <div className="w-full h-[calc(100vh-200px)]">
