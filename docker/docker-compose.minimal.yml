@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Frontend Service (Minimal Test)
+  frontend-test:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:8000/api
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    networks:
+      - test-network
+    restart: unless-stopped
+    # Remove health check for testing
+    # healthcheck:
+    #   test: ["CMD", "./healthcheck.sh"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
+
+networks:
+  test-network:
+    driver: bridge
