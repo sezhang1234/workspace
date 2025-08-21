@@ -19,7 +19,7 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
   },
   meta: {
     size: {
-      width: 360,
+      width: 400, // Increased from 360 to accommodate wider labels
       height: 390,
     },
   },

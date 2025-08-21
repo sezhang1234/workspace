@@ -14,6 +14,30 @@ import { SafeDynamicValueInput, SafePromptEditorWithVariables } from '../safe-wr
 export function FormInputs() {
   const { readonly } = useNodeRenderContext();
 
+  // Function to determine label width based on field name
+  const getLabelWidth = (fieldName: string) => {
+    // For longer field names, increase the label width
+    if (fieldName === 'systemPrompt') {
+      return 140; // Increased width for systemPrompt
+    }
+    if (fieldName === 'apiHost') {
+      return 130; // Increased width for apiHost
+    }
+    if (fieldName === 'modelName') {
+      return 125; // Increased width for modelName
+    }
+    if (fieldName === 'temperature') {
+      return 125; // Increased width for temperature
+    }
+    if (fieldName === 'apiKey') {
+      return 120; // Increased width for apiKey
+    }
+    if (fieldName === 'prompt') {
+      return 120; // Increased width for prompt
+    }
+    return 118; // Default width for other fields
+  };
+
   return (
     <Field<JsonSchema> name="inputs">
       {({ field: inputsField }) => {
@@ -37,6 +61,7 @@ export function FormInputs() {
                   vertical={vertical}
                   type={property.type as string}
                   required={required.includes(key)}
+                  labelWidth={getLabelWidth(key)}
                 >
                   {formComponent === 'prompt-editor' && (
                     <SafePromptEditorWithVariables
