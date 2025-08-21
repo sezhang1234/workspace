@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button, Typography } from '@mui/material';
 import { Editor } from '../../../packages/workflow-canvas/src/editor';
+import { Minimap } from '../../../packages/workflow-canvas/src/components/tools/minimap';
 
 const WorkflowCanvasPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const workflowData = location.state?.workflowData || {};
+  const [minimapVisible, setMinimapVisible] = useState(true);
 
   // Note: Save, Import, and Export functionality is now handled in the bottom control panel
   // via the WorkflowOperations component
@@ -52,7 +54,7 @@ const WorkflowCanvasPage: React.FC = () => {
 
       {/* Workflow Canvas */}
       <div className="flex-1 relative overflow-hidden" style={{ minHeight: '600px' }}>
-        <Editor />
+        <Editor minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
         
         {/* Back Button Overlay */}
         <div className="absolute top-4 left-4 z-50 pointer-events-auto">
@@ -68,6 +70,11 @@ const WorkflowCanvasPage: React.FC = () => {
           >
             返回
           </Button>
+        </div>
+
+        {/* Minimap positioned in upper left corner of main content area */}
+        <div className="absolute top-4 left-4 z-40 pointer-events-auto">
+          <Minimap visible={minimapVisible} />
         </div>
       </div>
 
