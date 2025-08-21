@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 
 import { Typography, Tooltip } from '@douyinfe/semi-ui';
 
-import { SafeDisplaySchemaTag } from './safe-wrappers';
+import { SafeDisplaySchemaTag } from '../safe-wrappers';
 import './index.css';
 
 const { Text } = Typography;
