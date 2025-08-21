@@ -53,7 +53,7 @@ const App: React.FC = () => {
         <Route path="workflows" element={<WorkflowsPage />} />
 
         <Route path="workflows/new" element={<WorkflowCreationPage />} />
-        <Route path="workflows/editor" element={<DemoFreeLayout />} />
+        <Route path="workflows/editor/:id?" element={<DemoFreeLayout />} />
         <Route path="prompts" element={<PromptsPage />} />
         <Route path="prompts/:id" element={<PromptEditorPage />} />
         <Route path="prompts/new" element={<PromptEditorPage />} />
