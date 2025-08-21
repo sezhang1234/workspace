@@ -7,8 +7,8 @@ import { useState, useEffect } from 'react';
 
 import { useRefresh } from '@flowgram.ai/free-layout-editor';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { Tooltip, IconButton, Divider } from '@douyinfe/semi-ui';
-import { IconUndo, IconRedo } from '@douyinfe/semi-icons';
+import { Tooltip, IconButton, Divider, Button } from '@douyinfe/semi-ui';
+import { IconUndo, IconRedo, IconArrowLeft } from '@douyinfe/semi-icons';
 
 import { TestRunButton } from '../testrun/testrun-button';
 import { AddNode } from '../add-node';
@@ -42,6 +42,13 @@ export const DemoTools = () => {
     const disposable = playground.config.onReadonlyOrDisabledChange(() => refresh());
     return () => disposable.dispose();
   }, [playground]);
+
+  const handleBack = () => {
+    if (window.confirm('确定要离开吗？未保存的更改将会丢失。')) {
+      // Navigate back to workflows list
+      window.history.back();
+    }
+  };
 
   return (
     <>
@@ -77,6 +84,18 @@ export const DemoTools = () => {
         <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
         <AddNode disabled={playground.config.readonly} />
         <TestRunButton disabled={playground.config.readonly} />
+        <Button
+          type="tertiary"
+          theme="borderless"
+          icon={<IconArrowLeft />}
+          onClick={handleBack}
+          style={{ 
+            color: '#8B5CF6', // Different font color (purple)
+            fontWeight: '500'
+          }}
+        >
+          返回
+        </Button>
               </ToolSection>
       </ToolContainer>
       
