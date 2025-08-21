@@ -14,11 +14,13 @@ export const FormWrapper = styled.div`
   background-color: rgb(251, 251, 251);
   border-radius: 0 0 8px 8px;
   padding: 0 12px 12px;
+  font-family: 'Inter', system-ui, sans-serif;
 `;
 
 export const FormTitleDescription = styled.div`
   color: var(--semi-color-text-2);
   font-size: 12px;
+  font-family: 'Inter', system-ui, sans-serif;
   line-height: 20px;
   padding: 0px 4px;
   word-break: break-all;

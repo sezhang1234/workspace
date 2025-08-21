@@ -19,6 +19,38 @@
   --g-workflow-line-color-error: red;
 }
 
+/* Apply consistent font family across the workflow canvas */
+.workflow-canvas-wrapper,
+.workflow-canvas-wrapper *,
+.doc-free-feature-overview,
+.doc-free-feature-overview *,
+.demo-container,
+.demo-container *,
+.demo-editor,
+.demo-editor *,
+/* Semi Design components */
+.semi-button,
+.semi-button *,
+.semi-input,
+.semi-input *,
+.semi-select,
+.semi-select *,
+.semi-tooltip,
+.semi-tooltip *,
+.semi-modal,
+.semi-modal *,
+.semi-form,
+.semi-form *,
+/* FlowGram AI components */
+.flow-node,
+.flow-node *,
+.node-panel,
+.node-panel *,
+.tools-panel,
+.tools-panel * {
+  font-family: 'Inter', system-ui, sans-serif !important;
+}
+
 .gedit-selector-bounds-background {
   cursor: move;
   display: none !important;

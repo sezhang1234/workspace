@@ -37,6 +37,7 @@ const NodeWrap = styled.div`
   align-items: center;
   cursor: pointer;
   font-size: 19px;
+  font-family: 'Inter', system-ui, sans-serif;
   padding: 0 15px;
   margin-bottom: 4px;
   transition: all 0.2s ease;
@@ -51,6 +52,7 @@ const NodeLabel = styled.div`
   font-size: 13px;
   margin-left: 12px;
   font-weight: 500;
+  font-family: 'Inter', system-ui, sans-serif;
   color: #333;
 `;
 
