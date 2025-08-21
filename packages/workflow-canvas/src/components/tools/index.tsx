@@ -54,7 +54,7 @@ export const DemoTools = () => {
         <Minimap visible={minimapVisible} />
         <Readonly />
         <Comment />
-        <Tooltip content="Undo">
+        <Tooltip content="撤销">
           <IconButton
             type="tertiary"
             theme="borderless"
@@ -63,7 +63,7 @@ export const DemoTools = () => {
             onClick={() => history.undo()}
           />
         </Tooltip>
-        <Tooltip content="Redo">
+        <Tooltip content="重做">
           <IconButton
             type="tertiary"
             theme="borderless"
