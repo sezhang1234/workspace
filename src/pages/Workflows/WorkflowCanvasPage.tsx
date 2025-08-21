@@ -51,7 +51,7 @@ const WorkflowCanvasPage: React.FC = () => {
       </div>
 
       {/* Workflow Canvas */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-hidden" style={{ minHeight: '600px' }}>
         <Editor />
         
         {/* Back Button Overlay */}
