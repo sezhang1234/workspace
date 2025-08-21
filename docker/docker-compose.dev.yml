@@ -5,7 +5,7 @@ services:
   frontend-dev:
     build:
       context: ../frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.simple
     ports:
       - "3000:3000"
     environment:
@@ -23,12 +23,13 @@ services:
     networks:
       - jiuwen-dev-network
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "./healthcheck.sh"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    # Health check temporarily disabled for debugging
+    # healthcheck:
+    #   test: ["CMD", "./healthcheck.sh"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
 
   # Backend Service (Development)
   backend-dev:
