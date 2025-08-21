@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # Frontend Service (Development)
+  frontend-dev:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:8000/api
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend-dev
+    networks:
+      - jiuwen-dev-network
+    restart: unless-stopped
+
+  # Backend Service (Development)
+  backend-dev:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=sqlite:///./jiuwen_studio_dev.db
+      - SECRET_KEY=dev-secret-key
+      - DEBUG=true
+    volumes:
+      - ../backend:/app
+      - /app/__pycache__
+    depends_on:
+      - postgres-dev
+      - redis-dev
+    networks:
+      - jiuwen-dev-network
+    restart: unless-stopped
+
+  # PostgreSQL Database (Development)
+  postgres-dev:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=jiuwen_studio_dev
+      - POSTGRES_USER=jiuwen_dev_user
+      - POSTGRES_PASSWORD=jiuwen_dev_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - jiuwen-dev-network
+    restart: unless-stopped
+
+  # Redis Cache (Development)
+  redis-dev:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - jiuwen-dev-network
+    restart: unless-stopped
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+
+networks:
+  jiuwen-dev-network:
+    driver: bridge
