@@ -21,29 +21,29 @@ export const Editor = () => {
   return (
     <div className="workflow-canvas-wrapper" style={{ 
       width: '100%', 
-      height: '100vh',
-      minHeight: '100vh',
+      height: 'calc(100vh - 120px)',
+      minHeight: 'calc(100vh - 120px)',
       position: 'relative',
       overflow: 'hidden'
     }}>
       <div className="doc-free-feature-overview" style={{ 
         width: '100%', 
-        height: '100vh',
-        minHeight: '100vh',
+        height: 'calc(100vh - 120px)',
+        minHeight: 'calc(100vh - 120px)',
         position: 'relative'
       }}>
         <FreeLayoutEditorProvider {...editorProps}>
           <SidebarProvider>
             <div className="demo-container" style={{ 
               width: '100%', 
-              height: '100vh',
-              minHeight: '100vh',
+              height: 'calc(100vh - 120px)',
+              minHeight: 'calc(100vh - 120px)',
               position: 'relative'
             }}>
               <EditorRenderer className="demo-editor" style={{ 
                 width: '100%', 
-                height: '100vh',
-                minHeight: '100vh',
+                height: 'calc(100vh - 120px)',
+                minHeight: 'calc(100vh - 120px)',
                 position: 'relative'
               }} />
             </div>
