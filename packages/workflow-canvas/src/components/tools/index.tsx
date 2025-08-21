@@ -157,8 +157,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
             icon={<IconArrowLeft />}
             onClick={handleBack}
             style={{ 
-              color: '#F97316', // Orange color
-              fontWeight: '500'
+              color: '#F97316' // Orange color
             }}
           >
             返回
