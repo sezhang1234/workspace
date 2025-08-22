@@ -1,209 +1,217 @@
-# Jiuwen Agent Studio - 智能体开发平台
+# Jiuwen Agent Studio
 
-Jiuwen Agent Studio 是一个专业的LLM智能体开发和管理平台，类似于开源的 Dify 和 Coze 项目。该平台提供了完整的智能体开发生态，从模型配置到工作流编排，从提示词优化到智能体部署，一站式解决AI应用开发的所有需求。
+专业的LLM智能体开发和管理平台
 
-## 🚀 主要功能
-
-### 核心功能
-- **智能体开发与管理** - 创建、训练和部署智能AI代理
-- **工作流编排** - 可视化工作流设计器，拖拽式节点配置
-- **提示词管理** - 专业的提示词编辑器，支持版本控制和A/B测试
-- **模型配置** - 灵活配置各种LLM模型参数，支持自定义模型接入
-
-### 平台特性
-- **性能优化** - 智能缓存、并发控制、成本优化
-- **安全可靠** - 企业级安全防护，数据加密，权限管理
-- **团队协作** - 多用户协作开发，角色权限管理
-- **数据分析** - 详细的性能分析报告和监控
-
-## 🛠️ 技术栈
-
-### 前端技术
-- **React 18** - 现代化的React框架
-- **TypeScript** - 类型安全的JavaScript
-- **Zustand** - 轻量级状态管理
-- **TailwindCSS** - 实用优先的CSS框架
-- **Material-UI (MUI)** - React组件库
-- **React Router** - 客户端路由
-- **React Hook Form** - 表单处理
-- **React Query** - 数据获取和缓存
-
-### 构建工具
-- **Vite** - 快速的构建工具
-- **PostCSS** - CSS后处理器
-- **ESLint** - 代码质量检查
-
-## 📁 项目结构
+## 🏗️ **项目结构**
 
 ```
-src/
-├── components/          # 可复用组件
-│   └── Layout/         # 布局组件
-│       ├── Layout.tsx
-│       ├── Sidebar.tsx
-│       └── Header.tsx
-├── pages/              # 页面组件
-│   ├── WelcomePage.tsx # 欢迎页面
-│   ├── Auth/           # 认证相关页面
-│   │   └── LoginPage.tsx
-│   ├── Dashboard/      # 仪表板页面
-│   │   └── DashboardPage.tsx
-│   ├── Agents/         # 智能体管理页面
-│   │   ├── AgentsPage.tsx
-│   │   └── AgentEditorPage.tsx
-│   ├── Workflows/      # 工作流管理页面
-│   │   ├── WorkflowsPage.tsx
-│   │   └── WorkflowEditorPage.tsx
-│   ├── Prompts/        # 提示词管理页面
-│   │   ├── PromptsPage.tsx
-│   │   └── PromptEditorPage.tsx
-│   └── Settings/       # 设置页面
-│       ├── SettingsPage.tsx
-│       └── ProfilePage.tsx
-├── stores/             # 状态管理
-│   └── useAuthStore.ts # 认证状态管理
-├── App.tsx             # 主应用组件
-├── main.tsx            # 应用入口
-└── index.css           # 全局样式
+jiuwen-agent-studio/
+├── frontend/                 # React + TypeScript 前端应用
+│   ├── src/                 # 源代码
+│   ├── packages/            # 工作流画布包
+│   ├── package.json         # 前端依赖
+│   └── Dockerfile           # 前端 Docker 配置
+├── backend/                  # FastAPI 后端服务
+│   ├── app/                 # 应用代码
+│   │   ├── core/           # 核心配置
+│   │   ├── models/         # 数据模型
+│   │   ├── routers/        # API 路由
+│   │   └── schemas/        # 数据验证
+│   ├── requirements.txt     # Python 依赖
+│   └── Dockerfile           # 后端 Docker 配置
+├── docker/                   # Docker 配置文件
+│   ├── docker-compose.yml   # 生产环境配置
+│   └── docker-compose.dev.yml # 开发环境配置
+├── setup_dev.sh             # 开发环境设置脚本
+├── start_dev.sh             # 启动开发环境
+├── stop_dev.sh              # 停止开发环境
+└── README.md                # 项目文档
 ```
 
-## 🚀 快速开始
+## 🚀 **快速开始**
 
-### 环境要求
-- Node.js 16+ 
-- npm 或 yarn
+### **前置要求**
 
-### 安装依赖
+- Docker & Docker Compose
+- Node.js 18+
+- Python 3.11+
+
+### **设置开发环境**
+
 ```bash
+# 克隆项目
+git clone <repository-url>
+cd jiuwen-agent-studio
+
+# 设置开发环境
+chmod +x setup_dev.sh
+./setup_dev.sh
+
+# 启动开发环境
+chmod +x start_dev.sh
+./start_dev.sh
+
+# 或者仅启动后端服务（前端本地运行）
+chmod +x start_dev_simple.sh
+./start_dev_simple.sh
+```
+
+### **手动设置**
+
+#### **后端设置**
+
+```bash
+cd backend
+
+# 创建虚拟环境
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+# 或
+venv\Scripts\activate     # Windows
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 创建环境变量文件
+cp .env.example .env
+
+# 启动开发服务器
+python run_dev.py
+```
+
+#### **前端设置**
+
+```bash
+cd frontend
+
+# 安装依赖
 npm install
-```
 
-### 启动开发服务器
-```bash
+# 创建环境变量文件
+echo "VITE_API_BASE_URL=http://localhost:8000/api" > .env
+
+# 启动开发服务器
 npm run dev
 ```
 
-### 构建生产版本
+## 🐳 **Docker 部署**
+
+### **开发环境**
+
 ```bash
-npm run build
+cd docker
+docker-compose -f docker-compose.dev.yml up -d
 ```
 
-### 预览生产版本
+### **生产环境**
+
 ```bash
-npm run preview
+cd docker
+docker-compose up -d
 ```
 
-## 🔧 配置说明
+## 📚 **API 文档**
 
-### 环境变量
-项目使用 Vite 作为构建工具，可以在 `.env` 文件中配置环境变量：
+启动后端服务后，访问以下地址查看 API 文档：
 
-```env
-VITE_APP_TITLE=Jiuwen Agent Studio
-VITE_API_BASE_URL=http://localhost:3000/api
+- **Swagger UI**: http://localhost:8000/api/docs
+- **ReDoc**: http://localhost:8000/api/redoc
+- **OpenAPI JSON**: http://localhost:8000/api/openapi.json
+
+## 🔧 **主要功能**
+
+### **工作流管理**
+- ✅ 创建工作流
+- ✅ 编辑工作流
+- ✅ 运行工作流
+- ✅ 删除工作流
+- ✅ 工作流状态监控
+
+### **用户管理**
+- ✅ 用户注册/登录
+- ✅ JWT 认证
+- ✅ 用户权限管理
+- ✅ 用户信息更新
+
+### **AI 模型配置**
+- ✅ 支持多种 AI 提供商
+- ✅ 模型参数配置
+- ✅ API 密钥管理
+- ✅ 模型连接测试
+
+### **工作流画布**
+- ✅ 可视化工作流设计
+- ✅ 节点拖拽和连接
+- ✅ 实时预览
+- ✅ 导入/导出功能
+
+## 🌐 **访问地址**
+
+- **前端应用**: http://localhost:3000
+- **后端 API**: http://localhost:8000
+- **健康检查**: http://localhost:8000/api/health
+
+## 🛠️ **技术栈**
+
+### **前端**
+- React 18 + TypeScript
+- Vite 构建工具
+- Tailwind CSS 样式
+- FlowGram.AI 工作流画布
+
+### **后端**
+- FastAPI (Python)
+- SQLAlchemy ORM
+- Pydantic 数据验证
+- JWT 认证
+- PostgreSQL/Redis
+
+### **部署**
+- Docker & Docker Compose
+- Nginx 反向代理
+- 多环境配置
+
+## 📝 **开发指南**
+
+### **添加新的 API 端点**
+
+1. 在 `backend/app/routers/` 中创建新的路由文件
+2. 在 `backend/app/schemas/` 中定义数据模型
+3. 在 `backend/app/models/` 中定义数据库模型
+4. 在 `main.py` 中注册路由
+
+### **前端组件开发**
+
+1. 在 `frontend/src/components/` 中创建组件
+2. 使用 TypeScript 定义类型
+3. 遵循项目代码规范
+
+## 🐛 **故障排除**
+
+### **常见问题**
+
+1. **端口冲突**: 检查 3000 和 8000 端口是否被占用
+2. **数据库连接**: 确保 PostgreSQL 服务正在运行
+3. **依赖安装**: 删除 `node_modules` 和 `venv` 重新安装
+
+### **日志查看**
+
+```bash
+# 查看 Docker 日志
+docker-compose -f docker/docker-compose.dev.yml logs -f
+
+# 查看特定服务日志
+docker-compose -f docker/docker-compose.dev.yml logs -f backend-dev
 ```
 
-### TailwindCSS 配置
-TailwindCSS 配置文件位于 `tailwind.config.js`，可以自定义主题、颜色和组件样式。
+## 📄 **许可证**
 
-### TypeScript 配置
-TypeScript 配置文件位于 `tsconfig.json`，已配置路径别名 `@/*` 指向 `src/*` 目录。
+MIT License
 
-## 🎨 设计系统
+## 🤝 **贡献指南**
 
-### 颜色方案
-- **主色调**: 蓝色系 (#3b82f6)
-- **辅助色**: 灰色系 (#64748b)
-- **成功色**: 绿色系 (#10b981)
-- **警告色**: 黄色系 (#f59e0b)
-- **错误色**: 红色系 (#ef4444)
-
-### 组件样式
-项目使用 TailwindCSS 和 MUI 的组合，提供了丰富的预设样式类：
-- `.btn-primary` - 主要按钮样式
-- `.btn-secondary` - 次要按钮样式
-- `.card` - 卡片容器样式
-- `.input-field` - 输入框样式
-
-## 📱 响应式设计
-
-项目采用移动优先的响应式设计，支持以下断点：
-- **sm**: 640px+
-- **md**: 768px+
-- **lg**: 1024px+
-- **xl**: 1280px+
-
-## 🔐 认证系统
-
-### 功能特性
-- 用户注册和登录
-- JWT Token 认证
-- 角色权限管理
-- 会话管理
-- 密码重置
-
-### 状态管理
-使用 Zustand 进行状态管理，支持：
-- 用户信息持久化
-- 认证状态管理
-- 权限控制
-
-## 🚧 开发计划
-
-### 已完成功能
-- ✅ 用户认证系统
-- ✅ 基础页面框架
-- ✅ 响应式布局
-- ✅ 状态管理
-- ✅ 路由系统
-
-### 开发中功能
-- 🔄 智能体编辑器
-- 🔄 工作流设计器
-- 🔄 提示词编辑器
-- 🔄 模型管理
-
-### 计划功能
-- 📋 团队协作
-- 📋 数据分析
-- 📋 API管理
-- 📋 部署管理
-- 📋 监控告警
-
-## 🤝 贡献指南
-
-### 开发流程
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
-
-### 代码规范
-- 使用 TypeScript 进行类型检查
-- 遵循 ESLint 规则
-- 使用 Prettier 格式化代码
-- 编写清晰的组件文档
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
-
-## 📞 联系我们
-
-- 项目主页: [Jiuwen Agent Studio](https://github.com/jiuwen/agent-studio)
-- 问题反馈: [Issues](https://github.com/jiuwen/agent-studio/issues)
-- 功能建议: [Discussions](https://github.com/jiuwen/agent-studio/discussions)
-
-## 🙏 致谢
-
-感谢以下开源项目的支持：
-- [React](https://reactjs.org/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Material-UI](https://mui.com/)
-- [Zustand](https://github.com/pmndrs/zustand)
-- [Vite](https://vitejs.dev/)
+欢迎提交 Issue 和 Pull Request！
 
 ---
 
-**Jiuwen Agent Studio** - 让AI开发更简单，让创新更高效 🚀
+**Jiuwen Agent Studio** - 让 AI 智能体开发更简单 🚀

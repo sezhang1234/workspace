@@ -1,0 +1,145 @@
+/**
+ * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+ * SPDX-License-Identifier: MIT
+ */
+
+:root {
+  /* Port colors */
+  --g-workflow-port-color-primary: #4d53e8;
+  --g-workflow-port-color-secondary: #9197f1;
+  --g-workflow-port-color-error: #ff0000;
+  --g-workflow-port-color-background: #ffffff;
+
+  /* Line colors */
+  --g-workflow-line-color-hidden: transparent;
+  --g-workflow-line-color-default: #4d53e8;
+  --g-workflow-line-color-drawing: #5dd6e3;
+  --g-workflow-line-color-hover: #37d0ff;
+  --g-workflow-line-color-selected: #37d0ff;
+  --g-workflow-line-color-error: red;
+}
+
+/* Apply consistent font family across the workflow canvas */
+.workflow-canvas-wrapper,
+.workflow-canvas-wrapper *,
+.doc-free-feature-overview,
+.doc-free-feature-overview *,
+.demo-container,
+.demo-container *,
+.demo-editor,
+.demo-editor *,
+/* Semi Design components */
+.semi-button,
+.semi-button *,
+.semi-input,
+.semi-input *,
+.semi-select,
+.semi-select *,
+.semi-tooltip,
+.semi-tooltip *,
+.semi-modal,
+.semi-modal *,
+.semi-form,
+.semi-form *,
+/* FlowGram AI components */
+.flow-node,
+.flow-node *,
+.node-panel,
+.node-panel *,
+.tools-panel,
+.tools-panel * {
+  font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+.gedit-selector-bounds-background {
+  cursor: move;
+  display: none !important;
+}
+
+.gedit-selector-bounds-foreground {
+  cursor: move;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  outline: 1px solid var(--g-playground-selectBox-outline);
+  z-index: 33;
+  background-color: var(--g-playground-selectBox-background);
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.node-running {
+  border: 1px dashed rgb(78, 64, 229) !important;
+  border-radius: 8px;
+}
+
+/* Workflow canvas wrapper - adjust height to leave space for control panel */
+.workflow-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.doc-free-feature-overview {
+  position: relative;
+  height: calc(100vh - 120px);
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.demo-editor {
+  flex-grow: 1;
+  position: relative;
+  height: calc(100vh - 120px);
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.demo-container {
+  position: relative;
+  left: 0px;
+  top: 0px;
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.demo-tools {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.demo-tools-group > * {
+  margin-right: 8px;
+}
+
+.mouse-pad-option-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure the tools container is positioned relative for absolute positioning of minimap */
+.demo-free-layout-tools {
+  position: relative;
+}

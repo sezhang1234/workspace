@@ -1,0 +1,34 @@
+# Alternative Development Dockerfile for backend
+FROM ubuntu:22.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies and Python 3.13
+RUN apt-get update && apt-get install -y \
+    python3.13 \
+    python3.13-venv \
+    python3.13-dev \
+    python3-pip \
+    gcc \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements file
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY . .
+
+# Expose port
+EXPOSE 8000
+
+# Start development server with auto-reload
+CMD ["python3", "run_dev.py"]

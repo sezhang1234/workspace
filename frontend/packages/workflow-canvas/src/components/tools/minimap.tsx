@@ -1,0 +1,39 @@
+/**
+ * Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+ * SPDX-License-Identifier: MIT
+ */
+
+import { FlowMinimapService, MinimapRender } from '@flowgram.ai/minimap-plugin';
+import { useService } from '@flowgram.ai/free-layout-editor';
+
+import { MinimapContainer } from './styles';
+
+export const Minimap = ({ visible }: { visible?: boolean }) => {
+  const minimapService = useService(FlowMinimapService);
+  if (!visible) {
+    return <></>;
+  }
+  return (
+    <MinimapContainer>
+      <MinimapRender
+        service={minimapService}
+        panelStyles={{}}
+        containerStyles={{
+          pointerEvents: 'auto',
+          position: 'fixed',
+          top: 'unset',
+          right: 'unset',
+          bottom: '16px',
+          left: '16px',
+          zIndex: 9999,
+        }}
+        inactiveStyle={{
+          opacity: 1,
+          scale: 1,
+          translateX: 0,
+          translateY: 0,
+        }}
+      />
+    </MinimapContainer>
+  );
+};

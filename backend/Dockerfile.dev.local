@@ -1,0 +1,22 @@
+# Local Development Dockerfile - Copies local Python environment
+FROM ubuntu:22.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+
+# Set working directory
+WORKDIR /app
+
+# Copy the entire backend directory (including venv)
+COPY . .
+
+# Make Python executable
+RUN chmod +x venv/bin/python3
+RUN chmod +x venv/bin/pip
+
+# Expose port
+EXPOSE 8000
+
+# Start development server using local virtual environment
+CMD ["./venv/bin/python3", "run_dev.py"]
