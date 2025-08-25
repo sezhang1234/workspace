@@ -7,6 +7,8 @@ import LoginPage from './pages/Auth/LoginPage'
 import DashboardPage from './pages/Dashboard/DashboardPage'
 import AgentsPage from './pages/Agents/AgentsPage'
 import AgentEditorPage from './pages/Agents/AgentEditorPage'
+import AgentEditorEntryPage from './pages/Agents/AgentEditorEntryPage'
+import AgentEditorEnhancedPage from './pages/Agents/AgentEditorEnhancedPage'
 import WorkflowsPage from './pages/Workflows/WorkflowsPage'
 
 import WorkflowCreationPage from './pages/Workflows/WorkflowCreationPage'
@@ -48,8 +50,9 @@ const App: React.FC = () => {
       >
         <Route index element={<DashboardPage />} />
         <Route path="agents" element={<AgentsPage />} />
+        <Route path="agents/new" element={<AgentEditorEntryPage />} />
+        <Route path="agents/editor" element={<AgentEditorEnhancedPage />} />
         <Route path="agents/:id" element={<AgentEditorPage />} />
-        <Route path="agents/new" element={<AgentEditorPage />} />
         <Route path="workflows" element={<WorkflowsPage />} />
 
         <Route path="workflows/new" element={<WorkflowCreationPage />} />
