@@ -139,7 +139,7 @@ const AgentEditorEntryPage: React.FC = () => {
                       ...prev, 
                       editMode: e.target.value as 'manual' | 'ai' 
                     }))}
-                    className="flex flex-row space-x-6"
+                    className="grid grid-cols-2 gap-6"
                   >
                     <FormControlLabel
                       value="manual"
@@ -157,7 +157,7 @@ const AgentEditorEntryPage: React.FC = () => {
                           </div>
                         </div>
                       }
-                      className="flex-1 m-0"
+                      className="m-0"
                     />
                     
                     <FormControlLabel
@@ -176,7 +176,7 @@ const AgentEditorEntryPage: React.FC = () => {
                           </div>
                         </div>
                       }
-                      className="flex-1 m-0"
+                      className="m-0"
                     />
                   </RadioGroup>
                 </FormControl>
