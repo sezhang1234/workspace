@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { 
   ArrowLeft, 
   Save, 
@@ -118,12 +118,15 @@ function TabPanel(props: TabPanelProps) {
 const AgentEditorEnhancedPage: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { id } = useParams()
   
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   
-  // Get entry data from navigation state
+  // Get entry data from navigation state (for new agents) or determine if editing existing agent
   const entryData = location.state?.agentEntryData as AgentEntryData | undefined
+  const isNew = !id || id === 'new'
+  const isEditing = !isNew
 
   // Agent configuration state
   const [agentConfig, setAgentConfig] = useState<AgentConfig>({
@@ -289,11 +292,14 @@ const AgentEditorEnhancedPage: React.FC = () => {
               </Button>
               <div className="flex items-center space-x-4">
                 <span className="text-4xl">{agentConfig.icon}</span>
-                <div>
+                                <div>
                   <h1 className="text-3xl font-bold text-gray-900">
-                    {agentConfig.name}
+                    {isNew ? '创建智能体' : '编辑智能体'}
                   </h1>
                   <p className="text-lg text-gray-600">
+                    {isNew ? '配置智能体的系统提示词、编排参数和调试信息' : '修改智能体配置和参数'}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1">
                     {agentConfig.description}
                   </p>
                 </div>
