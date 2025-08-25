@@ -11,16 +11,11 @@ import {
 import { 
   TextField, 
   Button, 
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   Typography,
   Card,
   Alert,
   IconButton,
   InputAdornment,
-  Box,
   Divider
 } from '@mui/material'
 
@@ -132,54 +127,81 @@ const AgentEditorEntryPage: React.FC = () => {
                   选择编辑模式
                 </Typography>
                 
-                <FormControl component="fieldset" className="w-full">
-                  <RadioGroup
-                    value={agentData.editMode}
-                    onChange={(e) => setAgentData(prev => ({ 
-                      ...prev, 
-                      editMode: e.target.value as 'manual' | 'ai' 
-                    }))}
-                    className="grid grid-cols-2 gap-6"
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Manual Edit Card */}
+                  <div
+                    onClick={() => setAgentData(prev => ({ ...prev, editMode: 'manual' }))}
+                    className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                      agentData.editMode === 'manual'
+                        ? 'border-blue-500 bg-blue-50 shadow-lg'
+                        : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                    }`}
                   >
-                    <FormControlLabel
-                      value="manual"
-                      control={<Radio className="text-blue-600" />}
-                      label={
-                        <div className="flex items-center space-x-4 p-6 border-2 border-gray-200 rounded-xl hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 cursor-pointer">
-                          <div className="p-4 bg-blue-100 rounded-lg">
-                            <Edit3 className="text-blue-600 w-8 h-8" />
-                          </div>
-                          <div>
-                            <div className="text-lg font-semibold text-gray-900 mb-1">手动编辑</div>
-                            <div className="text-sm text-gray-600 max-w-xs">
-                              手动配置所有参数，完全控制智能体行为
-                            </div>
-                          </div>
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      <div className={`p-4 rounded-full ${
+                        agentData.editMode === 'manual' ? 'bg-blue-100' : 'bg-gray-100'
+                      }`}>
+                        <Edit3 className={`w-10 h-10 ${
+                          agentData.editMode === 'manual' ? 'text-blue-600' : 'text-gray-600'
+                        }`} />
+                      </div>
+                      <div>
+                        <div className={`text-xl font-bold mb-2 ${
+                          agentData.editMode === 'manual' ? 'text-blue-800' : 'text-gray-800'
+                        }`}>
+                          手动编辑
                         </div>
-                      }
-                      className="m-0"
-                    />
-                    
-                    <FormControlLabel
-                      value="ai"
-                      control={<Radio className="text-purple-600" />}
-                      label={
-                        <div className="flex items-center space-x-4 p-6 border-2 border-gray-200 rounded-xl hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer">
-                          <div className="p-4 bg-purple-100 rounded-lg">
-                            <Sparkles className="text-purple-600 w-8 h-8" />
-                          </div>
-                          <div>
-                            <div className="text-lg font-semibold text-gray-900 mb-1">AI 辅助编辑</div>
-                            <div className="text-sm text-gray-600 max-w-xs">
-                              基于描述自动生成配置，AI 辅助优化参数
-                            </div>
-                          </div>
+                        <div className="text-sm text-gray-600 leading-relaxed">
+                          完全控制智能体配置<br/>
+                          手动设置所有参数<br/>
+                          适合高级用户
                         </div>
-                      }
-                      className="m-0"
-                    />
-                  </RadioGroup>
-                </FormControl>
+                      </div>
+                      {agentData.editMode === 'manual' && (
+                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                          <Check className="w-4 h-4 text-white" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* AI Edit Card */}
+                  <div
+                    onClick={() => setAgentData(prev => ({ ...prev, editMode: 'ai' }))}
+                    className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                      agentData.editMode === 'ai'
+                        ? 'border-purple-500 bg-purple-50 shadow-lg'
+                        : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      <div className={`p-4 rounded-full ${
+                        agentData.editMode === 'ai' ? 'bg-purple-100' : 'bg-gray-100'
+                      }`}>
+                        <Sparkles className={`w-10 h-10 ${
+                          agentData.editMode === 'ai' ? 'text-purple-600' : 'text-gray-600'
+                        }`} />
+                      </div>
+                      <div>
+                        <div className={`text-xl font-bold mb-2 ${
+                          agentData.editMode === 'ai' ? 'text-purple-800' : 'text-gray-800'
+                        }`}>
+                          AI 辅助编辑
+                        </div>
+                        <div className="text-sm text-gray-600 leading-relaxed">
+                          智能生成配置建议<br/>
+                          自动优化参数设置<br/>
+                          快速上手
+                        </div>
+                      </div>
+                      {agentData.editMode === 'ai' && (
+                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                          <Check className="w-4 h-4 text-white" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <Divider className="my-8" />
@@ -194,9 +216,9 @@ const AgentEditorEntryPage: React.FC = () => {
                 <div className="space-y-8">
                   {/* Agent Name */}
                   <div>
-                    <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
-                      智能体名称
-                    </Typography>
+                    <label className="block text-sm font-bold text-gray-800 mb-3">
+                      智能体名称 *
+                    </label>
                     <TextField
                       fullWidth
                       value={agentData.name}
@@ -211,15 +233,14 @@ const AgentEditorEntryPage: React.FC = () => {
                           </InputAdornment>
                         ),
                       }}
-                      className="mt-2"
                     />
                   </div>
 
                   {/* Agent Description */}
                   <div>
-                    <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
-                      功能描述
-                    </Typography>
+                    <label className="block text-sm font-bold text-gray-800 mb-3">
+                      功能描述 *
+                    </label>
                     <TextField
                       fullWidth
                       multiline
@@ -229,15 +250,14 @@ const AgentEditorEntryPage: React.FC = () => {
                       placeholder="详细描述智能体的功能、用途和行为特征..."
                       error={!!errors.description}
                       helperText={errors.description || '详细描述智能体的功能和行为，至少10个字符'}
-                      className="mt-2"
                     />
                   </div>
 
                   {/* Agent Icon Selection */}
                   <div>
-                    <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                    <label className="block text-sm font-bold text-gray-800 mb-4">
                       选择图标
-                    </Typography>
+                    </label>
                     <div className="grid grid-cols-10 gap-3 p-6 bg-gray-50 rounded-xl border border-gray-200">
                       {iconOptions.map((icon, index) => (
                         <IconButton
