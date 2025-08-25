@@ -200,72 +200,71 @@ const AgentEditorEntryPage: React.FC = () => {
               </div>
 
               <Divider className="my-6" />
-                
-                <div className="space-y-8">
-                  {/* Agent Name */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-800 mb-3">
-                      智能体名称 *
-                    </label>
-                    <TextField
-                      fullWidth
-                      value={agentData.name}
-                      onChange={(e) => setAgentData(prev => ({ ...prev, name: e.target.value }))}
-                      placeholder="例如：智能客服助手"
-                      error={!!errors.name}
-                      helperText={errors.name || '为您的智能体起一个描述性的名称'}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Bot className="text-gray-400 w-5 h-5" />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </div>
+              
+              <div className="space-y-8">
+                {/* Agent Name */}
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-3">
+                    智能体名称 *
+                  </label>
+                  <TextField
+                    fullWidth
+                    value={agentData.name}
+                    onChange={(e) => setAgentData(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="例如：智能客服助手"
+                    error={!!errors.name}
+                    helperText={errors.name || '为您的智能体起一个描述性的名称'}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Bot className="text-gray-400 w-5 h-5" />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </div>
 
-                  {/* Agent Description */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-800 mb-3">
-                      功能描述 *
-                    </label>
-                    <TextField
-                      fullWidth
-                      multiline
-                      rows={4}
-                      value={agentData.description}
-                      onChange={(e) => setAgentData(prev => ({ ...prev, description: e.target.value }))}
-                      placeholder="详细描述智能体的功能、用途和行为特征..."
-                      error={!!errors.description}
-                      helperText={errors.description || '详细描述智能体的功能和行为，至少10个字符'}
-                    />
-                  </div>
+                {/* Agent Description */}
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-3">
+                    功能描述 *
+                  </label>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    value={agentData.description}
+                    onChange={(e) => setAgentData(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="详细描述智能体的功能、用途和行为特征..."
+                    error={!!errors.description}
+                    helperText={errors.description || '详细描述智能体的功能和行为，至少10个字符'}
+                  />
+                </div>
 
-                  {/* Agent Icon Selection */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-800 mb-4">
-                      选择图标
-                    </label>
-                    <div className="grid grid-cols-10 gap-3 p-6 bg-gray-50 rounded-xl border border-gray-200">
-                      {iconOptions.map((icon, index) => (
-                        <IconButton
-                          key={index}
-                          onClick={() => handleIconSelect(icon)}
-                          className={`w-14 h-14 text-2xl hover:bg-white hover:shadow-md transition-all duration-200 ${
-                            agentData.icon === icon 
-                              ? 'bg-blue-100 border-2 border-blue-500 shadow-lg scale-110' 
-                              : 'hover:scale-105'
-                          }`}
-                        >
-                          {icon}
-                        </IconButton>
-                      ))}
-                    </div>
-                    <div className="mt-4 text-center">
-                      <Typography variant="body2" className="text-gray-500">
-                        当前选择: <span className="text-2xl">{agentData.icon}</span>
-                      </Typography>
-                    </div>
+                {/* Agent Icon Selection */}
+                <div>
+                  <label className="block text-sm font-bold text-gray-800 mb-4">
+                    选择图标
+                  </label>
+                  <div className="grid grid-cols-10 gap-3 p-6 bg-gray-50 rounded-xl border border-gray-200">
+                    {iconOptions.map((icon, index) => (
+                      <IconButton
+                        key={index}
+                        onClick={() => handleIconSelect(icon)}
+                        className={`w-14 h-14 text-2xl hover:bg-white hover:shadow-md transition-all duration-200 ${
+                          agentData.icon === icon 
+                            ? 'bg-blue-100 border-2 border-blue-500 shadow-lg scale-110' 
+                            : 'hover:scale-105'
+                        }`}
+                      >
+                        {icon}
+                      </IconButton>
+                    ))}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <Typography variant="body2" className="text-gray-500">
+                      当前选择: <span className="text-2xl">{agentData.icon}</span>
+                    </Typography>
                   </div>
                 </div>
               </div>
