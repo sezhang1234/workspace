@@ -121,32 +121,27 @@ const AgentEditorEntryPage: React.FC = () => {
           <div className="p-8">
             <div className="space-y-10">
               {/* Edit Mode Selection */}
-              <div>
-                <Typography variant="h5" className="mb-6 flex items-center text-gray-800">
-                  <Edit3 className="mr-3 w-6 h-6 text-blue-600" />
-                  选择编辑模式
-                </Typography>
-                
+              <div className="mb-8">
                 <div className="grid grid-cols-2 gap-6">
                   {/* Manual Edit Card */}
                   <div
                     onClick={() => setAgentData(prev => ({ ...prev, editMode: 'manual' }))}
-                    className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                    className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
                       agentData.editMode === 'manual'
                         ? 'border-blue-500 bg-blue-50 shadow-lg'
                         : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                     }`}
                   >
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <div className={`p-4 rounded-full ${
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className={`p-3 rounded-full ${
                         agentData.editMode === 'manual' ? 'bg-blue-100' : 'bg-gray-100'
                       }`}>
-                        <Edit3 className={`w-10 h-10 ${
+                        <Edit3 className={`w-8 h-8 ${
                           agentData.editMode === 'manual' ? 'text-blue-600' : 'text-gray-600'
                         }`} />
                       </div>
                       <div>
-                        <div className={`text-xl font-bold mb-2 ${
+                        <div className={`text-lg font-bold mb-1 ${
                           agentData.editMode === 'manual' ? 'text-blue-800' : 'text-gray-800'
                         }`}>
                           手动编辑
@@ -158,8 +153,8 @@ const AgentEditorEntryPage: React.FC = () => {
                         </div>
                       </div>
                       {agentData.editMode === 'manual' && (
-                        <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                          <Check className="w-4 h-4 text-white" />
+                        <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
                         </div>
                       )}
                     </div>
@@ -168,22 +163,22 @@ const AgentEditorEntryPage: React.FC = () => {
                   {/* AI Edit Card */}
                   <div
                     onClick={() => setAgentData(prev => ({ ...prev, editMode: 'ai' }))}
-                    className={`p-6 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
+                    className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
                       agentData.editMode === 'ai'
                         ? 'border-purple-500 bg-purple-50 shadow-lg'
                         : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50'
                     }`}
                   >
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <div className={`p-4 rounded-full ${
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className={`p-3 rounded-full ${
                         agentData.editMode === 'ai' ? 'bg-purple-100' : 'bg-gray-100'
                       }`}>
-                        <Sparkles className={`w-10 h-10 ${
+                        <Sparkles className={`w-8 h-8 ${
                           agentData.editMode === 'ai' ? 'text-purple-600' : 'text-gray-600'
                         }`} />
                       </div>
                       <div>
-                        <div className={`text-xl font-bold mb-2 ${
+                        <div className={`text-lg font-bold mb-1 ${
                           agentData.editMode === 'ai' ? 'text-purple-800' : 'text-gray-800'
                         }`}>
                           AI 辅助编辑
@@ -195,8 +190,8 @@ const AgentEditorEntryPage: React.FC = () => {
                         </div>
                       </div>
                       {agentData.editMode === 'ai' && (
-                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                          <Check className="w-4 h-4 text-white" />
+                        <div className="w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
                         </div>
                       )}
                     </div>
@@ -204,14 +199,7 @@ const AgentEditorEntryPage: React.FC = () => {
                 </div>
               </div>
 
-              <Divider className="my-8" />
-
-              {/* Agent Basic Information */}
-              <div>
-                <Typography variant="h5" className="mb-6 flex items-center text-gray-800">
-                  <Bot className="mr-3 w-6 h-6 text-green-600" />
-                  智能体基本信息
-                </Typography>
+              <Divider className="my-6" />
                 
                 <div className="space-y-8">
                   {/* Agent Name */}
