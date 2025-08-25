@@ -39,6 +39,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Divider,
+  Paper
 } from '@mui/material'
 
 interface TabPanelProps {
@@ -106,7 +107,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 4 }}>
           {children}
         </Box>
       )}
@@ -272,501 +273,604 @@ const AgentEditorEnhancedPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="outlined"
-            startIcon={<ArrowLeft />}
-            onClick={() => navigate('/dashboard/agents')}
-          >
-            返回
-          </Button>
-          <div className="flex items-center space-x-3">
-            <span className="text-2xl">{agentConfig.icon}</span>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {agentConfig.name}
-              </h1>
-              <p className="text-gray-600">
-                {agentConfig.description}
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          <Button
-            variant="outlined"
-            startIcon={<TestTube />}
-            onClick={() => setActiveTab(2)}
-          >
-            测试调试
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<Save />}
-            onClick={handleSave}
-          >
-            保存配置
-          </Button>
-        </div>
-      </div>
-
-      {/* Main content */}
-      <Card>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={activeTab} onChange={handleTabChange} aria-label="智能体配置标签页">
-            <Tab 
-              label={
-                <div className="flex items-center space-x-2">
-                  <Brain className="w-4 h-4" />
-                  <span>系统提示词配置</span>
-                </div>
-              } 
-            />
-            <Tab 
-              label={
-                <div className="flex items-center space-x-2">
-                  <Settings className="w-4 h-4" />
-                  <span>编排配置</span>
-                </div>
-              } 
-            />
-            <Tab 
-              label={
-                <div className="flex items-center space-x-2">
-                  <Eye className="w-4 h-4" />
-                  <span>预览调试</span>
-                </div>
-              } 
-            />
-          </Tabs>
-        </Box>
-
-        {/* System Prompt Configuration Tab */}
-        <TabPanel value={activeTab} index={0}>
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <Typography variant="h6">系统提示词开发</Typography>
-              <Button
-                size="small"
-                startIcon={<Copy />}
-                onClick={handleCopyPrompt}
-              >
-                复制提示词
-              </Button>
-            </div>
-            
-            <TextField
-              fullWidth
-              multiline
-              rows={8}
-              label="系统提示词"
-              value={agentConfig.systemPrompt}
-              onChange={(e) => setAgentConfig(prev => ({ ...prev, systemPrompt: e.target.value }))}
-              placeholder="定义智能体的角色、能力和行为准则..."
-            />
-
-            {agentConfig.editMode === 'ai' && (
-              <Alert severity="info" icon={<Sparkles />}>
-                <Typography variant="body2">
-                  <strong>AI 辅助生成：</strong>
-                  系统已根据您的描述自动生成了系统提示词，您可以根据需要进行调整和优化。
-                </Typography>
-              </Alert>
-            )}
-
-            <Divider />
-
-            {/* Prompt Tuning Section */}
-            <div>
-              <Typography variant="h6" className="mb-4">提示词调优</Typography>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <TextField
-                  fullWidth
-                  label="角色定义"
-                  value={agentConfig.promptTuning.role}
-                  onChange={(e) => setAgentConfig(prev => ({
-                    ...prev,
-                    promptTuning: { ...prev.promptTuning, role: e.target.value }
-                  }))}
-                  placeholder="例如：智能客服代表"
-                />
-
-                <TextField
-                  fullWidth
-                  label="行为特征"
-                  value={agentConfig.promptTuning.behavior}
-                  onChange={(e) => setAgentConfig(prev => ({
-                    ...prev,
-                    promptTuning: { ...prev.promptTuning, behavior: e.target.value }
-                  }))}
-                  placeholder="例如：友好、专业、准确"
-                />
-              </div>
-
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                label="示例对话"
-                value={agentConfig.promptTuning.examples}
-                onChange={(e) => setAgentConfig(prev => ({
-                  ...prev,
-                  promptTuning: { ...prev.promptTuning, examples: e.target.value }
-                }))}
-                placeholder="提供一些示例对话来指导智能体的响应模式..."
-                className="mt-4"
-              />
-            </div>
-          </div>
-        </TabPanel>
-
-        {/* Orchestration Configuration Tab */}
-        <TabPanel value={activeTab} index={1}>
-          <div className="space-y-6">
-            {/* Model Selection */}
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<Settings />}>
-                <Typography variant="h6" className="flex items-center">
-                  <Zap className="mr-2" />
-                  模型选择与配置
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormControl fullWidth>
-                      <InputLabel>LLM模型</InputLabel>
-                      <Select
-                        value={agentConfig.model}
-                        label="LLM模型"
-                        onChange={(e) => setAgentConfig(prev => ({ ...prev, model: e.target.value }))}
-                      >
-                        <MenuItem value="gpt-4">GPT-4</MenuItem>
-                        <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                        <MenuItem value="claude-3">Claude-3</MenuItem>
-                        <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
-                        <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
-                      </Select>
-                    </FormControl>
-
-                    <TextField
-                      fullWidth
-                      type="number"
-                      label="温度 (Temperature)"
-                      value={agentConfig.modelParams.temperature}
-                      onChange={(e) => setAgentConfig(prev => ({
-                        ...prev,
-                        modelParams: { ...prev.modelParams, temperature: parseFloat(e.target.value) }
-                      }))}
-                      inputProps={{ min: 0, max: 2, step: 0.1 }}
-                      helperText="控制输出的随机性"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <TextField
-                      fullWidth
-                      type="number"
-                      label="最大Token数"
-                      value={agentConfig.modelParams.maxTokens}
-                      onChange={(e) => setAgentConfig(prev => ({
-                        ...prev,
-                        modelParams: { ...prev.modelParams, maxTokens: parseInt(e.target.value) }
-                      }))}
-                      inputProps={{ min: 1, max: 8000 }}
-                      helperText="限制单次对话的最大输出长度"
-                    />
-
-                    <TextField
-                      fullWidth
-                      type="number"
-                      label="Top P"
-                      value={agentConfig.modelParams.topP}
-                      onChange={(e) => setAgentConfig(prev => ({
-                        ...prev,
-                        modelParams: { ...prev.modelParams, topP: parseFloat(e.target.value) }
-                      }))}
-                      inputProps={{ min: 0, max: 1, step: 0.1 }}
-                      helperText="控制词汇选择的多样性"
-                    />
-                  </div>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-
-            {/* Plugin and Workflow Selection */}
-            <Accordion>
-              <AccordionSummary expandIcon={<Settings />}>
-                <Typography variant="h6" className="flex items-center">
-                  <Plug className="mr-2" />
-                  插件与工作流
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="space-y-4">
-                  <div>
-                    <Typography variant="subtitle1" className="mb-2">选择插件</Typography>
-                    <div className="flex flex-wrap gap-2">
-                      {['web_search', 'calculator', 'file_reader', 'image_generator', 'code_interpreter'].map((plugin) => (
-                        <Chip
-                          key={plugin}
-                          label={plugin}
-                          onClick={() => {
-                            const isSelected = agentConfig.plugins.includes(plugin)
-                            setAgentConfig(prev => ({
-                              ...prev,
-                              plugins: isSelected 
-                                ? prev.plugins.filter(p => p !== plugin)
-                                : [...prev.plugins, plugin]
-                            }))
-                          }}
-                          color={agentConfig.plugins.includes(plugin) ? 'primary' : 'default'}
-                          variant={agentConfig.plugins.includes(plugin) ? 'filled' : 'outlined'}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <Typography variant="subtitle1" className="mb-2">选择工作流</Typography>
-                    <div className="flex flex-wrap gap-2">
-                      {['customer_service', 'troubleshooting', 'data_analysis', 'content_generation'].map((workflow) => (
-                        <Chip
-                          key={workflow}
-                          label={workflow}
-                          onClick={() => {
-                            const isSelected = agentConfig.workflows.includes(workflow)
-                            setAgentConfig(prev => ({
-                              ...prev,
-                              workflows: isSelected 
-                                ? prev.workflows.filter(w => w !== workflow)
-                                : [...prev.workflows, workflow]
-                            }))
-                          }}
-                          color={agentConfig.workflows.includes(workflow) ? 'primary' : 'default'}
-                          variant={agentConfig.workflows.includes(workflow) ? 'filled' : 'outlined'}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-
-            {/* Knowledge and Memory */}
-            <Accordion>
-              <AccordionSummary expandIcon={<Settings />}>
-                <Typography variant="h6" className="flex items-center">
-                  <BookOpen className="mr-2" />
-                  知识与记忆
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className="space-y-4">
-                  <div>
-                    <Typography variant="subtitle1" className="mb-2">知识库</Typography>
-                    <div className="flex flex-wrap gap-2">
-                      {['product_manual', 'faq_database', 'company_policies', 'user_guides'].map((knowledge) => (
-                        <Chip
-                          key={knowledge}
-                          label={knowledge}
-                          onClick={() => {
-                            const isSelected = agentConfig.knowledge.includes(knowledge)
-                            setAgentConfig(prev => ({
-                              ...prev,
-                              knowledge: isSelected 
-                                ? prev.knowledge.filter(k => k !== knowledge)
-                                : [...prev.knowledge, knowledge]
-                            }))
-                          }}
-                          color={agentConfig.knowledge.includes(knowledge) ? 'primary' : 'default'}
-                          variant={agentConfig.knowledge.includes(knowledge) ? 'filled' : 'outlined'}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={agentConfig.memory.enabled}
-                          onChange={(e) => setAgentConfig(prev => ({
-                            ...prev,
-                            memory: { ...prev.memory, enabled: e.target.checked }
-                          }))}
-                        />
-                      }
-                      label="启用记忆功能"
-                    />
-
-                    <FormControl fullWidth>
-                      <InputLabel>记忆类型</InputLabel>
-                      <Select
-                        value={agentConfig.memory.type}
-                        label="记忆类型"
-                        onChange={(e) => setAgentConfig(prev => ({
-                          ...prev,
-                          memory: { ...prev.memory, type: e.target.value as any }
-                        }))}
-                        disabled={!agentConfig.memory.enabled}
-                      >
-                        <MenuItem value="conversation">对话记忆</MenuItem>
-                        <MenuItem value="semantic">语义记忆</MenuItem>
-                        <MenuItem value="hybrid">混合记忆</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-
-            {/* Opening Remarks */}
-            <div>
-              <Typography variant="h6" className="mb-4 flex items-center">
-                <MessageSquare className="mr-2" />
-                开场白设置
-              </Typography>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                label="开场白"
-                value={agentConfig.openingRemarks}
-                onChange={(e) => setAgentConfig(prev => ({ ...prev, openingRemarks: e.target.value }))}
-                placeholder="设置智能体的开场白，让用户了解如何开始对话..."
-                helperText="这是用户开始对话时智能体的第一句话"
-              />
-            </div>
-          </div>
-        </TabPanel>
-
-        {/* Preview and Debug Tab */}
-        <TabPanel value={activeTab} index={2}>
-          <div className="space-y-6">
-            {/* Test Input */}
-            <div className="flex items-center space-x-4">
-              <TextField
-                fullWidth
-                label="测试消息"
-                value={testMessage}
-                onChange={(e) => setTestMessage(e.target.value)}
-                placeholder="输入测试消息来调试智能体..."
-                onKeyPress={(e) => e.key === 'Enter' && handleTest()}
-              />
-              <Button
-                variant="contained"
-                startIcon={<Play />}
-                onClick={handleTest}
-                disabled={isTesting || !testMessage.trim()}
-              >
-                {isTesting ? '测试中...' : '发送测试'}
-              </Button>
-            </div>
-
-            {/* Test History */}
-            <div className="border rounded-lg p-4 bg-gray-50">
-              <Typography variant="h6" className="mb-4">对话历史</Typography>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {agentConfig.testHistory.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">暂无对话记录，开始测试以查看效果</p>
-                ) : (
-                  agentConfig.testHistory.map((msg, index) => (
-                    <div
-                      key={index}
-                      className={`p-3 rounded-lg ${
-                        msg.role === 'user' 
-                          ? 'bg-blue-100 ml-8' 
-                          : 'bg-green-100 mr-8'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="font-medium text-sm">
-                          {msg.role === 'user' ? '用户' : 'AI助手'}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          {msg.timestamp.toLocaleTimeString()}
-                        </div>
-                      </div>
-                      <div>{msg.content}</div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-
-            {/* Debug Information */}
-            <div className="border rounded-lg p-4 bg-blue-50">
-              <Typography variant="h6" className="mb-4">调试信息</Typography>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <strong>当前模型：</strong> {agentConfig.model}
-                </div>
-                <div>
-                  <strong>温度设置：</strong> {agentConfig.modelParams.temperature}
-                </div>
-                <div>
-                  <strong>启用插件：</strong> {agentConfig.plugins.join(', ') || '无'}
-                </div>
-                <div>
-                  <strong>记忆状态：</strong> {agentConfig.memory.enabled ? '启用' : '禁用'}
-                </div>
-                <div>
-                  <strong>编辑模式：</strong> {agentConfig.editMode === 'ai' ? 'AI辅助' : '手动编辑'}
-                </div>
-                <div>
-                  <strong>对话轮数：</strong> {agentConfig.testHistory.length / 2}
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center justify-between">
-              <div className="flex space-x-2">
-                <Button
-                  variant="outlined"
-                  startIcon={<Upload />}
-                  component="label"
-                >
-                  导入配置
-                  <input
-                    type="file"
-                    hidden
-                    accept=".json"
-                    onChange={handleImport}
-                  />
-                </Button>
-                
-                <Button
-                  variant="outlined"
-                  startIcon={<Download />}
-                  onClick={handleExport}
-                >
-                  导出配置
-                </Button>
-              </div>
-
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Page header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6">
               <Button
                 variant="outlined"
-                color="error"
-                startIcon={<Trash2 />}
-                onClick={() => {
-                  if (confirm('确定要删除这个智能体吗？')) {
-                    navigate('/dashboard/agents')
-                  }
-                }}
+                startIcon={<ArrowLeft />}
+                onClick={() => navigate('/dashboard/agents')}
+                className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
               >
-                删除智能体
+                返回
+              </Button>
+              <div className="flex items-center space-x-4">
+                <span className="text-4xl">{agentConfig.icon}</span>
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    {agentConfig.name}
+                  </h1>
+                  <p className="text-lg text-gray-600">
+                    {agentConfig.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="outlined"
+                startIcon={<TestTube />}
+                onClick={() => setActiveTab(2)}
+                className="border-blue-300 text-blue-600 hover:border-blue-400 hover:bg-blue-50"
+              >
+                测试调试
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<Save />}
+                onClick={handleSave}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+              >
+                保存配置
               </Button>
             </div>
           </div>
-        </TabPanel>
-      </Card>
+        </div>
+
+        {/* Main content */}
+        <Card className="shadow-xl border-0 overflow-hidden">
+          <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white' }}>
+            <Tabs 
+              value={activeTab} 
+              onChange={handleTabChange} 
+              aria-label="智能体配置标签页"
+              className="px-6"
+              sx={{
+                '& .MuiTab-root': {
+                  minHeight: '64px',
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  textTransform: 'none',
+                  color: '#6B7280',
+                  '&.Mui-selected': {
+                    color: '#3B82F6',
+                    fontWeight: 600,
+                  },
+                },
+                '& .MuiTabs-indicator': {
+                  height: '3px',
+                  borderRadius: '2px',
+                  backgroundColor: '#3B82F6',
+                },
+              }}
+            >
+              <Tab 
+                label={
+                  <div className="flex items-center space-x-3">
+                    <Brain className="w-5 h-5" />
+                    <span>系统提示词配置</span>
+                  </div>
+                } 
+              />
+              <Tab 
+                label={
+                  <div className="flex items-center space-x-3">
+                    <Settings className="w-5 h-5" />
+                    <span>编排配置</span>
+                  </div>
+                } 
+              />
+              <Tab 
+                label={
+                  <div className="flex items-center space-x-3">
+                    <Eye className="w-5 h-5" />
+                    <span>预览调试</span>
+                  </div>
+                } 
+              />
+            </Tabs>
+          </Box>
+
+          {/* System Prompt Configuration Tab */}
+          <TabPanel value={activeTab} index={0}>
+            <div className="space-y-8">
+              <div className="flex items-center justify-between">
+                <Typography variant="h5" className="text-gray-800 font-semibold">
+                  系统提示词开发
+                </Typography>
+                <Button
+                  variant="outlined"
+                  startIcon={<Copy />}
+                  onClick={handleCopyPrompt}
+                  className="border-blue-300 text-blue-600 hover:border-blue-400"
+                >
+                  复制提示词
+                </Button>
+              </div>
+              
+              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
+                <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                  系统提示词
+                </Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={8}
+                  value={agentConfig.systemPrompt}
+                  onChange={(e) => setAgentConfig(prev => ({ ...prev, systemPrompt: e.target.value }))}
+                  placeholder="定义智能体的角色、能力和行为准则..."
+                  className="mt-2"
+                />
+              </Paper>
+
+              {agentConfig.editMode === 'ai' && (
+                <Alert severity="info" icon={<Sparkles className="w-6 h-6" />} className="border border-blue-200 bg-blue-50">
+                  <Typography variant="body1" className="text-blue-800">
+                    <strong>AI 辅助生成：</strong>
+                    系统已根据您的描述自动生成了系统提示词，您可以根据需要进行调整和优化。
+                  </Typography>
+                </Alert>
+              )}
+
+              <Divider className="my-8" />
+
+              {/* Prompt Tuning Section */}
+              <div>
+                <Typography variant="h6" className="mb-6 text-gray-800 font-semibold">
+                  提示词调优
+                </Typography>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
+                    <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                      角色定义
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      value={agentConfig.promptTuning.role}
+                      onChange={(e) => setAgentConfig(prev => ({
+                        ...prev,
+                        promptTuning: { ...prev.promptTuning, role: e.target.value }
+                      }))}
+                      placeholder="例如：智能客服代表"
+                      className="mt-2"
+                    />
+                  </Paper>
+
+                  <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
+                    <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                      行为特征
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      value={agentConfig.promptTuning.behavior}
+                      onChange={(e) => setAgentConfig(prev => ({
+                        ...prev,
+                        promptTuning: { ...prev.promptTuning, behavior: e.target.value }
+                      }))}
+                      placeholder="例如：友好、专业、准确"
+                      className="mt-2"
+                    />
+                  </Paper>
+                </div>
+
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl mt-6">
+                  <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                    示例对话
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    value={agentConfig.promptTuning.examples}
+                    onChange={(e) => setAgentConfig(prev => ({
+                      ...prev,
+                      promptTuning: { ...prev.promptTuning, examples: e.target.value }
+                    }))}
+                    placeholder="提供一些示例对话来指导智能体的响应模式..."
+                    className="mt-2"
+                  />
+                </Paper>
+              </div>
+            </div>
+          </TabPanel>
+
+          {/* Orchestration Configuration Tab */}
+          <TabPanel value={activeTab} index={1}>
+            <div className="space-y-8">
+              {/* Model Selection */}
+              <Accordion defaultExpanded className="shadow-sm border border-gray-200 rounded-xl">
+                <AccordionSummary expandIcon={<Settings />} className="px-6">
+                  <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
+                    <Zap className="mr-3 w-5 h-5 text-yellow-600" />
+                    模型选择与配置
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails className="px-6 pb-6">
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormControl fullWidth>
+                        <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                          LLM模型
+                        </Typography>
+                        <Select
+                          value={agentConfig.model}
+                          onChange={(e) => setAgentConfig(prev => ({ ...prev, model: e.target.value }))}
+                          className="mt-2"
+                        >
+                          <MenuItem value="gpt-4">GPT-4</MenuItem>
+                          <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
+                          <MenuItem value="claude-3">Claude-3</MenuItem>
+                          <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
+                          <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                      <div>
+                        <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                          温度 (Temperature)
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          type="number"
+                          value={agentConfig.modelParams.temperature}
+                          onChange={(e) => setAgentConfig(prev => ({
+                            ...prev,
+                            modelParams: { ...prev.modelParams, temperature: parseFloat(e.target.value) }
+                          }))}
+                          inputProps={{ min: 0, max: 2, step: 0.1 }}
+                          helperText="控制输出的随机性"
+                          className="mt-2"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                          最大Token数
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          type="number"
+                          value={agentConfig.modelParams.maxTokens}
+                          onChange={(e) => setAgentConfig(prev => ({
+                            ...prev,
+                            modelParams: { ...prev.modelParams, maxTokens: parseInt(e.target.value) }
+                          }))}
+                          inputProps={{ min: 1, max: 8000 }}
+                          helperText="限制单次对话的最大输出长度"
+                          className="mt-2"
+                        />
+                      </div>
+
+                      <div>
+                        <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                          Top P
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          type="number"
+                          value={agentConfig.modelParams.topP}
+                          onChange={(e) => setAgentConfig(prev => ({
+                            ...prev,
+                            modelParams: { ...prev.modelParams, topP: parseFloat(e.target.value) }
+                          }))}
+                          inputProps={{ min: 0, max: 1, step: 0.1 }}
+                          helperText="控制词汇选择的多样性"
+                          className="mt-2"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+
+              {/* Plugin and Workflow Selection */}
+              <Accordion className="shadow-sm border border-gray-200 rounded-xl">
+                <AccordionSummary expandIcon={<Settings />} className="px-6">
+                  <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
+                    <Plug className="mr-3 w-5 h-5 text-green-600" />
+                    插件与工作流
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails className="px-6 pb-6">
+                  <div className="space-y-6">
+                    <div>
+                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                        选择插件
+                      </Typography>
+                      <div className="flex flex-wrap gap-3">
+                        {['web_search', 'calculator', 'file_reader', 'image_generator', 'code_interpreter'].map((plugin) => (
+                          <Chip
+                            key={plugin}
+                            label={plugin}
+                            onClick={() => {
+                              const isSelected = agentConfig.plugins.includes(plugin)
+                              setAgentConfig(prev => ({
+                                ...prev,
+                                plugins: isSelected 
+                                  ? prev.plugins.filter(p => p !== plugin)
+                                  : [...prev.plugins, plugin]
+                              }))
+                            }}
+                            color={agentConfig.plugins.includes(plugin) ? 'primary' : 'default'}
+                            variant={agentConfig.plugins.includes(plugin) ? 'filled' : 'outlined'}
+                            className="text-sm px-3 py-2"
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                        选择工作流
+                      </Typography>
+                      <div className="flex flex-wrap gap-3">
+                        {['customer_service', 'troubleshooting', 'data_analysis', 'content_generation'].map((workflow) => (
+                          <Chip
+                            key={workflow}
+                            label={workflow}
+                            onClick={() => {
+                              const isSelected = agentConfig.workflows.includes(workflow)
+                              setAgentConfig(prev => ({
+                                ...prev,
+                                workflows: isSelected 
+                                  ? prev.workflows.filter(w => w !== workflow)
+                                  : [...prev.workflows, workflow]
+                              }))
+                            }}
+                            color={agentConfig.workflows.includes(workflow) ? 'primary' : 'default'}
+                            variant={agentConfig.workflows.includes(workflow) ? 'filled' : 'outlined'}
+                            className="text-sm px-3 py-2"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+
+              {/* Knowledge and Memory */}
+              <Accordion className="shadow-sm border border-gray-200 rounded-xl">
+                <AccordionSummary expandIcon={<Settings />} className="px-6">
+                  <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
+                    <BookOpen className="mr-3 w-5 h-5 text-purple-600" />
+                    知识与记忆
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails className="px-6 pb-6">
+                  <div className="space-y-6">
+                    <div>
+                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                        知识库
+                      </Typography>
+                      <div className="flex flex-wrap gap-3">
+                        {['product_manual', 'faq_database', 'company_policies', 'user_guides'].map((knowledge) => (
+                          <Chip
+                            key={knowledge}
+                            label={knowledge}
+                            onClick={() => {
+                              const isSelected = agentConfig.knowledge.includes(knowledge)
+                              setAgentConfig(prev => ({
+                                ...prev,
+                                knowledge: isSelected 
+                                  ? prev.knowledge.filter(k => k !== knowledge)
+                                  : [...prev.knowledge, knowledge]
+                              }))
+                            }}
+                            color={agentConfig.knowledge.includes(knowledge) ? 'primary' : 'default'}
+                            variant={agentConfig.knowledge.includes(knowledge) ? 'filled' : 'outlined'}
+                            className="text-sm px-3 py-2"
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={agentConfig.memory.enabled}
+                            onChange={(e) => setAgentConfig(prev => ({
+                              ...prev,
+                              memory: { ...prev.memory, enabled: e.target.checked }
+                            }))}
+                            color="primary"
+                          />
+                        }
+                        label={
+                          <Typography variant="subtitle1" className="text-gray-700 font-medium">
+                            启用记忆功能
+                          </Typography>
+                        }
+                      />
+
+                      <FormControl fullWidth>
+                        <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                          记忆类型
+                        </Typography>
+                        <Select
+                          value={agentConfig.memory.type}
+                          onChange={(e) => setAgentConfig(prev => ({
+                            ...prev,
+                            memory: { ...prev.memory, type: e.target.value as any }
+                          }))}
+                          disabled={!agentConfig.memory.enabled}
+                          className="mt-2"
+                        >
+                          <MenuItem value="conversation">对话记忆</MenuItem>
+                          <MenuItem value="semantic">语义记忆</MenuItem>
+                          <MenuItem value="hybrid">混合记忆</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
+
+              {/* Opening Remarks */}
+              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
+                <Typography variant="h6" className="mb-4 flex items-center text-gray-800 font-semibold">
+                  <MessageSquare className="mr-3 w-5 h-5 text-indigo-600" />
+                  开场白设置
+                </Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={3}
+                  value={agentConfig.openingRemarks}
+                  onChange={(e) => setAgentConfig(prev => ({ ...prev, openingRemarks: e.target.value }))}
+                  placeholder="设置智能体的开场白，让用户了解如何开始对话..."
+                  helperText="这是用户开始对话时智能体的第一句话"
+                  className="mt-2"
+                />
+              </Paper>
+            </div>
+          </TabPanel>
+
+          {/* Preview and Debug Tab */}
+          <TabPanel value={activeTab} index={2}>
+            <div className="space-y-8">
+              {/* Test Input */}
+              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
+                <Typography variant="h6" className="mb-4 text-gray-800 font-semibold">
+                  测试输入
+                </Typography>
+                <div className="flex items-center space-x-4">
+                  <TextField
+                    fullWidth
+                    value={testMessage}
+                    onChange={(e) => setTestMessage(e.target.value)}
+                    placeholder="输入测试消息来调试智能体..."
+                    onKeyPress={(e) => e.key === 'Enter' && handleTest()}
+                    className="mt-2"
+                  />
+                  <Button
+                    variant="contained"
+                    startIcon={<Play />}
+                    onClick={handleTest}
+                    disabled={isTesting || !testMessage.trim()}
+                    className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg px-6"
+                  >
+                    {isTesting ? '测试中...' : '发送测试'}
+                  </Button>
+                </div>
+              </Paper>
+
+              {/* Test History */}
+              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
+                <Typography variant="h6" className="mb-4 text-gray-800 font-semibold">
+                  对话历史
+                </Typography>
+                <div className="space-y-4 max-h-96 overflow-y-auto bg-gray-50 p-4 rounded-lg">
+                  {agentConfig.testHistory.length === 0 ? (
+                    <div className="text-center py-12">
+                      <TestTube className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                      <p className="text-gray-500 text-lg">暂无对话记录，开始测试以查看效果</p>
+                    </div>
+                  ) : (
+                    agentConfig.testHistory.map((msg, index) => (
+                      <div
+                        key={index}
+                        className={`p-4 rounded-lg ${
+                          msg.role === 'user' 
+                            ? 'bg-blue-100 ml-8 border-l-4 border-blue-500' 
+                            : 'bg-green-100 mr-8 border-l-4 border-green-500'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="font-semibold text-sm">
+                            {msg.role === 'user' ? '👤 用户' : '🤖 AI助手'}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {msg.timestamp.toLocaleTimeString()}
+                          </div>
+                        </div>
+                        <div className="text-gray-800">{msg.content}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </Paper>
+
+              {/* Debug Information */}
+              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50">
+                <Typography variant="h6" className="mb-4 text-gray-800 font-semibold">
+                  调试信息
+                </Typography>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <strong className="text-blue-800">当前模型：</strong> {agentConfig.model}
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <strong className="text-blue-800">温度设置：</strong> {agentConfig.modelParams.temperature}
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <strong className="text-blue-800">启用插件：</strong> {agentConfig.plugins.join(', ') || '无'}
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <strong className="text-blue-800">记忆状态：</strong> {agentConfig.memory.enabled ? '启用' : '禁用'}
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <strong className="text-blue-800">编辑模式：</strong> {agentConfig.editMode === 'ai' ? 'AI辅助' : '手动编辑'}
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <strong className="text-blue-800">对话轮数：</strong> {agentConfig.testHistory.length / 2}
+                  </div>
+                </div>
+              </Paper>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-6">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="outlined"
+                    startIcon={<Upload />}
+                    component="label"
+                    className="border-gray-300 text-gray-600 hover:border-gray-400"
+                  >
+                    导入配置
+                    <input
+                      type="file"
+                      hidden
+                      accept=".json"
+                      onChange={handleImport}
+                    />
+                  </Button>
+                  
+                  <Button
+                    variant="outlined"
+                    startIcon={<Download />}
+                    onClick={handleExport}
+                    className="border-gray-300 text-gray-600 hover:border-gray-400"
+                  >
+                    导出配置
+                  </Button>
+                </div>
+
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<Trash2 />}
+                  onClick={() => {
+                    if (confirm('确定要删除这个智能体吗？')) {
+                      navigate('/dashboard/agents')
+                    }
+                  }}
+                  className="border-red-300 text-red-600 hover:border-red-400 hover:bg-red-50"
+                >
+                  删除智能体
+                </Button>
+              </div>
+            </div>
+          </TabPanel>
+        </Card>
+      </div>
 
       <Snackbar
         open={snackbar.open}
