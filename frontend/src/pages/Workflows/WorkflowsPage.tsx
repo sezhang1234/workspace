@@ -72,7 +72,7 @@ const WorkflowsPage: React.FC = () => {
       case 'running': return '运行中'
       case 'stopped': return '已停止'
       case 'scheduled': return '已计划'
-      case 'error': return '错误'
+      case 'error': return '异常'
       case 'completed': return '已完成'
       default: return '未知'
     }
@@ -129,7 +129,7 @@ const WorkflowsPage: React.FC = () => {
             <option value="running">运行中</option>
             <option value="stopped">已停止</option>
             <option value="scheduled">已计划</option>
-            <option value="error">错误</option>
+            <option value="error">异常</option>
             <option value="completed">已完成</option>
           </select>
         </div>
