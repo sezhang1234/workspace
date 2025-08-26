@@ -178,7 +178,9 @@ const AgentEditorEnhancedPage: React.FC = () => {
         {
           id: 3,
           name: 'product_qa.txt',
-          data: '用户：这个产品怎么用？\n助手：请参考产品说明书，如有疑问可联系客服。',
+          data: [
+            { user: '这个产品怎么用？', assistant: '请参考产品说明书，如有疑问可联系客服。' }
+          ],
           uploadTime: new Date('2024-01-13T09:15:00'),
           status: 'active',
           examples: 1
@@ -577,8 +579,16 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                         }, {} as any)
                                       })
                                     } else {
-                                      // Text file - treat as plain text
-                                      parsedData = content
+                                      // Text file - convert to structured format
+                                      const lines = content.split('\n').filter(line => line.trim())
+                                      parsedData = lines.map(line => {
+                                        if (line.includes('：')) {
+                                          const [user, assistant] = line.split('：', 2)
+                                          return { user: user.trim(), assistant: assistant.trim() }
+                                        } else {
+                                          return { user: line.trim(), assistant: '请提供相应的回复' }
+                                        }
+                                      })
                                     }
                                     
                                     setAgentConfig(prev => ({
@@ -654,7 +664,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           <tbody className="bg-white divide-y divide-gray-200">
                             {agentConfig.promptTuning.useCases && agentConfig.promptTuning.useCases.length > 0 ? (
                               agentConfig.promptTuning.useCases.flatMap((useCase) => 
-                                useCase.data.map((item, index) => (
+                                (Array.isArray(useCase.data) ? useCase.data : []).map((item, index) => (
                                   <tr key={`${useCase.id}-${index}`} className="hover:bg-gray-50">
                                     <td className="px-6 py-4">
                                       <div className="text-sm text-gray-900 max-w-xs">
