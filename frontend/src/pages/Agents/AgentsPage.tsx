@@ -18,7 +18,7 @@ interface Agent {
   name: string
   description: string
   avatar: string
-  status: 'active' | 'inactive' | 'error'
+  status: 'active' | 'inactive' | 'error' | 'unpublished'
   model: string
   lastActive: string
   usageCount: number
@@ -67,6 +67,18 @@ const AgentsPage: React.FC = () => {
       usageCount: 890,
       tags: ['编程', '代码审查', '优化'],
       createdAt: '2024-01-10'
+    },
+    {
+      id: '4',
+      name: '智能翻译器',
+      description: '多语言翻译智能体，支持实时翻译和语言学习',
+      avatar: '🌐',
+      status: 'unpublished',
+      model: 'Claude-3',
+      lastActive: '未激活',
+      usageCount: 0,
+      tags: ['翻译', '多语言', '学习'],
+      createdAt: '2024-01-25'
     }
   ]
 
@@ -85,6 +97,7 @@ const AgentsPage: React.FC = () => {
       case 'active': return 'bg-green-100 text-green-800'
       case 'inactive': return 'bg-gray-100 text-gray-800'
       case 'error': return 'bg-red-100 text-red-800'
+      case 'unpublished': return 'bg-yellow-100 text-yellow-800'
       default: return 'bg-gray-100 text-gray-800'
     }
   }
@@ -94,6 +107,7 @@ const AgentsPage: React.FC = () => {
       case 'active': return '运行中'
       case 'inactive': return '已停止'
       case 'error': return '异常'
+      case 'unpublished': return '未发布'
       default: return '未知'
     }
   }
@@ -138,6 +152,7 @@ const AgentsPage: React.FC = () => {
             <option value="active">运行中</option>
             <option value="inactive">已停止</option>
             <option value="error">异常</option>
+            <option value="unpublished">未发布</option>
           </select>
         </div>
 
