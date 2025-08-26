@@ -522,7 +522,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
           <TabPanel value={activeTab} index={0}>
             <div className="space-y-8">
               <div className="flex items-center justify-between">
-                <Typography variant="h6" className="text-gray-800 font-semibold">
+                <Typography variant="h6" className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-bold text-xl">
                   系统提示词开发
                 </Typography>
               </div>
@@ -603,7 +603,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               {/* Prompt Tuning Section */}
               <div>
                 <div className="mb-6">
-                  <Typography variant="h6" className="text-gray-800 font-semibold">
+                  <Typography variant="h6" className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 font-bold text-xl">
                     提示词调优
                   </Typography>
                 </div>
