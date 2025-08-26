@@ -355,19 +355,10 @@ const ModelsPage: React.FC = () => {
       {/* Models table */}
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
             <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
               模型列表
             </h2>
-            {/* Model counter */}
-            <div className="text-center px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl border border-blue-200">
-              <Typography variant="body1" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                {filteredModels.length}
-              </Typography>
-              <Typography variant="caption" className="text-blue-700 font-medium">
-                个模型
-              </Typography>
-            </div>
           </div>
         </div>
         <TableContainer>
