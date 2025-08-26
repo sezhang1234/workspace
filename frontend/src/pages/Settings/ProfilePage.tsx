@@ -84,7 +84,7 @@ const ProfilePage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           管理您的个人信息和账户设置
         </p>
-        <div className="flex items-center justify-center space-x-3">
+        <div className="flex items-center justify-end space-x-3">
           {isEditing ? (
             <>
               <button
