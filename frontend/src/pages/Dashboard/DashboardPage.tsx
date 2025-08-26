@@ -138,7 +138,7 @@ const DashboardPage: React.FC = () => {
       <div className="text-center mb-8">
 
         <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-          工作室仪表板
+          工作空间仪表板
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           欢迎回到 Jiuwen，探索您的AI智能体开发进度和系统性能
