@@ -566,13 +566,16 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             variant="outlined"
                             component="span"
                             startIcon={<Upload />}
-                            className="border-blue-300 text-blue-600 hover:border-blue-400"
+                            className="border-2 border-dashed border-blue-300 text-blue-600 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 px-8 py-3 text-base font-medium shadow-sm hover:shadow-md"
                           >
-                            上传用例集
+                            <div className="flex flex-col items-center space-y-1">
+                              <Upload className="w-6 h-6" />
+                              <span>上传用例集</span>
+                            </div>
                           </Button>
                         </label>
-                        <Typography variant="body2" className="text-gray-500 mt-2">
-                          支持 JSON、CSV、TXT 格式文件
+                        <Typography variant="body2" className="text-gray-500 mt-3 text-center">
+                          支持 JSON、CSV、TXT 格式文件 • 拖拽文件到此处或点击上传
                         </Typography>
                       </div>
 
@@ -738,6 +741,19 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       开始优化
                     </Button>
                   </div>
+
+                  {/* Optimization Tips */}
+                  <Alert 
+                    severity="info" 
+                    icon={<Sparkles className="w-6 h-6" />}
+                    className="border border-purple-200 bg-purple-50 mt-6"
+                  >
+                    <Typography variant="body1" className="text-purple-800">
+                      <strong>提示词优化策略：</strong>
+                      系统将根据您配置的优化模型、评估模型和优化轮数，自动优化系统提示词。
+                      优化过程将结合上传的用例集或手动输入的示例对话，生成更精准的提示词配置。
+                    </Typography>
+                  </Alert>
                 </Paper>
               </div>
             </div>
