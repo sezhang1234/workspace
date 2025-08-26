@@ -131,6 +131,55 @@ const PromptsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           创建、管理和优化您的AI提示词模板，构建智能对话系统
         </p>
+      </div>
+
+      {/* Search and filters */}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Search */}
+        <div className="flex-1">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
+            <input
+              type="text"
+              placeholder="搜索提示词名称、描述或标签..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+            />
+          </div>
+        </div>
+
+        {/* Category filter */}
+        <div className="sm:w-48">
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            {categories.map(category => (
+              <option key={category.value} value={category.value}>
+                {category.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Sort by */}
+        <div className="sm:w-48">
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            <option value="name">按名称排序</option>
+            <option value="created">按创建时间排序</option>
+            <option value="usage">按使用次数排序</option>
+            <option value="rating">按评分排序</option>
+            <option value="modified">按修改时间排序</option>
+          </select>
+        </div>
+
+        {/* Create Prompt Button */}
         <Link
           to="/dashboard/prompts/new"
           className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -138,60 +187,6 @@ const PromptsPage: React.FC = () => {
           <Plus className="w-5 h-5" />
           <span>创建提示词</span>
         </Link>
-      </div>
-
-      {/* Search and filters */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-        <div className="mb-4">
-          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-            搜索与筛选
-          </h2>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative group">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
-              <input
-                type="text"
-                placeholder="搜索提示词名称、描述或标签..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-              />
-            </div>
-          </div>
-
-          {/* Category filter */}
-          <div className="sm:w-48">
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-            >
-              {categories.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Sort by */}
-          <div className="sm:w-48">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-            >
-              <option value="name">按名称排序</option>
-              <option value="created">按创建时间排序</option>
-              <option value="usage">按使用次数排序</option>
-              <option value="rating">按评分排序</option>
-              <option value="modified">按修改时间排序</option>
-            </select>
-          </div>
-        </div>
       </div>
 
       {/* Prompts grid */}
