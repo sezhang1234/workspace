@@ -121,35 +121,48 @@ const PromptsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">提示词管理</h1>
-          <p className="text-gray-600">创建、管理和优化您的AI提示词模板</p>
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl mb-4 shadow-xl">
+          <MessageSquare className="w-10 h-10 text-white" />
         </div>
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-purple-800 to-pink-900 mb-2">
+          提示词管理
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+          创建、管理和优化您的AI提示词模板，构建智能对话系统
+        </p>
         <Link
           to="/dashboard/prompts/new"
-          className="btn-primary flex items-center space-x-2"
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-5 h-5" />
           <span>创建提示词</span>
         </Link>
       </div>
 
       {/* Search and filters */}
-      <div className="card">
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+            <Search className="w-4 h-4 text-white" />
+          </div>
+          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-purple-800">
+            搜索与筛选
+          </h2>
+        </div>
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Search */}
           <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <div className="relative group">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-200" />
               <input
                 type="text"
                 placeholder="搜索提示词名称、描述或标签..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-300 transition-all duration-200 bg-gray-50 focus:bg-white"
               />
             </div>
           </div>
@@ -159,7 +172,7 @@ const PromptsPage: React.FC = () => {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-300 transition-all duration-200 bg-gray-50 focus:bg-white"
             >
               {categories.map(category => (
                 <option key={category.value} value={category.value}>
@@ -174,7 +187,7 @@ const PromptsPage: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-300 transition-all duration-200 bg-gray-50 focus:bg-white"
             >
               <option value="name">按名称排序</option>
               <option value="created">按创建时间排序</option>
@@ -188,108 +201,129 @@ const PromptsPage: React.FC = () => {
 
       {/* Prompts grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPrompts.map((prompt) => (
-          <div key={prompt.id} className="card hover:shadow-lg transition-shadow duration-200">
+        {filteredPrompts.map((prompt, index) => (
+          <div 
+            key={prompt.id} 
+            className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            {/* Gradient top border */}
+            <div className="h-1 bg-gradient-to-r from-purple-500 to-pink-600" />
+            
             {/* Prompt header */}
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-purple-600" />
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-200">
+                    <MessageSquare className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-purple-800">
+                      {prompt.name}
+                    </h3>
+                    <p className="text-sm text-gray-600 font-medium">{prompt.category}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">{prompt.name}</h3>
-                  <p className="text-sm text-gray-500">{prompt.category}</p>
+                <div className="relative">
+                  <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all duration-200">
+                    <MoreVertical className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-              <div className="relative">
-                <button className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded">
-                  <MoreVertical className="w-4 h-4" />
-                </button>
+
+              {/* Description */}
+              <p className="text-sm text-gray-600 mb-4 leading-relaxed">{prompt.description}</p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {prompt.tags.slice(0, 3).map((tag, index) => (
+                  <span
+                    key={index}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border border-purple-200 hover:from-purple-200 hover:to-pink-200 transition-all duration-200"
+                  >
+                    <Tag className="w-3 h-3 mr-1" />
+                    {tag}
+                  </span>
+                ))}
+                {prompt.tags.length > 3 && (
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
+                    +{prompt.tags.length - 3}
+                  </span>
+                )}
               </div>
-            </div>
 
-            {/* Description */}
-            <p className="text-sm text-gray-600 mb-4">{prompt.description}</p>
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-xs text-gray-500 font-medium mb-1">使用次数</p>
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                    {prompt.usageCount.toLocaleString()}
+                  </p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-xs text-gray-500 font-medium mb-1">版本</p>
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                    {prompt.version}
+                  </p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-xs text-gray-500 font-medium mb-1">评分</p>
+                  <div className="flex items-center justify-center space-x-1">
+                    {renderStars(prompt.rating)}
+                    <span className="text-sm text-gray-600 ml-1">({prompt.rating})</span>
+                  </div>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-xl">
+                  <p className="text-xs text-gray-500 font-medium mb-1">作者</p>
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                    {prompt.author}
+                  </p>
+                </div>
+              </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {prompt.tags.slice(0, 3).map((tag, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
-                >
-                  <Tag className="w-3 h-3 mr-1" />
-                  {tag}
+              {/* Visibility and dates */}
+              <div className="flex items-center justify-between mb-4">
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${
+                  prompt.isPublic ? 'bg-green-100 text-green-700 border-green-200' : 'bg-gray-100 text-gray-700 border-gray-200'
+                }`}>
+                  <Eye className="w-3 h-3 mr-1" />
+                  {prompt.isPublic ? '公开' : '私有'}
                 </span>
-              ))}
-              {prompt.tags.length > 3 && (
-                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                  +{prompt.tags.length - 3}
-                </span>
-              )}
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div>
-                <p className="text-xs text-gray-500">使用次数</p>
-                <p className="text-sm font-medium text-gray-900">{prompt.usageCount.toLocaleString()}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">版本</p>
-                <p className="text-sm font-medium text-gray-900">{prompt.version}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">评分</p>
-                <div className="flex items-center space-x-1">
-                  {renderStars(prompt.rating)}
-                  <span className="text-sm text-gray-600 ml-1">({prompt.rating})</span>
+                <div className="text-right">
+                  <p className="text-xs text-gray-500 font-medium">最后修改</p>
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                    {prompt.lastModified}
+                  </p>
                 </div>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">作者</p>
-                <p className="text-sm font-medium text-gray-900">{prompt.author}</p>
-              </div>
-            </div>
-
-            {/* Visibility and dates */}
-            <div className="flex items-center justify-between mb-4">
-              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                prompt.isPublic ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-              }`}>
-                <Eye className="w-3 h-3 mr-1" />
-                {prompt.isPublic ? '公开' : '私有'}
-              </span>
-              <div className="text-right">
-                <p className="text-xs text-gray-500">最后修改</p>
-                <p className="text-sm font-medium text-gray-900">{prompt.lastModified}</p>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-              <div className="flex items-center space-x-2">
-                <Link
-                  to={`/dashboard/prompts/${prompt.id}`}
-                  className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
-                >
-                  <Edit className="w-4 h-4" />
-                </Link>
-                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
-                  <Eye className="w-4 h-4" />
-                </button>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
-                  <Copy className="w-4 h-4" />
-                </button>
-                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
-                  <Copy className="w-4 h-4" />
-                </button>
-                <button className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg">
-                  <Trash2 className="w-4 h-4" />
-                </button>
+            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-purple-50 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Link
+                    to={`/dashboard/prompts/${prompt.id}`}
+                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </Link>
+                  <button className="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-200">
+                    <Eye className="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200">
+                    <Copy className="w-4 h-4" />
+                  </button>
+                  <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200">
+                    <Star className="w-4 h-4" />
+                  </button>
+                  <button className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -298,21 +332,26 @@ const PromptsPage: React.FC = () => {
 
       {/* Empty state */}
       {filteredPrompts.length === 0 && (
-        <div className="text-center py-12">
-          <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">没有找到提示词</h3>
-          <p className="text-gray-500 mb-6">
+        <div className="text-center py-16">
+          <div className="w-24 h-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <MessageSquare className="w-12 h-12 text-gray-400" />
+          </div>
+          <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-gray-900 mb-3">
+            没有找到提示词
+          </h3>
+          <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
             {searchTerm || categoryFilter !== 'all' 
-              ? '尝试调整搜索条件或筛选器'
-              : '开始创建您的第一个提示词模板'
+              ? '尝试调整搜索条件或筛选器来找到您需要的提示词'
+              : '开始创建您的第一个提示词模板，构建智能对话系统'
             }
           </p>
           {!searchTerm && categoryFilter === 'all' && (
             <Link
               to="/dashboard/prompts/new"
-              className="btn-primary"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              创建提示词
+              <Plus className="w-5 h-5" />
+              <span>创建提示词</span>
             </Link>
           )}
         </div>
