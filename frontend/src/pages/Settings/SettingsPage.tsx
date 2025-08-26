@@ -391,9 +391,6 @@ const SettingsPage: React.FC = () => {
           </div>
         </TabPanel>
 
-
-        </TabPanel>
-
         {/* 通知设置 */}
         <TabPanel value={activeTab} index={1}>
           <div className="space-y-6">
