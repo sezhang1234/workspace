@@ -195,7 +195,7 @@ const WorkflowCreationPage: React.FC = () => {
               </div>
 
             {/* Bottom Action Buttons */}
-            <div className="flex justify-center space-x-6 pt-8">
+            <div className="flex justify-end space-x-6 pt-8">
               <Button
                 variant="outlined"
                 size="large"
