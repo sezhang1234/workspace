@@ -236,14 +236,27 @@ const SettingsPage: React.FC = () => {
     <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
       <div className="text-center mb-8">
-
-        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-          系统设置
-        </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-          管理您的账户、安全和应用程序偏好设置
-        </p>
-
+        <div className="flex items-center justify-between">
+          <div className="text-center flex-1">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+              系统设置
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+              管理您的账户、安全和应用程序偏好设置
+            </p>
+          </div>
+          
+          {/* Save Configuration Button */}
+          <Button
+            variant="contained"
+            startIcon={<Save />}
+            onClick={handleSave}
+            disabled={isSaving}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            {isSaving ? '保存中...' : '保存设置'}
+          </Button>
+        </div>
       </div>
 
       {/* Settings tabs */}
@@ -1046,19 +1059,6 @@ const SettingsPage: React.FC = () => {
             </FormGroup>
           </div>
         </TabPanel>
-      </div>
-
-      {/* Global Save Button */}
-      <div className="flex justify-end pt-8 pb-4">
-        <Button
-          variant="contained"
-          startIcon={<Save />}
-          onClick={handleSave}
-          disabled={isSaving}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-        >
-          {isSaving ? '保存中...' : '保存设置'}
-        </Button>
       </div>
 
       {/* API Key Dialog */}
