@@ -2029,23 +2029,23 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       </div>
 
                       {/* Conversation Stats Tree */}
-                      <div className="bg-white rounded-lg border border-gray-200 p-3">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ChevronDown className="w-4 h-4 text-gray-600" />
+                      <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl border border-teal-200 p-4">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <div className="w-3 h-3 bg-teal-500 rounded-full"></div>
                           <span className="font-semibold text-gray-800">对话统计</span>
                         </div>
-                        <div className="ml-6 space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">总对话数:</span>
-                            <span className="font-medium">{Math.floor(agentConfig.testHistory.length / 2)}</span>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 text-sm">总对话数:</span>
+                            <span className="font-bold text-teal-600 text-lg">{Math.floor(agentConfig.testHistory.length / 2)}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">用户消息:</span>
-                            <span className="font-medium">{agentConfig.testHistory.filter(msg => msg.role === 'user').length}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 text-sm">用户消息:</span>
+                            <span className="font-bold text-teal-600 text-lg">{agentConfig.testHistory.filter(msg => msg.role === 'user').length}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">智能体回复:</span>
-                            <span className="font-medium">{agentConfig.testHistory.filter(msg => msg.role === 'assistant').length}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 text-sm">智能体回复:</span>
+                            <span className="font-bold text-teal-600 text-lg">{agentConfig.testHistory.filter(msg => msg.role === 'assistant').length}</span>
                           </div>
                         </div>
                       </div>
