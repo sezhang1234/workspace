@@ -290,7 +290,7 @@ const AnalyticsPage: React.FC = () => {
                 value={timeRange}
                 label="时间范围"
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="min-w-[140px]"
+                className="min-w-[180px]"
               >
                 <MenuItem value="7d">最近7天</MenuItem>
                 <MenuItem value="30d">最近30天</MenuItem>
