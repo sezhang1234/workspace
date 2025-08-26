@@ -348,6 +348,11 @@ const AgentEditorEnhancedPage: React.FC = () => {
     }
   }, [entryData])
 
+  // Scroll to top when component mounts or route changes
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue)
   }
