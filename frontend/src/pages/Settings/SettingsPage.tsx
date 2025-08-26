@@ -236,9 +236,7 @@ const SettingsPage: React.FC = () => {
     <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
-          <Settings className="w-10 h-10 text-white" />
-        </div>
+
         <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
           系统设置
         </h1>
@@ -300,10 +298,7 @@ const SettingsPage: React.FC = () => {
         {/* 通用设置 */}
         <TabPanel value={activeTab} index={0}>
           <div className="space-y-6">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Settings className="w-4 h-4 text-white" />
-              </div>
+            <div className="mb-6">
               <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
                 基本设置
               </Typography>
