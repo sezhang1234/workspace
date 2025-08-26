@@ -1472,7 +1472,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                 variant="outlined"
                                 size="small"
                                 startIcon={<Plus className="w-4 h-4" />}
-                                onClick={() => setSnackbar({ open: true, message: '添加新工作流功能开发中...', severity: 'info' })}
+                                onClick={() => navigate('/dashboard/workflows/new')}
                                 className="border-2 border-emerald-300 text-emerald-700 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
                               >
                                 添加新工作流
