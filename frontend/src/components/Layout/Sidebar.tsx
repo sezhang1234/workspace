@@ -131,7 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
                 <item.icon 
                   className={`
                     transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
-                    ${isCollapsed ? 'h-6 w-6' : 'mr-3 h-5 w-5'}
+                    ${isCollapsed ? 'mr-0' : 'mr-3'} h-6 w-6
                     ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-blue-600'}
                     ${isActive ? 'scale-110' : 'group-hover:scale-105'}
                   `} 
@@ -181,7 +181,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               {isCollapsed ? (
                 <PanelLeftOpen className="w-6 h-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
               ) : (
-                <PanelLeftClose className="w-5 h-5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
+                <PanelLeftClose className="w-6 h-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
               )}
             </button>
         </div>
