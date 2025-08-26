@@ -190,14 +190,10 @@ const WorkflowCreationPage: React.FC = () => {
                           ))}
                         </div>
                       </div>
-
-
-
-
                     </div>
                   </div>
                 </div>
-
+              </div>
 
             {/* Bottom Action Buttons */}
             <div className="flex justify-center space-x-6 pt-8">
