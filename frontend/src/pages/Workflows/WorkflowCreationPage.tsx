@@ -11,8 +11,6 @@ import {
 import { 
   Button, 
   TextField, 
-  Switch, 
-  FormControlLabel,
   Typography,
   Chip,
   Card
@@ -23,10 +21,7 @@ interface WorkflowFormData {
   name: string
   description: string
   trigger: string
-  isActive: boolean
   tags: string[]
-  timeout: number
-  retryCount: number
 }
 
 const WorkflowCreationPage: React.FC = () => {
@@ -34,11 +29,8 @@ const WorkflowCreationPage: React.FC = () => {
   const [formData, setFormData] = useState<WorkflowFormData>({
     name: '',
     description: '',
-    trigger: 'webhook',
-    isActive: true,
-    tags: [],
-    timeout: 300,
-    retryCount: 3
+    trigger: 'schedule',
+    tags: []
   })
 
   const [newTag, setNewTag] = useState('')
@@ -162,7 +154,6 @@ const WorkflowCreationPage: React.FC = () => {
                           onChange={(e) => handleInputChange('trigger', e.target.value)}
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
                         >
-                          <option value="webhook">Webhook 触发</option>
                           <option value="schedule">定时触发</option>
                           <option value="manual">手动触发</option>
                           <option value="event">事件触发</option>
@@ -205,58 +196,9 @@ const WorkflowCreationPage: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Advanced Settings */}
-                      <div>
-                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                          高级设置
-                        </Typography>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Typography variant="caption" className="text-gray-600">
-                              超时时间 (秒)
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              type="number"
-                              value={formData.timeout}
-                              onChange={(e) => handleInputChange('timeout', parseInt(e.target.value))}
-                              className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                            />
-                          </div>
-                          <div>
-                            <Typography variant="caption" className="text-gray-600">
-                              重试次数
-                            </Typography>
-                            <TextField
-                              fullWidth
-                              size="small"
-                              type="number"
-                              value={formData.retryCount}
-                              onChange={(e) => handleInputChange('retryCount', parseInt(e.target.value))}
-                              className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                            />
-                          </div>
-                        </div>
-                      </div>
 
-                      {/* Active Switch */}
-                      <div>
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              checked={formData.isActive}
-                              onChange={(e) => handleInputChange('isActive', e.target.checked)}
-                              color="primary"
-                            />
-                          }
-                          label={
-                            <Typography variant="subtitle2" className="text-gray-700 font-medium">
-                              启用工作流
-                            </Typography>
-                          }
-                        />
-                      </div>
+
+
                     </div>
                   </div>
                 </div>
