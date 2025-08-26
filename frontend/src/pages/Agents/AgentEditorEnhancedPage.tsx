@@ -471,8 +471,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
               </div>
               
                               <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
-                  <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg flex items-center">
-                    <span className="mr-2">🧠</span>
+                  <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
                     系统提示词
                   </Typography>
                   <textarea
@@ -540,8 +539,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 
                 {/* Dataset Configuration */}
                 <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl mb-6">
-                  <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 font-bold text-lg flex items-center">
-                    <span className="mr-2">📊</span>
+                  <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 font-bold text-lg">
                     数据集配置
                   </Typography>
                   
@@ -942,8 +940,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   <div className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormControl fullWidth>
-                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg flex items-center">
-                          <span className="mr-2">🤖</span>
+                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                           LLM模型
                         </Typography>
                         <Select
@@ -975,8 +972,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       </FormControl>
 
                       <FormControl fullWidth>
-                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg flex items-center">
-                          <span className="mr-2">🌡️</span>
+                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                           温度 (Temperature)
                         </Typography>
                         <TextField
@@ -1008,8 +1004,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormControl fullWidth>
-                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg flex items-center">
-                          <span className="mr-2">🔢</span>
+                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                           最大Token数
                         </Typography>
                         <TextField
@@ -1028,8 +1023,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       </FormControl>
 
                       <FormControl fullWidth>
-                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg flex items-center">
-                          <span className="mr-2">📊</span>
+                        <Typography variant="subtitle1" className="mb-3 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                           Top P
                         </Typography>
                         <TextField
@@ -1474,8 +1468,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
                     <div>
-                      <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg flex items-center">
-                        <span className="mr-2">📥</span>
+                      <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                         信息导入
                       </Typography>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1509,8 +1502,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     </div>
 
                     <div>
-                      <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg flex items-center">
-                        <span className="mr-2">📚</span>
+                      <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                         已导入知识
                       </Typography>
                       <div className="flex flex-wrap gap-3">
@@ -1561,8 +1553,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
                     <div>
-                      <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg flex items-center">
-                        <span className="mr-2">💾</span>
+                      <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
                         记忆存储
                       </Typography>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
