@@ -385,7 +385,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
           <TabPanel value={activeTab} index={0}>
             <div className="space-y-8">
               <div className="flex items-center justify-between">
-                <Typography variant="h5" className="text-gray-800 font-semibold">
+                <Typography variant="h6" className="text-gray-800 font-semibold">
                   系统提示词开发
                 </Typography>
                 <div className="flex items-center space-x-3">
