@@ -115,15 +115,6 @@ const AgentsPage: React.FC = () => {
 
       {/* Search and filters */}
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        {/* Create Agent Button */}
-        <Link
-          to="/dashboard/agents/new"
-          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-        >
-          <Plus className="w-5 h-5" />
-          <span>创建智能体</span>
-        </Link>
-
         {/* Search */}
         <div className="flex-1">
           <div className="relative group">
@@ -166,6 +157,15 @@ const AgentsPage: React.FC = () => {
             <option value="lastActive">按最后活跃时间排序</option>
           </select>
         </div>
+
+        {/* Create Agent Button */}
+        <Link
+          to="/dashboard/agents/new"
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          <Plus className="w-5 h-5" />
+          <span>创建智能体</span>
+        </Link>
       </div>
 
       {/* Agents grid */}
