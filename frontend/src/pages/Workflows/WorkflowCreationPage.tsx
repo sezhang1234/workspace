@@ -14,7 +14,8 @@ import {
   Switch, 
   FormControlLabel,
   Typography,
-  Chip
+  Chip,
+  Card
 } from '@mui/material'
 import { addWorkflow } from '../../services/workflowService'
 
@@ -171,10 +172,8 @@ const WorkflowCreationPage: React.FC = () => {
                         </select>
                       </div>
 
-
-
-                  {/* Tags */}
-                  <div>
+                      {/* Tags */}
+                      <div>
                     <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
                       标签
                     </Typography>
