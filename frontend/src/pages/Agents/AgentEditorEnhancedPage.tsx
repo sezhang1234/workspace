@@ -1817,10 +1817,12 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       智能体调试对话
                     </Typography>
                     <div className="flex items-center space-x-2">
-                      <div className={`w-3 h-3 rounded-full ${agentConfig.debugStats.isRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
-                      <span className="text-sm text-gray-600">
-                        {agentConfig.debugStats.isRunning ? '运行中' : ''}
-                      </span>
+                      {agentConfig.debugStats.isRunning && (
+                        <>
+                          <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                          <span className="text-sm text-gray-600">运行中</span>
+                        </>
+                      )}
                     </div>
                   </div>
                   
