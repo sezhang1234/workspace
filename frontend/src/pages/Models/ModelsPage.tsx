@@ -6,15 +6,11 @@ import {
   Trash2, 
   Copy, 
   TestTube,
-  CheckCircle
+  CheckCircle,
+  Search
 } from 'lucide-react'
 import { 
   Button, 
-  TextField, 
-  Select, 
-  MenuItem, 
-  FormControl, 
-  InputLabel, 
   Switch, 
   FormControlLabel,
   Chip,
@@ -301,49 +297,44 @@ const ModelsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row items-center gap-4">
         {/* Search */}
         <div className="flex-1">
-          <TextField
-            fullWidth
-            placeholder="搜索模型名称、提供商或模型ID..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-          />
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
+            <input
+              type="text"
+              placeholder="搜索模型名称、提供商或模型ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+            />
+          </div>
         </div>
 
         {/* Provider filter */}
         <div className="sm:w-48">
-          <FormControl fullWidth>
-            <InputLabel>提供商</InputLabel>
-            <Select
-              value={filterProvider}
-              label="提供商"
-              onChange={(e) => setFilterProvider(e.target.value)}
-              className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-            >
-              <MenuItem value="all">所有提供商</MenuItem>
-              <MenuItem value="OpenAI">OpenAI</MenuItem>
-              <MenuItem value="Anthropic">Anthropic</MenuItem>
-              <MenuItem value="Alibaba">Alibaba</MenuItem>
-              <MenuItem value="Google">Google</MenuItem>
-            </Select>
-          </FormControl>
+          <select
+            value={filterProvider}
+            onChange={(e) => setFilterProvider(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            <option value="all">所有提供商</option>
+            <option value="OpenAI">OpenAI</option>
+            <option value="Anthropic">Anthropic</option>
+            <option value="Alibaba">Alibaba</option>
+            <option value="Google">Google</option>
+          </select>
         </div>
 
         {/* Status filter */}
         <div className="sm:w-48">
-          <FormControl fullWidth>
-            <InputLabel>状态</InputLabel>
-            <Select
-              value={filterStatus}
-              label="状态"
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-            >
-              <MenuItem value="all">所有状态</MenuItem>
-              <MenuItem value="active">启用</MenuItem>
-              <MenuItem value="inactive">禁用</MenuItem>
-            </Select>
-          </FormControl>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            <option value="all">所有状态</option>
+            <option value="active">启用</option>
+            <option value="inactive">禁用</option>
+          </select>
         </div>
 
         {/* Add Model Button */}
