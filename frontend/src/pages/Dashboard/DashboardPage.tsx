@@ -9,7 +9,6 @@ import {
   Zap,
   Plus,
   Play,
-  Settings,
   BarChart3
 } from 'lucide-react'
 
@@ -143,10 +142,6 @@ const DashboardPage: React.FC = () => {
           <p className="text-gray-600">欢迎回到 Jiuwen，查看您的智能体开发进度</p>
         </div>
         <div className="flex items-center space-x-3">
-          <button className="btn-secondary flex items-center space-x-2">
-            <Settings className="w-4 h-4" />
-            <span>设置</span>
-          </button>
           <button className="btn-primary flex items-center space-x-2">
             <Play className="w-4 h-4" />
             <span>快速开始</span>
