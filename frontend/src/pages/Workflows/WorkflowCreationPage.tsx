@@ -317,25 +317,26 @@ const WorkflowCreationPage: React.FC = () => {
               </div>
             </div>
           </div>
-          {/* Bottom Action Buttons */}
-          <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
-            <Button
-              variant="outlined"
-              onClick={handleCancel}
-              className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
-            >
-              取消
-            </Button>
-            <Button
-              variant="contained"
-              onClick={handleCreate}
-              disabled={!formData.name.trim()}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              startIcon={<Plus />}
-            >
-              创建工作流
-            </Button>
-          </div>
+        </div>
+
+        {/* Bottom Action Buttons */}
+        <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
+          <Button
+            variant="outlined"
+            onClick={handleCancel}
+            className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
+          >
+            取消
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleCreate}
+            disabled={!formData.name.trim()}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+            startIcon={<Plus />}
+          >
+            创建工作流
+          </Button>
         </div>
       </div>
     </Card>
