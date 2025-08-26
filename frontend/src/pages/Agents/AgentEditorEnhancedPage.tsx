@@ -1819,7 +1819,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     <div className="flex items-center space-x-2">
                       <div className={`w-3 h-3 rounded-full ${agentConfig.debugStats.isRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
                       <span className="text-sm text-gray-600">
-                        {agentConfig.debugStats.isRunning ? '运行中' : '空闲'}
+                        {agentConfig.debugStats.isRunning ? '运行中' : ''}
                       </span>
                     </div>
                   </div>
@@ -1932,7 +1932,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               <div className="flex flex-col">
                 <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl flex flex-col bg-gradient-to-br from-green-50 to-emerald-50" style={{ height: '600px' }}>
                   <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-lg">
-                    调试信息树
+                    调试信息
                   </Typography>
                   
                   <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100">
@@ -1949,7 +1949,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                               ? 'bg-green-100 text-green-700' 
                               : 'bg-gray-100 text-gray-600'
                           }`}>
-                            {agentConfig.debugStats.isRunning ? '运行中' : '空闲'}
+                            {agentConfig.debugStats.isRunning ? '运行中' : ''}
                           </span>
                         </div>
                         <div className="grid grid-cols-2 gap-3 text-sm">
