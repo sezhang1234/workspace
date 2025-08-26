@@ -423,40 +423,22 @@ const AgentEditorEnhancedPage: React.FC = () => {
         {/* Page header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <Button
-                variant="outlined"
-                startIcon={<ArrowLeft />}
-                onClick={() => navigate('/dashboard/agents')}
-                className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
-              >
-                返回
-              </Button>
-              <div className="flex items-center space-x-4">
-                <span className="text-4xl">{agentConfig.icon}</span>
-                                <div>
-                  <h1 className="text-3xl font-bold text-gray-900">
-                    {isNew ? '创建智能体' : '编辑智能体'}
-                  </h1>
-                  <p className="text-lg text-gray-600">
-                    {isNew ? '配置智能体的系统提示词、编排参数和调试信息' : '修改智能体配置和参数'}
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {agentConfig.description}
-                  </p>
-                </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-4xl">{agentConfig.icon}</span>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  {isNew ? '创建智能体' : '编辑智能体'}
+                </h1>
+                <p className="text-lg text-gray-600">
+                  {isNew ? '配置智能体的系统提示词、编排参数和调试信息' : '修改智能体配置和参数'}
+                </p>
+                <p className="text-sm text-gray-500 mt-1">
+                  {agentConfig.description}
+                </p>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
-              <Button
-                variant="outlined"
-                startIcon={<TestTube />}
-                onClick={() => setActiveTab(2)}
-                className="border-blue-300 text-blue-600 hover:border-blue-400 hover:bg-blue-50"
-              >
-                测试调试
-              </Button>
               <Button
                 variant="contained"
                 startIcon={<Save />}
@@ -464,6 +446,25 @@ const AgentEditorEnhancedPage: React.FC = () => {
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
               >
                 保存配置
+              </Button>
+              <Button
+                variant="contained"
+                startIcon={<Play />}
+                onClick={() => {
+                  // Handle publish agent logic
+                  console.log('Publishing agent...')
+                }}
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg"
+              >
+                发布智能体
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowLeft />}
+                onClick={() => navigate('/dashboard/agents')}
+                className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
+              >
+                返回
               </Button>
             </div>
           </div>
