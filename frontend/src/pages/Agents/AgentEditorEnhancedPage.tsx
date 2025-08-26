@@ -1954,8 +1954,8 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100">
                     <div className="space-y-4">
                       {/* Real-time Running Status */}
-                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-4">
-                        <div className="flex items-center justify-between mb-3">
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-6">
+                        <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center space-x-2">
                             <div className={`w-3 h-3 rounded-full ${agentConfig.debugStats.isRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
                             <span className="font-semibold text-gray-800">实时运行状态</span>
@@ -1968,14 +1968,52 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             {agentConfig.debugStats.isRunning ? '运行中' : ''}
                           </span>
                         </div>
-                        <div className="grid grid-cols-2 gap-3 text-sm">
+                        
+                        {/* Current Execution Step */}
+                        <div className="mb-4 p-3 bg-white/60 rounded-lg border border-blue-100">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <span className="text-sm font-medium text-blue-800">当前执行步骤</span>
+                          </div>
+                          <div className="text-sm text-gray-700">
+                            {agentConfig.debugStats.isRunning ? (
+                              <div className="space-y-2">
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-gray-600">状态:</span>
+                                  <span className="font-medium text-blue-600">正在处理用户请求</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-gray-600">阶段:</span>
+                                  <span className="font-medium text-blue-600">调用大语言模型</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-gray-600">进度:</span>
+                                  <span className="font-medium text-blue-600">75% 完成</span>
+                                </div>
+                              </div>
+                            ) : (
+                              <span className="text-gray-500">等待用户输入...</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Execution Details */}
+                        <div className="grid grid-cols-2 gap-4 text-sm">
                           <div className="flex justify-between">
                             <span className="text-gray-600">响应时间:</span>
                             <span className="font-medium text-blue-600">{agentConfig.debugStats.responseTime}s</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-gray-600">活跃插件:</span>
-                            <span className="font-medium text-green-600">{agentConfig.debugStats.activePlugins}</span>
+                            <span className="font-medium text-blue-600">{agentConfig.debugStats.activePlugins}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">模型调用:</span>
+                            <span className="font-medium text-blue-600">GPT-4</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">工作流:</span>
+                            <span className="font-medium text-blue-600">旅行规划</span>
                           </div>
                         </div>
                       </div>
