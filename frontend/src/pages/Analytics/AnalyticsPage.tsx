@@ -28,6 +28,32 @@ import {
   Switch,
   FormControlLabel
 } from '@mui/material'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js'
+import { Line, Bar } from 'react-chartjs-2'
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+)
 
 interface AnalyticsData {
   overview: {
@@ -84,6 +110,67 @@ const AnalyticsPage: React.FC = () => {
   const [refreshData, setRefreshData] = useState(false)
   const [showDetailedMetrics, setShowDetailedMetrics] = useState(true)
 
+  // Chart configuration options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        labels: {
+          usePointStyle: true,
+          padding: 20,
+          font: {
+            size: 12,
+            weight: '600'
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        cornerRadius: 8,
+        displayColors: true,
+        padding: 12
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false
+        },
+        ticks: {
+          font: {
+            size: 11
+          }
+        }
+      },
+      y: {
+        grid: {
+          color: 'rgba(0, 0, 0, 0.05)',
+          borderDash: [5, 5]
+        },
+        ticks: {
+          font: {
+            size: 11
+          }
+        }
+      }
+    },
+    elements: {
+      point: {
+        radius: 4,
+        hoverRadius: 6
+      },
+      line: {
+        tension: 0.4
+      }
+    }
+  }
+
   // Mock analytics data
   const [analyticsData] = useState<AnalyticsData>({
     overview: {
@@ -102,7 +189,14 @@ const AnalyticsPage: React.FC = () => {
       { date: '2024-01-12', executions: 534, successRate: 98.1, responseTime: 2.2, tokens: 98000 },
       { date: '2024-01-13', executions: 521, successRate: 98.9, responseTime: 2.0, tokens: 96000 },
       { date: '2024-01-14', executions: 487, successRate: 98.3, responseTime: 2.3, tokens: 89000 },
-      { date: '2024-01-15', executions: 556, successRate: 98.6, responseTime: 2.1, tokens: 102000 }
+      { date: '2024-01-15', executions: 556, successRate: 98.6, responseTime: 2.1, tokens: 102000 },
+      { date: '2024-01-16', executions: 589, successRate: 98.8, responseTime: 2.0, tokens: 108000 },
+      { date: '2024-01-17', executions: 623, successRate: 99.1, responseTime: 1.9, tokens: 115000 },
+      { date: '2024-01-18', executions: 598, successRate: 98.9, responseTime: 2.0, tokens: 110000 },
+      { date: '2024-01-19', executions: 645, successRate: 99.2, responseTime: 1.8, tokens: 118000 },
+      { date: '2024-01-20', executions: 678, successRate: 99.0, responseTime: 1.9, tokens: 125000 },
+      { date: '2024-01-21', executions: 612, successRate: 98.7, responseTime: 2.1, tokens: 112000 },
+      { date: '2024-01-22', executions: 701, successRate: 99.3, responseTime: 1.8, tokens: 130000 }
     ],
     topAgents: [
       { id: '1', name: '智能客服助手', executions: 3240, successRate: 99.1, avgResponseTime: 1.8, totalTokens: 580000 },
@@ -124,7 +218,14 @@ const AnalyticsPage: React.FC = () => {
       { date: '2024-01-12', activeUsers: 68, newUsers: 4, totalSessions: 241 },
       { date: '2024-01-13', activeUsers: 73, newUsers: 1, totalSessions: 268 },
       { date: '2024-01-14', activeUsers: 69, newUsers: 3, totalSessions: 252 },
-      { date: '2024-01-15', activeUsers: 75, newUsers: 2, totalSessions: 278 }
+      { date: '2024-01-15', activeUsers: 75, newUsers: 2, totalSessions: 278 },
+      { date: '2024-01-16', activeUsers: 78, newUsers: 5, totalSessions: 289 },
+      { date: '2024-01-17', activeUsers: 82, newUsers: 7, totalSessions: 312 },
+      { date: '2024-01-18', activeUsers: 79, newUsers: 4, totalSessions: 298 },
+      { date: '2024-01-19', activeUsers: 85, newUsers: 8, totalSessions: 325 },
+      { date: '2024-01-20', activeUsers: 89, newUsers: 9, totalSessions: 345 },
+      { date: '2024-01-21', activeUsers: 86, newUsers: 6, totalSessions: 318 },
+      { date: '2024-01-22', activeUsers: 91, newUsers: 10, totalSessions: 356 }
     ],
     modelUsage: [
       { model: 'GPT-4', requests: 8240, tokens: 1580000, successRate: 98.8, avgResponseTime: 2.1, cost: 156.80 },
@@ -454,29 +555,44 @@ const AnalyticsPage: React.FC = () => {
             <Grid item xs={12} md={6}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" className="mb-4">用户活跃度趋势</Typography>
-                  <div className="space-y-3">
-                    {analyticsData.userActivity.slice(-7).map((activity, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <Typography variant="body2">
-                          {new Date(activity.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
-                        </Typography>
-                        <div className="flex items-center space-x-4">
-                          <div className="text-center">
-                            <Typography variant="caption" color="textSecondary">活跃用户</Typography>
-                            <Typography variant="body2" className="font-medium">
-                              {activity.activeUsers}
-                            </Typography>
-                          </div>
-                          <div className="text-center">
-                            <Typography variant="caption" color="textSecondary">新用户</Typography>
-                            <Typography variant="body2" className="font-medium">
-                              {activity.newUsers}
-                            </Typography>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                  <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold">
+                    用户活跃度趋势
+                  </Typography>
+                  <div className="h-80">
+                    <Line
+                      data={{
+                        labels: analyticsData.userActivity.slice(-12).map(activity => 
+                          new Date(activity.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                        ),
+                        datasets: [
+                          {
+                            label: '活跃用户',
+                            data: analyticsData.userActivity.slice(-12).map(activity => activity.activeUsers),
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgb(59, 130, 246)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                          },
+                          {
+                            label: '新用户',
+                            data: analyticsData.userActivity.slice(-12).map(activity => activity.newUsers),
+                            borderColor: 'rgb(16, 185, 129)',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgb(16, 185, 129)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                          }
+                        ]
+                      }}
+                      options={chartOptions}
+                    />
                   </div>
                 </CardContent>
               </Card>
@@ -485,29 +601,52 @@ const AnalyticsPage: React.FC = () => {
             <Grid item xs={12} md={6}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" className="mb-4">执行趋势</Typography>
-                  <div className="space-y-3">
-                    {analyticsData.trends.slice(-7).map((trend, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <Typography variant="body2">
-                          {new Date(trend.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}
-                        </Typography>
-                        <div className="flex items-center space-x-4">
-                          <div className="text-center">
-                            <Typography variant="caption" color="textSecondary">执行次数</Typography>
-                            <Typography variant="body2" className="font-medium">
-                              {formatNumber(trend.executions)}
-                            </Typography>
-                          </div>
-                          <div className="text-center">
-                            <Typography variant="caption" color="textSecondary">成功率</Typography>
-                            <Typography variant="body2" className="font-medium">
-                              {trend.successRate}%
-                            </Typography>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                  <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold">
+                    执行趋势
+                  </Typography>
+                  <div className="h-80">
+                    <Bar
+                      data={{
+                        labels: analyticsData.trends.slice(-12).map(trend => 
+                          new Date(trend.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                        ),
+                        datasets: [
+                          {
+                            label: '执行次数',
+                            data: analyticsData.trends.slice(-12).map(trend => trend.executions),
+                            backgroundColor: 'rgba(147, 51, 234, 0.8)',
+                            borderColor: 'rgb(147, 51, 234)',
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            borderSkipped: false,
+                            hoverBackgroundColor: 'rgba(147, 51, 234, 1)',
+                            hoverBorderColor: 'rgb(147, 51, 234)'
+                          },
+                          {
+                            label: '成功率 (%)',
+                            data: analyticsData.trends.slice(-12).map(trend => trend.successRate),
+                            backgroundColor: 'rgba(236, 72, 153, 0.8)',
+                            borderColor: 'rgb(236, 72, 153)',
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            borderSkipped: false,
+                            hoverBackgroundColor: 'rgba(236, 72, 153, 1)',
+                            hoverBorderColor: 'rgb(236, 72, 153)'
+                          }
+                        ]
+                      }}
+                      options={{
+                        ...chartOptions,
+                        scales: {
+                          ...chartOptions.scales,
+                          y: {
+                            ...chartOptions.scales.y,
+                            beginAtZero: true,
+                            max: 100
+                          }
+                        }
+                      }}
+                    />
                   </div>
                 </CardContent>
               </Card>
