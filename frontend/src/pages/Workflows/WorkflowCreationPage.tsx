@@ -88,8 +88,7 @@ const WorkflowCreationPage: React.FC = () => {
         {/* Main content */}
         <Card className="shadow-xl border-0 overflow-hidden">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4">
-            <div className="flex items-center justify-center space-x-2">
-              <Bot className="w-6 h-6 text-white" />
+            <div className="flex items-center justify-center">
               <Typography variant="h5" className="text-white font-semibold">
                 工作流配置向导
               </Typography>
