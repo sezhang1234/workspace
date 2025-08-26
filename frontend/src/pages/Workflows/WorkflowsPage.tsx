@@ -95,7 +95,7 @@ const WorkflowsPage: React.FC = () => {
       <div className="text-center mb-8">
 
         <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-          工作流管理
+          工作流编排
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           设计、管理和监控您的自动化工作流，构建高效的业务流程
