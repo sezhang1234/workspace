@@ -16,7 +16,8 @@ import {
   Zap,
   BookOpen,
   MessageSquare,
-  Plug
+  Plug,
+  Edit3
 } from 'lucide-react'
 import { 
   TextField, 
