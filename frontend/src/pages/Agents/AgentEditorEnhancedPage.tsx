@@ -150,7 +150,38 @@ const AgentEditorEnhancedPage: React.FC = () => {
     promptTuning: {
       inputMode: 'manual',
       examples: '用户：你好\n助手：您好！我是您的智能助手，有什么可以帮助您的吗？',
-      useCases: [],
+      useCases: [
+        {
+          id: 1,
+          name: 'customer_service_examples.json',
+          data: [
+            { user: '你好', assistant: '您好！我是客服助手，有什么可以帮助您的吗？' },
+            { user: '我想退货', assistant: '好的，请告诉我您的订单号和退货原因，我来帮您处理。' }
+          ],
+          uploadTime: new Date('2024-01-15T10:30:00'),
+          status: 'active',
+          examples: 2
+        },
+        {
+          id: 2,
+          name: 'technical_support.csv',
+          data: [
+            { user: '系统无法登录', assistant: '请检查网络连接和账号密码是否正确。' },
+            { user: '页面显示错误', assistant: '请尝试刷新页面或清除浏览器缓存。' }
+          ],
+          uploadTime: new Date('2024-01-14T14:20:00'),
+          status: 'active',
+          examples: 2
+        },
+        {
+          id: 3,
+          name: 'product_qa.txt',
+          data: '用户：这个产品怎么用？\n助手：请参考产品说明书，如有疑问可联系客服。',
+          uploadTime: new Date('2024-01-13T09:15:00'),
+          status: 'active',
+          examples: 1
+        }
+      ],
       optimizationModel: 'gpt-4',
       evaluationModel: 'gpt-4',
       optimizationRounds: 3
@@ -507,121 +538,209 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   {/* File Upload Mode */}
                   {agentConfig.promptTuning.inputMode === 'upload' && (
                     <div>
-                      <div className="mb-4">
-                        <input
-                          type="file"
-                          accept=".json,.csv,.txt"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) {
-                              const reader = new FileReader()
-                              reader.onload = (event) => {
-                                try {
-                                  const content = event.target?.result as string
-                                  // Parse content based on file type
-                                  let parsedData
-                                  if (file.name.endsWith('.json')) {
-                                    parsedData = JSON.parse(content)
-                                  } else if (file.name.endsWith('.csv')) {
-                                    // Simple CSV parsing
-                                    const lines = content.split('\n')
-                                    const headers = lines[0].split(',')
-                                    parsedData = lines.slice(1).map(line => {
-                                      const values = line.split(',')
-                                      return headers.reduce((obj, header, index) => {
-                                        obj[header.trim()] = values[index]?.trim() || ''
-                                        return obj
-                                      }, {} as any)
-                                    })
-                                  } else {
-                                    // Text file - treat as plain text
-                                    parsedData = content
-                                  }
-                                  
-                                  setAgentConfig(prev => ({
-                                    ...prev,
-                                    promptTuning: {
-                                      ...prev.promptTuning,
-                                      useCases: [...(prev.promptTuning.useCases || []), {
-                                        id: Date.now(),
-                                        name: file.name,
-                                        data: parsedData,
-                                        uploadTime: new Date()
-                                      }]
+                      {/* Upload Header Row */}
+                      <div className="flex items-center justify-between mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div className="flex items-center space-x-3">
+                          <Typography variant="subtitle1" className="text-gray-800 font-medium">
+                            导入用例集
+                          </Typography>
+                          <Typography variant="body2" className="text-gray-500">
+                            支持 JSON、CSV、TXT 格式文件
+                          </Typography>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <input
+                            type="file"
+                            accept=".json,.csv,.txt"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0]
+                              if (file) {
+                                const reader = new FileReader()
+                                reader.onload = (event) => {
+                                  try {
+                                    const content = event.target?.result as string
+                                    // Parse content based on file type
+                                    let parsedData
+                                    if (file.name.endsWith('.json')) {
+                                      parsedData = JSON.parse(content)
+                                    } else if (file.name.endsWith('.csv')) {
+                                      // Simple CSV parsing
+                                      const lines = content.split('\n')
+                                      const headers = lines[0].split(',')
+                                      parsedData = lines.slice(1).map(line => {
+                                        const values = line.split(',')
+                                        return headers.reduce((obj, header, index) => {
+                                          obj[header.trim()] = values[index]?.trim() || ''
+                                          return obj
+                                        }, {} as any)
+                                      })
+                                    } else {
+                                      // Text file - treat as plain text
+                                      parsedData = content
                                     }
-                                  }))
-                                  setSnackbar({ open: true, message: '用例集上传成功！', severity: 'success' })
-                                } catch (error) {
-                                  setSnackbar({ open: true, message: '文件解析失败，请检查文件格式', severity: 'error' })
+                                    
+                                    setAgentConfig(prev => ({
+                                      ...prev,
+                                      promptTuning: {
+                                        ...prev.promptTuning,
+                                        useCases: [...(prev.promptTuning.useCases || []), {
+                                          id: Date.now(),
+                                          name: file.name,
+                                          data: parsedData,
+                                          uploadTime: new Date(),
+                                          status: 'active',
+                                          examples: parsedData.length || 1
+                                        }]
+                                      }
+                                    }))
+                                    setSnackbar({ open: true, message: '用例集上传成功！', severity: 'success' })
+                                  } catch (error) {
+                                    setSnackbar({ open: true, message: '文件解析失败，请检查文件格式', severity: 'error' })
+                                  }
                                 }
+                                reader.readAsText(file)
                               }
-                              reader.readAsText(file)
-                            }
-                          }}
-                          className="hidden"
-                          id="use-case-upload"
-                        />
-                        <label htmlFor="use-case-upload">
-                          <Button
-                            variant="outlined"
-                            component="span"
-                            startIcon={<Upload />}
-                            className="border-2 border-dashed border-blue-300 text-blue-600 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 px-8 py-3 text-base font-medium shadow-sm hover:shadow-md"
+                            }}
+                            className="hidden"
+                            id="use-case-upload"
+                          />
+                          <label htmlFor="use-case-upload">
+                            <IconButton
+                              component="span"
+                              className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full transition-all duration-200"
+                            >
+                              <Upload className="w-5 h-5" />
+                            </IconButton>
+                          </label>
+                          <IconButton
+                            className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-full transition-all duration-200"
+                            onClick={() => {
+                              setAgentConfig(prev => ({
+                                ...prev,
+                                promptTuning: {
+                                  ...prev.promptTuning,
+                                  useCases: []
+                                }
+                              }))
+                              setSnackbar({ open: true, message: '所有用例集已清空', severity: 'success' })
+                            }}
                           >
-                            <div className="flex flex-col items-center space-y-1">
-                              <Upload className="w-6 h-6" />
-                              <span>上传用例集</span>
-                            </div>
-                          </Button>
-                        </label>
-                        <Typography variant="body2" className="text-gray-500 mt-3 text-center">
-                          支持 JSON、CSV、TXT 格式文件 • 拖拽文件到此处或点击上传
-                        </Typography>
+                            <Trash2 className="w-5 h-5" />
+                          </IconButton>
+                        </div>
                       </div>
 
-                      {/* Use Cases List */}
-                      {agentConfig.promptTuning.useCases && agentConfig.promptTuning.useCases.length > 0 && (
-                        <div className="space-y-3">
-                          <Typography variant="subtitle2" className="text-gray-700 font-medium">
-                            已上传的用例集：
-                          </Typography>
-                          {agentConfig.promptTuning.useCases.map((useCase) => (
-                            <div key={useCase.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                              <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                  <span className="text-blue-600 text-sm font-medium">
-                                    {useCase.name.split('.').pop()?.toUpperCase()}
-                                  </span>
-                                </div>
-                                <div>
-                                  <div className="font-medium text-gray-800">{useCase.name}</div>
-                                  <div className="text-sm text-gray-500">
-                                    上传时间: {useCase.uploadTime.toLocaleString()}
+                      {/* Use Cases Table */}
+                      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                用例集名称
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                文件类型
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                示例数量
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                上传时间
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                状态
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                操作
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200">
+                            {agentConfig.promptTuning.useCases && agentConfig.promptTuning.useCases.length > 0 ? (
+                              agentConfig.promptTuning.useCases.map((useCase) => (
+                                <tr key={useCase.id} className="hover:bg-gray-50">
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="flex items-center">
+                                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                        <span className="text-blue-600 text-sm font-medium">
+                                          {useCase.name.split('.').pop()?.toUpperCase()}
+                                        </span>
+                                      </div>
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {useCase.name}
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                      {useCase.name.split('.').pop()?.toUpperCase()}
+                                    </span>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {useCase.examples || 1}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {useCase.uploadTime.toLocaleString()}
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap">
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                      {useCase.status === 'active' ? '活跃' : '已停用'}
+                                    </span>
+                                  </td>
+                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div className="flex items-center space-x-2">
+                                      <IconButton
+                                        size="small"
+                                        className="p-1 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded"
+                                        onClick={() => {
+                                          // Mock edit functionality
+                                          setSnackbar({ open: true, message: '编辑功能开发中...', severity: 'info' })
+                                        }}
+                                      >
+                                        <Edit3 className="w-4 h-4" />
+                                      </IconButton>
+                                      <IconButton
+                                        size="small"
+                                        className="p-1 bg-red-100 hover:bg-red-200 text-red-600 rounded"
+                                        onClick={() => {
+                                          setAgentConfig(prev => ({
+                                            ...prev,
+                                            promptTuning: {
+                                              ...prev.promptTuning,
+                                              useCases: prev.promptTuning.useCases?.filter(uc => uc.id !== useCase.id) || []
+                                            }
+                                          }))
+                                          setSnackbar({ open: true, message: '用例集已删除', severity: 'success' })
+                                        }}
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                      </IconButton>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={6} className="px-6 py-12 text-center">
+                                  <div className="flex flex-col items-center space-y-3">
+                                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                                      <Upload className="w-6 h-6 text-gray-400" />
+                                    </div>
+                                    <div>
+                                      <Typography variant="body1" className="text-gray-500 font-medium">
+                                        暂无用例集
+                                      </Typography>
+                                      <Typography variant="body2" className="text-gray-400">
+                                        点击上方上传图标添加用例集
+                                      </Typography>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<Trash2 />}
-                                onClick={() => {
-                                  setAgentConfig(prev => ({
-                                    ...prev,
-                                    promptTuning: {
-                                      ...prev.promptTuning,
-                                      useCases: prev.promptTuning.useCases?.filter(uc => uc.id !== useCase.id) || []
-                                    }
-                                  }))
-                                  setSnackbar({ open: true, message: '用例集已删除', severity: 'success' })
-                                }}
-                                className="border-red-300 text-red-600 hover:border-red-400"
-                              >
-                                删除
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   )}
 
