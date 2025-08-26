@@ -282,20 +282,18 @@ const AnalyticsPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <div></div>
         <div className="flex items-center space-x-4">
-          <FormControl size="small">
-            <InputLabel>时间范围</InputLabel>
-            <Select
+          <div className="sm:w-48">
+            <select
               value={timeRange}
-              label="时间范围"
               onChange={(e) => setTimeRange(e.target.value)}
-              className="min-w-[180px]"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
             >
-              <MenuItem value="7d">最近7天</MenuItem>
-              <MenuItem value="30d">最近30天</MenuItem>
-              <MenuItem value="90d">最近90天</MenuItem>
-              <MenuItem value="1y">最近1年</MenuItem>
-            </Select>
-          </FormControl>
+              <option value="7d">最近7天</option>
+              <option value="30d">最近30天</option>
+              <option value="90d">最近90天</option>
+              <option value="1y">最近1年</option>
+            </select>
+          </div>
           
           {/* Refresh Button */}
           <button
