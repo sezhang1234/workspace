@@ -260,7 +260,12 @@ const SettingsPage: React.FC = () => {
       {/* Settings tabs */}
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
 
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white' }}>
+        <Box sx={{ 
+          borderBottom: 1, 
+          borderColor: 'divider', 
+          background: 'linear-gradient(90deg, #FFFFFF 0%, #F8FAFF 50%, #F0F4FF 100%)',
+          borderTop: '1px solid rgba(59, 130, 246, 0.1)'
+        }}>
           <Tabs 
             value={activeTab} 
             onChange={handleTabChange} 
@@ -278,11 +283,15 @@ const SettingsPage: React.FC = () => {
                   color: '#3B82F6',
                   fontWeight: 600,
                 },
+                '&:hover': {
+                  color: '#3B82F6',
+                  backgroundColor: 'rgba(59, 130, 246, 0.04)',
+                },
               },
               '& .MuiTabs-indicator': {
                 height: '3px',
                 borderRadius: '2px',
-                backgroundColor: '#3B82F6',
+                background: 'linear-gradient(90deg, #3B82F6 0%, #6366F1 100%)',
               },
             }}
           >
