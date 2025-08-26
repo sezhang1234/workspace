@@ -376,19 +376,6 @@ const SettingsPage: React.FC = () => {
                 label="启用遥测数据收集"
               />
             </FormGroup>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
 
@@ -493,19 +480,6 @@ const SettingsPage: React.FC = () => {
                   }
                 }}
               />
-            </div>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
             </div>
           </div>
         </TabPanel>
@@ -626,19 +600,6 @@ const SettingsPage: React.FC = () => {
                 </Grid>
               </Grid>
             )}
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
 
@@ -712,19 +673,6 @@ const SettingsPage: React.FC = () => {
                 label="显示面包屑导航"
               />
             </FormGroup>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
 
@@ -818,19 +766,6 @@ const SettingsPage: React.FC = () => {
                 label="要求大写字母"
               />
             </FormGroup>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
 
@@ -922,19 +857,6 @@ const SettingsPage: React.FC = () => {
                 label="启用缓存"
               />
             </FormGroup>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
 
@@ -1035,19 +957,6 @@ const SettingsPage: React.FC = () => {
                 label="启用备用模型"
               />
             </FormGroup>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
 
@@ -1135,21 +1044,21 @@ const SettingsPage: React.FC = () => {
                 label="启用性能监控"
               />
             </FormGroup>
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-6">
-              <Button
-                variant="contained"
-                startIcon={<Save />}
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isSaving ? '保存中...' : '保存设置'}
-              </Button>
-            </div>
           </div>
         </TabPanel>
+      </div>
+
+      {/* Global Save Button */}
+      <div className="flex justify-end pt-8 pb-4">
+        <Button
+          variant="contained"
+          startIcon={<Save />}
+          onClick={handleSave}
+          disabled={isSaving}
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+        >
+          {isSaving ? '保存中...' : '保存设置'}
+        </Button>
       </div>
 
       {/* API Key Dialog */}
