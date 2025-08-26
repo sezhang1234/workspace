@@ -114,14 +114,9 @@ const WorkflowCreationPage: React.FC = () => {
           <div className="space-y-6">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
               <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <Plus className="w-4 h-4 text-white" />
-                  </div>
-                  <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-                    基本信息
-                  </Typography>
-                </div>
+                <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                  基本信息
+                </Typography>
               </div>
               <div className="p-6">
                 
@@ -257,14 +252,9 @@ const WorkflowCreationPage: React.FC = () => {
           <div className="h-full">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden h-full">
               <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <Bot className="w-4 h-4 text-white" />
-                  </div>
-                  <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-                    工作流画布预览
-                  </Typography>
-                </div>
+                <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                  工作流画布预览
+                </Typography>
               </div>
               <div className="p-6 h-full flex flex-col">
                 
