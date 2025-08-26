@@ -974,9 +974,9 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
                           <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
                         </Select>
-                        <Typography variant="body2" className="text-gray-500 mt-2">
+                        <div className="mt-2 text-sm text-gray-500">
                           选择适合您需求的AI语言模型，不同模型在性能和成本上有所差异
-                        </Typography>
+                        </div>
                       </FormControl>
 
                       <div>
