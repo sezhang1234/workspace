@@ -958,8 +958,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           value={agentConfig.model}
                           onChange={(e) => setAgentConfig(prev => ({ ...prev, model: e.target.value }))}
                           className="mt-2 border-2 border-blue-200 rounded-lg hover:border-blue-400 transition-all duration-300"
+                          size="medium"
                           sx={{
                             '& .MuiOutlinedInput-root': {
+                              height: '56px',
                               '&:hover fieldset': {
                                 borderColor: '#60a5fa',
                               },
@@ -995,8 +997,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           inputProps={{ min: 0, max: 2, step: 0.1 }}
                           helperText="控制输出的随机性"
                           className="mt-2 border-2 border-blue-200 rounded-lg hover:border-blue-400 transition-all duration-300"
+                          size="medium"
                           sx={{
                             '& .MuiOutlinedInput-root': {
+                              height: '56px',
                               '&:hover fieldset': {
                                 borderColor: '#60a5fa',
                               },
@@ -1025,6 +1029,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           inputProps={{ min: 1, max: 8000 }}
                           helperText="限制单次对话的最大输出长度"
                           className="mt-2"
+                          size="medium"
                         />
                       </FormControl>
 
@@ -1043,6 +1048,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           inputProps={{ min: 0, max: 1, step: 0.1 }}
                           helperText="控制词汇选择的多样性"
                           className="mt-2"
+                          size="medium"
                         />
                       </FormControl>
                     </div>
