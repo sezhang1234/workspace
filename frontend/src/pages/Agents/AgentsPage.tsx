@@ -111,6 +111,11 @@ const AgentsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           创建、管理和监控您的AI智能体，构建强大的智能助手生态系统
         </p>
+      </div>
+
+      {/* Search and filters */}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Create Agent Button */}
         <Link
           to="/dashboard/agents/new"
           className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -118,58 +123,48 @@ const AgentsPage: React.FC = () => {
           <Plus className="w-5 h-5" />
           <span>创建智能体</span>
         </Link>
-      </div>
 
-      {/* Search and filters */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-        <div className="mb-4">
-          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-            搜索与筛选
-          </h2>
+        {/* Search */}
+        <div className="flex-1">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
+            <input
+              type="text"
+              placeholder="搜索智能体名称、描述或标签..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+            />
+          </div>
         </div>
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative group">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
-              <input
-                type="text"
-                placeholder="搜索智能体名称、描述或标签..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-              />
-            </div>
-          </div>
 
-          {/* Status filter */}
-          <div className="sm:w-48">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-            >
-              <option value="all">所有状态</option>
-              <option value="active">运行中</option>
-              <option value="inactive">已停止</option>
-              <option value="training">训练中</option>
-              <option value="error">错误</option>
-            </select>
-          </div>
+        {/* Status filter */}
+        <div className="sm:w-48">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            <option value="all">所有状态</option>
+            <option value="active">运行中</option>
+            <option value="inactive">已停止</option>
+            <option value="training">训练中</option>
+            <option value="error">错误</option>
+          </select>
+        </div>
 
-          {/* Sort by */}
-          <div className="sm:w-48">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-            >
-              <option value="name">按名称排序</option>
-              <option value="created">按创建时间排序</option>
-              <option value="usage">按使用次数排序</option>
-              <option value="lastActive">按最后活跃时间排序</option>
-            </select>
-          </div>
+        {/* Sort by */}
+        <div className="sm:w-48">
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            <option value="name">按名称排序</option>
+            <option value="created">按创建时间排序</option>
+            <option value="usage">按使用次数排序</option>
+            <option value="lastActive">按最后活跃时间排序</option>
+          </select>
         </div>
       </div>
 
