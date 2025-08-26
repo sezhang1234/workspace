@@ -149,40 +149,57 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
           })}
         </nav>
 
-        {/* Collapse Toggle Button - Bottom Left */}
-        <div className={`border-t border-blue-200/50 py-4 ${isCollapsed ? 'px-2' : 'px-4'}`}>
-          <button
-            onClick={onToggleCollapse}
-            className={`
-              group flex items-center justify-center rounded-2xl transition-all duration-500 ease-in-out
-              w-12 h-12
-              bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600
-              border border-blue-400/30 hover:border-blue-300/50
-              text-white hover:text-white
-              shadow-lg hover:shadow-xl hover:shadow-blue-500/25
-              transform hover:scale-105 active:scale-95
-            `}
-            title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
-          >
-            {isCollapsed ? (
-              <PanelLeftOpen className="w-5 h-5 transition-all duration-300 ease-in-out group-hover:scale-110" />
-            ) : (
-              <PanelLeftClose className="w-5 h-5 transition-all duration-300 ease-in-out group-hover:scale-110" />
-            )}
-            
 
-          </button>
-        </div>
 
         {/* Footer */}
         <div className={`border-t border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
-          <div className={`flex items-center space-x-2 text-xs ${isCollapsed ? 'justify-center' : ''}`}>
-            <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
-              <Zap className="w-3 h-3 text-white" />
+          <div className={`flex items-center justify-between ${isCollapsed ? 'justify-center' : ''}`}>
+            <div className={`flex items-center space-x-2 text-xs ${isCollapsed ? 'justify-center' : ''}`}>
+              <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
+                <Zap className="w-3 h-3 text-white" />
+              </div>
+              {!isCollapsed && <span className="text-blue-600 font-medium">Jiuwen v1.0.0</span>}
             </div>
-            {!isCollapsed && <span className="text-blue-600 font-medium">Jiuwen v1.0.0</span>}
+            
+            {/* Collapse Toggle Button - Bottom Right */}
+            {!isCollapsed && (
+              <button
+                onClick={onToggleCollapse}
+                className={`
+                  group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
+                  w-8 h-8
+                  bg-white hover:bg-gray-50
+                  border border-gray-200 hover:border-gray-300
+                  text-gray-600 hover:text-gray-800
+                  shadow-sm hover:shadow-md
+                `}
+                title="收起侧边栏"
+              >
+                <PanelLeftClose className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
+              </button>
+            )}
           </div>
         </div>
+        
+        {/* Expand Button - When Collapsed */}
+        {isCollapsed && (
+          <div className="absolute bottom-4 right-4">
+            <button
+              onClick={onToggleCollapse}
+              className={`
+                group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
+                w-8 h-8
+                bg-white hover:bg-gray-50
+                border border-gray-200 hover:border-gray-300
+                text-gray-600 hover:text-gray-800
+                shadow-sm hover:shadow-md
+              `}
+              title="展开侧边栏"
+            >
+              <PanelLeftOpen className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
+            </button>
+          </div>
+        )}
       </div>
     </>
   )
