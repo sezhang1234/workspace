@@ -515,7 +515,7 @@ const ModelsPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* DeepSeek */}
           <div className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">DS</span>
@@ -526,38 +526,40 @@ const ModelsPage: React.FC = () => {
                 </div>
               </div>
               
-              <Typography variant="body2" className="text-gray-600 mb-4 flex-grow">
+              <Typography variant="body2" className="text-gray-600 mb-4">
                 专注于代码生成和数学推理的大语言模型，支持多种编程语言和复杂问题解决。
               </Typography>
               
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>模型数量: 8</span>
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons - Hidden by default, visible on hover */}
-              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
-                >
-                  安装
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className="flex-1 border-purple-300 text-purple-600 hover:bg-purple-50 hover:border-purple-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                >
-                  详情
-                </Button>
+              {/* Overlay Buttons - Only visible on hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  >
+                    安装
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    详情
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Tongyi Qianwen */}
           <div className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">TQ</span>
@@ -568,38 +570,40 @@ const ModelsPage: React.FC = () => {
                 </div>
               </div>
               
-              <Typography variant="body2" className="text-gray-600 mb-4 flex-grow">
+              <Typography variant="body2" className="text-gray-600 mb-4">
                 阿里巴巴开发的大语言模型，在中文理解和生成方面表现优异，支持多模态输入输出。
               </Typography>
               
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>模型数量: 12</span>
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons - Hidden by default, visible on hover */}
-              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
-                >
-                  安装
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className="flex-1 border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                >
-                  详情
-                </Button>
+              {/* Overlay Buttons - Only visible on hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  >
+                    安装
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    详情
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Silicon Mobility */}
           <div className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">SM</span>
@@ -610,38 +614,40 @@ const ModelsPage: React.FC = () => {
                 </div>
               </div>
               
-              <Typography variant="body2" className="text-gray-600 mb-4 flex-grow">
+              <Typography variant="body2" className="text-gray-600 mb-4">
                 专为边缘计算和移动设备优化的AI模型，提供高效的推理性能和低功耗解决方案。
               </Typography>
               
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>模型数量: 6</span>
                 <span>评分: ⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons - Hidden by default, visible on hover */}
-              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
-                >
-                  安装
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className="flex-1 border-green-300 text-green-600 hover:bg-green-50 hover:border-green-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                >
-                  详情
-                </Button>
+              {/* Overlay Buttons - Only visible on hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  >
+                    安装
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    详情
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Gemini */}
           <div className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">G</span>
@@ -652,38 +658,40 @@ const ModelsPage: React.FC = () => {
                 </div>
               </div>
               
-              <Typography variant="body2" className="text-gray-600 mb-4 flex-grow">
+              <Typography variant="body2" className="text-gray-600 mb-4">
                 Google的多模态AI模型，支持文本、图像、音频等多种输入，在理解和生成方面表现卓越。
               </Typography>
               
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>模型数量: 15</span>
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons - Hidden by default, visible on hover */}
-              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
-                >
-                  安装
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className="flex-1 border-orange-300 text-orange-600 hover:bg-orange-50 hover:border-orange-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                >
-                  详情
-                </Button>
+              {/* Overlay Buttons - Only visible on hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  >
+                    安装
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    详情
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* OpenAI */}
           <div className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">O</span>
@@ -694,38 +702,40 @@ const ModelsPage: React.FC = () => {
                 </div>
               </div>
               
-              <Typography variant="body2" className="text-gray-600 mb-4 flex-grow">
+              <Typography variant="body2" className="text-gray-600 mb-4">
                 领先的AI研究公司，提供GPT系列模型，在自然语言处理和代码生成方面表现优异。
               </Typography>
               
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>模型数量: 20</span>
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons - Hidden by default, visible on hover */}
-              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
-                >
-                  安装
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className="flex-1 border-indigo-300 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                >
-                  详情
-                </Button>
+              {/* Overlay Buttons - Only visible on hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  >
+                    安装
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    详情
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Anthropic */}
           <div className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-blue-500 rounded-xl flex items-center justify-center">
                   <span className="text-white font-bold text-lg">A</span>
@@ -736,31 +746,33 @@ const ModelsPage: React.FC = () => {
                 </div>
               </div>
               
-              <Typography variant="body2" className="text-gray-600 mb-4 flex-grow">
+              <Typography variant="body2" className="text-gray-600 mb-4">
                 专注于AI安全和伦理的AI公司，提供Claude系列模型，在对话和推理方面表现优异。
               </Typography>
               
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <span>模型数量: 10</span>
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons - Hidden by default, visible on hover */}
-              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Button
-                  variant="contained"
-                  size="large"
-                  className="flex-1 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
-                >
-                  安装
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  className="flex-1 border-teal-300 text-teal-600 hover:bg-teal-50 hover:border-teal-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                >
-                  详情
-                </Button>
+              {/* Overlay Buttons - Only visible on hover */}
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-3">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    className="bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                  >
+                    安装
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    size="large"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                  >
+                    详情
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
