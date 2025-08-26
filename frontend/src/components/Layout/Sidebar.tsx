@@ -55,19 +55,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
       {/* Sidebar */}
       <div className={`
         fixed inset-y-0 left-0 z-50 bg-gradient-to-b from-white via-blue-50/30 to-indigo-50/20 
-        shadow-2xl border-r border-blue-100/50 backdrop-blur-sm transform transition-all duration-500 ease-in-out 
+        shadow-2xl border-r border-blue-100/50 backdrop-blur-sm transform transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] 
         lg:translate-x-0 lg:static lg:inset-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         ${isCollapsed ? 'lg:w-16' : 'lg:w-64'}
       `}>
-        <div className={`flex items-center justify-between h-16 border-b border-blue-200/50 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 ${isCollapsed ? 'px-4' : 'px-6'}`}>
-          <div className={`flex items-center space-x-2 ${isCollapsed ? 'justify-center w-full' : ''}`}>
+        <div className={`flex items-center justify-between h-16 border-b border-blue-200/50 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-4' : 'px-6'}`}>
+          <div className={`flex items-center space-x-2 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'justify-center w-full' : ''}`}>
             <div className="w-8 h-8 flex items-center justify-center">
               <JiuwenLogo width={32} height={32} />
             </div>
-            {!isCollapsed && (
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Jiuwen</span>
-            )}
+            <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent whitespace-nowrap">Jiuwen</span>
+            </div>
           </div>
           {/* Mobile close button only */}
           <button
@@ -79,8 +79,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
         </div>
 
         {/* User info */}
-        <div className={`border-b border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 ${isCollapsed ? 'px-2 py-4' : 'px-6 py-4'}`}>
-          <div className={`flex items-center space-x-3 ${isCollapsed ? 'justify-center' : ''}`}>
+        <div className={`border-b border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-2 py-4' : 'px-6 py-4'}`}>
+          <div className={`flex items-center space-x-3 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'justify-center' : ''}`}>
             <div className="relative">
               <img
                 className="w-10 h-10 rounded-full ring-2 ring-blue-200/50 shadow-lg"
@@ -89,21 +89,21 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               />
               <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
             </div>
-            {!isCollapsed && (
+            <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-800 truncate">
+                <p className="text-sm font-medium text-gray-800 truncate whitespace-nowrap">
                   {user?.username}
                 </p>
-                <p className="text-xs text-blue-600 truncate font-medium">
+                <p className="text-xs text-blue-600 truncate font-medium whitespace-nowrap">
                   {user?.role === 'admin' ? '管理员' : user?.role === 'developer' ? '开发者' : '用户'}
                 </p>
               </div>
-            )}
+            </div>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className={`flex-1 py-6 space-y-1 ${isCollapsed ? 'px-2' : 'px-4'}`}>
+        <nav className={`flex-1 py-6 space-y-1 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-2' : 'px-4'}`}>
           {navigation.map((item) => {
             const isActive = location.pathname === item.href || 
                            (item.href !== '/dashboard' && location.pathname.startsWith(item.href))
@@ -113,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
                 key={item.name}
                 to={item.href}
                 className={`
-                  group flex items-center font-medium rounded-xl transition-all duration-300 ease-in-out
+                  group flex items-center font-medium rounded-xl transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
                   ${isCollapsed ? 'justify-center px-2 py-3 mx-2' : 'px-4 py-3 mx-2'}
                   ${isActive 
                     ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25 border-r-2 border-blue-400' 
@@ -130,7 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               >
                 <item.icon 
                   className={`
-                    transition-all duration-300 ease-in-out
+                    transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
                     ${isCollapsed ? 'h-6 w-6' : 'mr-3 h-5 w-5'}
                     ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-blue-600'}
                     ${isActive ? 'scale-110' : 'group-hover:scale-105'}
@@ -152,35 +152,38 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
 
 
         {/* Footer */}
-        <div className={`border-t border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
-          <div className={`flex items-center space-x-2 text-xs ${isCollapsed ? 'justify-center' : ''}`}>
+        <div className={`border-t border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
+          <div className={`flex items-center space-x-2 text-xs transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'justify-center' : ''}`}>
             <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
               <Zap className="w-3 h-3 text-white" />
             </div>
-            {!isCollapsed && <span className="text-blue-600 font-medium">Jiuwen v1.0.0</span>}
+            <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+              <span className="text-blue-600 font-medium whitespace-nowrap">Jiuwen v1.0.0</span>
+            </div>
           </div>
         </div>
         
         {/* Collapse/Expand Button - Always in Bottom Right Corner */}
         <div className="absolute bottom-4 right-4">
-          <button
-            onClick={onToggleCollapse}
-            className={`
-              group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
-              w-8 h-8
-              bg-white hover:bg-gray-50
-              border border-gray-200 hover:border-gray-300
-              text-gray-600 hover:text-gray-800
-              shadow-sm hover:shadow-md
-            `}
-            title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
-          >
-            {isCollapsed ? (
-              <PanelLeftOpen className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
-            ) : (
-              <PanelLeftClose className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
-            )}
-          </button>
+                      <button
+              onClick={onToggleCollapse}
+              className={`
+                group flex items-center justify-center rounded-lg transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
+                w-8 h-8
+                bg-white hover:bg-gray-50
+                border border-gray-200 hover:border-gray-300
+                text-gray-600 hover:text-gray-800
+                shadow-sm hover:shadow-md
+                transform hover:scale-105 active:scale-95
+              `}
+              title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
+            >
+              {isCollapsed ? (
+                <PanelLeftOpen className="w-4 h-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
+              ) : (
+                <PanelLeftClose className="w-4 h-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
+              )}
+            </button>
         </div>
       </div>
     </>
