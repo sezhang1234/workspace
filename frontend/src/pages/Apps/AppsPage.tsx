@@ -42,7 +42,7 @@ interface AgentTemplate {
 const agentTemplates: AgentTemplate[] = [
   {
     id: 'deep-research',
-    name: 'DeepResearch Agent',
+    name: 'DeepSearch',
     description: '智能研究助手，能够深入分析学术论文、研究报告和复杂文档，提供详细的见解和总结。',
     category: '研究分析',
     difficulty: 'intermediate',
@@ -56,7 +56,7 @@ const agentTemplates: AgentTemplate[] = [
   },
   {
     id: 'data-analyst',
-    name: 'Data Analysis Agent',
+    name: 'Data Analysis',
     description: '专业数据分析智能体，能够处理各种数据格式，生成可视化图表和洞察报告。',
     category: '数据分析',
     difficulty: 'intermediate',
@@ -70,7 +70,7 @@ const agentTemplates: AgentTemplate[] = [
   },
   {
     id: 'code-assistant',
-    name: 'Code Assistant Agent',
+    name: 'Code Assistant',
     description: '编程助手智能体，支持多种编程语言，提供代码审查、优化建议和调试帮助。',
     category: '编程开发',
     difficulty: 'advanced',
@@ -84,7 +84,7 @@ const agentTemplates: AgentTemplate[] = [
   },
   {
     id: 'compute-user',
-    name: 'Compute User Agent',
+    name: 'Compute Use',
     description: '计算用户智能体，专门处理数学计算、公式推导和复杂算法问题。',
     category: '数学计算',
     difficulty: 'advanced',
