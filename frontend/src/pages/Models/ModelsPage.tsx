@@ -536,8 +536,8 @@ const ModelsPage: React.FC = () => {
               </div>
               
               {/* Overlay Buttons - Only visible on hover */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-4 w-full px-6">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-4 w-full px-6 absolute bottom-6">
                   <Button
                     variant="contained"
                     size="large"
@@ -580,8 +580,8 @@ const ModelsPage: React.FC = () => {
               </div>
               
               {/* Overlay Buttons - Only visible on hover */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-4 w-full px-6">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-4 w-full px-6 absolute bottom-6">
                   <Button
                     variant="contained"
                     size="large"
@@ -624,8 +624,8 @@ const ModelsPage: React.FC = () => {
               </div>
               
               {/* Overlay Buttons - Only visible on hover */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-4 w-full px-6">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-4 w-full px-6 absolute bottom-6">
                   <Button
                     variant="contained"
                     size="large"
@@ -668,8 +668,8 @@ const ModelsPage: React.FC = () => {
               </div>
               
               {/* Overlay Buttons - Only visible on hover */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-4 w-full px-6">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-4 w-full px-6 absolute bottom-6">
                   <Button
                     variant="contained"
                     size="large"
@@ -712,8 +712,8 @@ const ModelsPage: React.FC = () => {
               </div>
               
               {/* Overlay Buttons - Only visible on hover */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-4 w-full px-6">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-4 w-full px-6 absolute bottom-6">
                   <Button
                     variant="contained"
                     size="large"
@@ -756,8 +756,8 @@ const ModelsPage: React.FC = () => {
               </div>
               
               {/* Overlay Buttons - Only visible on hover */}
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-4 w-full px-6">
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <div className="flex space-x-4 w-full px-6 absolute bottom-6">
                   <Button
                     variant="contained"
                     size="large"
