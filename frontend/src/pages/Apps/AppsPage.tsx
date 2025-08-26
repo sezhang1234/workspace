@@ -328,18 +328,18 @@ const AppsPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <button
-                    onClick={() => handleUseTemplate(template)}
-                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
-                    title={template.isCustomizable ? '自定义使用' : '直接使用'}
-                  >
-                    {template.isCustomizable ? <Settings className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  </button>
-                  <button
                     onClick={() => handleCopyTemplate(template)}
                     className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
                     title="添加到工作空间"
                   >
                     <Plus className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleUseTemplate(template)}
+                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+                    title={template.isCustomizable ? '自定义使用' : '直接使用'}
+                  >
+                    {template.isCustomizable ? <Settings className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   </button>
                 </div>
                 
