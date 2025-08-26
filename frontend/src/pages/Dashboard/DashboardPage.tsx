@@ -60,7 +60,7 @@ const DashboardPage: React.FC = () => {
       id: 2,
       name: '数据分析师',
       description: '数据分析智能体，自动生成报告',
-      status: 'training',
+      status: 'active',
       lastActive: '1天前',
       avatar: '📊'
     },
@@ -206,10 +206,9 @@ const DashboardPage: React.FC = () => {
                   <p className="text-xs text-gray-500">{agent.description}</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      agent.status === 'active' ? 'bg-green-100 text-green-800' :
-                      agent.status === 'training' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'
+                      agent.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                     }`}>
-                      {agent.status === 'active' ? '运行中' : agent.status === 'training' ? '训练中' : '已停止'}
+                      {agent.status === 'active' ? '运行中' : '已停止'}
                     </span>
                     <span className="text-xs text-gray-400">{agent.lastActive}</span>
                   </div>
