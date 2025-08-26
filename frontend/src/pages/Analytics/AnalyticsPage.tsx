@@ -108,7 +108,7 @@ interface AnalyticsData {
 const AnalyticsPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState('30d')
   const [refreshData, setRefreshData] = useState(false)
-  const [showDetailedMetrics, setShowDetailedMetrics] = useState(true)
+
 
   // Chart configuration options
   const chartOptions = {
@@ -275,48 +275,47 @@ const AnalyticsPage: React.FC = () => {
           深入了解平台使用情况、性能指标和用户行为分析
         </p>
         
-        <div className="flex items-center justify-center space-x-3">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showDetailedMetrics}
-                onChange={(e) => setShowDetailedMetrics(e.target.checked)}
-              />
-            }
-            label="详细指标"
-            className="text-gray-700 font-medium"
-          />
-          <FormControl size="small">
-            <InputLabel>时间范围</InputLabel>
-            <Select
-              value={timeRange}
-              label="时间范围"
-              onChange={(e) => setTimeRange(e.target.value)}
-              className="min-w-[120px]"
-            >
-              <MenuItem value="7d">最近7天</MenuItem>
-              <MenuItem value="30d">最近30天</MenuItem>
-              <MenuItem value="90d">最近90天</MenuItem>
-              <MenuItem value="1y">最近1年</MenuItem>
-            </Select>
-          </FormControl>
-          <Button
-            variant="outlined"
-            startIcon={<RotateCcw />}
-            onClick={handleRefresh}
-            disabled={refreshData}
-            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-300 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
-          >
-            {refreshData ? '刷新中...' : '刷新数据'}
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<Download />}
-            onClick={handleExport}
-            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-300 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
-          >
-            导出数据
-          </Button>
+
+      </div>
+
+      {/* Controls */}
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <FormControl size="small">
+              <InputLabel>时间范围</InputLabel>
+              <Select
+                value={timeRange}
+                label="时间范围"
+                onChange={(e) => setTimeRange(e.target.value)}
+                className="min-w-[140px]"
+              >
+                <MenuItem value="7d">最近7天</MenuItem>
+                <MenuItem value="30d">最近30天</MenuItem>
+                <MenuItem value="90d">最近90天</MenuItem>
+                <MenuItem value="1y">最近1年</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Tooltip title="刷新数据">
+              <IconButton
+                onClick={handleRefresh}
+                disabled={refreshData}
+                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hover:border-blue-300 p-2 rounded-lg transition-all duration-200"
+              >
+                <RotateCcw className={`w-5 h-5 ${refreshData ? 'animate-spin' : ''}`} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="导出数据">
+              <IconButton
+                onClick={handleExport}
+                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hover:border-blue-300 p-2 rounded-lg transition-all duration-200"
+              >
+                <Download className="w-5 h-5" />
+              </IconButton>
+            </Tooltip>
+          </div>
         </div>
       </div>
 
@@ -412,9 +411,7 @@ const AnalyticsPage: React.FC = () => {
       </Grid>
 
       {/* Detailed metrics */}
-      {showDetailedMetrics && (
-        <>
-          {/* Top Agents */}
+      {/* Top Agents */}
           <Card>
             <CardContent>
               <div className="flex items-center justify-between mb-4">
@@ -690,8 +687,6 @@ const AnalyticsPage: React.FC = () => {
               </Card>
             </Grid>
           </Grid>
-        </>
-      )}
 
       {/* Summary insights */}
       <Card>
