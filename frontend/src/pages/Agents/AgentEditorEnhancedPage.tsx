@@ -18,7 +18,8 @@ import {
   MessageSquare,
   Plug,
   Edit3,
-  Plus
+  Plus,
+  ChevronDown
 } from 'lucide-react'
 import { 
   TextField, 
@@ -937,7 +938,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               {/* Model Selection */}
               <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-blue-100 to-purple-100 rounded-2xl bg-gradient-to-br from-white to-blue-50">
                 <AccordionSummary 
-                  expandIcon={<Settings className="w-6 h-6 text-blue-600 transform transition-transform duration-200" />} 
+                  expandIcon={<ChevronDown className="w-6 h-6 text-blue-600 transform transition-transform duration-200" />} 
                   className="px-6 py-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300"
                 >
                   <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-bold text-lg">
@@ -1048,7 +1049,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               {/* Skills Configuration */}
               <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-green-100 to-emerald-100 rounded-2xl bg-gradient-to-br from-white to-green-50">
                 <AccordionSummary 
-                  expandIcon={<Settings className="w-6 h-6 text-green-600 transform transition-transform duration-200" />} 
+                  expandIcon={<ChevronDown className="w-6 h-6 text-green-600 transform transition-transform duration-200" />} 
                   className="px-6 py-4 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all duration-300"
                 >
                   <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-lg">
@@ -1061,7 +1062,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     {/* Plugins Section */}
                     <Accordion className="shadow-md border-2 border-green-200 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50">
                       <AccordionSummary 
-                        expandIcon={<Settings className="w-5 h-5 text-green-600 transform transition-transform duration-200" />} 
+                        expandIcon={<ChevronDown className="w-5 h-5 text-green-600 transform transition-transform duration-200" />} 
                         className="px-4 py-3 hover:bg-green-100 transition-all duration-300"
                       >
                         <Typography variant="subtitle1" className="text-green-700 font-semibold flex items-center">
@@ -1126,7 +1127,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     {/* Workflows Section */}
                     <Accordion className="shadow-md border-2 border-emerald-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50">
                       <AccordionSummary 
-                        expandIcon={<Settings className="w-5 h-5 text-emerald-600 transform transition-transform duration-200" />} 
+                        expandIcon={<ChevronDown className="w-5 h-5 text-emerald-600 transform transition-transform duration-200" />} 
                         className="px-4 py-3 hover:bg-emerald-100 transition-all duration-300"
                       >
                         <Typography variant="subtitle1" className="text-emerald-700 font-semibold flex items-center">
@@ -1192,7 +1193,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               {/* Knowledge and Memory */}
               <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-purple-100 to-pink-100 rounded-2xl bg-gradient-to-br from-white to-purple-50">
                 <AccordionSummary 
-                  expandIcon={<Settings className="w-6 h-6 text-purple-600 transform transition-transform duration-200" />} 
+                  expandIcon={<ChevronDown className="w-6 h-6 text-purple-600 transform transition-transform duration-200" />} 
                   className="px-6 py-4 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300"
                 >
                   <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
