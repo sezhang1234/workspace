@@ -957,7 +957,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         <Select
                           value={agentConfig.model}
                           onChange={(e) => setAgentConfig(prev => ({ ...prev, model: e.target.value }))}
-                          className="mt-2 border-2 border-blue-200 rounded-lg hover:border-blue-400 transition-all duration-300"
+                          className="border-2 border-blue-200 rounded-lg hover:border-blue-400 transition-all duration-300"
                           size="medium"
                           sx={{
                             '& .MuiOutlinedInput-root': {
