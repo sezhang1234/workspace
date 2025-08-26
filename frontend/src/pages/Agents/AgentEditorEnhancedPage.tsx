@@ -294,6 +294,16 @@ const AgentEditorEnhancedPage: React.FC = () => {
         role: 'assistant',
         content: '大阪购物攻略来啦！🛍️\n\n🏬 **购物区域**\n• 心斋桥：时尚购物街，品牌齐全\n• 道顿堀：美食+购物，热闹非凡\n• 梅田：高端商场，地下街发达\n• 难波：平价购物，适合年轻人\n\n🛒 **推荐商场**\n• 大丸百货：高端品牌，服务优质\n• 阪急百货：梅田地标，商品丰富\n• 高岛屋：老牌百货，品质保证\n• 唐吉诃德：药妆+杂货，价格实惠\n\n💄 **必买商品**\n• 药妆：松本清、大国药妆\n• 零食：白色恋人、Royce巧克力\n• 电器：BicCamera、Yodobashi\n• 服装：优衣库、GU、ZARA\n\n💰 **退税信息**\n• 满5000日元可退税\n• 记得带护照\n• 部分商场可当场退税\n\n需要我推荐具体的购物路线吗？',
         timestamp: new Date(Date.now() - 5000) // 5 seconds ago
+      },
+      {
+        role: 'user',
+        content: '能推荐一些日本的小众景点吗？',
+        timestamp: new Date(Date.now() - 2000) // 2 seconds ago
+      },
+      {
+        role: 'assistant',
+        content: '当然可以！为您推荐一些日本的小众但非常值得一去的景点：\n\n🏯 **京都小众景点**\n• 西芳寺（苔寺）：需要预约，苔藓覆盖的绝美庭院\n• 贵船神社：夏季的川床料理，秋季的红叶美景\n• 三千院：远离喧嚣的净土宗寺院\n• 醍醐寺：樱花季节的绝佳观赏地\n\n🗻 **东京隐藏景点**\n• 根津神社：杜鹃花季节美不胜收\n• 旧古河庭园：四季都有不同景致\n• 小石川后乐园：江户时代的回游式庭园\n• 六义园：红叶季节的绝佳选择\n\n🌊 **其他地区**\n• 白川乡合掌村：世界文化遗产，四季都美\n• 箱根雕刻之森：艺术与自然的完美结合\n• 轻井泽：避暑胜地，欧式风情小镇\n• 金泽：传统工艺与现代艺术的融合\n\n这些地方游客相对较少，能体验到更纯粹的日本文化！',
+        timestamp: new Date(Date.now() - 1000) // 1 second ago
       }
     ],
     debugStats: {
@@ -1798,10 +1808,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
 
           {/* Preview and Debug Tab */}
           <TabPanel value={activeTab} index={2}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" style={{ height: 'calc(100vh - 300px)' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Left Panel - Chatbot Dialog */}
-              <div className="flex flex-col h-full">
-                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50">
+              <div className="flex flex-col">
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50" style={{ height: '600px' }}>
                   <div className="flex items-center justify-between mb-4">
                     <Typography variant="h6" className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                       智能体调试对话
@@ -1815,7 +1825,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </div>
                   
                   {/* Chat Messages Area */}
-                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100" style={{ minHeight: 0 }}>
+                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100">
                     {agentConfig.testHistory.length === 0 ? (
                       <div className="text-center py-8">
                         <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -1919,13 +1929,13 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               </div>
 
               {/* Right Panel - Debug Information Tree */}
-              <div className="flex flex-col h-full">
-                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col bg-gradient-to-br from-green-50 to-emerald-50">
+              <div className="flex flex-col">
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl flex flex-col bg-gradient-to-br from-green-50 to-emerald-50" style={{ height: '600px' }}>
                   <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-lg">
                     调试信息树
                   </Typography>
                   
-                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100" style={{ minHeight: 0 }}>
+                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100">
                     <div className="space-y-4">
                       {/* Real-time Running Status */}
                       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-4">
