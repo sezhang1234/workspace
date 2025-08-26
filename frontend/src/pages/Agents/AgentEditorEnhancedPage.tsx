@@ -544,10 +544,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       <div className="flex items-center justify-between mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
                         <div className="flex items-center space-x-3">
                           <Typography variant="subtitle1" className="text-gray-800 font-medium">
-                            导入用例集
+                            用户用例列表
                           </Typography>
                           <Typography variant="body2" className="text-gray-500">
-                            支持 JSON、CSV、TXT 格式文件
+                            支持 JSON、CSV、TXT 格式文件，显示文件中的具体用例
                           </Typography>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -595,7 +595,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                         }]
                                       }
                                     }))
-                                    setSnackbar({ open: true, message: '用例集上传成功！', severity: 'success' })
+                                    setSnackbar({ open: true, message: '用户用例上传成功！', severity: 'success' })
                                   } catch (error) {
                                     setSnackbar({ open: true, message: '文件解析失败，请检查文件格式', severity: 'error' })
                                   }
@@ -632,25 +632,19 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         </div>
                       </div>
 
-                      {/* Use Cases Table */}
+                      {/* User Cases Table */}
                       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
                           <thead className="bg-gray-50">
                             <tr>
                               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                用例集名称
+                                用户输入
                               </th>
                               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                文件类型
+                                助手回复
                               </th>
                               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                示例数量
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                上传时间
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                状态
+                                来源文件
                               </th>
                               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 操作
@@ -659,78 +653,83 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           </thead>
                           <tbody className="bg-white divide-y divide-gray-200">
                             {agentConfig.promptTuning.useCases && agentConfig.promptTuning.useCases.length > 0 ? (
-                              agentConfig.promptTuning.useCases.map((useCase) => (
-                                <tr key={useCase.id} className="hover:bg-gray-50">
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center">
-                                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                                        <span className="text-blue-600 text-sm font-medium">
-                                          {useCase.name.split('.').pop()?.toUpperCase()}
-                                        </span>
+                              agentConfig.promptTuning.useCases.flatMap((useCase) => 
+                                useCase.data.map((item, index) => (
+                                  <tr key={`${useCase.id}-${index}`} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4">
+                                      <div className="text-sm text-gray-900 max-w-xs">
+                                        {item.user}
                                       </div>
-                                      <div className="text-sm font-medium text-gray-900">
-                                        {useCase.name}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                      <div className="text-sm text-gray-900 max-w-xs">
+                                        {item.assistant}
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                      {useCase.name.split('.').pop()?.toUpperCase()}
-                                    </span>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {useCase.examples || 1}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {useCase.uploadTime.toLocaleString()}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                      {useCase.status === 'active' ? '活跃' : '已停用'}
-                                    </span>
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <div className="flex items-center space-x-2">
-                                      <IconButton
-                                        size="small"
-                                        className="p-1 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded"
-                                        onClick={() => {
-                                          // Mock edit functionality
-                                          setSnackbar({ open: true, message: '编辑功能开发中...', severity: 'info' })
-                                        }}
-                                      >
-                                        <Edit3 className="w-4 h-4" />
-                                      </IconButton>
-                                      <IconButton
-                                        size="small"
-                                        className="p-1 bg-red-100 hover:bg-red-200 text-red-600 rounded"
-                                        onClick={() => {
-                                          setAgentConfig(prev => ({
-                                            ...prev,
-                                            promptTuning: {
-                                              ...prev.promptTuning,
-                                              useCases: prev.promptTuning.useCases?.filter(uc => uc.id !== useCase.id) || []
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                      {useCase.name}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                      <div className="flex items-center space-x-2">
+                                        <IconButton
+                                          size="small"
+                                          className="p-1 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded"
+                                          onClick={() => {
+                                            // Mock edit functionality
+                                            setSnackbar({ open: true, message: '编辑功能开发中...', severity: 'info' })
+                                          }}
+                                        >
+                                          <Edit3 className="w-4 h-4" />
+                                        </IconButton>
+                                        <IconButton
+                                          size="small"
+                                          className="p-1 bg-red-100 hover:bg-red-200 text-red-600 rounded"
+                                          onClick={() => {
+                                            // Remove this specific user case
+                                            const updatedData = useCase.data.filter((_, i) => i !== index)
+                                            if (updatedData.length === 0) {
+                                              // If no more data in this file, remove the entire file
+                                              setAgentConfig(prev => ({
+                                                ...prev,
+                                                promptTuning: {
+                                                  ...prev.promptTuning,
+                                                  useCases: prev.promptTuning.useCases?.filter(uc => uc.id !== useCase.id) || []
+                                                }
+                                              }))
+                                            } else {
+                                              // Update the file with remaining data
+                                              setAgentConfig(prev => ({
+                                                ...prev,
+                                                promptTuning: {
+                                                  ...prev.promptTuning,
+                                                  useCases: prev.promptTuning.useCases?.map(uc => 
+                                                    uc.id === useCase.id 
+                                                      ? { ...uc, data: updatedData }
+                                                      : uc
+                                                  ) || []
+                                                }
+                                              }))
                                             }
-                                          }))
-                                          setSnackbar({ open: true, message: '用例集已删除', severity: 'success' })
-                                        }}
-                                      >
-                                        <Trash2 className="w-4 h-4" />
-                                      </IconButton>
-                                    </div>
-                                  </td>
-                                </tr>
-                              ))
+                                            setSnackbar({ open: true, message: '用户用例已删除', severity: 'success' })
+                                          }}
+                                        >
+                                          <Trash2 className="w-4 h-4" />
+                                        </IconButton>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
+                              )
                             ) : (
                               <tr>
-                                <td colSpan={6} className="px-6 py-12 text-center">
+                                <td colSpan={4} className="px-6 py-12 text-center">
                                   <div className="flex flex-col items-center space-y-3">
                                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                                       <Upload className="w-6 h-6 text-gray-400" />
                                     </div>
                                     <div>
                                       <Typography variant="body1" className="text-gray-500 font-medium">
-                                        暂无用例集
+                                        暂无用户用例
                                       </Typography>
                                       <Typography variant="body2" className="text-gray-400">
                                         点击上方上传图标添加用例集
