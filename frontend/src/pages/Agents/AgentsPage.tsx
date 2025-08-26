@@ -67,42 +67,6 @@ const AgentsPage: React.FC = () => {
       usageCount: 890,
       tags: ['编程', '代码审查', '优化'],
       createdAt: '2024-01-10'
-    },
-    {
-      id: '4',
-      name: '翻译助手',
-      description: '多语言翻译智能体，支持100+语言',
-      avatar: '🌍',
-      status: 'inactive',
-      model: 'GPT-3.5',
-      lastActive: '1周前',
-      usageCount: 2345,
-      tags: ['翻译', '多语言', '国际化'],
-      createdAt: '2024-01-05'
-    },
-    {
-      id: '5',
-      name: '营销文案助手',
-      description: '营销文案生成和优化智能体',
-      avatar: '📝',
-      status: 'active',
-      model: 'Claude-3',
-      lastActive: '30分钟前',
-      usageCount: 678,
-      tags: ['营销', '文案', '创意'],
-      createdAt: '2024-01-25'
-    },
-    {
-      id: '6',
-      name: '财务分析师',
-      description: '财务数据分析和预测智能体',
-      avatar: '💰',
-      status: 'error',
-      model: 'GPT-4',
-      lastActive: '2天前',
-      usageCount: 123,
-      tags: ['财务', '分析', '预测'],
-      createdAt: '2024-01-18'
     }
   ]
 

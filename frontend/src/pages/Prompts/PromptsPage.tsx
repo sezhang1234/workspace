@@ -79,51 +79,6 @@ const PromptsPage: React.FC = () => {
       author: '营销团队',
       createdAt: '2024-01-20',
       lastModified: '2024-01-25'
-    },
-    {
-      id: '4',
-      name: '数据分析报告',
-      description: '自动生成数据分析报告和洞察',
-      content: '请分析以下数据并生成详细的分析报告，包括关键指标、趋势分析...',
-      category: '分析',
-      tags: ['数据分析', '报告', '洞察', '趋势'],
-      version: '1.8.1',
-      usageCount: 345,
-      rating: 4.7,
-      isPublic: true,
-      author: '数据团队',
-      createdAt: '2024-01-12',
-      lastModified: '2024-01-22'
-    },
-    {
-      id: '5',
-      name: '翻译优化助手',
-      description: '优化和润色翻译文本，提升语言质量',
-      content: '你是一个专业的翻译专家，请优化以下翻译文本，使其更加自然流畅...',
-      category: '语言',
-      tags: ['翻译', '优化', '语言质量', '润色'],
-      version: '1.3.0',
-      usageCount: 234,
-      rating: 4.5,
-      isPublic: true,
-      author: '国际化团队',
-      createdAt: '2024-01-18',
-      lastModified: '2024-01-24'
-    },
-    {
-      id: '6',
-      name: '产品描述生成',
-      description: '生成详细的产品描述和特性介绍',
-      content: '请为以下产品生成详细的产品描述，突出其核心特性和优势...',
-      category: '产品',
-      tags: ['产品', '描述', '特性', '介绍'],
-      version: '1.0.0',
-      usageCount: 123,
-      rating: 4.4,
-      isPublic: false,
-      author: '产品团队',
-      createdAt: '2024-01-25',
-      lastModified: '2024-01-25'
     }
   ]
 
@@ -131,10 +86,7 @@ const PromptsPage: React.FC = () => {
     { value: 'all', label: '所有分类' },
     { value: '客服', label: '客服' },
     { value: '编程', label: '编程' },
-    { value: '营销', label: '营销' },
-    { value: '分析', label: '分析' },
-    { value: '语言', label: '语言' },
-    { value: '产品', label: '产品' }
+    { value: '营销', label: '营销' }
   ]
 
   const filteredPrompts = prompts.filter(prompt => {
