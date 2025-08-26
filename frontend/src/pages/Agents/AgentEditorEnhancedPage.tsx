@@ -977,7 +977,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       }}
                       className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                     >
-                      开始优化
+                      开始优化提示词
                     </Button>
                   </div>
 
