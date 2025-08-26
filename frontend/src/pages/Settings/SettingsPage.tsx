@@ -245,23 +245,26 @@ const SettingsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           管理您的账户、安全和应用程序偏好设置
         </p>
-        <Button
-          variant="contained"
-          startIcon={<Save />}
-          onClick={handleSave}
-          disabled={isSaving}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-        >
-          {isSaving ? '保存中...' : '保存设置'}
-        </Button>
+
       </div>
 
       {/* Settings tabs */}
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-            设置选项
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+              设置选项
+            </h2>
+            <Button
+              variant="contained"
+              startIcon={<Save />}
+              onClick={handleSave}
+              disabled={isSaving}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+            >
+              {isSaving ? '保存中...' : '保存设置'}
+            </Button>
+          </div>
         </div>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs 
