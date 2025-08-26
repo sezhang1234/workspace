@@ -26,7 +26,8 @@ import {
   TableHead,
   TableRow,
   Switch,
-  FormControlLabel
+  FormControlLabel,
+  IconButton
 } from '@mui/material'
 import {
   Chart as ChartJS,
