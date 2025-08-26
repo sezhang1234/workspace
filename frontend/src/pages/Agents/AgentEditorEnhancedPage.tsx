@@ -580,34 +580,18 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </div>
                   
                   {/* Tips for System Prompt Development */}
-                  <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
-                    <Typography variant="subtitle2" className="mb-3 text-blue-800 font-semibold flex items-center">
-                      <Brain className="w-5 h-5 mr-2" />
-                      系统提示词开发技巧
+                  <Alert 
+                    severity="info" 
+                    icon={<Sparkles className="w-6 h-6" />}
+                    className="border border-blue-200 bg-blue-50 mt-6"
+                  >
+                    <Typography variant="body1" className="text-blue-800">
+                      <strong>系统提示词开发：</strong>
+                      系统提示词是智能体的核心配置，定义了智能体的角色、能力、行为准则和响应风格。
+                      通过编写清晰的系统提示词，可以让智能体更好地理解用户需求并提供准确的帮助。
+                      建议包含角色定义、行为准则、能力范围、示例对话和限制说明等关键要素。
                     </Typography>
-                    <div className="space-y-2 text-sm text-blue-700">
-                      <div className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span><strong>角色定义：</strong>明确智能体的身份、专业领域和主要职责</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span><strong>行为准则：</strong>设定智能体的行为规范、响应风格和沟通方式</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span><strong>能力范围：</strong>详细描述智能体能够完成的任务和提供的服务</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span><strong>示例对话：</strong>提供典型的用户交互场景和期望的回复格式</span>
-                      </div>
-                      <div className="flex items-start">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        <span><strong>限制说明：</strong>明确智能体的能力边界和不能处理的情况</span>
-                      </div>
-                    </div>
-                  </div>
+                  </Alert>
                 </Paper>
 
               {agentConfig.editMode === 'ai' && (
