@@ -8,7 +8,6 @@ import {
   Users, 
   Zap,
   Plus,
-  Play,
   BarChart3
 } from 'lucide-react'
 
@@ -141,12 +140,7 @@ const DashboardPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900">仪表板</h1>
           <p className="text-gray-600">欢迎回到 Jiuwen，查看您的智能体开发进度</p>
         </div>
-        <div className="flex items-center space-x-3">
-          <button className="btn-primary flex items-center space-x-2">
-            <Play className="w-4 h-4" />
-            <span>快速开始</span>
-          </button>
-        </div>
+
       </div>
 
       {/* Stats cards */}
