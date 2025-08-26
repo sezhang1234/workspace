@@ -86,23 +86,23 @@ const WorkflowCreationPage: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="bg-white shadow-lg border-b border-gray-100">
         <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20">
             <div className="flex items-center space-x-4">
               <Button
                 variant="outlined"
                 startIcon={<ArrowLeft />}
                 onClick={handleCancel}
-                className="border-gray-200 text-gray-700 hover:bg-gray-50"
+                className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 返回
               </Button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">创建工作流</h1>
-                <p className="text-sm text-gray-600">配置工作流基本信息，然后进入可视化编辑器</p>
+                <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900">创建工作流</h1>
+                <p className="text-lg text-gray-600 mt-1">配置工作流基本信息，然后进入可视化编辑器</p>
               </div>
             </div>
           </div>
@@ -114,11 +114,18 @@ const WorkflowCreationPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Workflow Form */}
           <div className="space-y-6">
-            <Card className="shadow-lg border-0 h-full">
-              <CardContent className="p-6">
-                <Typography variant="h6" className="text-gray-800 font-semibold mb-4">
-                  基本信息
-                </Typography>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                    <Plus className="w-4 h-4 text-white" />
+                  </div>
+                  <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                    基本信息
+                  </Typography>
+                </div>
+              </div>
+              <div className="p-6">
                 
                 <div className="space-y-4">
                   {/* Workflow Name */}
@@ -132,7 +139,7 @@ const WorkflowCreationPage: React.FC = () => {
                       placeholder="输入工作流名称"
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="bg-white"
+                      className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                     />
                   </div>
 
@@ -149,7 +156,7 @@ const WorkflowCreationPage: React.FC = () => {
                       placeholder="描述工作流的功能和用途..."
                       value={formData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
-                      className="bg-white"
+                      className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                     />
                   </div>
 
@@ -167,13 +174,13 @@ const WorkflowCreationPage: React.FC = () => {
                         value={newTag}
                         onChange={(e) => setNewTag(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                        className="bg-white flex-1"
+                        className="flex-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                       />
                       <Button
                         size="small"
                         variant="outlined"
                         onClick={handleAddTag}
-                        className="border-gray-300 text-gray-700"
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
                       >
                         添加
                       </Button>
@@ -184,7 +191,7 @@ const WorkflowCreationPage: React.FC = () => {
                           key={tag}
                           label={tag}
                           onDelete={() => handleRemoveTag(tag)}
-                          className="bg-blue-100 text-blue-800"
+                          className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
                           size="small"
                         />
                       ))}
@@ -207,7 +214,7 @@ const WorkflowCreationPage: React.FC = () => {
                           type="number"
                           value={formData.timeout}
                           onChange={(e) => handleInputChange('timeout', parseInt(e.target.value))}
-                          className="bg-white mt-1"
+                          className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                         />
                       </div>
                       <div>
@@ -220,7 +227,7 @@ const WorkflowCreationPage: React.FC = () => {
                           type="number"
                           value={formData.retryCount}
                           onChange={(e) => handleInputChange('retryCount', parseInt(e.target.value))}
-                          className="bg-white mt-1"
+                          className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                         />
                       </div>
                     </div>
@@ -250,11 +257,18 @@ const WorkflowCreationPage: React.FC = () => {
 
           {/* Right Side - Demonstration Image */}
           <div className="h-full">
-            <Card className="shadow-lg border-0 h-full">
-              <CardContent className="p-6 h-full flex flex-col">
-                <Typography variant="h6" className="text-gray-800 font-semibold mb-4">
-                  工作流画布预览
-                </Typography>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden h-full">
+              <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                    <Bot className="w-4 h-4 text-white" />
+                  </div>
+                  <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                    工作流画布预览
+                  </Typography>
+                </div>
+              </div>
+              <div className="p-6 h-full flex flex-col">
                 
                 <div className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-dashed border-blue-200 p-8 text-center flex flex-col justify-center">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -294,8 +308,8 @@ const WorkflowCreationPage: React.FC = () => {
                     可以添加节点、配置参数、测试运行和保存工作流。
                   </Typography>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -304,7 +318,7 @@ const WorkflowCreationPage: React.FC = () => {
           <Button
             variant="outlined"
             onClick={handleCancel}
-            className="border-gray-300 text-gray-700 hover:bg-gray-50"
+            className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
           >
             取消
           </Button>
@@ -312,7 +326,7 @@ const WorkflowCreationPage: React.FC = () => {
             variant="contained"
             onClick={handleCreate}
             disabled={!formData.name.trim()}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
             startIcon={<Plus />}
           >
             创建工作流
