@@ -17,7 +17,8 @@ import {
   BookOpen,
   MessageSquare,
   Plug,
-  Edit3
+  Edit3,
+  Plus
 } from 'lucide-react'
 import { 
   TextField, 
@@ -1021,67 +1022,125 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 </AccordionDetails>
               </Accordion>
 
-              {/* Plugin and Workflow Selection */}
+              {/* Skills Configuration */}
               <Accordion className="shadow-sm border border-gray-200 rounded-xl">
                 <AccordionSummary expandIcon={<Settings />} className="px-6">
                   <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
                     <Plug className="mr-3 w-5 h-5 text-green-600" />
-                    插件与工作流
+                    技能配置
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
-                    <div>
-                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
-                        选择插件
-                      </Typography>
-                      <div className="flex flex-wrap gap-3">
-                        {['web_search', 'calculator', 'file_reader', 'image_generator', 'code_interpreter'].map((plugin) => (
-                          <Chip
-                            key={plugin}
-                            label={plugin}
-                            onClick={() => {
-                              const isSelected = agentConfig.plugins.includes(plugin)
-                              setAgentConfig(prev => ({
-                                ...prev,
-                                plugins: isSelected 
-                                  ? prev.plugins.filter(p => p !== plugin)
-                                  : [...prev.plugins, plugin]
-                              }))
-                            }}
-                            color={agentConfig.plugins.includes(plugin) ? 'primary' : 'default'}
-                            variant={agentConfig.plugins.includes(plugin) ? 'filled' : 'outlined'}
-                            className="text-sm px-3 py-2"
-                          />
-                        ))}
-                      </div>
-                    </div>
+                    {/* Plugins Section */}
+                    <Accordion className="shadow-sm border border-gray-200 rounded-lg">
+                      <AccordionSummary expandIcon={<Settings />} className="px-4">
+                        <Typography variant="subtitle1" className="text-gray-700 font-medium">
+                          插件选择
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails className="px-4 pb-4">
+                        <div className="space-y-4">
+                          <div className="flex flex-wrap gap-3">
+                            {[
+                              { id: 'baidu_maps', name: '百度地图', description: '提供地图导航、地点搜索、路线规划等服务' },
+                              { id: 'weather_service', name: '天气服务', description: '实时天气信息、天气预报、空气质量等' },
+                              { id: 'airline_tickets', name: '航空票务', description: '航班查询、机票预订、价格比较等' },
+                              { id: 'web_search', name: '网络搜索', description: '实时网络信息搜索和查询' },
+                              { id: 'calculator', name: '计算器', description: '数学计算、单位转换、公式求解等' },
+                              { id: 'file_reader', name: '文件读取', description: '支持多种格式文件的读取和解析' },
+                              { id: 'image_generator', name: '图像生成', description: 'AI图像生成和编辑功能' },
+                              { id: 'code_interpreter', name: '代码解释器', description: '代码执行、调试和解释功能' }
+                            ].map((plugin) => (
+                              <Chip
+                                key={plugin.id}
+                                label={plugin.name}
+                                onClick={() => {
+                                  const isSelected = agentConfig.plugins.includes(plugin.id)
+                                  setAgentConfig(prev => ({
+                                    ...prev,
+                                    plugins: isSelected 
+                                      ? prev.plugins.filter(p => p !== plugin.id)
+                                      : [...prev.plugins, plugin.id]
+                                  }))
+                                }}
+                                color={agentConfig.plugins.includes(plugin.id) ? 'primary' : 'default'}
+                                variant={agentConfig.plugins.includes(plugin.id) ? 'filled' : 'outlined'}
+                                className="text-sm px-3 py-2 cursor-pointer hover:shadow-md transition-all duration-200"
+                                title={plugin.description}
+                              />
+                            ))}
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              startIcon={<Plus className="w-4 h-4" />}
+                              onClick={() => setSnackbar({ open: true, message: '添加新插件功能开发中...', severity: 'info' })}
+                            >
+                              添加新插件
+                            </Button>
+                            <Typography variant="body2" className="text-gray-500">
+                              已选择 {agentConfig.plugins.length} 个插件
+                            </Typography>
+                          </div>
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
 
-                    <div>
-                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
-                        选择工作流
-                      </Typography>
-                      <div className="flex flex-wrap gap-3">
-                        {['customer_service', 'troubleshooting', 'data_analysis', 'content_generation'].map((workflow) => (
-                          <Chip
-                            key={workflow}
-                            label={workflow}
-                            onClick={() => {
-                              const isSelected = agentConfig.workflows.includes(workflow)
-                              setAgentConfig(prev => ({
-                                ...prev,
-                                workflows: isSelected 
-                                  ? prev.workflows.filter(w => w !== workflow)
-                                  : [...prev.workflows, workflow]
-                              }))
-                            }}
-                            color={agentConfig.workflows.includes(workflow) ? 'primary' : 'default'}
-                            variant={agentConfig.workflows.includes(workflow) ? 'filled' : 'outlined'}
-                            className="text-sm px-3 py-2"
-                          />
-                        ))}
-                      </div>
-                    </div>
+                    {/* Workflows Section */}
+                    <Accordion className="shadow-sm border border-gray-200 rounded-lg">
+                      <AccordionSummary expandIcon={<Settings />} className="px-4">
+                        <Typography variant="subtitle1" className="text-gray-700 font-medium">
+                          工作流选择
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails className="px-4 pb-4">
+                        <div className="space-y-4">
+                          <div className="flex flex-wrap gap-3">
+                            {[
+                              { id: 'travel_planning', name: '旅行规划', description: '完整的旅行行程规划和预订流程' },
+                              { id: 'customer_service', name: '客户服务', description: '标准化的客户问题处理和解决流程' },
+                              { id: 'troubleshooting', name: '故障排除', description: '系统问题诊断和解决方案推荐' },
+                              { id: 'data_analysis', name: '数据分析', description: '数据收集、分析和可视化流程' },
+                              { id: 'content_generation', name: '内容生成', description: '多格式内容创作和编辑流程' },
+                              { id: 'project_management', name: '项目管理', description: '任务分配、进度跟踪和协作管理' }
+                            ].map((workflow) => (
+                              <Chip
+                                key={workflow.id}
+                                label={workflow.name}
+                                onClick={() => {
+                                  const isSelected = agentConfig.workflows.includes(workflow.id)
+                                  setAgentConfig(prev => ({
+                                    ...prev,
+                                    workflows: isSelected 
+                                      ? prev.workflows.filter(w => w !== workflow.id)
+                                      : [...prev.workflows, workflow.id]
+                                  }))
+                                }}
+                                color={agentConfig.workflows.includes(workflow.id) ? 'primary' : 'default'}
+                                variant={agentConfig.workflows.includes(workflow.id) ? 'filled' : 'default'}
+                                className="text-sm px-3 py-2 cursor-pointer hover:shadow-md transition-all duration-200"
+                                title={workflow.description}
+                              />
+                            ))}
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              startIcon={<Plus className="w-4 h-4" />}
+                              onClick={() => setSnackbar({ open: true, message: '添加新工作流功能开发中...', severity: 'info' })}
+                            >
+                              添加新工作流
+                            </Button>
+                            <Typography variant="body2" className="text-gray-500">
+                              已选择 {agentConfig.workflows.length} 个工作流
+                            </Typography>
+                          </div>
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
                   </div>
                 </AccordionDetails>
               </Accordion>
