@@ -248,7 +248,7 @@ const AgentsPage: React.FC = () => {
               
               {/* API Endpoint */}
               <div className="mb-4">
-                <p className="text-xs text-gray-500 font-medium mb-2">Agent Published API</p>
+                <p className="text-xs text-gray-500 font-medium mb-2">智能体 API</p>
                 <div className="flex items-center space-x-2">
                   <code className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-mono flex-1 truncate">
                     {agent.apiEndpoint}
