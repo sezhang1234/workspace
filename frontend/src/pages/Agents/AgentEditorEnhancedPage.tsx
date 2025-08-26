@@ -123,7 +123,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 4 }}>
+        <Box sx={{ p: 4, height: '100%', overflow: 'hidden' }}>
           {children}
         </Box>
       )}
@@ -274,6 +274,26 @@ const AgentEditorEnhancedPage: React.FC = () => {
         role: 'assistant',
         content: '东京美食推荐来啦！🍜\n\n**🍣 寿司类**\n• 筑地市场 - 新鲜寿司\n• 银座久兵卫 - 高级寿司\n• 回转寿司 - 平价选择\n\n**🍜 拉面类**\n• 一兰拉面 - 经典豚骨拉面\n• 一风堂 - 浓郁汤底\n• 新宿中村屋 - 酱油拉面\n\n**🍱 其他美食**\n• 天妇罗 - 浅草今半\n• 烧肉 - 叙叙苑\n• 居酒屋 - 体验日本夜生活\n• 抹茶甜点 - 中村藤吉\n\n**📍 美食聚集地**\n• 新宿 - 各种料理\n• 涩谷 - 时尚餐厅\n• 银座 - 高级料理\n• 浅草 - 传统小吃\n\n建议下载"食べログ"APP查找附近美食！',
         timestamp: new Date(Date.now() - 60000) // 1 minute ago
+      },
+      {
+        role: 'user',
+        content: '京都的交通怎么安排比较好？',
+        timestamp: new Date(Date.now() - 45000) // 45 seconds ago
+      },
+      {
+        role: 'assistant',
+        content: '京都交通安排建议：\n\n🚇 **公共交通**\n• 京都巴士一日券：500日元，覆盖主要景点\n• 地铁：乌丸线和东西线，连接主要区域\n• 京阪电车：连接京都和大阪\n\n🚲 **推荐方式**\n• 租自行车：1000-1500日元/天，最灵活\n• 巴士+步行：经济实惠，体验当地生活\n• 包车：适合家庭或团体出行\n\n📍 **景点分布**\n• 东部：清水寺、祗园、金阁寺\n• 西部：岚山、竹林、渡月桥\n• 中部：二条城、京都御所\n\n💡 **小贴士**\n• 建议购买IC卡（PASMO/SUICA）\n• 避开早晚高峰时段\n• 下载京都巴士APP查看实时信息\n\n需要我为您规划具体的交通路线吗？',
+        timestamp: new Date(Date.now() - 30000) // 30 seconds ago
+      },
+      {
+        role: 'user',
+        content: '大阪有什么购物推荐？',
+        timestamp: new Date(Date.now() - 15000) // 15 seconds ago
+      },
+      {
+        role: 'assistant',
+        content: '大阪购物攻略来啦！🛍️\n\n🏬 **购物区域**\n• 心斋桥：时尚购物街，品牌齐全\n• 道顿堀：美食+购物，热闹非凡\n• 梅田：高端商场，地下街发达\n• 难波：平价购物，适合年轻人\n\n🛒 **推荐商场**\n• 大丸百货：高端品牌，服务优质\n• 阪急百货：梅田地标，商品丰富\n• 高岛屋：老牌百货，品质保证\n• 唐吉诃德：药妆+杂货，价格实惠\n\n💄 **必买商品**\n• 药妆：松本清、大国药妆\n• 零食：白色恋人、Royce巧克力\n• 电器：BicCamera、Yodobashi\n• 服装：优衣库、GU、ZARA\n\n💰 **退税信息**\n• 满5000日元可退税\n• 记得带护照\n• 部分商场可当场退税\n\n需要我推荐具体的购物路线吗？',
+        timestamp: new Date(Date.now() - 5000) // 5 seconds ago
       }
     ],
     debugStats: {
@@ -1778,7 +1798,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
 
           {/* Preview and Debug Tab */}
           <TabPanel value={activeTab} index={2}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[800px]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-300px)] min-h-[600px]">
               {/* Left Panel - Chatbot Dialog */}
               <div className="flex flex-col h-full">
                 <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50">
@@ -1795,7 +1815,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </div>
                   
                   {/* Chat Messages Area */}
-                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100">
+                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100 min-h-0">
                     {agentConfig.testHistory.length === 0 ? (
                       <div className="text-center py-12">
                         <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -1905,7 +1925,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     调试信息树
                   </Typography>
                   
-                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100">
+                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100 min-h-0">
                     <div className="space-y-4">
                       {/* Real-time Running Status */}
                       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-4">
