@@ -14,8 +14,6 @@ import {
   Switch, 
   FormControlLabel,
   Typography,
-  Card,
-  CardContent,
   Chip
 } from '@mui/material'
 import { addWorkflow } from '../../services/workflowService'
@@ -251,8 +249,8 @@ const WorkflowCreationPage: React.FC = () => {
                     />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* Right Side - Demonstration Image */}
