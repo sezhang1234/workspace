@@ -605,7 +605,7 @@ const AnalyticsPage: React.FC = () => {
                     执行趋势
                   </Typography>
                   <div className="h-80">
-                    <Bar
+                    <Line
                       data={{
                         labels: analyticsData.trends.slice(-12).map(trend => 
                           new Date(trend.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
@@ -614,34 +614,63 @@ const AnalyticsPage: React.FC = () => {
                           {
                             label: '执行次数',
                             data: analyticsData.trends.slice(-12).map(trend => trend.executions),
-                            backgroundColor: 'rgba(147, 51, 234, 0.8)',
                             borderColor: 'rgb(147, 51, 234)',
-                            borderWidth: 2,
-                            borderRadius: 6,
-                            borderSkipped: false,
-                            hoverBackgroundColor: 'rgba(147, 51, 234, 1)',
-                            hoverBorderColor: 'rgb(147, 51, 234)'
+                            backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgb(147, 51, 234)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            yAxisID: 'y'
                           },
                           {
                             label: '成功率 (%)',
                             data: analyticsData.trends.slice(-12).map(trend => trend.successRate),
-                            backgroundColor: 'rgba(236, 72, 153, 0.8)',
                             borderColor: 'rgb(236, 72, 153)',
-                            borderWidth: 2,
-                            borderRadius: 6,
-                            borderSkipped: false,
-                            hoverBackgroundColor: 'rgba(236, 72, 153, 1)',
-                            hoverBorderColor: 'rgb(236, 72, 153)'
+                            backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: 'rgb(236, 72, 153)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            yAxisID: 'y1'
                           }
                         ]
                       }}
                       options={{
                         ...chartOptions,
                         scales: {
-                          ...chartOptions.scales,
+                          x: {
+                            ...chartOptions.scales.x
+                          },
                           y: {
-                            ...chartOptions.scales.y,
-                            beginAtZero: true,
+                            type: 'linear' as const,
+                            display: true,
+                            position: 'left' as const,
+                            grid: {
+                              color: 'rgba(0, 0, 0, 0.05)',
+                              borderDash: [5, 5]
+                            },
+                            ticks: {
+                              font: { size: 11 }
+                            }
+                          },
+                          y1: {
+                            type: 'linear' as const,
+                            display: true,
+                            position: 'right' as const,
+                            grid: {
+                              drawOnChartArea: false
+                            },
+                            ticks: {
+                              font: { size: 11 },
+                              callback: function(value) {
+                                return value + '%'
+                              }
+                            },
+                            min: 95,
                             max: 100
                           }
                         }
