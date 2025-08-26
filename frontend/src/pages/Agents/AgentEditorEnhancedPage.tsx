@@ -482,14 +482,12 @@ const AgentEditorEnhancedPage: React.FC = () => {
                   <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
                     系统提示词
                   </Typography>
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={8}
+                  <textarea
                     value={agentConfig.systemPrompt}
                     onChange={(e) => setAgentConfig(prev => ({ ...prev, systemPrompt: e.target.value }))}
                     placeholder="定义智能体的角色、能力和行为准则..."
-                    className="mt-2"
+                    className="mt-2 w-full p-4 border border-gray-300 rounded-lg resize-y min-h-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm leading-relaxed"
+                    style={{ resize: 'vertical' }}
                   />
                   <div className="mt-6">
                     <Button
