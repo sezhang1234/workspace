@@ -505,7 +505,7 @@ const ModelsPage: React.FC = () => {
       <div className="mt-8">
         <div className="mb-6">
           <Typography variant="h5" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-            模型市场
+            安装模型供应商
           </Typography>
           <Typography variant="body1" className="text-gray-600 mt-2">
             探索和安装来自顶级AI提供商的模型
@@ -537,18 +537,18 @@ const ModelsPage: React.FC = () => {
               
               {/* Overlay Buttons - Only visible on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-3">
+                <div className="flex space-x-4 w-full px-6">
                   <Button
                     variant="contained"
                     size="large"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
                   >
                     安装
                   </Button>
                   <Button
                     variant="outlined"
                     size="large"
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
                   >
                     详情
                   </Button>
@@ -581,18 +581,18 @@ const ModelsPage: React.FC = () => {
               
               {/* Overlay Buttons - Only visible on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-3">
+                <div className="flex space-x-4 w-full px-6">
                   <Button
                     variant="contained"
                     size="large"
-                    className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
                   >
                     安装
                   </Button>
                   <Button
                     variant="outlined"
                     size="large"
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
                   >
                     详情
                   </Button>
@@ -625,18 +625,18 @@ const ModelsPage: React.FC = () => {
               
               {/* Overlay Buttons - Only visible on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-3">
+                <div className="flex space-x-4 w-full px-6">
                   <Button
                     variant="contained"
                     size="large"
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
                   >
                     安装
                   </Button>
                   <Button
                     variant="outlined"
                     size="large"
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
                   >
                     详情
                   </Button>
@@ -669,18 +669,18 @@ const ModelsPage: React.FC = () => {
               
               {/* Overlay Buttons - Only visible on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-3">
+                <div className="flex space-x-4 w-full px-6">
                   <Button
                     variant="contained"
                     size="large"
-                    className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-8 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
                   >
                     安装
                   </Button>
                   <Button
                     variant="outlined"
                     size="large"
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
                   >
                     详情
                   </Button>
@@ -713,18 +713,18 @@ const ModelsPage: React.FC = () => {
               
               {/* Overlay Buttons - Only visible on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-3">
+                <div className="flex space-x-4 w-full px-6">
                   <Button
                     variant="contained"
                     size="large"
-                    className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
                   >
                     安装
                   </Button>
                   <Button
                     variant="outlined"
                     size="large"
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
                   >
                     详情
                   </Button>
@@ -757,18 +757,18 @@ const ModelsPage: React.FC = () => {
               
               {/* Overlay Buttons - Only visible on hover */}
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                <div className="flex space-x-3">
+                <div className="flex space-x-4 w-full px-6">
                   <Button
                     variant="contained"
                     size="large"
-                    className="bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-semibold transform hover:scale-105 transition-all duration-200 shadow-lg"
                   >
                     安装
                   </Button>
                   <Button
                     variant="outlined"
                     size="large"
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-200"
+                    className="flex-1 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
                   >
                     详情
                   </Button>
