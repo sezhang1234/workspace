@@ -427,14 +427,8 @@ const AgentEditorEnhancedPage: React.FC = () => {
               <span className="text-4xl">{agentConfig.icon}</span>
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
-                  {isNew ? '创建智能体' : '编辑智能体'}
+                  {agentConfig.name || (isNew ? '创建智能体' : '编辑智能体')}
                 </h1>
-                <p className="text-lg text-gray-600">
-                  {isNew ? '配置智能体的系统提示词、编排参数和调试信息' : '修改智能体配置和参数'}
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  {agentConfig.description}
-                </p>
               </div>
             </div>
             
