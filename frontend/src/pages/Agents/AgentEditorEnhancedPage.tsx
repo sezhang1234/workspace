@@ -247,7 +247,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
       presencePenalty: 0.0
     },
     plugins: ['web_search', 'calculator', 'file_reader'],
-    workflows: ['customer_service', 'troubleshooting'],
+    workflows: [],
     triggers: ['greeting', 'question', 'complaint'],
     knowledge: ['product_manual', 'faq_database', 'company_policies'],
     memory: {
