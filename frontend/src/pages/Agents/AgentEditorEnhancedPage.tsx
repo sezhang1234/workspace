@@ -1299,70 +1299,37 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           <div className="space-y-3">
                             {[
                               { 
-                                id: 'order_processing', 
+                                id: '1', 
                                 name: '订单处理流程', 
                                 description: '自动化订单处理和状态更新，包括库存检查、支付验证和发货通知',
                                 icon: '📦',
                                 category: '电商流程',
-                                status: 'active',
+                                status: 'running',
                                 version: 'v2.1.0',
                                 nodes: 12,
                                 successRate: 98.5
                               },
                               { 
-                                id: 'user_feedback_analysis', 
+                                id: '2', 
                                 name: '用户反馈分析', 
                                 description: '收集和分析用户反馈数据，自动生成洞察报告和优先级建议',
                                 icon: '📊',
                                 category: '数据分析',
-                                status: 'active',
+                                status: 'completed',
                                 version: 'v1.8.5',
                                 nodes: 8,
                                 successRate: 100
                               },
                               { 
-                                id: 'data_sync_process', 
+                                id: '3', 
                                 name: '数据同步流程', 
                                 description: '多系统数据同步和备份，确保数据一致性和完整性',
                                 icon: '🔄',
                                 category: '数据管理',
-                                status: 'active',
+                                status: 'scheduled',
                                 version: 'v3.2.1',
                                 nodes: 15,
                                 successRate: 95.2
-                              },
-                              { 
-                                id: 'marketing_automation', 
-                                name: '营销活动自动化', 
-                                description: '根据用户行为自动触发营销活动，包括邮件、短信和推送通知',
-                                icon: '📢',
-                                category: '营销流程',
-                                status: 'active',
-                                version: 'v2.0.0',
-                                nodes: 20,
-                                successRate: 97.8
-                              },
-                              { 
-                                id: 'system_monitoring', 
-                                name: '系统监控告警', 
-                                description: '实时监控系统性能指标，异常时自动发送告警通知',
-                                icon: '🔔',
-                                category: '运维监控',
-                                status: 'active',
-                                version: 'v1.5.2',
-                                nodes: 6,
-                                successRate: 99.9
-                              },
-                              { 
-                                id: 'content_moderation', 
-                                name: '内容审核流程', 
-                                description: '自动审核用户生成内容，识别不当内容并采取相应措施',
-                                icon: '🛡️',
-                                category: '内容安全',
-                                status: 'active',
-                                version: 'v2.3.0',
-                                nodes: 18,
-                                successRate: 89.3
                               }
                             ].map((workflow) => (
                               <div
