@@ -262,15 +262,20 @@ const AnalyticsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">数据分析</h1>
-          <p className="text-gray-600">深入了解平台使用情况、性能指标和用户行为分析</p>
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+          <BarChart3 className="w-10 h-10 text-white" />
         </div>
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+          数据分析
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+          深入了解平台使用情况、性能指标和用户行为分析
+        </p>
         
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center justify-center space-x-3">
           <FormControlLabel
             control={
               <Switch
@@ -279,6 +284,7 @@ const AnalyticsPage: React.FC = () => {
               />
             }
             label="详细指标"
+            className="text-gray-700 font-medium"
           />
           <FormControl size="small">
             <InputLabel>时间范围</InputLabel>
@@ -286,6 +292,7 @@ const AnalyticsPage: React.FC = () => {
               value={timeRange}
               label="时间范围"
               onChange={(e) => setTimeRange(e.target.value)}
+              className="min-w-[120px]"
             >
               <MenuItem value="7d">最近7天</MenuItem>
               <MenuItem value="30d">最近30天</MenuItem>
@@ -298,6 +305,7 @@ const AnalyticsPage: React.FC = () => {
             startIcon={<RotateCcw />}
             onClick={handleRefresh}
             disabled={refreshData}
+            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-300 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
           >
             {refreshData ? '刷新中...' : '刷新数据'}
           </Button>
@@ -305,6 +313,7 @@ const AnalyticsPage: React.FC = () => {
             variant="outlined"
             startIcon={<Download />}
             onClick={handleExport}
+            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-300 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
           >
             导出数据
           </Button>

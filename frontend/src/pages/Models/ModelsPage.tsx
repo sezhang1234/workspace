@@ -287,108 +287,141 @@ const ModelsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">模型管理</h1>
-          <p className="text-gray-600">配置和管理您的LLM模型，包括API密钥、参数设置和性能监控</p>
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+          <Database className="w-10 h-10 text-white" />
         </div>
-        
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+          模型管理
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+          配置和管理您的LLM模型，包括API密钥、参数设置和性能监控
+        </p>
         <Button
           variant="contained"
           startIcon={<Plus />}
           onClick={() => setShowAddDialog(true)}
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           添加模型
         </Button>
       </div>
 
       {/* Filters and search */}
-      <Card>
-        <CardContent>
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                placeholder="搜索模型名称、提供商或模型ID..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                InputProps={{
-                  startAdornment: <Database className="w-5 h-5 text-gray-400 mr-2" />
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <FormControl fullWidth>
-                <InputLabel>提供商</InputLabel>
-                <Select
-                  value={filterProvider}
-                  label="提供商"
-                  onChange={(e) => setFilterProvider(e.target.value)}
-                >
-                  <MenuItem value="all">所有提供商</MenuItem>
-                  <MenuItem value="OpenAI">OpenAI</MenuItem>
-                  <MenuItem value="Anthropic">Anthropic</MenuItem>
-                  <MenuItem value="Alibaba">Alibaba</MenuItem>
-                  <MenuItem value="Google">Google</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <FormControl fullWidth>
-                <InputLabel>状态</InputLabel>
-                <Select
-                  value={filterStatus}
-                  label="状态"
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                >
-                  <MenuItem value="all">所有状态</MenuItem>
-                  <MenuItem value="active">启用</MenuItem>
-                  <MenuItem value="inactive">禁用</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <Typography variant="body2" color="textSecondary">
-                共 {filteredModels.length} 个模型
-              </Typography>
-            </Grid>
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div className="flex items-center mb-4">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
+            <Database className="w-4 h-4 text-white" />
+          </div>
+          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+            搜索与筛选
+          </h2>
+        </div>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={4}>
+            <TextField
+              fullWidth
+              placeholder="搜索模型名称、提供商或模型ID..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: <Database className="w-5 h-5 text-gray-400 mr-2" />
+              }}
+              className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+            />
           </Grid>
-        </CardContent>
-      </Card>
+          <Grid item xs={12} md={3}>
+            <FormControl fullWidth>
+              <InputLabel>提供商</InputLabel>
+              <Select
+                value={filterProvider}
+                label="提供商"
+                onChange={(e) => setFilterProvider(e.target.value)}
+                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+              >
+                <MenuItem value="all">所有提供商</MenuItem>
+                <MenuItem value="OpenAI">OpenAI</MenuItem>
+                <MenuItem value="Anthropic">Anthropic</MenuItem>
+                <MenuItem value="Alibaba">Alibaba</MenuItem>
+                <MenuItem value="Google">Google</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <FormControl fullWidth>
+              <InputLabel>状态</InputLabel>
+              <Select
+                value={filterStatus}
+                label="状态"
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+              >
+                <MenuItem value="all">所有状态</MenuItem>
+                <MenuItem value="active">启用</MenuItem>
+                <MenuItem value="inactive">禁用</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+              <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                {filteredModels.length}
+              </Typography>
+              <Typography variant="body2" className="text-blue-700 font-medium">
+                个模型
+              </Typography>
+            </div>
+          </Grid>
+        </Grid>
+      </div>
 
       {/* Models table */}
-      <Card>
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
+          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+            模型列表
+          </h2>
+        </div>
         <TableContainer>
           <Table>
             <TableHead>
-              <TableRow>
-                <TableCell>模型名称</TableCell>
-                <TableCell>提供商</TableCell>
-                <TableCell>模型ID</TableCell>
-                <TableCell>状态</TableCell>
-                <TableCell>使用统计</TableCell>
-                <TableCell>标签</TableCell>
-                <TableCell>操作</TableCell>
+              <TableRow className="bg-gray-50">
+                <TableCell className="font-semibold text-gray-700">模型名称</TableCell>
+                <TableCell className="font-semibold text-gray-700">提供商</TableCell>
+                <TableCell className="font-semibold text-gray-700">模型ID</TableCell>
+                <TableCell className="font-semibold text-gray-700">状态</TableCell>
+                <TableCell className="font-semibold text-gray-700">使用统计</TableCell>
+                <TableCell className="font-semibold text-gray-700">标签</TableCell>
+                <TableCell className="font-semibold text-gray-700">操作</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredModels.map((model) => (
-                <TableRow key={model.id}>
+              {filteredModels.map((model, index) => (
+                <TableRow 
+                  key={model.id} 
+                  className={`hover:bg-blue-50 transition-colors duration-200 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
+                >
                   <TableCell>
                     <div>
-                      <Typography variant="subtitle2">{model.name}</Typography>
-                      <Typography variant="caption" color="textSecondary">
+                      <Typography variant="subtitle2" className="font-bold text-gray-900">
+                        {model.name}
+                      </Typography>
+                      <Typography variant="caption" className="text-gray-600">
                         {model.description}
                       </Typography>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Chip label={model.provider} size="small" />
+                    <Chip 
+                      label={model.provider} 
+                      size="small" 
+                      className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 font-semibold"
+                    />
                   </TableCell>
                   <TableCell>
-                    <code className="text-sm bg-gray-100 px-2 py-1 rounded">
+                    <code className="text-sm bg-gradient-to-r from-gray-100 to-blue-100 px-3 py-1 rounded-lg border border-gray-200 font-mono text-blue-700">
                       {model.modelId}
                     </code>
                   </TableCell>
@@ -397,13 +430,23 @@ const ModelsPage: React.FC = () => {
                       label={model.isActive ? '启用' : '禁用'}
                       color={model.isActive ? 'success' : 'default'}
                       size="small"
+                      className={`font-semibold ${model.isActive ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-gray-100 text-gray-700 border border-gray-200'}`}
                     />
                   </TableCell>
                   <TableCell>
-                    <div className="text-sm">
-                      <div>请求: {model.usage.totalRequests.toLocaleString()}</div>
-                      <div>成功率: {model.usage.successRate}%</div>
-                      <div>平均响应: {model.usage.averageResponseTime}s</div>
+                    <div className="text-sm space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">请求:</span>
+                        <span className="font-semibold text-blue-700">{model.usage.totalRequests.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">成功率:</span>
+                        <span className="font-semibold text-green-700">{model.usage.successRate}%</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600">平均响应:</span>
+                        <span className="font-semibold text-orange-700">{model.usage.averageResponseTime}s</span>
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -414,6 +457,7 @@ const ModelsPage: React.FC = () => {
                           label={tag}
                           size="small"
                           onDelete={() => removeTag(model.id, index)}
+                          className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
                         />
                       ))}
                     </div>
@@ -427,6 +471,7 @@ const ModelsPage: React.FC = () => {
                             setSelectedModel(model)
                             setShowTestDialog(true)
                           }}
+                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                         >
                           <TestTube className="w-4 h-4" />
                         </IconButton>
@@ -438,6 +483,7 @@ const ModelsPage: React.FC = () => {
                             setSelectedModel(model)
                             setShowEditDialog(true)
                           }}
+                          className="text-gray-600 hover:text-gray-700 hover:bg-gray-50"
                         >
                           <Settings className="w-4 h-4" />
                         </IconButton>
@@ -446,6 +492,7 @@ const ModelsPage: React.FC = () => {
                         <IconButton
                           size="small"
                           onClick={() => toggleModelStatus(model.id)}
+                          className="text-green-600 hover:text-green-700 hover:bg-green-50"
                         >
                           {model.isActive ? <CheckCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
                         </IconButton>
@@ -454,6 +501,7 @@ const ModelsPage: React.FC = () => {
                         <IconButton
                           size="small"
                           onClick={() => handleCopyApiKey(model.apiKey)}
+                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                         >
                           <Copy className="w-4 h-4" />
                         </IconButton>
@@ -461,8 +509,8 @@ const ModelsPage: React.FC = () => {
                       <Tooltip title="删除模型">
                         <IconButton
                           size="small"
-                          color="error"
                           onClick={() => handleDeleteModel(model.id)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
                         >
                           <Trash2 className="w-4 h-4" />
                         </IconButton>
@@ -474,11 +522,28 @@ const ModelsPage: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Card>
+      </div>
 
       {/* Add Model Dialog */}
-      <Dialog open={showAddDialog} onClose={() => setShowAddDialog(false)} maxWidth="md" fullWidth>
-        <DialogTitle>添加新模型</DialogTitle>
+      <Dialog 
+        open={showAddDialog} 
+        onClose={() => setShowAddDialog(false)} 
+        maxWidth="md" 
+        fullWidth
+        PaperProps={{
+          className: "rounded-2xl shadow-2xl border border-gray-100"
+        }}
+      >
+        <DialogTitle className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <Plus className="w-4 h-4 text-white" />
+            </div>
+            <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+              添加新模型
+            </Typography>
+          </div>
+        </DialogTitle>
         <DialogContent>
           <Grid container spacing={3} className="pt-4">
             <Grid item xs={12} md={6}>
@@ -547,15 +612,43 @@ const ModelsPage: React.FC = () => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowAddDialog(false)}>取消</Button>
-          <Button variant="contained" onClick={handleAddModel}>添加模型</Button>
+        <DialogActions className="bg-gray-50 px-6 py-4">
+          <Button 
+            onClick={() => setShowAddDialog(false)}
+            className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
+          >
+            取消
+          </Button>
+          <Button 
+            variant="contained" 
+            onClick={handleAddModel}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            添加模型
+          </Button>
         </DialogActions>
       </Dialog>
 
       {/* Edit Model Dialog */}
-      <Dialog open={showEditDialog} onClose={() => setShowEditDialog(false)} maxWidth="md" fullWidth>
-        <DialogTitle>编辑模型: {selectedModel?.name}</DialogTitle>
+      <Dialog 
+        open={showEditDialog} 
+        onClose={() => setShowEditDialog(false)} 
+        maxWidth="md" 
+        fullWidth
+        PaperProps={{
+          className: "rounded-2xl shadow-2xl border border-gray-100"
+        }}
+      >
+        <DialogTitle className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <Settings className="w-4 h-4 text-white" />
+            </div>
+            <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+              编辑模型: {selectedModel?.name}
+            </Typography>
+          </div>
+        </DialogTitle>
         <DialogContent>
           {selectedModel && (
             <Grid container spacing={3} className="pt-4">
@@ -643,15 +736,43 @@ const ModelsPage: React.FC = () => {
             </Grid>
           )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowEditDialog(false)}>取消</Button>
-          <Button variant="contained" onClick={handleEditModel}>保存更改</Button>
+        <DialogActions className="bg-gray-50 px-6 py-4">
+          <Button 
+            onClick={() => setShowEditDialog(false)}
+            className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
+          >
+            取消
+          </Button>
+          <Button 
+            variant="contained" 
+            onClick={handleEditModel}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            保存更改
+          </Button>
         </DialogActions>
       </Dialog>
 
       {/* Test Model Dialog */}
-      <Dialog open={showTestDialog} onClose={() => setShowTestDialog(false)} maxWidth="md" fullWidth>
-        <DialogTitle>测试模型: {selectedModel?.name}</DialogTitle>
+      <Dialog 
+        open={showTestDialog} 
+        onClose={() => setShowTestDialog(false)} 
+        maxWidth="md" 
+        fullWidth
+        PaperProps={{
+          className: "rounded-2xl shadow-2xl border border-gray-100"
+        }}
+      >
+        <DialogTitle className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <TestTube className="w-4 h-4 text-white" />
+            </div>
+            <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+              测试模型: {selectedModel?.name}
+            </Typography>
+          </div>
+        </DialogTitle>
         <DialogContent>
           <div className="space-y-4 pt-4">
             <TextField
@@ -670,6 +791,7 @@ const ModelsPage: React.FC = () => {
                 startIcon={<TestTube />}
                 onClick={handleTestModel}
                 disabled={isTesting || !testPrompt.trim()}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
               >
                 {isTesting ? '测试中...' : '开始测试'}
               </Button>
@@ -679,6 +801,7 @@ const ModelsPage: React.FC = () => {
                   setTestPrompt('')
                   setTestResult('')
                 }}
+                className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-all duration-200"
               >
                 重置
               </Button>
@@ -686,18 +809,23 @@ const ModelsPage: React.FC = () => {
 
             {testResult && (
               <div>
-                <Typography variant="h6" className="mb-2">测试结果</Typography>
-                <Card variant="outlined">
-                  <CardContent>
-                    <pre className="whitespace-pre-wrap text-sm">{testResult}</pre>
-                  </CardContent>
-                </Card>
+                <Typography variant="h6" className="mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 font-bold">
+                  测试结果
+                </Typography>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl border border-blue-200 p-4">
+                  <pre className="whitespace-pre-wrap text-sm text-gray-700 font-mono bg-white p-3 rounded-lg border border-gray-200">{testResult}</pre>
+                </div>
               </div>
             )}
           </div>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowTestDialog(false)}>关闭</Button>
+        <DialogActions className="bg-gray-50 px-6 py-4">
+          <Button 
+            onClick={() => setShowTestDialog(false)}
+            className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
+          >
+            关闭
+          </Button>
         </DialogActions>
       </Dialog>
 

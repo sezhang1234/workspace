@@ -58,8 +58,10 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
+        <Box sx={{ p: 4 }}>
+          <div className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm">
+            {children}
+          </div>
         </Box>
       )}
     </div>
@@ -231,28 +233,56 @@ const SettingsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">系统设置</h1>
-          <p className="text-gray-600">管理您的账户、安全和应用程序偏好设置</p>
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+          <Settings className="w-10 h-10 text-white" />
         </div>
-        
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+          系统设置
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+          管理您的账户、安全和应用程序偏好设置
+        </p>
         <Button
           variant="contained"
           startIcon={<Save />}
           onClick={handleSave}
           disabled={isSaving}
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
         >
           {isSaving ? '保存中...' : '保存设置'}
         </Button>
       </div>
 
       {/* Settings tabs */}
-      <Card>
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+            设置选项
+          </h2>
+        </div>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={activeTab} onChange={handleTabChange} aria-label="设置标签页" variant="scrollable">
+          <Tabs 
+            value={activeTab} 
+            onChange={handleTabChange} 
+            aria-label="设置标签页" 
+            variant="scrollable"
+            sx={{
+              '& .MuiTab-root': {
+                color: '#6b7280',
+                fontWeight: 500,
+                '&.Mui-selected': {
+                  color: '#3b82f6',
+                  fontWeight: 600
+                }
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: '#3b82f6'
+              }
+            }}
+          >
             <Tab label="通用设置" icon={<Settings />} />
             <Tab label="个人资料" icon={<Key />} />
             <Tab label="通知设置" icon={<Info />} />
@@ -267,7 +297,14 @@ const SettingsPage: React.FC = () => {
         {/* 通用设置 */}
         <TabPanel value={activeTab} index={0}>
           <div className="space-y-6">
-            <Typography variant="h6">基本设置</Typography>
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                <Settings className="w-4 h-4 text-white" />
+              </div>
+              <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                基本设置
+              </Typography>
+            </div>
             
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
@@ -277,6 +314,7 @@ const SettingsPage: React.FC = () => {
                     value={generalSettings.language}
                     label="语言"
                     onChange={(e) => setGeneralSettings({ ...generalSettings, language: e.target.value })}
+                    className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                   >
                     <MenuItem value="zh-CN">简体中文</MenuItem>
                     <MenuItem value="en-US">English</MenuItem>
@@ -292,6 +330,7 @@ const SettingsPage: React.FC = () => {
                     value={generalSettings.timezone}
                     label="时区"
                     onChange={(e) => setGeneralSettings({ ...generalSettings, timezone: e.target.value })}
+                    className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
                   >
                     <MenuItem value="Asia/Shanghai">中国标准时间 (UTC+8)</MenuItem>
                     <MenuItem value="America/New_York">美国东部时间 (UTC-5)</MenuItem>
@@ -1027,10 +1066,25 @@ const SettingsPage: React.FC = () => {
       </Card>
 
       {/* API Key Dialog */}
-      <Dialog open={showApiKeyDialog} onClose={() => setShowApiKeyDialog(false)}>
-        <DialogTitle>生成新的API密钥</DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" className="mb-4">
+      <Dialog 
+        open={showApiKeyDialog} 
+        onClose={() => setShowApiKeyDialog(false)}
+        PaperProps={{
+          className: "rounded-2xl shadow-2xl border border-gray-100"
+        }}
+      >
+        <DialogTitle className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+              <Key className="w-4 h-4 text-white" />
+            </div>
+            <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+              生成新的API密钥
+            </Typography>
+          </div>
+        </DialogTitle>
+        <DialogContent className="pt-6">
+          <Typography variant="body2" className="mb-4 text-gray-600">
             请保存好这个API密钥，它只会显示一次：
           </Typography>
           <TextField
@@ -1042,17 +1096,30 @@ const SettingsPage: React.FC = () => {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={() => navigator.clipboard.writeText(newApiKey)}
+                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                   >
                     <Copy className="w-4 h-4" />
                   </IconButton>
                 </InputAdornment>
               ),
             }}
+            className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:bg-gray-50"
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowApiKeyDialog(false)}>取消</Button>
-          <Button variant="contained" onClick={addApiKey}>确认</Button>
+        <DialogActions className="bg-gray-50 px-6 py-4">
+          <Button 
+            onClick={() => setShowApiKeyDialog(false)}
+            className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
+          >
+            取消
+          </Button>
+          <Button 
+            variant="contained" 
+            onClick={addApiKey}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            确认
+          </Button>
         </DialogActions>
       </Dialog>
 
