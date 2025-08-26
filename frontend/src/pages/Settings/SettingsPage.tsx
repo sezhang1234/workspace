@@ -513,7 +513,7 @@ const SettingsPage: React.FC = () => {
 
 
         {/* API设置 */}
-        <TabPanel value={activeTab} index={5}>
+        <TabPanel value={activeTab} index={2}>
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <Typography variant="h6">API密钥管理</Typography>
@@ -606,7 +606,7 @@ const SettingsPage: React.FC = () => {
 
 
         {/* 性能设置 */}
-        <TabPanel value={activeTab} index={6}>
+        <TabPanel value={activeTab} index={3}>
           <div className="space-y-6">
             <Typography variant="h6">缓存设置</Typography>
             
