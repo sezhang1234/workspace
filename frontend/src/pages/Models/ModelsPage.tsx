@@ -299,14 +299,13 @@ const ModelsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           配置和管理您的LLM模型，包括API密钥、参数设置和性能监控
         </p>
-        <Button
-          variant="contained"
-          startIcon={<Plus />}
+        <button
           onClick={() => setShowAddDialog(true)}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          添加模型
-        </Button>
+          <Plus className="w-5 h-5" />
+          <span>添加模型</span>
+        </button>
       </div>
 
       {/* Filters and search */}
