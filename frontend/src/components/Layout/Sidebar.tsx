@@ -169,7 +169,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               onClick={onToggleCollapse}
               className={`
                 group flex items-center justify-center rounded-lg transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
-                w-8 h-8
+                w-10 h-10
                 bg-white hover:bg-gray-50
                 border border-gray-200 hover:border-gray-300
                 text-gray-600 hover:text-gray-800
@@ -179,9 +179,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
             >
               {isCollapsed ? (
-                <PanelLeftOpen className="w-4 h-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
+                <PanelLeftOpen className="w-6 h-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
               ) : (
-                <PanelLeftClose className="w-4 h-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
+                <PanelLeftClose className="w-5 h-5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-110" />
               )}
             </button>
         </div>
