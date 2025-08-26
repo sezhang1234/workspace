@@ -1750,8 +1750,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             onClick={() => setSnackbar({ open: true, message: '左对齐功能开发中...', severity: 'info' })}
                             title="左对齐"
                           >
-                            <div className="w-4 h-4 flex items-center justify-start">
+                            <div className="w-4 h-4 flex flex-col justify-center space-y-0.5">
                               <div className="w-3 h-0.5 bg-indigo-700"></div>
+                              <div className="w-2 h-0.5 bg-indigo-700"></div>
+                              <div className="w-1 h-0.5 bg-indigo-700"></div>
                             </div>
                           </button>
                           <button
@@ -1759,8 +1761,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             onClick={() => setSnackbar({ open: true, message: '居中对齐功能开发中...', severity: 'info' })}
                             title="居中对齐"
                           >
-                            <div className="w-4 h-4 flex items-center justify-center">
-                              <div className="w-3 h-0.5 bg-indigo-700"></div>
+                            <div className="w-4 h-4 flex flex-col justify-center space-y-0.5">
+                              <div className="w-3 h-0.5 bg-indigo-700 mx-auto"></div>
+                              <div className="w-2 h-0.5 bg-indigo-700 mx-auto"></div>
+                              <div className="w-1 h-0.5 bg-indigo-700 mx-auto"></div>
                             </div>
                           </button>
                           <button
@@ -1768,8 +1772,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             onClick={() => setSnackbar({ open: true, message: '右对齐功能开发中...', severity: 'info' })}
                             title="右对齐"
                           >
-                            <div className="w-4 h-4 flex items-center justify-end">
-                              <div className="w-3 h-0.5 bg-indigo-700"></div>
+                            <div className="w-4 h-4 flex flex-col justify-center space-y-0.5">
+                              <div className="w-1 h-0.5 bg-indigo-700 ml-auto"></div>
+                              <div className="w-2 h-0.5 bg-indigo-700 ml-auto"></div>
+                              <div className="w-3 h-0.5 bg-indigo-700 ml-auto"></div>
                             </div>
                           </button>
                         </div>
