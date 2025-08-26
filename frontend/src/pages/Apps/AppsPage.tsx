@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
 import { 
-  Typography, 
-  Button, 
-  Card, 
-  CardContent, 
-  Grid, 
-  Chip,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -18,8 +12,7 @@ import {
   Switch,
   FormControlLabel,
   FormGroup,
-  Divider,
-  Box,
+  Grid,
   Alert,
   Snackbar
 } from '@mui/material'
@@ -40,7 +33,8 @@ import {
   Copy,
   Star,
   Eye,
-  Download
+  Download,
+  MoreVertical
 } from 'lucide-react'
 
 interface AgentTemplate {
@@ -221,103 +215,96 @@ const AppsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/30 p-6">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <Typography variant="h4" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 mb-2">
-              应用空间
-            </Typography>
-            <Typography variant="body1" className="text-gray-600">
-              探索和使用预构建的智能体模板，快速创建专业应用
-            </Typography>
-          </div>
-          <Button
-            variant="contained"
-            size="large"
-            startIcon={<Plus />}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-          >
-            创建自定义应用
-          </Button>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <TextField
-                fullWidth
-                placeholder="搜索智能体模板..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                InputProps={{
-                  startAdornment: null,
-                  style: { paddingLeft: '2.5rem' }
-                }}
-              />
-            </div>
-          </div>
-          
-          <div className="flex gap-4">
-            <FormControl className="min-w-[140px]">
-              <InputLabel>分类</InputLabel>
-              <Select
-                value={selectedCategory}
-                label="分类"
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-              >
-                {categories.map(category => (
-                  <MenuItem key={category} value={category}>
-                    {category === 'all' ? '全部分类' : category}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            
-            <FormControl className="min-w-[140px]">
-              <InputLabel>难度</InputLabel>
-              <Select
-                value={selectedDifficulty}
-                label="难度"
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-              >
-                {difficulties.map(difficulty => (
-                  <MenuItem key={difficulty} value={difficulty}>
-                    {difficulty === 'all' ? '全部难度' : getDifficultyText(difficulty)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-        </div>
+    <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
+      {/* Page header */}
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+          应用空间
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+          探索和使用预构建的智能体模板，快速创建专业应用
+        </p>
       </div>
 
-      {/* Templates Grid */}
+      {/* Search and filters */}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Search */}
+        <div className="flex-1">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
+            <input
+              type="text"
+              placeholder="搜索智能体模板名称、描述或标签..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+            />
+          </div>
+        </div>
+
+        {/* Category filter */}
+        <div className="sm:w-48">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {category === 'all' ? '全部分类' : category}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Difficulty filter */}
+        <div className="sm:w-48">
+          <select
+            value={selectedDifficulty}
+            onChange={(e) => setSelectedDifficulty(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+          >
+            {difficulties.map(difficulty => (
+              <option key={difficulty} value={difficulty}>
+                {difficulty === 'all' ? '全部难度' : getDifficultyText(difficulty)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Create Custom App Button */}
+        <button
+          onClick={() => setSnackbar({ open: true, message: '创建自定义应用功能开发中...', severity: 'info' })}
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          <Plus className="w-5 h-5" />
+          <span>创建自定义应用</span>
+        </button>
+      </div>
+
+      {/* Templates grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTemplates.map((template) => (
-          <Card key={template.id} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 overflow-hidden">
-            <CardContent className="p-6">
-              {/* Header */}
+        {filteredTemplates.map((template, index) => (
+          <div 
+            key={template.id} 
+            className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            {/* Gradient top border */}
+            <div className="h-1 bg-gradient-to-r from-blue-500 to-indigo-600" />
+            
+            {/* Template header */}
+            <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white">
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-blue-200">
                     {template.icon}
                   </div>
                   <div>
-                    <Typography variant="h6" className="font-semibold text-gray-900 mb-1">
+                    <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
                       {template.name}
-                    </Typography>
-                    <Chip
-                      label={getDifficultyText(template.difficulty)}
-                      className={`text-xs ${getDifficultyColor(template.difficulty)}`}
-                      size="small"
-                    />
+                    </h3>
+                    <p className="text-sm text-gray-600 font-medium">{template.category}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-1 text-sm text-gray-500">
@@ -327,84 +314,119 @@ const AppsPage: React.FC = () => {
               </div>
 
               {/* Description */}
-              <Typography variant="body2" className="text-gray-600 mb-4 line-clamp-3">
-                {template.description}
-              </Typography>
+              <p className="text-sm text-gray-600 mb-4 leading-relaxed">{template.description}</p>
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {template.tags.slice(0, 3).map((tag, index) => (
-                  <Chip
+                  <span
                     key={index}
-                    label={tag}
-                    size="small"
-                    className="bg-blue-50 text-blue-700 border-blue-200"
-                  />
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
+                  >
+                    {tag}
+                  </span>
                 ))}
                 {template.tags.length > 3 && (
-                  <Chip
-                    label={`+${template.tags.length - 3}`}
-                    size="small"
-                    className="bg-gray-50 text-gray-600 border-gray-200"
-                  />
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
+                    +{template.tags.length - 3}
+                  </span>
                 )}
               </div>
 
-              {/* Stats */}
-              <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                <span>使用次数: {template.usageCount.toLocaleString()}</span>
-                <span>预计时间: {template.estimatedTime}</span>
+              {/* Difficulty and stats */}
+              <div className="flex items-center justify-between mb-4">
+                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getDifficultyColor(template.difficulty)}`}>
+                  {getDifficultyText(template.difficulty)}
+                </span>
+                <div className="text-right">
+                  <p className="text-xs text-gray-500 font-medium">使用次数</p>
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
+                    {template.usageCount.toLocaleString()}
+                  </p>
+                </div>
               </div>
 
               {/* Features */}
               <div className="mb-4">
-                <Typography variant="caption" className="text-gray-500 mb-2 block">
-                  主要功能:
-                </Typography>
+                <p className="text-xs text-gray-500 mb-2 font-medium">主要功能:</p>
                 <div className="flex flex-wrap gap-1">
                   {template.features.slice(0, 2).map((feature, index) => (
-                    <Chip
+                    <span
                       key={index}
-                      label={feature}
-                      size="small"
-                      className="bg-green-50 text-green-700 border-green-200 text-xs"
-                    />
+                      className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200"
+                    >
+                      {feature}
+                    </span>
                   ))}
                   {template.features.length > 2 && (
-                    <Chip
-                      label={`+${template.features.length - 2}`}
-                      size="small"
-                      className="bg-gray-50 text-gray-600 border-gray-200 text-xs"
-                    />
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
+                      +{template.features.length - 2}
+                    </span>
                   )}
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex space-x-2">
-                <Button
-                  variant="contained"
-                  size="small"
-                  startIcon={template.isCustomizable ? <Settings /> : <Play />}
-                  onClick={() => handleUseTemplate(template)}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
-                >
-                  {template.isCustomizable ? '自定义使用' : '直接使用'}
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<Copy />}
-                  onClick={() => handleCopyTemplate(template)}
-                  className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
-                >
-                  复制
-                </Button>
+              {/* Estimated time */}
+              <p className="text-xs text-gray-500 mb-4 font-medium">预计时间: {template.estimatedTime}</p>
+            </div>
+
+            {/* Actions */}
+            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-100">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleUseTemplate(template)}
+                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+                    title={template.isCustomizable ? '自定义使用' : '直接使用'}
+                  >
+                    {template.isCustomizable ? <Settings className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={() => handleCopyTemplate(template)}
+                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+                    title="复制模板"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200">
+                    <MoreVertical className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
+
+      {/* Empty state */}
+      {filteredTemplates.length === 0 && (
+        <div className="text-center py-16">
+          <div className="w-24 h-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Sparkles className="w-12 h-12 text-gray-400" />
+          </div>
+          <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-gray-900 mb-3">
+            没有找到模板
+          </h3>
+          <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+            {searchTerm || selectedCategory !== 'all' || selectedDifficulty !== 'all'
+              ? '尝试调整搜索条件或筛选器来找到您需要的智能体模板'
+              : '开始探索预构建的智能体模板，快速创建专业应用'
+            }
+          </p>
+          {!searchTerm && selectedCategory === 'all' && selectedDifficulty === 'all' && (
+            <button
+              onClick={() => setSnackbar({ open: true, message: '创建自定义应用功能开发中...', severity: 'info' })}
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <Plus className="w-5 h-5" />
+              <span>创建自定义应用</span>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Customization Dialog */}
       <Dialog 
