@@ -1070,54 +1070,203 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           插件选择
                         </Typography>
                       </AccordionSummary>
-                      <AccordionDetails className="px-4 pb-4">
+                                            <AccordionDetails className="px-4 pb-4">
                         <div className="space-y-4">
-                          <div className="flex flex-wrap gap-3">
+                          <div className="space-y-3">
                             {[
-                              { id: 'baidu_maps', name: '百度地图', description: '提供地图导航、地点搜索、路线规划等服务' },
-                              { id: 'weather_service', name: '天气服务', description: '实时天气信息、天气预报、空气质量等' },
-                              { id: 'airline_tickets', name: '航空票务', description: '航班查询、机票预订、价格比较等' },
-                              { id: 'web_search', name: '网络搜索', description: '实时网络信息搜索和查询' },
-                              { id: 'calculator', name: '计算器', description: '数学计算、单位转换、公式求解等' },
-                              { id: 'file_reader', name: '文件读取', description: '支持多种格式文件的读取和解析' },
-                              { id: 'image_generator', name: '图像生成', description: 'AI图像生成和编辑功能' },
-                              { id: 'code_interpreter', name: '代码解释器', description: '代码执行、调试和解释功能' }
+                              { 
+                                id: 'baidu_maps', 
+                                name: '百度地图', 
+                                description: '提供地图导航、地点搜索、路线规划等服务',
+                                icon: '🗺️',
+                                category: '地图服务',
+                                status: 'active',
+                                version: 'v2.1.0'
+                              },
+                              { 
+                                id: 'weather_service', 
+                                name: '天气服务', 
+                                description: '实时天气信息、天气预报、空气质量等',
+                                icon: '🌤️',
+                                category: '天气服务',
+                                status: 'active',
+                                version: 'v1.8.5'
+                              },
+                              { 
+                                id: 'airline_tickets', 
+                                name: '航空票务', 
+                                description: '航班查询、机票预订、价格比较等',
+                                icon: '✈️',
+                                category: '票务服务',
+                                status: 'active',
+                                version: 'v3.2.1'
+                              },
+                              { 
+                                id: 'web_search', 
+                                name: '网络搜索', 
+                                description: '实时网络信息搜索和查询',
+                                icon: '🔍',
+                                category: '搜索服务',
+                                status: 'active',
+                                version: 'v2.0.0'
+                              },
+                              { 
+                                id: 'calculator', 
+                                name: '计算器', 
+                                description: '数学计算、单位转换、公式求解等',
+                                icon: '🧮',
+                                category: '工具服务',
+                                status: 'active',
+                                version: 'v1.5.2'
+                              },
+                              { 
+                                id: 'file_reader', 
+                                name: '文件读取', 
+                                description: '支持多种格式文件的读取和解析',
+                                icon: '📁',
+                                category: '文件服务',
+                                status: 'active',
+                                version: 'v2.3.0'
+                              },
+                              { 
+                                id: 'image_generator', 
+                                name: '图像生成', 
+                                description: 'AI图像生成和编辑功能',
+                                icon: '🎨',
+                                category: 'AI服务',
+                                status: 'active',
+                                version: 'v1.9.8'
+                              },
+                              { 
+                                id: 'code_interpreter', 
+                                name: '代码解释器', 
+                                description: '代码执行、调试和解释功能',
+                                icon: '💻',
+                                category: '开发工具',
+                                status: 'active',
+                                version: 'v2.5.1'
+                              }
                             ].map((plugin) => (
-                                                             <Chip
-                                 key={plugin.id}
-                                 label={plugin.name}
-                                 onClick={() => {
-                                   const isSelected = agentConfig.plugins.includes(plugin.id)
-                                   setAgentConfig(prev => ({
-                                     ...prev,
-                                     plugins: isSelected 
-                                       ? prev.plugins.filter(p => p !== plugin.id)
-                                       : [...prev.plugins, plugin.id]
-                                   }))
-                                 }}
-                                 color={agentConfig.plugins.includes(plugin.id) ? 'primary' : 'default'}
-                                 variant={agentConfig.plugins.includes(plugin.id) ? 'filled' : 'outlined'}
-                                 className={`text-sm px-4 py-3 cursor-pointer transition-all duration-300 font-medium ${
-                                   agentConfig.plugins.includes(plugin.id)
-                                     ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg scale-105'
-                                     : 'bg-white border-2 border-green-200 text-green-700 hover:border-green-400 hover:shadow-md hover:scale-105'
-                                 }`}
-                                 title={plugin.description}
-                               />
+                              <div
+                                key={plugin.id}
+                                className={`p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
+                                  agentConfig.plugins.includes(plugin.id)
+                                    ? 'border-green-400 bg-gradient-to-r from-green-50 to-emerald-50 shadow-lg scale-[1.02]'
+                                    : 'border-gray-200 bg-white hover:border-green-300 hover:shadow-md hover:scale-[1.01]'
+                                }`}
+                                onClick={() => {
+                                  const isSelected = agentConfig.plugins.includes(plugin.id)
+                                  setAgentConfig(prev => ({
+                                    ...prev,
+                                    plugins: isSelected 
+                                      ? prev.plugins.filter(p => p !== plugin.id)
+                                      : [...prev.plugins, plugin.id]
+                                  }))
+                                }}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center space-x-4 flex-1">
+                                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl ${
+                                      agentConfig.plugins.includes(plugin.id)
+                                        ? 'bg-green-100'
+                                        : 'bg-gray-100'
+                                    }`}>
+                                      {plugin.icon}
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center space-x-3 mb-1">
+                                        <h4 className={`font-semibold text-lg ${
+                                          agentConfig.plugins.includes(plugin.id)
+                                            ? 'text-green-800'
+                                            : 'text-gray-800'
+                                        }`}>
+                                          {plugin.name}
+                                        </h4>
+                                        <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
+                                          {plugin.category}
+                                        </span>
+                                        <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                          {plugin.version}
+                                        </span>
+                                      </div>
+                                      <p className="text-gray-600 text-sm leading-relaxed">
+                                        {plugin.description}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="flex items-center space-x-2 ml-4">
+                                    <IconButton
+                                      size="small"
+                                      className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all duration-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setSnackbar({ open: true, message: `${plugin.name} 参数配置功能开发中...`, severity: 'info' })
+                                      }}
+                                      title="参数配置"
+                                    >
+                                      <Settings className="w-4 h-4" />
+                                    </IconButton>
+                                    <IconButton
+                                      size="small"
+                                      className="p-2 bg-green-100 hover:bg-green-200 text-green-600 rounded-lg transition-all duration-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setSnackbar({ open: true, message: `${plugin.name} 已复制到剪贴板`, severity: 'success' })
+                                      }}
+                                      title="复制插件"
+                                    >
+                                      <Copy className="w-4 h-4" />
+                                    </IconButton>
+                                    <IconButton
+                                      size="small"
+                                      className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all duration-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setSnackbar({ open: true, message: `${plugin.name} 删除功能开发中...`, severity: 'info' })
+                                      }}
+                                      title="删除插件"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </IconButton>
+                                  </div>
+                                </div>
+                                
+                                {agentConfig.plugins.includes(plugin.id) && (
+                                  <div className="mt-3 pt-3 border-t border-green-200">
+                                    <div className="flex items-center space-x-2">
+                                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                                      <span className="text-sm text-green-700 font-medium">已启用</span>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             ))}
                           </div>
-                          <div className="flex items-center space-x-3">
-                            <Button
-                              variant="outlined"
-                              size="small"
-                              startIcon={<Plus className="w-4 h-4" />}
-                              onClick={() => setSnackbar({ open: true, message: '添加新插件功能开发中...', severity: 'info' })}
-                              className="border-2 border-green-300 text-green-700 hover:border-green-500 hover:bg-green-50 hover:text-green-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
-                            >
-                              添加新插件
-                            </Button>
-                            <Typography variant="body2" className="text-gray-500">
-                              已选择 {agentConfig.plugins.length} 个插件
+                          
+                          <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                            <div className="flex items-center space-x-3">
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Plus className="w-4 h-4" />}
+                                onClick={() => setSnackbar({ open: true, message: '添加新插件功能开发中...', severity: 'info' })}
+                                className="border-2 border-green-300 text-green-700 hover:border-green-500 hover:bg-green-50 hover:text-green-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
+                              >
+                                添加新插件
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Download className="w-4 h-4" />}
+                                onClick={() => setSnackbar({ open: true, message: '批量导入插件功能开发中...', severity: 'info' })}
+                                className="border-2 border-blue-300 text-blue-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
+                              >
+                                批量导入
+                              </Button>
+                            </div>
+                            <Typography variant="body2" className="text-gray-500 font-medium">
+                              已选择 <span className="text-green-600 font-bold">{agentConfig.plugins.length}</span> 个插件
                             </Typography>
                           </div>
                         </div>
