@@ -14,7 +14,11 @@ import {
   ChevronRight,
   Zap,
   ChevronLeft,
-  ChevronRight as ChevronRightIcon
+  ChevronRight as ChevronRightIcon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ArrowLeftRight,
+  SplitSquareVertical
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -58,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
       `}>
         <div className={`flex items-center justify-between h-16 border-b border-blue-200/50 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 ${isCollapsed ? 'px-4' : 'px-6'}`}>
           <div className={`flex items-center space-x-2 ${isCollapsed ? 'justify-center w-full' : ''}`}>
-            <div className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-1 shadow-lg">
+            <div className="w-8 h-8 flex items-center justify-center">
               <JiuwenLogo width={32} height={32} />
             </div>
             {!isCollapsed && (
@@ -160,51 +164,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
             `}
             title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
           >
-            <div className="relative">
-              {/* Fancy animated icon container */}
-              <div className={`
-                relative w-6 h-6 flex items-center justify-center
-                transition-transform duration-300 ease-in-out
-                ${isCollapsed ? 'rotate-0' : 'rotate-180'}
-              `}>
-                {/* Main arrow icon */}
-                <div className={`
-                  absolute inset-0 flex items-center justify-center
-                  transition-all duration-300 ease-in-out
-                  ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}
-                `}>
-                  <ChevronRightIcon className="w-5 h-5" />
-                </div>
-                
-                {/* Alternative arrow icon */}
-                <div className={`
-                  absolute inset-0 flex items-center justify-center
-                  transition-all duration-300 ease-in-out
-                  ${isCollapsed ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}
-                `}>
-                  <ChevronLeft className="w-5 h-5" />
-                </div>
-                
-                {/* Decorative dots */}
-                <div className={`
-                  absolute -top-1 -right-1 w-2 h-2 bg-blue-400 rounded-full
-                  transition-all duration-300 ease-in-out
-                  ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
-                `} />
-                <div className={`
-                  absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-indigo-400 rounded-full
-                  transition-all duration-300 ease-in-out
-                  ${isCollapsed ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
-                `} />
-              </div>
-              
-              {/* Glow effect */}
-              <div className={`
-                absolute inset-0 w-6 h-6 bg-blue-400/20 rounded-full blur-sm
-                transition-all duration-300 ease-in-out
-                ${isCollapsed ? 'opacity-100 scale-125' : 'opacity-0 scale-100'}
-              `} />
-            </div>
+            {isCollapsed ? (
+              <PanelLeftOpen className="w-5 h-5 transition-all duration-300 ease-in-out group-hover:scale-110" />
+            ) : (
+              <PanelLeftClose className="w-5 h-5 transition-all duration-300 ease-in-out group-hover:scale-110" />
+            )}
             
 
           </button>
