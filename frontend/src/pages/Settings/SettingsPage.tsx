@@ -242,17 +242,19 @@ const SettingsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           管理您的账户、安全和应用程序偏好设置
         </p>
-        <div className="flex items-center justify-end">
-          {/* Save Configuration Button */}
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-          >
-            <Save className="w-5 h-5" />
-            <span>{isSaving ? '保存中...' : '保存设置'}</span>
-          </button>
-        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="flex items-center justify-end">
+        {/* Save Configuration Button */}
+        <button
+          onClick={handleSave}
+          disabled={isSaving}
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+        >
+          <Save className="w-5 h-5" />
+          <span>{isSaving ? '保存中...' : '保存设置'}</span>
+        </button>
       </div>
 
       {/* Settings tabs */}
