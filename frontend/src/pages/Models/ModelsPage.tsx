@@ -295,6 +295,68 @@ const ModelsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           配置和管理您的LLM模型，包括API密钥、参数设置和性能监控
         </p>
+      </div>
+
+      {/* Filters and search */}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        {/* Search */}
+        <div className="flex-1">
+          <TextField
+            fullWidth
+            placeholder="搜索模型名称、提供商或模型ID..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Provider filter */}
+        <div className="sm:w-48">
+          <FormControl fullWidth>
+            <InputLabel>提供商</InputLabel>
+            <Select
+              value={filterProvider}
+              label="提供商"
+              onChange={(e) => setFilterProvider(e.target.value)}
+              className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+            >
+              <MenuItem value="all">所有提供商</MenuItem>
+              <MenuItem value="OpenAI">OpenAI</MenuItem>
+              <MenuItem value="Anthropic">Anthropic</MenuItem>
+              <MenuItem value="Alibaba">Alibaba</MenuItem>
+              <MenuItem value="Google">Google</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
+        {/* Status filter */}
+        <div className="sm:w-48">
+          <FormControl fullWidth>
+            <InputLabel>状态</InputLabel>
+            <Select
+              value={filterStatus}
+              label="状态"
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+            >
+              <MenuItem value="all">所有状态</MenuItem>
+              <MenuItem value="active">启用</MenuItem>
+              <MenuItem value="inactive">禁用</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+
+        {/* Model counter */}
+        <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+          <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            {filteredModels.length}
+          </Typography>
+          <Typography variant="body2" className="text-blue-700 font-medium">
+            个模型
+          </Typography>
+        </div>
+
+        {/* Add Model Button */}
         <button
           onClick={() => setShowAddDialog(true)}
           className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -302,69 +364,6 @@ const ModelsPage: React.FC = () => {
           <Plus className="w-5 h-5" />
           <span>添加模型</span>
         </button>
-      </div>
-
-      {/* Filters and search */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-        <div className="flex items-center mb-4">
-          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-            搜索与筛选
-          </h2>
-        </div>
-        <Grid container spacing={3} alignItems="center">
-          <Grid item xs={12} md={4}>
-            <TextField
-              fullWidth
-              placeholder="搜索模型名称、提供商或模型ID..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-
-              className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-            />
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel>提供商</InputLabel>
-              <Select
-                value={filterProvider}
-                label="提供商"
-                onChange={(e) => setFilterProvider(e.target.value)}
-                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-              >
-                <MenuItem value="all">所有提供商</MenuItem>
-                <MenuItem value="OpenAI">OpenAI</MenuItem>
-                <MenuItem value="Anthropic">Anthropic</MenuItem>
-                <MenuItem value="Alibaba">Alibaba</MenuItem>
-                <MenuItem value="Google">Google</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel>状态</InputLabel>
-              <Select
-                value={filterStatus}
-                label="状态"
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-              >
-                <MenuItem value="all">所有状态</MenuItem>
-                <MenuItem value="active">启用</MenuItem>
-                <MenuItem value="inactive">禁用</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
-              <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                {filteredModels.length}
-              </Typography>
-              <Typography variant="body2" className="text-blue-700 font-medium">
-                个模型
-              </Typography>
-            </div>
-          </Grid>
-        </Grid>
       </div>
 
       {/* Models table */}
