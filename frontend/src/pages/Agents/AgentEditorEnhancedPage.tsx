@@ -27,7 +27,6 @@ import {
   Select, 
   MenuItem, 
   FormControl, 
-  InputLabel, 
   Switch, 
   FormControlLabel,
   IconButton,
@@ -75,7 +74,7 @@ interface AgentConfig {
     useCases: Array<{
       id: number
       name: string
-      data: any
+      data: Array<{ user: string; assistant: string }>
       uploadTime: Date
     }>
     optimizationModel: string
@@ -97,8 +96,6 @@ interface AgentConfig {
   triggers: string[]
   knowledge: string[]
   memory: {
-    enabled: boolean
-    type: 'conversation' | 'semantic' | 'hybrid'
     maxTokens: number
   }
   openingRemarks: string
@@ -133,12 +130,12 @@ const AgentEditorEnhancedPage: React.FC = () => {
   const { id } = useParams()
   
   const [activeTab, setActiveTab] = useState(0)
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' | 'info' })
   
   // Get entry data from navigation state (for new agents) or determine if editing existing agent
   const entryData = location.state?.agentEntryData as AgentEntryData | undefined
   const isNew = !id || id === 'new'
-  const isEditing = !isNew
+
 
   // Agent configuration state
   const [agentConfig, setAgentConfig] = useState<AgentConfig>({
@@ -206,9 +203,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
             { user: '你好', assistant: '您好！我是客服助手，有什么可以帮助您的吗？' },
             { user: '我想退货', assistant: '好的，请告诉我您的订单号和退货原因，我来帮您处理。' }
           ],
-          uploadTime: new Date('2024-01-15T10:30:00'),
-          status: 'active',
-          examples: 2
+          uploadTime: new Date('2024-01-15T10:30:00')
         },
         {
           id: 2,
@@ -217,9 +212,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
             { user: '系统无法登录', assistant: '请检查网络连接和账号密码是否正确。' },
             { user: '页面显示错误', assistant: '请尝试刷新页面或清除浏览器缓存。' }
           ],
-          uploadTime: new Date('2024-01-14T14:20:00'),
-          status: 'active',
-          examples: 2
+          uploadTime: new Date('2024-01-14T14:20:00')
         },
         {
           id: 3,
@@ -227,9 +220,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
           data: [
             { user: '这个产品怎么用？', assistant: '请参考产品说明书，如有疑问可联系客服。' }
           ],
-          uploadTime: new Date('2024-01-13T09:15:00'),
-          status: 'active',
-          examples: 1
+          uploadTime: new Date('2024-01-13T09:15:00')
         }
       ],
       optimizationModel: 'gpt-4',
@@ -251,8 +242,6 @@ const AgentEditorEnhancedPage: React.FC = () => {
     triggers: ['greeting', 'question', 'complaint'],
     knowledge: ['product_manual', 'faq_database', 'company_policies'],
     memory: {
-      enabled: true,
-      type: 'conversation',
       maxTokens: 1000
     },
     openingRemarks: '您好！我是您的智能助手，很高兴为您服务。请问有什么可以帮助您的吗？',
@@ -740,7 +729,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                           className="p-1 bg-red-100 hover:bg-red-200 text-red-600 rounded"
                                           onClick={() => {
                                             // Remove this specific user case
-                                            const updatedData = useCase.data.filter((_, i) => i !== index)
+                                                                                         const updatedData = useCase.data.filter((_, i: number) => i !== index)
                                             if (updatedData.length === 0) {
                                               // If no more data in this file, remove the entire file
                                               setAgentConfig(prev => ({
@@ -1565,50 +1554,6 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   <div className="space-y-6">
                     <div>
                       <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
-                        记忆功能
-                      </Typography>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              checked={agentConfig.memory.enabled}
-                              onChange={(e) => setAgentConfig(prev => ({
-                                ...prev,
-                                memory: { ...prev.memory, enabled: e.target.checked }
-                              }))}
-                              color="primary"
-                            />
-                          }
-                          label={
-                            <Typography variant="subtitle1" className="text-gray-700 font-medium">
-                              启用记忆功能
-                            </Typography>
-                          }
-                        />
-
-                        <FormControl fullWidth>
-                          <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
-                            记忆类型
-                          </Typography>
-                          <Select
-                            value={agentConfig.memory.type}
-                            onChange={(e) => setAgentConfig(prev => ({
-                              ...prev,
-                              memory: { ...prev.memory, type: e.target.value as any }
-                            }))}
-                            disabled={!agentConfig.memory.enabled}
-                            className="mt-2"
-                          >
-                            <MenuItem value="conversation">对话记忆</MenuItem>
-                            <MenuItem value="semantic">语义记忆</MenuItem>
-                            <MenuItem value="hybrid">混合记忆</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
                         记忆存储
                       </Typography>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1653,23 +1598,149 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 </AccordionDetails>
               </Accordion>
 
-              {/* Opening Remarks */}
-              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
-                <Typography variant="h6" className="mb-4 flex items-center text-gray-800 font-semibold">
-                  <MessageSquare className="mr-3 w-5 h-5 text-indigo-600" />
-                  开场白设置
-                </Typography>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={3}
-                  value={agentConfig.openingRemarks}
-                  onChange={(e) => setAgentConfig(prev => ({ ...prev, openingRemarks: e.target.value }))}
-                  placeholder="设置智能体的开场白，让用户了解如何开始对话..."
-                  helperText="这是用户开始对话时智能体的第一句话"
-                  className="mt-2"
-                />
-              </Paper>
+              {/* Opening Remarks Panel */}
+              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-indigo-100 to-blue-100 rounded-2xl bg-gradient-to-br from-white to-indigo-50">
+                <AccordionSummary
+                  expandIcon={<ChevronDown className="w-6 h-6 text-indigo-600 transform transition-transform duration-200" />}
+                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-blue-50 transition-all duration-300"
+                >
+                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600 font-bold text-lg">
+                    <MessageSquare className="mr-3 w-6 h-6 text-indigo-500 drop-shadow-sm" />
+                    开场白设置
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails className="px-6 pb-6">
+                  <div className="space-y-4">
+                    <Typography variant="body2" className="text-indigo-600 text-sm">
+                      这是用户开始对话时智能体的第一句话，支持富文本编辑
+                    </Typography>
+
+                    {/* Rich Text Toolbar */}
+                    <div className="border-2 border-indigo-200 rounded-lg bg-white p-3">
+                      <div className="flex flex-wrap items-center gap-2 mb-3 pb-3 border-b border-indigo-100">
+                        {/* Font Controls */}
+                        <div className="flex items-center space-x-2">
+                          <select
+                            className="px-2 py-1 border border-indigo-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            onClick={() => setSnackbar({ open: true, message: '字体选择功能开发中...', severity: 'info' })}
+                          >
+                            <option>默认字体</option>
+                            <option>Arial</option>
+                            <option>Times New Roman</option>
+                            <option>微软雅黑</option>
+                          </select>
+
+                          <select
+                            className="px-2 py-1 border border-indigo-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            onClick={() => setSnackbar({ open: true, message: '字号选择功能开发中...', severity: 'info' })}
+                          >
+                            <option>14px</option>
+                            <option>12px</option>
+                            <option>16px</option>
+                            <option>18px</option>
+                            <option>20px</option>
+                          </select>
+                        </div>
+
+                        {/* Text Formatting */}
+                        <div className="flex items-center space-x-1">
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '粗体功能开发中...', severity: 'info' })}
+                            title="粗体"
+                          >
+                            <strong className="text-indigo-700">B</strong>
+                          </button>
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '斜体功能开发中...', severity: 'info' })}
+                            title="斜体"
+                          >
+                            <em className="text-indigo-700">I</em>
+                          </button>
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '下划线功能开发中...', severity: 'info' })}
+                            title="下划线"
+                          >
+                            <u className="text-indigo-700">U</u>
+                          </button>
+                        </div>
+
+                        {/* Text Alignment */}
+                        <div className="flex items-center space-x-1">
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '左对齐功能开发中...', severity: 'info' })}
+                            title="左对齐"
+                          >
+                            <div className="w-4 h-4 flex items-center justify-start">
+                              <div className="w-3 h-0.5 bg-indigo-700"></div>
+                            </div>
+                          </button>
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '居中对齐功能开发中...', severity: 'info' })}
+                            title="居中对齐"
+                          >
+                            <div className="w-4 h-4 flex items-center justify-center">
+                              <div className="w-3 h-0.5 bg-indigo-700"></div>
+                            </div>
+                          </button>
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '右对齐功能开发中...', severity: 'info' })}
+                            title="右对齐"
+                          >
+                            <div className="w-4 h-4 flex items-center justify-end">
+                              <div className="w-3 h-0.5 bg-indigo-700"></div>
+                            </div>
+                          </button>
+                        </div>
+
+                        {/* Insert Options */}
+                        <div className="flex items-center space-x-1">
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '插入链接功能开发中...', severity: 'info' })}
+                            title="插入链接"
+                          >
+                            🔗
+                          </button>
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '插入图片功能开发中...', severity: 'info' })}
+                            title="插入图片"
+                          >
+                            🖼️
+                          </button>
+                          <button
+                            className="p-2 hover:bg-indigo-100 rounded transition-colors duration-200"
+                            onClick={() => setSnackbar({ open: true, message: '插入表情功能开发中...', severity: 'info' })}
+                            title="插入表情"
+                          >
+                            😊
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Rich Text Editor */}
+                      <div className="relative">
+                        <textarea
+                          value={agentConfig.openingRemarks}
+                          onChange={(e) => setAgentConfig(prev => ({ ...prev, openingRemarks: e.target.value }))}
+                          placeholder="设置智能体的开场白，让用户了解如何开始对话..."
+                          className="w-full min-h-[120px] p-3 border border-indigo-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-y"
+                          style={{ resize: 'vertical' }}
+                        />
+                        <div className="absolute bottom-2 right-2 text-xs text-indigo-400">
+                          {agentConfig.openingRemarks.length} 字符
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
             </div>
           </TabPanel>
 
@@ -1754,7 +1825,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     <strong className="text-blue-800">启用插件：</strong> {agentConfig.plugins.join(', ') || '无'}
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">记忆状态：</strong> {agentConfig.memory.enabled ? '启用' : '禁用'}
+                    <strong className="text-blue-800">记忆配置：</strong> 已配置
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-blue-200">
                     <strong className="text-blue-800">编辑模式：</strong> {agentConfig.editMode === 'ai' ? 'AI辅助' : '手动编辑'}
