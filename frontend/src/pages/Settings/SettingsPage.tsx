@@ -267,6 +267,7 @@ const SettingsPage: React.FC = () => {
             aria-label="设置标签页" 
             variant="scrollable"
             sx={{
+              px: 3,
               '& .MuiTab-root': {
                 color: '#6b7280',
                 fontWeight: 500,
