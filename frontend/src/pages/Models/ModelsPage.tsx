@@ -609,7 +609,7 @@ const ModelsPage: React.FC = () => {
                   <span className="text-white font-bold text-lg">SM</span>
                 </div>
                 <div>
-                  <Typography variant="h6" className="font-semibold text-gray-900">Silicon Mobility</Typography>
+                  <Typography variant="h6" className="font-semibold text-gray-900">硅基流动</Typography>
                   <Typography variant="body2" className="text-gray-500">芯片优化AI</Typography>
                 </div>
               </div>
