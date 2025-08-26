@@ -84,74 +84,92 @@ const WorkflowCreationPage: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
-      {/* Header */}
-      <div className="bg-white shadow-lg border-b border-gray-100">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="outlined"
-                startIcon={<ArrowLeft />}
-                onClick={handleCancel}
-                className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-4 py-2 rounded-lg transition-all duration-200"
-              >
-                返回
-              </Button>
-              <div>
-                <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900">创建工作流</h1>
-                <p className="text-lg text-gray-600 mt-1">配置工作流基本信息，然后进入可视化编辑器</p>
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="max-w-5xl mx-auto px-6 py-8">
+        {/* Back button */}
+        <div className="mb-6">
+          <Button
+            variant="outlined"
+            startIcon={<ArrowLeft />}
+            onClick={handleCancel}
+            className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
+          >
+            返回
+          </Button>
+        </div>
+
+        {/* Main content */}
+        <Card className="shadow-xl border-0 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4">
+            <div className="flex items-center justify-center space-x-2">
+              <Bot className="w-6 h-6 text-white" />
+              <Typography variant="h5" className="text-white font-semibold">
+                工作流配置向导
+              </Typography>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Side - Workflow Form */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-              <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-                <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-                  基本信息
-                </Typography>
-              </div>
-              <div className="p-6">
-                
-                <div className="space-y-4">
-                  {/* Workflow Name */}
-                  <div>
-                    <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                      工作流名称 *
+          
+          <div className="p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Left Side - Workflow Form */}
+              <div className="space-y-6">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                  <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+                    <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                      基本信息
                     </Typography>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      placeholder="输入工作流名称"
-                      value={formData.name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                    />
                   </div>
+                  <div className="p-6">
+                    
+                    <div className="space-y-4">
+                      {/* Workflow Name */}
+                      <div>
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          工作流名称 *
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          placeholder="输入工作流名称"
+                          value={formData.name}
+                          onChange={(e) => handleInputChange('name', e.target.value)}
+                          className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+                        />
+                      </div>
 
-                  {/* Description */}
-                  <div>
-                    <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                      工作流描述
-                    </Typography>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      multiline
-                      rows={6}
-                      placeholder="描述工作流的功能和用途..."
-                      value={formData.description}
-                      onChange={(e) => handleInputChange('description', e.target.value)}
-                      className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                    />
-                  </div>
+                      {/* Description */}
+                      <div>
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          工作流描述
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          size="small"
+                          multiline
+                          rows={6}
+                          placeholder="描述工作流的功能和用途..."
+                          value={formData.description}
+                          onChange={(e) => handleInputChange('description', e.target.value)}
+                          className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+                        />
+                      </div>
+
+                      {/* Trigger Type */}
+                      <div>
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          触发类型
+                        </Typography>
+                        <select
+                          value={formData.trigger}
+                          onChange={(e) => handleInputChange('trigger', e.target.value)}
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+                        >
+                          <option value="webhook">Webhook 触发</option>
+                          <option value="schedule">定时触发</option>
+                          <option value="manual">手动触发</option>
+                          <option value="event">事件触发</option>
+                        </select>
+                      </div>
 
 
 
@@ -299,29 +317,28 @@ const WorkflowCreationPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Bottom Action Buttons */}
-        <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
-          <Button
-            variant="outlined"
-            onClick={handleCancel}
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
-          >
-            取消
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleCreate}
-            disabled={!formData.name.trim()}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-            startIcon={<Plus />}
-          >
-            创建工作流
-          </Button>
+          {/* Bottom Action Buttons */}
+          <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
+            <Button
+              variant="outlined"
+              onClick={handleCancel}
+              className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
+            >
+              取消
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleCreate}
+              disabled={!formData.name.trim()}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+              startIcon={<Plus />}
+            >
+              创建工作流
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
 
