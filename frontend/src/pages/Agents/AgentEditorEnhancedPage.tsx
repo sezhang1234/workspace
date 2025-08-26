@@ -935,10 +935,13 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
           <TabPanel value={activeTab} index={1}>
             <div className="space-y-8">
               {/* Model Selection */}
-              <Accordion defaultExpanded className="shadow-sm border border-gray-200 rounded-xl">
-                <AccordionSummary expandIcon={<Settings />} className="px-6">
-                  <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
-                    <Zap className="mr-3 w-5 h-5 text-yellow-600" />
+              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-blue-100 to-purple-100 rounded-2xl bg-gradient-to-br from-white to-blue-50">
+                <AccordionSummary 
+                  expandIcon={<Settings className="w-6 h-6 text-blue-600 transform transition-transform duration-200" />} 
+                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300"
+                >
+                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-bold text-lg">
+                    <Zap className="mr-3 w-6 h-6 text-yellow-500 drop-shadow-sm" />
                     模型选择与配置
                   </Typography>
                 </AccordionSummary>
@@ -952,7 +955,17 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         <Select
                           value={agentConfig.model}
                           onChange={(e) => setAgentConfig(prev => ({ ...prev, model: e.target.value }))}
-                          className="mt-2"
+                          className="mt-2 border-2 border-blue-200 rounded-lg hover:border-blue-400 transition-all duration-300"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '&:hover fieldset': {
+                                borderColor: '#60a5fa',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: '#3b82f6',
+                              },
+                            },
+                          }}
                         >
                           <MenuItem value="gpt-4">GPT-4</MenuItem>
                           <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
@@ -976,7 +989,17 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           }))}
                           inputProps={{ min: 0, max: 2, step: 0.1 }}
                           helperText="控制输出的随机性"
-                          className="mt-2"
+                          className="mt-2 border-2 border-blue-200 rounded-lg hover:border-blue-400 transition-all duration-300"
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '&:hover fieldset': {
+                                borderColor: '#60a5fa',
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: '#3b82f6',
+                              },
+                            },
+                          }}
                         />
                       </div>
                     </div>
@@ -1023,19 +1046,26 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               </Accordion>
 
               {/* Skills Configuration */}
-              <Accordion className="shadow-sm border border-gray-200 rounded-xl">
-                <AccordionSummary expandIcon={<Settings />} className="px-6">
-                  <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
-                    <Plug className="mr-3 w-5 h-5 text-green-600" />
+              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-green-100 to-emerald-100 rounded-2xl bg-gradient-to-br from-white to-green-50">
+                <AccordionSummary 
+                  expandIcon={<Settings className="w-6 h-6 text-green-600 transform transition-transform duration-200" />} 
+                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all duration-300"
+                >
+                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-lg">
+                    <Plug className="mr-3 w-6 h-6 text-green-500 drop-shadow-sm" />
                     技能配置
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
                     {/* Plugins Section */}
-                    <Accordion className="shadow-sm border border-gray-200 rounded-lg">
-                      <AccordionSummary expandIcon={<Settings />} className="px-4">
-                        <Typography variant="subtitle1" className="text-gray-700 font-medium">
+                    <Accordion className="shadow-md border-2 border-green-200 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50">
+                      <AccordionSummary 
+                        expandIcon={<Settings className="w-5 h-5 text-green-600 transform transition-transform duration-200" />} 
+                        className="px-4 py-3 hover:bg-green-100 transition-all duration-300"
+                      >
+                        <Typography variant="subtitle1" className="text-green-700 font-semibold flex items-center">
+                          <Plug className="mr-2 w-5 h-5 text-green-600" />
                           插件选择
                         </Typography>
                       </AccordionSummary>
@@ -1052,23 +1082,27 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                               { id: 'image_generator', name: '图像生成', description: 'AI图像生成和编辑功能' },
                               { id: 'code_interpreter', name: '代码解释器', description: '代码执行、调试和解释功能' }
                             ].map((plugin) => (
-                              <Chip
-                                key={plugin.id}
-                                label={plugin.name}
-                                onClick={() => {
-                                  const isSelected = agentConfig.plugins.includes(plugin.id)
-                                  setAgentConfig(prev => ({
-                                    ...prev,
-                                    plugins: isSelected 
-                                      ? prev.plugins.filter(p => p !== plugin.id)
-                                      : [...prev.plugins, plugin.id]
-                                  }))
-                                }}
-                                color={agentConfig.plugins.includes(plugin.id) ? 'primary' : 'default'}
-                                variant={agentConfig.plugins.includes(plugin.id) ? 'filled' : 'outlined'}
-                                className="text-sm px-3 py-2 cursor-pointer hover:shadow-md transition-all duration-200"
-                                title={plugin.description}
-                              />
+                                                             <Chip
+                                 key={plugin.id}
+                                 label={plugin.name}
+                                 onClick={() => {
+                                   const isSelected = agentConfig.plugins.includes(plugin.id)
+                                   setAgentConfig(prev => ({
+                                     ...prev,
+                                     plugins: isSelected 
+                                       ? prev.plugins.filter(p => p !== plugin.id)
+                                       : [...prev.plugins, plugin.id]
+                                   }))
+                                 }}
+                                 color={agentConfig.plugins.includes(plugin.id) ? 'primary' : 'default'}
+                                 variant={agentConfig.plugins.includes(plugin.id) ? 'filled' : 'outlined'}
+                                 className={`text-sm px-4 py-3 cursor-pointer transition-all duration-300 font-medium ${
+                                   agentConfig.plugins.includes(plugin.id)
+                                     ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg scale-105'
+                                     : 'bg-white border-2 border-green-200 text-green-700 hover:border-green-400 hover:shadow-md hover:scale-105'
+                                 }`}
+                                 title={plugin.description}
+                               />
                             ))}
                           </div>
                           <div className="flex items-center space-x-3">
@@ -1077,6 +1111,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                               size="small"
                               startIcon={<Plus className="w-4 h-4" />}
                               onClick={() => setSnackbar({ open: true, message: '添加新插件功能开发中...', severity: 'info' })}
+                              className="border-2 border-green-300 text-green-700 hover:border-green-500 hover:bg-green-50 hover:text-green-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
                             >
                               添加新插件
                             </Button>
@@ -1089,9 +1124,13 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     </Accordion>
 
                     {/* Workflows Section */}
-                    <Accordion className="shadow-sm border border-gray-200 rounded-lg">
-                      <AccordionSummary expandIcon={<Settings />} className="px-4">
-                        <Typography variant="subtitle1" className="text-gray-700 font-medium">
+                    <Accordion className="shadow-md border-2 border-emerald-200 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50">
+                      <AccordionSummary 
+                        expandIcon={<Settings className="w-5 h-5 text-emerald-600 transform transition-transform duration-200" />} 
+                        className="px-4 py-3 hover:bg-emerald-100 transition-all duration-300"
+                      >
+                        <Typography variant="subtitle1" className="text-emerald-700 font-semibold flex items-center">
+                          <Zap className="mr-2 w-5 h-5 text-emerald-600" />
                           工作流选择
                         </Typography>
                       </AccordionSummary>
@@ -1119,8 +1158,12 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                   }))
                                 }}
                                 color={agentConfig.workflows.includes(workflow.id) ? 'primary' : 'default'}
-                                variant={agentConfig.workflows.includes(workflow.id) ? 'filled' : 'default'}
-                                className="text-sm px-3 py-2 cursor-pointer hover:shadow-md transition-all duration-200"
+                                variant={agentConfig.workflows.includes(workflow.id) ? 'filled' : 'outlined'}
+                                className={`text-sm px-4 py-3 cursor-pointer transition-all duration-300 font-medium ${
+                                   agentConfig.workflows.includes(workflow.id)
+                                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg scale-105'
+                                     : 'bg-white border-2 border-emerald-200 text-emerald-700 hover:border-emerald-400 hover:shadow-md hover:scale-105'
+                                 }`}
                                 title={workflow.description}
                               />
                             ))}
@@ -1131,6 +1174,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                               size="small"
                               startIcon={<Plus className="w-4 h-4" />}
                               onClick={() => setSnackbar({ open: true, message: '添加新工作流功能开发中...', severity: 'info' })}
+                              className="border-2 border-emerald-300 text-emerald-700 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
                             >
                               添加新工作流
                             </Button>
@@ -1146,10 +1190,13 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
               </Accordion>
 
               {/* Knowledge and Memory */}
-              <Accordion className="shadow-sm border border-gray-200 rounded-xl">
-                <AccordionSummary expandIcon={<Settings />} className="px-6">
-                  <Typography variant="h6" className="flex items-center text-gray-800 font-semibold">
-                    <BookOpen className="mr-3 w-5 h-5 text-purple-600" />
+              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-purple-100 to-pink-100 rounded-2xl bg-gradient-to-br from-white to-purple-50">
+                <AccordionSummary 
+                  expandIcon={<Settings className="w-6 h-6 text-purple-600 transform transition-transform duration-200" />} 
+                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300"
+                >
+                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
+                    <BookOpen className="mr-3 w-6 h-6 text-purple-500 drop-shadow-sm" />
                     知识与记忆
                   </Typography>
                 </AccordionSummary>
@@ -1160,22 +1207,32 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         知识库
                       </Typography>
                       <div className="flex flex-wrap gap-3">
-                        {['product_manual', 'faq_database', 'company_policies', 'user_guides'].map((knowledge) => (
+                        {[
+                          { id: 'product_manual', name: '产品手册', description: '详细的产品使用说明和功能介绍' },
+                          { id: 'faq_database', name: '常见问题', description: '用户常见问题解答数据库' },
+                          { id: 'company_policies', name: '公司政策', description: '企业规章制度和操作流程' },
+                          { id: 'user_guides', name: '用户指南', description: '系统使用教程和操作指南' }
+                        ].map((knowledge) => (
                           <Chip
-                            key={knowledge}
-                            label={knowledge}
+                            key={knowledge.id}
+                            label={knowledge.name}
                             onClick={() => {
-                              const isSelected = agentConfig.knowledge.includes(knowledge)
+                              const isSelected = agentConfig.knowledge.includes(knowledge.id)
                               setAgentConfig(prev => ({
                                 ...prev,
                                 knowledge: isSelected 
-                                  ? prev.knowledge.filter(k => k !== knowledge)
-                                  : [...prev.knowledge, knowledge]
+                                  ? prev.knowledge.filter(k => k !== knowledge.id)
+                                  : [...prev.knowledge, knowledge.id]
                               }))
                             }}
-                            color={agentConfig.knowledge.includes(knowledge) ? 'primary' : 'default'}
-                            variant={agentConfig.knowledge.includes(knowledge) ? 'filled' : 'outlined'}
-                            className="text-sm px-3 py-2"
+                            color={agentConfig.knowledge.includes(knowledge.id) ? 'primary' : 'default'}
+                            variant={agentConfig.knowledge.includes(knowledge.id) ? 'filled' : 'outlined'}
+                            className={`text-sm px-4 py-3 cursor-pointer transition-all duration-300 font-medium ${
+                              agentConfig.knowledge.includes(knowledge.id)
+                                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg scale-105'
+                                : 'bg-white border-2 border-purple-200 text-purple-700 hover:border-purple-400 hover:shadow-md hover:scale-105'
+                            }`}
+                            title={knowledge.description}
                           />
                         ))}
                       </div>
