@@ -86,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuClick }) => {
             <input
               type="text"
               placeholder="搜索智能体、工作流、提示词..."
-              className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-96 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
