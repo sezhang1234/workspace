@@ -82,8 +82,6 @@ const WorkflowCreationPage: React.FC = () => {
     navigate('/dashboard/workflows')
   }
 
-
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="max-w-5xl mx-auto px-6 py-8">
@@ -121,7 +119,6 @@ const WorkflowCreationPage: React.FC = () => {
                     </Typography>
                   </div>
                   <div className="p-6">
-                    
                     <div className="space-y-4">
                       {/* Workflow Name */}
                       <div>
@@ -174,171 +171,172 @@ const WorkflowCreationPage: React.FC = () => {
 
                       {/* Tags */}
                       <div>
-                    <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                      标签
-                    </Typography>
-                    <div className="flex items-center space-x-2 mb-3">
-                      <TextField
-                        size="small"
-                        placeholder="添加标签"
-                        value={newTag}
-                        onChange={(e) => setNewTag(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
-                        className="flex-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                      />
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        onClick={handleAddTag}
-                        className="border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
-                      >
-                        添加
-                      </Button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {formData.tags.map((tag) => (
-                        <Chip
-                          key={tag}
-                          label={tag}
-                          onDelete={() => handleRemoveTag(tag)}
-                          className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
-                          size="small"
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Advanced Settings */}
-                  <div>
-                    <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                      高级设置
-                    </Typography>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Typography variant="caption" className="text-gray-600">
-                          超时时间 (秒)
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          标签
                         </Typography>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          type="number"
-                          value={formData.timeout}
-                          onChange={(e) => handleInputChange('timeout', parseInt(e.target.value))}
-                          className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+                        <div className="flex items-center space-x-2 mb-3">
+                          <TextField
+                            size="small"
+                            placeholder="添加标签"
+                            value={newTag}
+                            onChange={(e) => setNewTag(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleAddTag()}
+                            className="flex-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+                          />
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={handleAddTag}
+                            className="border-blue-300 text-blue-700 hover:bg-blue-50 hover:border-blue-400 px-4 py-2 rounded-lg transition-all duration-200"
+                          >
+                            添加
+                          </Button>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {formData.tags.map((tag) => (
+                            <Chip
+                              key={tag}
+                              label={tag}
+                              onDelete={() => handleRemoveTag(tag)}
+                              className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
+                              size="small"
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Advanced Settings */}
+                      <div>
+                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
+                          高级设置
+                        </Typography>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <Typography variant="caption" className="text-gray-600">
+                              超时时间 (秒)
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              type="number"
+                              value={formData.timeout}
+                              onChange={(e) => handleInputChange('timeout', parseInt(e.target.value))}
+                              className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+                            />
+                          </div>
+                          <div>
+                            <Typography variant="caption" className="text-gray-600">
+                              重试次数
+                            </Typography>
+                            <TextField
+                              fullWidth
+                              size="small"
+                              type="number"
+                              value={formData.retryCount}
+                              onChange={(e) => handleInputChange('retryCount', parseInt(e.target.value))}
+                              className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Active Switch */}
+                      <div>
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={formData.isActive}
+                              onChange={(e) => handleInputChange('isActive', e.target.checked)}
+                              color="primary"
+                            />
+                          }
+                          label={
+                            <Typography variant="subtitle2" className="text-gray-700 font-medium">
+                              启用工作流
+                            </Typography>
+                          }
                         />
                       </div>
-                      <div>
-                        <Typography variant="caption" className="text-gray-600">
-                          重试次数
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          type="number"
-                          value={formData.retryCount}
-                          onChange={(e) => handleInputChange('retryCount', parseInt(e.target.value))}
-                          className="mt-1 [& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                        />
-                      </div>
                     </div>
                   </div>
+                </div>
+              </div>
 
-                  {/* Active Switch */}
-                  <div>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={formData.isActive}
-                          onChange={(e) => handleInputChange('isActive', e.target.checked)}
-                          color="primary"
-                        />
-                      }
-                      label={
-                        <Typography variant="subtitle2" className="text-gray-700 font-medium">
-                          启用工作流
+              {/* Right Side - Demonstration Image */}
+              <div className="h-full">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden h-full">
+                  <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
+                    <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                      工作流画布预览
+                    </Typography>
+                  </div>
+                  <div className="p-6 h-full flex flex-col">
+                    <div className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-dashed border-blue-200 p-8 text-center flex flex-col justify-center">
+                      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Bot className="w-8 h-8 text-blue-600" />
+                      </div>
+                      <Typography variant="h6" className="text-blue-800 font-semibold mb-2">
+                        可视化工作流编辑器
+                      </Typography>
+                      <Typography variant="body2" className="text-blue-600 mb-4">
+                        拖拽节点，连接流程，构建智能自动化工作流
+                      </Typography>
+                      
+                      {/* Sample Workflow Preview */}
+                      <div className="bg-white rounded-lg p-4 shadow-sm">
+                        <div className="flex items-center justify-center space-x-8 mb-4">
+                          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <Play className="w-6 h-6 text-green-600" />
+                          </div>
+                          <div className="w-2 h-8 bg-blue-300 rounded-full"></div>
+                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <Settings className="w-6 h-6 text-blue-600" />
+                          </div>
+                          <div className="w-2 h-8 bg-blue-300 rounded-full"></div>
+                          <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                            <CheckCircle className="w-6 h-6 text-red-600" />
+                          </div>
+                        </div>
+                        <Typography variant="caption" className="text-gray-500">
+                          开始 → 处理 → 结束
                         </Typography>
-                      }
-                    />
+                      </div>
+                    </div>
+
+                    <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                      <Typography variant="body2" className="text-gray-600 text-center">
+                        创建完成后，您将进入功能完整的可视化编辑器，<br/>
+                        可以添加节点、配置参数、测试运行和保存工作流。
+                      </Typography>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Side - Demonstration Image */}
-          <div className="h-full">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden h-full">
-              <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-                <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-                  工作流画布预览
-                </Typography>
-              </div>
-              <div className="p-6 h-full flex flex-col">
-                
-                <div className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-dashed border-blue-200 p-8 text-center flex flex-col justify-center">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Bot className="w-8 h-8 text-blue-600" />
-                  </div>
-                  <Typography variant="h6" className="text-blue-800 font-semibold mb-2">
-                    可视化工作流编辑器
-                  </Typography>
-                  <Typography variant="body2" className="text-blue-600 mb-4">
-                    拖拽节点，连接流程，构建智能自动化工作流
-                  </Typography>
-                  
-                  {/* Sample Workflow Preview */}
-                  <div className="bg-white rounded-lg p-4 shadow-sm">
-                    <div className="flex items-center justify-center space-x-8 mb-4">
-                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                        <Play className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div className="w-2 h-8 bg-blue-300 rounded-full"></div>
-                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                        <Settings className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <div className="w-2 h-8 bg-blue-300 rounded-full"></div>
-                      <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                        <CheckCircle className="w-6 h-6 text-red-600" />
-                      </div>
-                    </div>
-                    <Typography variant="caption" className="text-gray-500">
-                      开始 → 处理 → 结束
-                    </Typography>
-                  </div>
-                </div>
-
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <Typography variant="body2" className="text-gray-600 text-center">
-                    创建完成后，您将进入功能完整的可视化编辑器，<br/>
-                    可以添加节点、配置参数、测试运行和保存工作流。
-                  </Typography>
-                </div>
-              </div>
+            {/* Bottom Action Buttons */}
+            <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
+              <Button
+                variant="outlined"
+                onClick={handleCancel}
+                className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
+              >
+                取消
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleCreate}
+                disabled={!formData.name.trim()}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+                startIcon={<Plus />}
+              >
+                创建工作流
+              </Button>
             </div>
           </div>
-        </div>
-
-        {/* Bottom Action Buttons */}
-        <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
-          <Button
-            variant="outlined"
-            onClick={handleCancel}
-            className="border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 px-6 py-3 rounded-xl transition-all duration-200"
-          >
-            取消
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleCreate}
-            disabled={!formData.name.trim()}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-            startIcon={<Plus />}
-          >
-            创建工作流
-          </Button>
-        </div>
+        </Card>
       </div>
-    </Card>
+    </div>
   )
 }
 
