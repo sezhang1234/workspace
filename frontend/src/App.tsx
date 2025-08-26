@@ -5,6 +5,7 @@ import Layout from './components/Layout/Layout'
 import WelcomePage from './pages/WelcomePage'
 import LoginPage from './pages/Auth/LoginPage'
 import DashboardPage from './pages/Dashboard/DashboardPage'
+import AppsPage from './pages/Apps/AppsPage'
 import AgentsPage from './pages/Agents/AgentsPage'
 import AgentEditorEntryPage from './pages/Agents/AgentEditorEntryPage'
 import AgentEditorEnhancedPage from './pages/Agents/AgentEditorEnhancedPage'
@@ -48,6 +49,7 @@ const App: React.FC = () => {
         }
       >
         <Route index element={<DashboardPage />} />
+        <Route path="apps" element={<AppsPage />} />
         <Route path="agents" element={<AgentsPage />} />
         <Route path="agents/new" element={<AgentEditorEntryPage />} />
         <Route path="agents/editor" element={<AgentEditorEnhancedPage />} />
