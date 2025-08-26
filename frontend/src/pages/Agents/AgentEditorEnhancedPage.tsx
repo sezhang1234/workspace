@@ -102,6 +102,13 @@ interface AgentConfig {
   
   // Preview and Debug
   testHistory: Array<{ role: 'user' | 'assistant', content: string, timestamp: Date }>
+  debugStats: {
+    isRunning: boolean
+    tokensUsed: number
+    responseTime: number
+    memoryUsage: number
+    activePlugins: number
+  }
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -247,7 +254,35 @@ const AgentEditorEnhancedPage: React.FC = () => {
     openingRemarks: '您好！我是您的智能助手，很高兴为您服务。请问有什么可以帮助您的吗？',
     
     // Preview and Debug
-    testHistory: []
+    testHistory: [
+      {
+        role: 'user',
+        content: '你好！我想规划一次日本旅行，预算1.5万，时间7天，有什么推荐吗？',
+        timestamp: new Date(Date.now() - 300000) // 5 minutes ago
+      },
+      {
+        role: 'assistant',
+        content: '您好！很高兴为您规划日本旅行！根据您的预算和时间，我推荐以下行程：\n\n🗾 **推荐路线：东京-京都-大阪**\n\n**第1-3天：东京**\n• 浅草寺、晴空塔\n• 秋叶原电器街\n• 涩谷、原宿时尚区\n• 东京迪士尼乐园\n\n**第4-5天：京都**\n• 金阁寺、清水寺\n• 岚山竹林、渡月桥\n• 祗园角、花见小路\n\n**第6-7天：大阪**\n• 大阪城、天守阁\n• 道顿堀美食街\n• 环球影城\n\n💰 **预算分配**\n• 机票：4000元\n• 住宿：5000元\n• 交通：2000元\n• 餐饮：3000元\n• 景点门票：1000元\n\n需要我为您详细规划某个城市的行程吗？',
+        timestamp: new Date(Date.now() - 240000) // 4 minutes ago
+      },
+      {
+        role: 'user',
+        content: '东京有什么好吃的推荐？',
+        timestamp: new Date(Date.now() - 120000) // 2 minutes ago
+      },
+      {
+        role: 'assistant',
+        content: '东京美食推荐来啦！🍜\n\n**🍣 寿司类**\n• 筑地市场 - 新鲜寿司\n• 银座久兵卫 - 高级寿司\n• 回转寿司 - 平价选择\n\n**🍜 拉面类**\n• 一兰拉面 - 经典豚骨拉面\n• 一风堂 - 浓郁汤底\n• 新宿中村屋 - 酱油拉面\n\n**🍱 其他美食**\n• 天妇罗 - 浅草今半\n• 烧肉 - 叙叙苑\n• 居酒屋 - 体验日本夜生活\n• 抹茶甜点 - 中村藤吉\n\n**📍 美食聚集地**\n• 新宿 - 各种料理\n• 涩谷 - 时尚餐厅\n• 银座 - 高级料理\n• 浅草 - 传统小吃\n\n建议下载"食べログ"APP查找附近美食！',
+        timestamp: new Date(Date.now() - 60000) // 1 minute ago
+      }
+    ],
+    debugStats: {
+      isRunning: false,
+      tokensUsed: 2847,
+      responseTime: 2.3,
+      memoryUsage: 67,
+      activePlugins: 2
+    }
   })
 
   // Test chat state
@@ -302,25 +337,48 @@ const AgentEditorEnhancedPage: React.FC = () => {
       timestamp: new Date()
     }
     
+    // Update debug stats to show running state
     setAgentConfig(prev => ({
       ...prev,
-      testHistory: [...prev.testHistory, userMessage]
+      testHistory: [...prev.testHistory, userMessage],
+      debugStats: {
+        ...prev.debugStats,
+        isRunning: true,
+        activePlugins: Math.min(prev.debugStats.activePlugins + 1, 3)
+      }
     }))
     
-    // Simulate AI response
+    // Simulate AI response with travel planning content
     setTimeout(() => {
+      const travelResponses = [
+        '根据您的需求，我为您推荐以下旅行方案：\n\n🗺️ **推荐目的地**\n• 东京 - 现代化都市体验\n• 京都 - 传统文化探索\n• 大阪 - 美食购物天堂\n\n💰 **预算建议**\n• 机票：约3000-5000元\n• 住宿：约400-800元/晚\n• 餐饮：约200-400元/天\n• 交通：约100-200元/天\n\n需要我为您详细规划具体行程吗？',
+        '关于您询问的景点，我推荐以下必去之地：\n\n🏛️ **经典景点**\n• 浅草寺 - 东京最古老寺庙\n• 东京塔 - 城市地标建筑\n• 上野公园 - 樱花观赏胜地\n\n🍜 **美食推荐**\n• 筑地市场 - 新鲜寿司\n• 一兰拉面 - 经典拉面\n• 叙叙苑 - 高级烧肉\n\n建议提前预订热门餐厅，避免排队等待。',
+        '根据您的预算和时间安排，我建议以下行程：\n\n📅 **7天行程规划**\n**第1-3天：东京**\n• 浅草寺、晴空塔\n• 秋叶原、涩谷\n• 迪士尼乐园\n\n**第4-5天：京都**\n• 金阁寺、清水寺\n• 岚山竹林\n• 祗园角\n\n**第6-7天：大阪**\n• 大阪城\n• 道顿堀美食\n• 环球影城\n\n需要我为您提供更详细的交通和住宿建议吗？'
+      ]
+      
+      const randomResponse = travelResponses[Math.floor(Math.random() * travelResponses.length)]
+      
       const aiResponse = { 
         role: 'assistant' as const, 
-        content: `这是对"${testMessage}"的模拟回复。在实际环境中，这里会调用配置的LLM API并根据系统提示词生成响应。`,
+        content: randomResponse,
         timestamp: new Date()
       }
       
+      // Update debug stats with new metrics
       setAgentConfig(prev => ({
         ...prev,
-        testHistory: [...prev.testHistory, aiResponse]
+        testHistory: [...prev.testHistory, aiResponse],
+        debugStats: {
+          ...prev.debugStats,
+          isRunning: false,
+          tokensUsed: prev.debugStats.tokensUsed + Math.floor(Math.random() * 500) + 200,
+          responseTime: Math.random() * 3 + 1,
+          memoryUsage: Math.min(prev.debugStats.memoryUsage + Math.floor(Math.random() * 10), 95),
+          activePlugins: Math.max(prev.debugStats.activePlugins - 1, 1)
+        }
       }))
       setIsTesting(false)
-    }, 1000)
+    }, 1500)
     
     setTestMessage('')
   }
@@ -1723,36 +1781,69 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[800px]">
               {/* Left Panel - Chatbot Dialog */}
               <div className="flex flex-col h-full">
-                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col">
-                  <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
-                    智能体调试对话
-                  </Typography>
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50">
+                  <div className="flex items-center justify-between mb-6">
+                    <Typography variant="h6" className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
+                      智能体调试对话
+                    </Typography>
+                    <div className="flex items-center space-x-2">
+                      <div className={`w-3 h-3 rounded-full ${agentConfig.debugStats.isRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                      <span className="text-sm text-gray-600">
+                        {agentConfig.debugStats.isRunning ? '运行中' : '空闲'}
+                      </span>
+                    </div>
+                  </div>
                   
                   {/* Chat Messages Area */}
-                  <div className="flex-1 bg-gray-50 rounded-lg p-4 mb-4 overflow-y-auto">
+                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100">
                     {agentConfig.testHistory.length === 0 ? (
                       <div className="text-center py-12">
-                        <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-500 text-lg">开始对话以调试智能体</p>
+                        <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <MessageSquare className="w-10 h-10 text-blue-500" />
+                        </div>
+                        <p className="text-gray-500 text-lg font-medium">开始对话以调试智能体</p>
+                        <p className="text-gray-400 text-sm mt-2">输入消息开始测试您的智能体配置</p>
                       </div>
                     ) : (
-                      <div className="space-y-4">
+                      <div className="space-y-6">
                         {agentConfig.testHistory.map((msg, index) => (
                           <div
                             key={index}
                             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                           >
-                            <div
-                              className={`max-w-[80%] p-3 rounded-lg ${
-                                msg.role === 'user' 
-                                  ? 'bg-blue-500 text-white' 
-                                  : 'bg-white border border-gray-200 text-gray-800'
-                              }`}
-                            >
-                              <div className="text-sm mb-1 opacity-75">
-                                {msg.role === 'user' ? '用户' : '智能体'}
+                            <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-2' : 'order-1'}`}>
+                              {msg.role === 'assistant' && (
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                                    <span className="text-white text-sm font-bold">AI</span>
+                                  </div>
+                                  <span className="text-sm text-gray-600 font-medium">旅行规划助手</span>
+                                  <span className="text-xs text-gray-400">
+                                    {msg.timestamp.toLocaleTimeString()}
+                                  </span>
+                                </div>
+                              )}
+                              
+                              <div
+                                className={`p-4 rounded-2xl shadow-sm ${
+                                  msg.role === 'user' 
+                                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' 
+                                    : 'bg-white border border-gray-200 text-gray-800'
+                                }`}
+                              >
+                                <div className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</div>
                               </div>
-                              <div className="text-sm leading-relaxed">{msg.content}</div>
+                              
+                              {msg.role === 'user' && (
+                                <div className="flex items-center justify-end space-x-2 mt-2">
+                                  <span className="text-xs text-gray-400">
+                                    {msg.timestamp.toLocaleTimeString()}
+                                  </span>
+                                  <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">我</span>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         ))}
@@ -1761,39 +1852,136 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </div>
                   
                   {/* Input Area */}
-                  <div className="flex items-center space-x-3">
-                    <TextField
-                      fullWidth
-                      value={testMessage}
-                      onChange={(e) => setTestMessage(e.target.value)}
-                      placeholder="输入消息来测试智能体..."
-                      onKeyPress={(e) => e.key === 'Enter' && handleTest()}
-                      size="small"
-                      className="flex-1"
-                    />
-                    <Button
-                      variant="contained"
-                      startIcon={<Play className="w-4 h-4" />}
-                      onClick={handleTest}
-                      disabled={isTesting || !testMessage.trim()}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg px-4"
-                      size="small"
-                    >
-                      {isTesting ? '发送中...' : '发送'}
-                    </Button>
+                  <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                    <div className="flex items-center space-x-3">
+                      <TextField
+                        fullWidth
+                        value={testMessage}
+                        onChange={(e) => setTestMessage(e.target.value)}
+                        placeholder="输入消息来测试智能体..."
+                        onKeyPress={(e) => e.key === 'Enter' && handleTest()}
+                        size="small"
+                        className="flex-1"
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            borderRadius: '12px',
+                            '&:hover fieldset': {
+                              borderColor: '#3B82F6',
+                            },
+                          },
+                        }}
+                      />
+                      <Button
+                        variant="contained"
+                        startIcon={<Play className="w-4 h-4" />}
+                        onClick={handleTest}
+                        disabled={isTesting || !testMessage.trim()}
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg px-6 rounded-xl"
+                        size="small"
+                        sx={{
+                          borderRadius: '12px',
+                          textTransform: 'none',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {isTesting ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            <span>发送中...</span>
+                          </div>
+                        ) : (
+                          '发送'
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </Paper>
               </div>
 
               {/* Right Panel - Debug Information Tree */}
               <div className="flex flex-col h-full">
-                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col">
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col bg-gradient-to-br from-green-50 to-emerald-50">
                   <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-lg">
                     调试信息树
                   </Typography>
                   
-                  <div className="flex-1 bg-gray-50 rounded-lg p-4 overflow-y-auto">
-                    <div className="space-y-3">
+                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100">
+                    <div className="space-y-4">
+                      {/* Real-time Running Status */}
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center space-x-2">
+                            <div className={`w-3 h-3 rounded-full ${agentConfig.debugStats.isRunning ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                            <span className="font-semibold text-gray-800">实时运行状态</span>
+                          </div>
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            agentConfig.debugStats.isRunning 
+                              ? 'bg-green-100 text-green-700' 
+                              : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            {agentConfig.debugStats.isRunning ? '运行中' : '空闲'}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">响应时间:</span>
+                            <span className="font-medium text-blue-600">{agentConfig.debugStats.responseTime}s</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">活跃插件:</span>
+                            <span className="font-medium text-green-600">{agentConfig.debugStats.activePlugins}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Token Consumption */}
+                      <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200 p-4">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                          <span className="font-semibold text-gray-800">Token 消耗</span>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 text-sm">已使用:</span>
+                            <span className="font-bold text-purple-600 text-lg">{agentConfig.debugStats.tokensUsed.toLocaleString()}</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div 
+                              className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${Math.min((agentConfig.debugStats.tokensUsed / 4000) * 100, 100)}%` }}
+                            ></div>
+                          </div>
+                          <div className="flex justify-between text-xs text-gray-500">
+                            <span>0</span>
+                            <span>4,000</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Memory Usage */}
+                      <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200 p-4">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                          <span className="font-semibold text-gray-800">内存使用</span>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-600 text-sm">使用率:</span>
+                            <span className="font-bold text-orange-600 text-lg">{agentConfig.debugStats.memoryUsage}%</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div 
+                              className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${agentConfig.debugStats.memoryUsage}%` }}
+                            ></div>
+                          </div>
+                          <div className="flex justify-between text-xs text-gray-500">
+                            <span>0%</span>
+                            <span>100%</span>
+                          </div>
+                        </div>
+                      </div>
+
                       {/* Agent Configuration Tree */}
                       <div className="bg-white rounded-lg border border-gray-200 p-3">
                         <div className="flex items-center space-x-2 mb-2">
