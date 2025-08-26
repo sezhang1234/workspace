@@ -10,7 +10,7 @@ import {
   Copy,
   Star,
   Eye,
-  Lock,
+  EyeOff,
   Tag
 } from 'lucide-react'
 
@@ -277,7 +277,7 @@ const PromptsPage: React.FC = () => {
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${
                   prompt.isPublic ? 'bg-green-100 text-green-700 border-green-200' : 'bg-gray-100 text-gray-700 border-gray-200'
                 }`}>
-                  {prompt.isPublic ? <Eye className="w-3 h-3 mr-1" /> : <Lock className="w-3 h-3 mr-1" />}
+                  {prompt.isPublic ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
                   {prompt.isPublic ? '公开' : '私有'}
                 </span>
                 <div className="text-right">
