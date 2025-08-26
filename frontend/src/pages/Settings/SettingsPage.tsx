@@ -244,15 +244,14 @@ const SettingsPage: React.FC = () => {
         </p>
         <div className="flex items-center justify-end">
           {/* Save Configuration Button */}
-          <Button
-            variant="contained"
-            startIcon={<Save />}
+          <button
             onClick={handleSave}
             disabled={isSaving}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
           >
-            {isSaving ? '保存中...' : '保存设置'}
-          </Button>
+            <Save className="w-5 h-5" />
+            <span>{isSaving ? '保存中...' : '保存设置'}</span>
+          </button>
         </div>
       </div>
 
