@@ -1465,29 +1465,62 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 </AccordionDetails>
               </Accordion>
 
-              {/* Knowledge and Memory */}
-              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-purple-100 to-pink-100 rounded-2xl bg-gradient-to-br from-white to-purple-50">
+              {/* Knowledge Panel */}
+              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl bg-gradient-to-br from-white to-blue-50">
                 <AccordionSummary 
-                  expandIcon={<ChevronDown className="w-6 h-6 text-purple-600 transform transition-transform duration-200" />} 
-                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300"
+                  expandIcon={<ChevronDown className="w-6 h-6 text-blue-600 transform transition-transform duration-200" />} 
+                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300"
                 >
-                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
-                    <BookOpen className="mr-3 w-6 h-6 text-purple-500 drop-shadow-sm" />
-                    知识与记忆
+                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
+                    <BookOpen className="mr-3 w-6 h-6 text-blue-500 drop-shadow-sm" />
+                    知识库配置
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
                     <div>
                       <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
-                        知识库
+                        信息导入
+                      </Typography>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div 
+                          className="p-4 border-2 border-dashed border-blue-300 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:border-blue-400 hover:bg-gradient-to-r hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '文本信息导入功能开发中...', severity: 'info' })}
+                        >
+                          <div className="text-3xl mb-2">📝</div>
+                          <Typography variant="subtitle2" className="text-blue-700 font-medium">文本信息</Typography>
+                          <Typography variant="body2" className="text-blue-600 text-sm mt-1">导入文档、说明等文本内容</Typography>
+                        </div>
+                        
+                        <div 
+                          className="p-4 border-2 border-dashed border-blue-300 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:border-blue-400 hover:bg-gradient-to-r hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '表格数据导入功能开发中...', severity: 'info' })}
+                        >
+                          <div className="text-3xl mb-2">📊</div>
+                          <Typography variant="subtitle2" className="text-blue-700 font-medium">表格数据</Typography>
+                          <Typography variant="body2" className="text-blue-600 text-sm mt-1">导入Excel、CSV等表格数据</Typography>
+                        </div>
+                        
+                        <div 
+                          className="p-4 border-2 border-dashed border-blue-300 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:border-blue-400 hover:bg-gradient-to-r hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '图片信息导入功能开发中...', severity: 'info' })}
+                        >
+                          <div className="text-3xl mb-2">🖼️</div>
+                          <Typography variant="subtitle2" className="text-blue-700 font-medium">图片信息</Typography>
+                          <Typography variant="body2" className="text-blue-600 text-sm mt-1">导入图片、图表等视觉信息</Typography>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                        已导入知识
                       </Typography>
                       <div className="flex flex-wrap gap-3">
                         {[
                           { id: 'product_manual', name: '产品手册', description: '详细的产品使用说明和功能介绍' },
                           { id: 'faq_database', name: '常见问题', description: '用户常见问题解答数据库' },
-                          { id: 'company_policies', name: '公司政策', description: '企业规章制度和操作流程' },
-                          { id: 'user_guides', name: '用户指南', description: '系统使用教程和操作指南' }
+                          { id: 'company_policies', name: '公司政策', description: '企业规章制度和操作流程' }
                         ].map((knowledge) => (
                           <Chip
                             key={knowledge.id}
@@ -1505,52 +1538,116 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             variant={agentConfig.knowledge.includes(knowledge.id) ? 'filled' : 'outlined'}
                             className={`text-sm px-4 py-3 cursor-pointer transition-all duration-300 font-medium ${
                               agentConfig.knowledge.includes(knowledge.id)
-                                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg scale-105'
-                                : 'bg-white border-2 border-purple-200 text-purple-700 hover:border-purple-400 hover:shadow-md hover:scale-105'
+                                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg scale-105'
+                                : 'bg-white border-2 border-blue-200 text-blue-700 hover:border-blue-400 hover:shadow-md hover:scale-105'
                             }`}
                             title={knowledge.description}
                           />
                         ))}
                       </div>
                     </div>
+                  </div>
+                </AccordionDetails>
+              </Accordion>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={agentConfig.memory.enabled}
+              {/* Memory Panel */}
+              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-purple-100 to-pink-100 rounded-2xl bg-gradient-to-br from-white to-purple-50">
+                <AccordionSummary 
+                  expandIcon={<ChevronDown className="w-6 h-6 text-purple-600 transform transition-transform duration-200" />} 
+                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300"
+                >
+                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
+                    <Brain className="mr-3 w-6 h-6 text-purple-500 drop-shadow-sm" />
+                    记忆配置
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails className="px-6 pb-6">
+                  <div className="space-y-6">
+                    <div>
+                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                        记忆功能
+                      </Typography>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={agentConfig.memory.enabled}
+                              onChange={(e) => setAgentConfig(prev => ({
+                                ...prev,
+                                memory: { ...prev.memory, enabled: e.target.checked }
+                              }))}
+                              color="primary"
+                            />
+                          }
+                          label={
+                            <Typography variant="subtitle1" className="text-gray-700 font-medium">
+                              启用记忆功能
+                            </Typography>
+                          }
+                        />
+
+                        <FormControl fullWidth>
+                          <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
+                            记忆类型
+                          </Typography>
+                          <Select
+                            value={agentConfig.memory.type}
                             onChange={(e) => setAgentConfig(prev => ({
                               ...prev,
-                              memory: { ...prev.memory, enabled: e.target.checked }
+                              memory: { ...prev.memory, type: e.target.value as any }
                             }))}
-                            color="primary"
-                          />
-                        }
-                        label={
-                          <Typography variant="subtitle1" className="text-gray-700 font-medium">
-                            启用记忆功能
-                          </Typography>
-                        }
-                      />
+                            disabled={!agentConfig.memory.enabled}
+                            className="mt-2"
+                          >
+                            <MenuItem value="conversation">对话记忆</MenuItem>
+                            <MenuItem value="semantic">语义记忆</MenuItem>
+                            <MenuItem value="hybrid">混合记忆</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </div>
+                    </div>
 
-                      <FormControl fullWidth>
-                        <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
-                          记忆类型
-                        </Typography>
-                        <Select
-                          value={agentConfig.memory.type}
-                          onChange={(e) => setAgentConfig(prev => ({
-                            ...prev,
-                            memory: { ...prev.memory, type: e.target.value as any }
-                          }))}
-                          disabled={!agentConfig.memory.enabled}
-                          className="mt-2"
+                    <div>
+                      <Typography variant="subtitle1" className="mb-4 text-gray-700 font-medium">
+                        记忆存储
+                      </Typography>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div 
+                          className="p-4 border-2 border-dashed border-purple-300 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 hover:border-purple-400 hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '变量存储功能开发中...', severity: 'info' })}
                         >
-                          <MenuItem value="conversation">对话记忆</MenuItem>
-                          <MenuItem value="semantic">语义记忆</MenuItem>
-                          <MenuItem value="hybrid">混合记忆</MenuItem>
-                        </Select>
-                      </FormControl>
+                          <div className="text-3xl mb-2">🔧</div>
+                          <Typography variant="subtitle2" className="text-purple-700 font-medium">变量存储</Typography>
+                          <Typography variant="body2" className="text-purple-600 text-sm mt-1">存储和检索对话变量</Typography>
+                        </div>
+                        
+                        <div 
+                          className="p-4 border-2 border-dashed border-purple-300 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 hover:border-purple-400 hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '数据库存储功能开发中...', severity: 'info' })}
+                        >
+                          <div className="text-3xl mb-2">🗄️</div>
+                          <Typography variant="subtitle2" className="text-purple-700 font-medium">数据库存储</Typography>
+                          <Typography variant="body2" className="text-purple-600 text-sm mt-1">持久化存储重要信息</Typography>
+                        </div>
+                        
+                        <div 
+                          className="p-4 border-2 border-dashed border-purple-300 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 hover:border-purple-400 hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '长期记忆功能开发中...', severity: 'info' })}
+                        >
+                          <div className="text-3xl mb-2">🧠</div>
+                          <Typography variant="subtitle2" className="text-purple-700 font-medium">长期记忆</Typography>
+                          <Typography variant="body2" className="text-purple-600 text-sm mt-1">跨会话的记忆保持</Typography>
+                        </div>
+                        
+                        <div 
+                          className="p-4 border-2 border-dashed border-purple-300 rounded-xl bg-gradient-to-r from-purple-50 to-indigo-50 hover:border-purple-400 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 transition-all duration-300 cursor-pointer text-center"
+                          onClick={() => setSnackbar({ open: true, message: '文件盒功能开发中...', severity: 'info' })}
+                        >
+                          <div className="text-3xl mb-2">📁</div>
+                          <Typography variant="subtitle2" className="text-purple-700 font-medium">文件盒</Typography>
+                          <Typography variant="body2" className="text-purple-600 text-sm mt-1">管理上传的文件和文档</Typography>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </AccordionDetails>
