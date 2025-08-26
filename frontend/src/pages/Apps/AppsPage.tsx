@@ -443,9 +443,9 @@ const AppsPage: React.FC = () => {
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
               <Settings className="w-4 h-4 text-white" />
             </div>
-            <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+            <h6 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
               自定义 {selectedTemplate?.name}
-            </Typography>
+            </h6>
           </div>
         </DialogTitle>
         <DialogContent className="pt-6">
@@ -495,7 +495,7 @@ const AppsPage: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="subtitle2" className="mb-2">功能特性</Typography>
+              <h6 className="text-lg font-semibold text-gray-900 mb-2">功能特性</h6>
               <FormGroup>
                 {selectedTemplate?.features.map((feature, index) => (
                   <FormControlLabel
@@ -526,19 +526,18 @@ const AppsPage: React.FC = () => {
           </Grid>
         </DialogContent>
         <DialogActions className="bg-gray-50 px-6 py-4">
-          <Button 
+          <button 
             onClick={() => setShowCustomizeDialog(false)}
             className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
           >
             取消
-          </Button>
-          <Button 
-            variant="contained" 
+          </button>
+          <button 
             onClick={handleCustomize}
             className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             创建应用
-          </Button>
+          </button>
         </DialogActions>
       </Dialog>
 
