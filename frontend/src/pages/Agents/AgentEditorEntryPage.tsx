@@ -109,10 +109,10 @@ const AgentEditorEntryPage: React.FC = () => {
 
         {/* Main content */}
         <Card className="shadow-xl border-0 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4">
             <div className="flex items-center justify-center space-x-2">
-              <Bot className="w-8 h-8 text-white" />
-              <Typography variant="h4" className="text-white font-semibold">
+              <Bot className="w-6 h-6 text-white" />
+              <Typography variant="h5" className="text-white font-semibold">
                 智能体配置向导
               </Typography>
             </div>
@@ -181,7 +181,7 @@ const AgentEditorEntryPage: React.FC = () => {
                         <div className={`text-lg font-bold mb-1 ${
                           agentData.editMode === 'ai' ? 'text-purple-800' : 'text-gray-800'
                         }`}>
-                          AI 辅助编辑
+                          AI 智能生成
                         </div>
                         <div className="text-sm text-gray-600 leading-relaxed">
                           智能生成配置建议<br/>
