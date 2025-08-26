@@ -1296,18 +1296,82 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                       </AccordionSummary>
                       <AccordionDetails className="px-4 pb-4">
                         <div className="space-y-4">
-                          <div className="flex flex-wrap gap-3">
+                          <div className="space-y-3">
                             {[
-                              { id: 'travel_planning', name: '旅行规划', description: '完整的旅行行程规划和预订流程' },
-                              { id: 'customer_service', name: '客户服务', description: '标准化的客户问题处理和解决流程' },
-                              { id: 'troubleshooting', name: '故障排除', description: '系统问题诊断和解决方案推荐' },
-                              { id: 'data_analysis', name: '数据分析', description: '数据收集、分析和可视化流程' },
-                              { id: 'content_generation', name: '内容生成', description: '多格式内容创作和编辑流程' },
-                              { id: 'project_management', name: '项目管理', description: '任务分配、进度跟踪和协作管理' }
+                              { 
+                                id: 'order_processing', 
+                                name: '订单处理流程', 
+                                description: '自动化订单处理和状态更新，包括库存检查、支付验证和发货通知',
+                                icon: '📦',
+                                category: '电商流程',
+                                status: 'active',
+                                version: 'v2.1.0',
+                                nodes: 12,
+                                successRate: 98.5
+                              },
+                              { 
+                                id: 'user_feedback_analysis', 
+                                name: '用户反馈分析', 
+                                description: '收集和分析用户反馈数据，自动生成洞察报告和优先级建议',
+                                icon: '📊',
+                                category: '数据分析',
+                                status: 'active',
+                                version: 'v1.8.5',
+                                nodes: 8,
+                                successRate: 100
+                              },
+                              { 
+                                id: 'data_sync_process', 
+                                name: '数据同步流程', 
+                                description: '多系统数据同步和备份，确保数据一致性和完整性',
+                                icon: '🔄',
+                                category: '数据管理',
+                                status: 'active',
+                                version: 'v3.2.1',
+                                nodes: 15,
+                                successRate: 95.2
+                              },
+                              { 
+                                id: 'marketing_automation', 
+                                name: '营销活动自动化', 
+                                description: '根据用户行为自动触发营销活动，包括邮件、短信和推送通知',
+                                icon: '📢',
+                                category: '营销流程',
+                                status: 'active',
+                                version: 'v2.0.0',
+                                nodes: 20,
+                                successRate: 97.8
+                              },
+                              { 
+                                id: 'system_monitoring', 
+                                name: '系统监控告警', 
+                                description: '实时监控系统性能指标，异常时自动发送告警通知',
+                                icon: '🔔',
+                                category: '运维监控',
+                                status: 'active',
+                                version: 'v1.5.2',
+                                nodes: 6,
+                                successRate: 99.9
+                              },
+                              { 
+                                id: 'content_moderation', 
+                                name: '内容审核流程', 
+                                description: '自动审核用户生成内容，识别不当内容并采取相应措施',
+                                icon: '🛡️',
+                                category: '内容安全',
+                                status: 'active',
+                                version: 'v2.3.0',
+                                nodes: 18,
+                                successRate: 89.3
+                              }
                             ].map((workflow) => (
-                              <Chip
+                              <div
                                 key={workflow.id}
-                                label={workflow.name}
+                                className={`p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
+                                  agentConfig.workflows.includes(workflow.id)
+                                    ? 'border-emerald-400 bg-gradient-to-r from-emerald-50 to-teal-50 shadow-lg scale-[1.02]'
+                                    : 'border-gray-200 bg-white hover:border-emerald-300 hover:shadow-md hover:scale-[1.01]'
+                                }`}
                                 onClick={() => {
                                   const isSelected = agentConfig.workflows.includes(workflow.id)
                                   setAgentConfig(prev => ({
@@ -1317,29 +1381,114 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                       : [...prev.workflows, workflow.id]
                                   }))
                                 }}
-                                color={agentConfig.workflows.includes(workflow.id) ? 'primary' : 'default'}
-                                variant={agentConfig.workflows.includes(workflow.id) ? 'filled' : 'outlined'}
-                                className={`text-sm px-4 py-3 cursor-pointer transition-all duration-300 font-medium ${
-                                   agentConfig.workflows.includes(workflow.id)
-                                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg scale-105'
-                                     : 'bg-white border-2 border-emerald-200 text-emerald-700 hover:border-emerald-400 hover:shadow-md hover:scale-105'
-                                 }`}
-                                title={workflow.description}
-                              />
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center space-x-4 flex-1">
+                                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl ${
+                                      agentConfig.workflows.includes(workflow.id)
+                                        ? 'bg-emerald-100'
+                                        : 'bg-gray-100'
+                                    }`}>
+                                      {workflow.icon}
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center space-x-3 mb-1">
+                                        <h4 className={`font-semibold text-lg ${
+                                          agentConfig.workflows.includes(workflow.id)
+                                            ? 'text-emerald-800'
+                                            : 'text-gray-800'
+                                        }`}>
+                                          {workflow.name}
+                                        </h4>
+                                        <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
+                                          {workflow.category}
+                                        </span>
+                                        <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                          {workflow.version}
+                                        </span>
+                                      </div>
+                                      <p className="text-gray-600 text-sm leading-relaxed mb-2">
+                                        {workflow.description}
+                                      </p>
+                                      <div className="flex items-center space-x-4 text-xs text-gray-500">
+                                        <span>节点: {workflow.nodes}</span>
+                                        <span>成功率: {workflow.successRate}%</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="flex items-center space-x-2 ml-4">
+                                    <IconButton
+                                      size="small"
+                                      className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-all duration-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setSnackbar({ open: true, message: `${workflow.name} 工作流配置功能开发中...`, severity: 'info' })
+                                      }}
+                                      title="工作流配置"
+                                    >
+                                      <Settings className="w-4 h-4" />
+                                    </IconButton>
+                                    <IconButton
+                                      size="small"
+                                      className="p-2 bg-green-100 hover:bg-green-200 text-green-600 rounded-lg transition-all duration-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setSnackbar({ open: true, message: `${workflow.name} 工作流已复制到剪贴板`, severity: 'success' })
+                                      }}
+                                      title="复制工作流"
+                                    >
+                                      <Copy className="w-4 h-4" />
+                                    </IconButton>
+                                    <IconButton
+                                      size="small"
+                                      className="p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-all duration-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setSnackbar({ open: true, message: `${workflow.name} 工作流删除功能开发中...`, severity: 'info' })
+                                      }}
+                                      title="删除工作流"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </IconButton>
+                                  </div>
+                                </div>
+                                
+                                {agentConfig.workflows.includes(workflow.id) && (
+                                  <div className="mt-3 pt-3 border-t border-emerald-200">
+                                    <div className="flex items-center space-x-2">
+                                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                      <span className="text-sm text-emerald-700 font-medium">已启用</span>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             ))}
                           </div>
-                          <div className="flex items-center space-x-3">
-                            <Button
-                              variant="outlined"
-                              size="small"
-                              startIcon={<Plus className="w-4 h-4" />}
-                              onClick={() => setSnackbar({ open: true, message: '添加新工作流功能开发中...', severity: 'info' })}
-                              className="border-2 border-emerald-300 text-emerald-700 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
-                            >
-                              添加新工作流
-                            </Button>
-                            <Typography variant="body2" className="text-gray-500">
-                              已选择 {agentConfig.workflows.length} 个工作流
+                          
+                          <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                            <div className="flex items-center space-x-3">
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Plus className="w-4 h-4" />}
+                                onClick={() => setSnackbar({ open: true, message: '添加新工作流功能开发中...', severity: 'info' })}
+                                className="border-2 border-emerald-300 text-emerald-700 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
+                              >
+                                添加新工作流
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                startIcon={<Download className="w-4 h-4" />}
+                                onClick={() => setSnackbar({ open: true, message: '批量导入工作流功能开发中...', severity: 'info' })}
+                                className="border-2 border-blue-300 text-blue-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-800 transition-all duration-300 font-medium px-4 py-2 rounded-lg"
+                              >
+                                批量导入
+                              </Button>
+                            </div>
+                            <Typography variant="body2" className="text-gray-500 font-medium">
+                              已选择 <span className="text-emerald-600 font-bold">{agentConfig.workflows.length}</span> 个工作流
                             </Typography>
                           </div>
                         </div>
