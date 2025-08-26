@@ -980,7 +980,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         </FormHelperText>
                       </FormControl>
 
-                      <div>
+                      <FormControl fullWidth>
                         <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
                           温度 (Temperature)
                         </Typography>
@@ -1006,11 +1006,11 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             },
                           }}
                         />
-                      </div>
+                      </FormControl>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
+                      <FormControl fullWidth>
                         <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
                           最大Token数
                         </Typography>
@@ -1026,9 +1026,9 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           helperText="限制单次对话的最大输出长度"
                           className="mt-2"
                         />
-                      </div>
+                      </FormControl>
 
-                      <div>
+                      <FormControl fullWidth>
                         <Typography variant="subtitle1" className="mb-3 text-gray-700 font-medium">
                           Top P
                         </Typography>
@@ -1044,7 +1044,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           helperText="控制词汇选择的多样性"
                           className="mt-2"
                         />
-                      </div>
+                      </FormControl>
                     </div>
                   </div>
                 </AccordionDetails>
