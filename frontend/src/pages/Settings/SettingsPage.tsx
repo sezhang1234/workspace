@@ -242,7 +242,7 @@ const SettingsPage: React.FC = () => {
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           管理您的账户、安全和应用程序偏好设置
         </p>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-end">
           {/* Save Configuration Button */}
           <Button
             variant="contained"
