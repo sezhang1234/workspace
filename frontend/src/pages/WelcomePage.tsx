@@ -56,7 +56,7 @@ const WelcomePage: React.FC = () => {
               <div className="w-10 h-10 flex items-center justify-center">
                 <JiuwenLogo width={40} height={40} />
               </div>
-              <span className="text-2xl font-bold text-gray-900">Jiuwen</span>
+              <span className="text-2xl font-bold text-gray-900">九问</span>
             </div>
             <div className="flex items-center space-x-4">
               <Link
@@ -86,7 +86,7 @@ const WelcomePage: React.FC = () => {
             </span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Jiuwen 为您提供完整的LLM智能体开发生态，从模型配置到工作流编排，
+            九问 为您提供完整的LLM智能体开发生态，从模型配置到工作流编排，
             从提示词优化到智能体部署，一站式解决AI应用开发的所有需求。
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -143,7 +143,7 @@ const WelcomePage: React.FC = () => {
             准备好开始您的AI之旅了吗？
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            加入数千名开发者的行列，使用Jiuwen构建下一代AI应用
+            加入数千名开发者的行列，使用九问构建下一代AI应用
           </p>
           <Link
             to="/login"
@@ -163,10 +163,10 @@ const WelcomePage: React.FC = () => {
               <div className="w-8 h-8 flex items-center justify-center">
                 <JiuwenLogo width={32} height={32} />
               </div>
-              <span className="text-xl font-bold">Jiuwen</span>
+              <span className="text-xl font-bold">九问</span>
             </div>
             <p className="text-gray-400">
-              © 2024 Jiuwen Agent Studio. 让AI开发更简单，让创新更高效。
+              © 2024 九问 Agent Studio. 让AI开发更简单，让创新更高效。
             </p>
           </div>
         </div>
