@@ -236,16 +236,13 @@ const SettingsPage: React.FC = () => {
     <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
       <div className="text-center mb-8">
-        <div className="flex items-center justify-between">
-          <div className="text-center flex-1">
-            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-              系统设置
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-              管理您的账户、安全和应用程序偏好设置
-            </p>
-          </div>
-          
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+          系统设置
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+          管理您的账户、安全和应用程序偏好设置
+        </p>
+        <div className="flex items-center justify-center">
           {/* Save Configuration Button */}
           <Button
             variant="contained"
