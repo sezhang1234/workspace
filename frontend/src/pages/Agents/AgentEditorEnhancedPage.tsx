@@ -748,11 +748,11 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     icon={<Sparkles className="w-6 h-6" />}
                     className="border border-purple-200 bg-purple-50 mt-6"
                   >
-                    <Typography variant="body1" className="text-purple-800">
-                      <strong>提示词优化策略：</strong>
-                      系统将根据您配置的优化模型、评估模型和优化轮数，自动优化系统提示词。
-                      优化过程将结合上传的用例集或手动输入的示例对话，生成更精准的提示词配置。
-                    </Typography>
+                                      <Typography variant="body1" className="text-purple-800">
+                    <strong>自动调优提示词：</strong>
+                    系统将根据您配置的优化模型、评估模型和优化轮数，自动优化系统提示词。
+                    优化过程将结合上传的用例集或手动输入的示例对话，生成更精准的提示词配置。
+                  </Typography>
                   </Alert>
                 </Paper>
               </div>

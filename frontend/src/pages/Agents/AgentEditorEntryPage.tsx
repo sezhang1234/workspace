@@ -277,7 +277,7 @@ const AgentEditorEntryPage: React.FC = () => {
                   className="border border-blue-200 bg-blue-50"
                 >
                   <Typography variant="body1" className="text-blue-800">
-                    <strong>AI 辅助编辑模式：</strong>
+                    <strong>自动生成提示词：</strong>
                     系统将根据您的描述自动生成智能体配置，包括系统提示词、模型参数等。
                     您可以在下一步中查看和调整生成的配置。
                   </Typography>
