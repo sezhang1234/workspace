@@ -11,6 +11,11 @@ import {
 } from 'lucide-react'
 import { 
   Button, 
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
   Switch, 
   FormControlLabel,
   Chip,
