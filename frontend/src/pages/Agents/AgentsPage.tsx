@@ -24,6 +24,7 @@ interface Agent {
   usageCount: number
   tags: string[]
   createdAt: string
+  apiEndpoint: string
 }
 
 const AgentsPage: React.FC = () => {
@@ -42,7 +43,8 @@ const AgentsPage: React.FC = () => {
       lastActive: '2小时前',
       usageCount: 1234,
       tags: ['客服', '对话', '多轮'],
-      createdAt: '2024-01-15'
+      createdAt: '2024-01-15',
+      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/customer-service'
     },
     {
       id: '2',
@@ -54,7 +56,8 @@ const AgentsPage: React.FC = () => {
       lastActive: '1天前',
       usageCount: 567,
       tags: ['数据分析', '报告', '洞察'],
-      createdAt: '2024-01-20'
+      createdAt: '2024-01-20',
+      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/data-analyst'
     },
     {
       id: '3',
@@ -66,7 +69,8 @@ const AgentsPage: React.FC = () => {
       lastActive: '3小时前',
       usageCount: 890,
       tags: ['编程', '代码审查', '优化'],
-      createdAt: '2024-01-10'
+      createdAt: '2024-01-10',
+      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/code-assistant'
     },
     {
       id: '4',
@@ -78,7 +82,8 @@ const AgentsPage: React.FC = () => {
       lastActive: '未激活',
       usageCount: 0,
       tags: ['翻译', '多语言', '学习'],
-      createdAt: '2024-01-25'
+      createdAt: '2024-01-25',
+      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/translator'
     }
   ]
 
@@ -240,6 +245,23 @@ const AgentsPage: React.FC = () => {
 
               {/* Last active */}
               <p className="text-xs text-gray-500 mb-4 font-medium">最后活跃: {agent.lastActive}</p>
+              
+              {/* API Endpoint */}
+              <div className="mb-4">
+                <p className="text-xs text-gray-500 font-medium mb-2">Agent Published API</p>
+                <div className="flex items-center space-x-2">
+                  <code className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-mono flex-1 truncate">
+                    {agent.apiEndpoint}
+                  </code>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(agent.apiEndpoint)}
+                    className="p-1 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-all duration-200"
+                    title="复制API地址"
+                  >
+                    <Copy className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Actions */}
