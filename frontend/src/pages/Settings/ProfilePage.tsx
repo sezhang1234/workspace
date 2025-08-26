@@ -78,39 +78,43 @@ const ProfilePage: React.FC = () => {
       {/* Page header */}
       <div className="text-center mb-8">
 
-        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-          个人资料
-        </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-          管理您的个人信息和账户设置
-        </p>
-        <div className="flex items-center justify-center space-x-3">
-          {isEditing ? (
-            <>
+        <div className="flex items-center justify-between w-full">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
+              个人资料
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+              管理您的个人信息和账户设置
+            </p>
+          </div>
+          <div className="flex items-center space-x-3">
+            {isEditing ? (
+              <>
+                <button
+                  onClick={handleCancel}
+                  className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-6 py-3 rounded-xl font-semibold transition-all duration-200 border border-gray-300 hover:border-gray-400"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none flex items-center space-x-2"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>{isSaving ? '保存中...' : '保存'}</span>
+                </button>
+              </>
+            ) : (
               <button
-                onClick={handleCancel}
-                className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-6 py-3 rounded-xl font-semibold transition-all duration-200 border border-gray-300 hover:border-gray-400"
+                onClick={() => setIsEditing(true)}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2"
               >
-                取消
+                <Edit3 className="w-4 h-4" />
+                <span>编辑资料</span>
               </button>
-              <button
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none flex items-center space-x-2"
-              >
-                <Save className="w-4 h-4" />
-                <span>{isSaving ? '保存中...' : '保存'}</span>
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2"
-            >
-              <Edit3 className="w-4 h-4" />
-              <span>编辑资料</span>
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
