@@ -153,53 +153,35 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
 
         {/* Footer */}
         <div className={`border-t border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
-          <div className={`flex items-center justify-between ${isCollapsed ? 'justify-center' : ''}`}>
-            <div className={`flex items-center space-x-2 text-xs ${isCollapsed ? 'justify-center' : ''}`}>
-              <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
-                <Zap className="w-3 h-3 text-white" />
-              </div>
-              {!isCollapsed && <span className="text-blue-600 font-medium">Jiuwen v1.0.0</span>}
+          <div className={`flex items-center space-x-2 text-xs ${isCollapsed ? 'justify-center' : ''}`}>
+            <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
+              <Zap className="w-3 h-3 text-white" />
             </div>
-            
-            {/* Collapse Toggle Button - Bottom Right */}
-            {!isCollapsed && (
-              <button
-                onClick={onToggleCollapse}
-                className={`
-                  group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
-                  w-8 h-8
-                  bg-white hover:bg-gray-50
-                  border border-gray-200 hover:border-gray-300
-                  text-gray-600 hover:text-gray-800
-                  shadow-sm hover:shadow-md
-                `}
-                title="收起侧边栏"
-              >
-                <PanelLeftClose className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
-              </button>
-            )}
+            {!isCollapsed && <span className="text-blue-600 font-medium">Jiuwen v1.0.0</span>}
           </div>
         </div>
         
-        {/* Expand Button - When Collapsed */}
-        {isCollapsed && (
-          <div className="absolute bottom-4 right-4">
-            <button
-              onClick={onToggleCollapse}
-              className={`
-                group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
-                w-8 h-8
-                bg-white hover:bg-gray-50
-                border border-gray-200 hover:border-gray-300
-                text-gray-600 hover:text-gray-800
-                shadow-sm hover:shadow-md
-              `}
-              title="展开侧边栏"
-            >
+        {/* Collapse/Expand Button - Always in Bottom Right Corner */}
+        <div className="absolute bottom-4 right-4">
+          <button
+            onClick={onToggleCollapse}
+            className={`
+              group flex items-center justify-center rounded-lg transition-all duration-300 ease-in-out
+              w-8 h-8
+              bg-white hover:bg-gray-50
+              border border-gray-200 hover:border-gray-300
+              text-gray-600 hover:text-gray-800
+              shadow-sm hover:shadow-md
+            `}
+            title={isCollapsed ? '展开侧边栏' : '收起侧边栏'}
+          >
+            {isCollapsed ? (
               <PanelLeftOpen className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
-            </button>
-          </div>
-        )}
+            ) : (
+              <PanelLeftClose className="w-4 h-4 transition-all duration-300 ease-in-out group-hover:scale-110" />
+            )}
+          </button>
+        </div>
       </div>
     </>
   )
