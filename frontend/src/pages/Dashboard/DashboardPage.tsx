@@ -138,7 +138,7 @@ const DashboardPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">仪表板</h1>
-          <p className="text-gray-600">欢迎回到 Jiuwen，查看您的智能体开发进度</p>
+          <p className="text-gray-600">欢迎回到 九问，查看您的智能体开发进度</p>
         </div>
 
       </div>

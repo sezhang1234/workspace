@@ -65,7 +65,7 @@ const LoginPage: React.FC = () => {
             </div>
           </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            欢迎回到 Jiuwen
+                          欢迎回到 九问
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             登录您的账户以继续使用智能体开发平台
