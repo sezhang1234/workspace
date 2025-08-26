@@ -327,33 +327,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
 
 
 
-  const handleExport = () => {
-    const dataStr = JSON.stringify(agentConfig, null, 2)
-    const dataBlob = new Blob([dataStr], { type: 'application/json' })
-    const url = URL.createObjectURL(dataBlob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `${agentConfig.name || 'agent'}.json`
-    link.click()
-    URL.revokeObjectURL(url)
-  }
 
-  const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const importedConfig = JSON.parse(e.target?.result as string)
-          setAgentConfig(importedConfig)
-          setSnackbar({ open: true, message: '智能体配置导入成功', severity: 'success' })
-        } catch (error) {
-          setSnackbar({ open: true, message: '导入失败：文件格式错误', severity: 'error' })
-        }
-      }
-      reader.readAsText(file)
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
@@ -1746,137 +1720,200 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
 
           {/* Preview and Debug Tab */}
           <TabPanel value={activeTab} index={2}>
-            <div className="space-y-8">
-              {/* Test Input */}
-              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
-                <Typography variant="h6" className="mb-4 text-gray-800 font-semibold">
-                  测试输入
-                </Typography>
-                <div className="flex items-center space-x-4">
-                  <TextField
-                    fullWidth
-                    value={testMessage}
-                    onChange={(e) => setTestMessage(e.target.value)}
-                    placeholder="输入测试消息来调试智能体..."
-                    onKeyPress={(e) => e.key === 'Enter' && handleTest()}
-                    className="mt-2"
-                  />
-                  <Button
-                    variant="contained"
-                    startIcon={<Play />}
-                    onClick={handleTest}
-                    disabled={isTesting || !testMessage.trim()}
-                    className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 shadow-lg px-6"
-                  >
-                    {isTesting ? '测试中...' : '发送测试'}
-                  </Button>
-                </div>
-              </Paper>
-
-              {/* Test History */}
-              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl">
-                <Typography variant="h6" className="mb-4 text-gray-800 font-semibold">
-                  对话历史
-                </Typography>
-                <div className="space-y-4 max-h-96 overflow-y-auto bg-gray-50 p-4 rounded-lg">
-                  {agentConfig.testHistory.length === 0 ? (
-                    <div className="text-center py-12">
-                      <TestTube className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-500 text-lg">暂无对话记录，开始测试以查看效果</p>
-                    </div>
-                  ) : (
-                    agentConfig.testHistory.map((msg, index) => (
-                      <div
-                        key={index}
-                        className={`p-4 rounded-lg ${
-                          msg.role === 'user' 
-                            ? 'bg-blue-100 ml-8 border-l-4 border-blue-500' 
-                            : 'bg-green-100 mr-8 border-l-4 border-green-500'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="font-semibold text-sm">
-                            {msg.role === 'user' ? '👤 用户' : '🤖 AI助手'}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[800px]">
+              {/* Left Panel - Chatbot Dialog */}
+              <div className="flex flex-col h-full">
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col">
+                  <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
+                    智能体调试对话
+                  </Typography>
+                  
+                  {/* Chat Messages Area */}
+                  <div className="flex-1 bg-gray-50 rounded-lg p-4 mb-4 overflow-y-auto">
+                    {agentConfig.testHistory.length === 0 ? (
+                      <div className="text-center py-12">
+                        <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                        <p className="text-gray-500 text-lg">开始对话以调试智能体</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {agentConfig.testHistory.map((msg, index) => (
+                          <div
+                            key={index}
+                            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                          >
+                            <div
+                              className={`max-w-[80%] p-3 rounded-lg ${
+                                msg.role === 'user' 
+                                  ? 'bg-blue-500 text-white' 
+                                  : 'bg-white border border-gray-200 text-gray-800'
+                              }`}
+                            >
+                              <div className="text-sm mb-1 opacity-75">
+                                {msg.role === 'user' ? '用户' : '智能体'}
+                              </div>
+                              <div className="text-sm leading-relaxed">{msg.content}</div>
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500">
-                            {msg.timestamp.toLocaleTimeString()}
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Input Area */}
+                  <div className="flex items-center space-x-3">
+                    <TextField
+                      fullWidth
+                      value={testMessage}
+                      onChange={(e) => setTestMessage(e.target.value)}
+                      placeholder="输入消息来测试智能体..."
+                      onKeyPress={(e) => e.key === 'Enter' && handleTest()}
+                      size="small"
+                      className="flex-1"
+                    />
+                    <Button
+                      variant="contained"
+                      startIcon={<Play className="w-4 h-4" />}
+                      onClick={handleTest}
+                      disabled={isTesting || !testMessage.trim()}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg px-4"
+                      size="small"
+                    >
+                      {isTesting ? '发送中...' : '发送'}
+                    </Button>
+                  </div>
+                </Paper>
+              </div>
+
+              {/* Right Panel - Debug Information Tree */}
+              <div className="flex flex-col h-full">
+                <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col">
+                  <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold text-lg">
+                    调试信息树
+                  </Typography>
+                  
+                  <div className="flex-1 bg-gray-50 rounded-lg p-4 overflow-y-auto">
+                    <div className="space-y-3">
+                      {/* Agent Configuration Tree */}
+                      <div className="bg-white rounded-lg border border-gray-200 p-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ChevronDown className="w-4 h-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">智能体配置</span>
+                        </div>
+                        <div className="ml-6 space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">模型:</span>
+                            <span className="font-medium">{agentConfig.model}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">温度:</span>
+                            <span className="font-medium">{agentConfig.modelParams.temperature}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">最大Token:</span>
+                            <span className="font-medium">{agentConfig.modelParams.maxTokens}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Top P:</span>
+                            <span className="font-medium">{agentConfig.modelParams.topP}</span>
                           </div>
                         </div>
-                        <div className="text-gray-800">{msg.content}</div>
                       </div>
-                    ))
-                  )}
-                </div>
-              </Paper>
 
-              {/* Debug Information */}
-              <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50">
-                <Typography variant="h6" className="mb-4 text-gray-800 font-semibold">
-                  调试信息
-                </Typography>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">当前模型：</strong> {agentConfig.model}
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">温度设置：</strong> {agentConfig.modelParams.temperature}
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">启用插件：</strong> {agentConfig.plugins.join(', ') || '无'}
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">记忆配置：</strong> 已配置
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">编辑模式：</strong> {agentConfig.editMode === 'ai' ? 'AI辅助' : '手动编辑'}
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <strong className="text-blue-800">对话轮数：</strong> {agentConfig.testHistory.length / 2}
-                  </div>
-                </div>
-              </Paper>
+                      {/* Plugins Tree */}
+                      <div className="bg-white rounded-lg border border-gray-200 p-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ChevronDown className="w-4 h-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">已启用插件</span>
+                          <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                            {agentConfig.plugins.length}
+                          </span>
+                        </div>
+                        <div className="ml-6 space-y-1">
+                          {agentConfig.plugins.length > 0 ? (
+                            agentConfig.plugins.map((pluginId, index) => (
+                              <div key={index} className="text-sm text-gray-600">
+                                • {pluginId}
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-sm text-gray-400 italic">无插件</div>
+                          )}
+                        </div>
+                      </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center justify-between pt-6">
-                <div className="flex space-x-3">
-                  <Button
-                    variant="outlined"
-                    startIcon={<Upload />}
-                    component="label"
-                    className="border-gray-300 text-gray-600 hover:border-gray-400"
-                  >
-                    导入配置
-                    <input
-                      type="file"
-                      hidden
-                      accept=".json"
-                      onChange={handleImport}
-                    />
-                  </Button>
-                  
-                  <Button
-                    variant="outlined"
-                    startIcon={<Download />}
-                    onClick={handleExport}
-                    className="border-gray-300 text-gray-600 hover:border-gray-400"
-                  >
-                    导出配置
-                  </Button>
-                </div>
+                      {/* Workflows Tree */}
+                      <div className="bg-white rounded-lg border border-gray-200 p-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ChevronDown className="w-4 h-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">已选择工作流</span>
+                          <span className="ml-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                            {agentConfig.workflows.length}
+                          </span>
+                        </div>
+                        <div className="ml-6 space-y-1">
+                          {agentConfig.workflows.length > 0 ? (
+                            agentConfig.workflows.map((workflowId, index) => (
+                              <div key={index} className="text-sm text-gray-600">
+                                • {workflowId}
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-sm text-gray-400 italic">无工作流</div>
+                          )}
+                        </div>
+                      </div>
 
-                <Button
-                  variant="outlined"
-                  color="error"
-                  startIcon={<Trash2 />}
-                  onClick={() => {
-                    if (confirm('确定要删除这个智能体吗？')) {
-                      navigate('/dashboard/agents')
-                    }
-                  }}
-                  className="border-red-300 text-red-600 hover:border-red-400 hover:bg-red-50"
-                >
-                  删除智能体
-                </Button>
+                      {/* Memory Configuration Tree */}
+                      <div className="bg-white rounded-lg border border-gray-200 p-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ChevronDown className="w-4 h-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">记忆配置</span>
+                        </div>
+                        <div className="ml-6 space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">变量存储:</span>
+                            <span className="font-medium text-green-600">已启用</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">数据库:</span>
+                            <span className="font-medium text-green-600">已启用</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">长期记忆:</span>
+                            <span className="font-medium text-green-600">已启用</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">文件盒:</span>
+                            <span className="font-medium text-green-600">已启用</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Conversation Stats Tree */}
+                      <div className="bg-white rounded-lg border border-gray-200 p-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ChevronDown className="w-4 h-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">对话统计</span>
+                        </div>
+                        <div className="ml-6 space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">总对话数:</span>
+                            <span className="font-medium">{Math.floor(agentConfig.testHistory.length / 2)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">用户消息:</span>
+                            <span className="font-medium">{agentConfig.testHistory.filter(msg => msg.role === 'user').length}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">智能体回复:</span>
+                            <span className="font-medium">{agentConfig.testHistory.filter(msg => msg.role === 'assistant').length}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Paper>
               </div>
             </div>
           </TabPanel>
