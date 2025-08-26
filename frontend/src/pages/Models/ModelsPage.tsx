@@ -535,8 +535,8 @@ const ModelsPage: React.FC = () => {
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons */}
-              <div className="flex space-x-3">
+              {/* Bottom Buttons - Hidden by default, visible on hover */}
+              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Button
                   variant="contained"
                   size="large"
@@ -577,8 +577,8 @@ const ModelsPage: React.FC = () => {
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons */}
-              <div className="flex space-x-3">
+              {/* Bottom Buttons - Hidden by default, visible on hover */}
+              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Button
                   variant="contained"
                   size="large"
@@ -619,8 +619,8 @@ const ModelsPage: React.FC = () => {
                 <span>评分: ⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons */}
-              <div className="flex space-x-3">
+              {/* Bottom Buttons - Hidden by default, visible on hover */}
+              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Button
                   variant="contained"
                   size="large"
@@ -661,8 +661,8 @@ const ModelsPage: React.FC = () => {
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons */}
-              <div className="flex space-x-3">
+              {/* Bottom Buttons - Hidden by default, visible on hover */}
+              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Button
                   variant="contained"
                   size="large"
@@ -703,8 +703,8 @@ const ModelsPage: React.FC = () => {
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons */}
-              <div className="flex space-x-3">
+              {/* Bottom Buttons - Hidden by default, visible on hover */}
+              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Button
                   variant="contained"
                   size="large"
@@ -745,8 +745,8 @@ const ModelsPage: React.FC = () => {
                 <span>评分: ⭐⭐⭐⭐⭐</span>
               </div>
               
-              {/* Bottom Buttons */}
-              <div className="flex space-x-3">
+              {/* Bottom Buttons - Hidden by default, visible on hover */}
+              <div className="flex space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Button
                   variant="contained"
                   size="large"
