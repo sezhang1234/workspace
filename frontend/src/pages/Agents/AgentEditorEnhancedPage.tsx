@@ -1798,11 +1798,11 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
 
           {/* Preview and Debug Tab */}
           <TabPanel value={activeTab} index={2}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-300px)] min-h-[600px]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" style={{ height: 'calc(100vh - 300px)' }}>
               {/* Left Panel - Chatbot Dialog */}
               <div className="flex flex-col h-full">
                 <Paper elevation={0} className="p-6 border border-gray-200 rounded-xl h-full flex flex-col bg-gradient-to-br from-blue-50 to-indigo-50">
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-4">
                     <Typography variant="h6" className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
                       智能体调试对话
                     </Typography>
@@ -1815,17 +1815,17 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </div>
                   
                   {/* Chat Messages Area */}
-                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100 min-h-0">
+                  <div className="flex-1 bg-white rounded-xl p-4 mb-4 overflow-y-auto shadow-inner border border-gray-100" style={{ minHeight: 0 }}>
                     {agentConfig.testHistory.length === 0 ? (
-                      <div className="text-center py-12">
-                        <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <MessageSquare className="w-10 h-10 text-blue-500" />
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <MessageSquare className="w-8 h-8 text-blue-500" />
                         </div>
-                        <p className="text-gray-500 text-lg font-medium">开始对话以调试智能体</p>
-                        <p className="text-gray-400 text-sm mt-2">输入消息开始测试您的智能体配置</p>
+                        <p className="text-gray-500 text-base font-medium">开始对话以调试智能体</p>
+                        <p className="text-gray-400 text-sm mt-1">输入消息开始测试您的智能体配置</p>
                       </div>
                     ) : (
-                      <div className="space-y-6">
+                      <div className="space-y-4">
                         {agentConfig.testHistory.map((msg, index) => (
                           <div
                             key={index}
@@ -1834,8 +1834,8 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                             <div className={`max-w-[85%] ${msg.role === 'user' ? 'order-2' : 'order-1'}`}>
                               {msg.role === 'assistant' && (
                                 <div className="flex items-center space-x-2 mb-2">
-                                  <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm font-bold">AI</span>
+                                  <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold">AI</span>
                                   </div>
                                   <span className="text-sm text-gray-600 font-medium">旅行规划助手</span>
                                   <span className="text-xs text-gray-400">
@@ -1845,7 +1845,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                               )}
                               
                               <div
-                                className={`p-4 rounded-2xl shadow-sm ${
+                                className={`p-3 rounded-xl shadow-sm ${
                                   msg.role === 'user' 
                                     ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' 
                                     : 'bg-white border border-gray-200 text-gray-800'
@@ -1859,7 +1859,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                   <span className="text-xs text-gray-400">
                                     {msg.timestamp.toLocaleTimeString()}
                                   </span>
-                                  <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
+                                  <div className="w-5 h-5 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
                                     <span className="text-white text-xs font-bold">我</span>
                                   </div>
                                 </div>
@@ -1872,7 +1872,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </div>
                   
                   {/* Input Area */}
-                  <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                  <div className="bg-white rounded-xl p-3 border border-gray-200 shadow-sm">
                     <div className="flex items-center space-x-3">
                       <TextField
                         fullWidth
@@ -1896,7 +1896,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         startIcon={<Play className="w-4 h-4" />}
                         onClick={handleTest}
                         disabled={isTesting || !testMessage.trim()}
-                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg px-6 rounded-xl"
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg px-4 rounded-xl"
                         size="small"
                         sx={{
                           borderRadius: '12px',
@@ -1925,7 +1925,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     调试信息树
                   </Typography>
                   
-                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100 min-h-0">
+                  <div className="flex-1 bg-white rounded-xl p-4 overflow-y-auto shadow-inner border border-gray-100" style={{ minHeight: 0 }}>
                     <div className="space-y-4">
                       {/* Real-time Running Status */}
                       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 p-4">
@@ -1998,102 +1998,6 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           <div className="flex justify-between text-xs text-gray-500">
                             <span>0%</span>
                             <span>100%</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Agent Configuration Tree */}
-                      <div className="bg-white rounded-lg border border-gray-200 p-3">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ChevronDown className="w-4 h-4 text-gray-600" />
-                          <span className="font-semibold text-gray-800">智能体配置</span>
-                        </div>
-                        <div className="ml-6 space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">模型:</span>
-                            <span className="font-medium">{agentConfig.model}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">温度:</span>
-                            <span className="font-medium">{agentConfig.modelParams.temperature}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">最大Token:</span>
-                            <span className="font-medium">{agentConfig.modelParams.maxTokens}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Top P:</span>
-                            <span className="font-medium">{agentConfig.modelParams.topP}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Plugins Tree */}
-                      <div className="bg-white rounded-lg border border-gray-200 p-3">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ChevronDown className="w-4 h-4 text-gray-600" />
-                          <span className="font-semibold text-gray-800">已启用插件</span>
-                          <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                            {agentConfig.plugins.length}
-                          </span>
-                        </div>
-                        <div className="ml-6 space-y-1">
-                          {agentConfig.plugins.length > 0 ? (
-                            agentConfig.plugins.map((pluginId, index) => (
-                              <div key={index} className="text-sm text-gray-600">
-                                • {pluginId}
-                              </div>
-                            ))
-                          ) : (
-                            <div className="text-sm text-gray-400 italic">无插件</div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Workflows Tree */}
-                      <div className="bg-white rounded-lg border border-gray-200 p-3">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ChevronDown className="w-4 h-4 text-gray-600" />
-                          <span className="font-semibold text-gray-800">已选择工作流</span>
-                          <span className="ml-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                            {agentConfig.workflows.length}
-                          </span>
-                        </div>
-                        <div className="ml-6 space-y-1">
-                          {agentConfig.workflows.length > 0 ? (
-                            agentConfig.workflows.map((workflowId, index) => (
-                              <div key={index} className="text-sm text-gray-600">
-                                • {workflowId}
-                              </div>
-                            ))
-                          ) : (
-                            <div className="text-sm text-gray-400 italic">无工作流</div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Memory Configuration Tree */}
-                      <div className="bg-white rounded-lg border border-gray-200 p-3">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ChevronDown className="w-4 h-4 text-gray-600" />
-                          <span className="font-semibold text-gray-800">记忆配置</span>
-                        </div>
-                        <div className="ml-6 space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">变量存储:</span>
-                            <span className="font-medium text-green-600">已启用</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">数据库:</span>
-                            <span className="font-medium text-green-600">已启用</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">长期记忆:</span>
-                            <span className="font-medium text-green-600">已启用</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">文件盒:</span>
-                            <span className="font-medium text-green-600">已启用</span>
                           </div>
                         </div>
                       </div>
