@@ -18,7 +18,7 @@ interface Agent {
   name: string
   description: string
   avatar: string
-  status: 'active' | 'inactive' | 'training' | 'error'
+  status: 'active' | 'inactive' | 'error'
   model: string
   lastActive: string
   usageCount: number
@@ -49,7 +49,7 @@ const AgentsPage: React.FC = () => {
       name: '数据分析师',
       description: '数据分析智能体，自动生成报告和洞察',
       avatar: '📊',
-      status: 'training',
+      status: 'inactive',
       model: 'Claude-3',
       lastActive: '1天前',
       usageCount: 567,
@@ -84,7 +84,6 @@ const AgentsPage: React.FC = () => {
     switch (status) {
       case 'active': return 'bg-green-100 text-green-800'
       case 'inactive': return 'bg-gray-100 text-gray-800'
-      case 'training': return 'bg-yellow-100 text-yellow-800'
       case 'error': return 'bg-red-100 text-red-800'
       default: return 'bg-gray-100 text-gray-800'
     }
@@ -94,8 +93,7 @@ const AgentsPage: React.FC = () => {
     switch (status) {
       case 'active': return '运行中'
       case 'inactive': return '已停止'
-      case 'training': return '训练中'
-      case 'error': return '错误'
+      case 'error': return '异常'
       default: return '未知'
     }
   }
@@ -139,8 +137,7 @@ const AgentsPage: React.FC = () => {
             <option value="all">所有状态</option>
             <option value="active">运行中</option>
             <option value="inactive">已停止</option>
-            <option value="training">训练中</option>
-            <option value="error">错误</option>
+            <option value="error">异常</option>
           </select>
         </div>
 
