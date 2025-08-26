@@ -95,7 +95,7 @@ const DashboardPage: React.FC = () => {
       id: 3,
       name: '数据同步流程',
       description: '多系统数据同步和备份',
-      status: 'scheduled',
+      status: 'completed',
       lastRun: '6小时前',
       successRate: '95%'
     }
@@ -238,10 +238,9 @@ const DashboardPage: React.FC = () => {
                   <p className="text-xs text-gray-500">{workflow.description}</p>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      workflow.status === 'running' ? 'bg-green-100 text-green-800' :
-                      workflow.status === 'completed' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'
+                      workflow.status === 'running' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
                     }`}>
-                      {workflow.status === 'running' ? '运行中' : workflow.status === 'completed' ? '已完成' : '已计划'}
+                      {workflow.status === 'running' ? '运行中' : '已完成'}
                     </span>
                     <span className="text-xs text-gray-400">成功率: {workflow.successRate}</span>
                   </div>
