@@ -260,25 +260,30 @@ const SettingsPage: React.FC = () => {
       {/* Settings tabs */}
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
 
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white' }}>
           <Tabs 
             value={activeTab} 
             onChange={handleTabChange} 
             aria-label="设置标签页" 
             variant="scrollable"
+            className="px-6"
             sx={{
-              px: 3,
               '& .MuiTab-root': {
-                color: '#6b7280',
+                minHeight: '64px',
+                fontSize: '1rem',
                 fontWeight: 500,
+                textTransform: 'none',
+                color: '#6B7280',
                 '&.Mui-selected': {
-                  color: '#3b82f6',
-                  fontWeight: 600
-                }
+                  color: '#3B82F6',
+                  fontWeight: 600,
+                },
               },
               '& .MuiTabs-indicator': {
-                backgroundColor: '#3b82f6'
-              }
+                height: '3px',
+                borderRadius: '2px',
+                backgroundColor: '#3B82F6',
+              },
             }}
           >
             <Tab label="通用设置" icon={<Settings />} />
