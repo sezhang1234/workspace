@@ -279,43 +279,33 @@ const AnalyticsPage: React.FC = () => {
       </div>
 
       {/* Controls */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <FormControl size="small">
-              <InputLabel>时间范围</InputLabel>
-              <Select
-                value={timeRange}
-                label="时间范围"
-                onChange={(e) => setTimeRange(e.target.value)}
-                className="min-w-[180px]"
-              >
-                <MenuItem value="7d">最近7天</MenuItem>
-                <MenuItem value="30d">最近30天</MenuItem>
-                <MenuItem value="90d">最近90天</MenuItem>
-                <MenuItem value="1y">最近1年</MenuItem>
-              </Select>
-            </FormControl>
-          </div>
-          <div className="flex items-center space-x-3">
-            <Tooltip title="刷新数据">
-              <IconButton
-                onClick={handleRefresh}
-                disabled={refreshData}
-                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hover:border-blue-300 p-2 rounded-lg transition-all duration-200"
-              >
-                <RotateCcw className={`w-5 h-5 ${refreshData ? 'animate-spin' : ''}`} />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="导出数据">
-              <IconButton
-                onClick={handleExport}
-                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border border-blue-200 hover:border-blue-300 p-2 rounded-lg transition-all duration-200"
-              >
-                <Download className="w-5 h-5" />
-              </IconButton>
-            </Tooltip>
-          </div>
+      <div className="flex items-center justify-between">
+        <div></div>
+        <div className="flex items-center space-x-4">
+          <FormControl size="small">
+            <InputLabel>时间范围</InputLabel>
+            <Select
+              value={timeRange}
+              label="时间范围"
+              onChange={(e) => setTimeRange(e.target.value)}
+              className="min-w-[180px]"
+            >
+              <MenuItem value="7d">最近7天</MenuItem>
+              <MenuItem value="30d">最近30天</MenuItem>
+              <MenuItem value="90d">最近90天</MenuItem>
+              <MenuItem value="1y">最近1年</MenuItem>
+            </Select>
+          </FormControl>
+          
+          {/* Refresh Button */}
+          <button
+            onClick={handleRefresh}
+            disabled={refreshData}
+            className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
+          >
+            <RotateCcw className={`w-5 h-5 ${refreshData ? 'animate-spin' : ''}`} />
+            <span>刷新数据</span>
+          </button>
         </div>
       </div>
 
