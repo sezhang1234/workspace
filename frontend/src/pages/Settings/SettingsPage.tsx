@@ -1063,7 +1063,7 @@ const SettingsPage: React.FC = () => {
             </FormGroup>
           </div>
         </TabPanel>
-      </Card>
+      </div>
 
       {/* API Key Dialog */}
       <Dialog 
