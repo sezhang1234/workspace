@@ -96,34 +96,7 @@ const agentTemplates: AgentTemplate[] = [
     features: ['数学计算', '公式推导', '算法分析', '数值模拟'],
     estimatedTime: '1-3分钟'
   },
-  {
-    id: 'conversation',
-    name: 'Conversation Agent',
-    description: '对话智能体，能够进行自然语言对话，支持多轮交互和上下文理解。',
-    category: '对话交互',
-    difficulty: 'beginner',
-    tags: ['对话', '交互', '自然语言', '上下文'],
-    icon: <MessageSquare className="w-8 h-8" />,
-    usageCount: 5678,
-    rating: 4.5,
-    isCustomizable: true,
-    features: ['多轮对话', '上下文理解', '情感分析', '个性化回复'],
-    estimatedTime: '实时'
-  },
-  {
-    id: 'workflow-automation',
-    name: 'Workflow Automation Agent',
-    description: '工作流自动化智能体，能够设计和执行复杂的业务流程和自动化任务。',
-    category: '流程自动化',
-    difficulty: 'advanced',
-    tags: ['自动化', '工作流', '业务流程', '任务执行'],
-    icon: <Zap className="w-8 h-8" />,
-    usageCount: 1567,
-    rating: 4.8,
-    isCustomizable: true,
-    features: ['流程设计', '任务编排', '条件判断', '错误处理'],
-    estimatedTime: '10-20分钟'
-  }
+
 ]
 
 const AppsPage: React.FC = () => {
@@ -141,7 +114,7 @@ const AppsPage: React.FC = () => {
   })
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as any })
 
-  const categories = ['all', '研究分析', '数据分析', '编程开发', '数学计算', '对话交互', '流程自动化']
+  const categories = ['all', '研究分析', '数据分析', '编程开发', '数学计算']
   const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
 
   const getDifficultyText = (difficulty: string) => {
@@ -206,7 +179,7 @@ const AppsPage: React.FC = () => {
       {/* Page header */}
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-          应用空间
+          探索应用
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           探索和使用预构建的智能体模板，快速创建专业应用
