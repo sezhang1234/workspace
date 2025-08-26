@@ -214,9 +214,7 @@ const DashboardPage: React.FC = () => {
                     <span className="text-xs text-gray-400">{agent.lastActive}</span>
                   </div>
                 </div>
-                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg">
-                  <Play className="w-4 h-4" />
-                </button>
+
               </div>
             ))}
           </div>
