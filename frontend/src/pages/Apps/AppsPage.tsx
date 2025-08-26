@@ -344,9 +344,9 @@ const AppsPage: React.FC = () => {
                   <button
                     onClick={() => handleCopyTemplate(template)}
                     className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
-                    title="复制模板"
+                    title="添加到工作空间"
                   >
-                    <Copy className="w-4 h-4" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
                 
