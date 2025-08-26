@@ -232,14 +232,7 @@ const AppsPage: React.FC = () => {
           </select>
         </div>
 
-        {/* Create Custom App Button */}
-        <button
-          onClick={() => setSnackbar({ open: true, message: '创建自定义应用功能开发中...', severity: 'info' })}
-          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-        >
-          <Plus className="w-5 h-5" />
-          <span>创建自定义应用</span>
-        </button>
+
       </div>
 
       {/* Templates grid */}
