@@ -106,7 +106,7 @@ const AgentsPage: React.FC = () => {
       <div className="text-center mb-8">
 
         <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
-          智能体管理
+          智能体开发
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
           创建、管理和监控您的AI智能体，构建强大的智能助手生态系统
