@@ -27,7 +27,7 @@ import {
   CardContent,
   Alert,
   Snackbar,
-  Slider,
+
   Grid,
   Avatar,
   IconButton,
@@ -100,17 +100,7 @@ const SettingsPage: React.FC = () => {
     enableAuditLog: true
   })
 
-  // Model settings state
-  const [modelSettings, setModelSettings] = useState({
-    defaultModel: 'gpt-4',
-    maxTokens: 4000,
-    temperature: 0.7,
-    enableStreaming: true,
-    retryOnError: true,
-    maxRetries: 3,
-    timeout: 30,
-    enableFallback: true
-  })
+
 
   // Profile settings state
   const [profileSettings, setProfileSettings] = useState({
@@ -301,7 +291,7 @@ const SettingsPage: React.FC = () => {
             <Tab label="外观设置" icon={<Palette />} />
             <Tab label="安全设置" icon={<Key />} />
             <Tab label="API设置" icon={<Key />} />
-            <Tab label="模型配置" icon={<Settings />} />
+
             <Tab label="性能设置" icon={<BarChart3 />} />
           </Tabs>
         </Box>
@@ -886,108 +876,10 @@ const SettingsPage: React.FC = () => {
           </div>
         </TabPanel>
 
-        {/* 模型配置 */}
-        <TabPanel value={activeTab} index={6}>
-          <div className="space-y-6">
-            <Typography variant="h6">默认模型设置</Typography>
-            
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <FormControl fullWidth>
-                  <InputLabel>默认模型</InputLabel>
-                  <Select
-                    value={modelSettings.defaultModel}
-                    label="默认模型"
-                    onChange={(e) => setModelSettings({ ...modelSettings, defaultModel: e.target.value })}
-                  >
-                    <MenuItem value="gpt-4">GPT-4</MenuItem>
-                    <MenuItem value="gpt-3.5-turbo">GPT-3.5 Turbo</MenuItem>
-                    <MenuItem value="claude-3">Claude-3</MenuItem>
-                    <MenuItem value="gemini-pro">Gemini Pro</MenuItem>
-                    <MenuItem value="qwen-plus">Qwen Plus</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              
-              <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  type="number"
-                  label="最大Token数"
-                  value={modelSettings.maxTokens}
-                  onChange={(e) => setModelSettings({ ...modelSettings, maxTokens: parseInt(e.target.value) })}
-                  inputProps={{ min: 1000, max: 8000 }}
-                />
-              </Grid>
-            </Grid>
 
-            <Divider />
-            
-            <Typography variant="h6">模型参数</Typography>
-            
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Typography gutterBottom>温度 (Temperature): {modelSettings.temperature}</Typography>
-                <Slider
-                  value={modelSettings.temperature}
-                  onChange={(_, value) => setModelSettings({ ...modelSettings, temperature: value as number })}
-                  min={0}
-                  max={2}
-                  step={0.1}
-                  marks={[
-                    { value: 0, label: '0' },
-                    { value: 1, label: '1' },
-                    { value: 2, label: '2' }
-                  ]}
-                />
-              </Grid>
-              
-              <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  type="number"
-                  label="超时时间（秒）"
-                  value={modelSettings.timeout}
-                  onChange={(e) => setModelSettings({ ...modelSettings, timeout: parseInt(e.target.value) })}
-                  inputProps={{ min: 10, max: 300 }}
-                />
-              </Grid>
-            </Grid>
-
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={modelSettings.enableStreaming}
-                    onChange={(e) => setModelSettings({ ...modelSettings, enableStreaming: e.target.checked })}
-                  />
-                }
-                label="启用流式输出"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={modelSettings.retryOnError}
-                    onChange={(e) => setModelSettings({ ...modelSettings, retryOnError: e.target.checked })}
-                  />
-                }
-                label="错误时重试"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={modelSettings.enableFallback}
-                    onChange={(e) => setModelSettings({ ...modelSettings, enableFallback: e.target.checked })}
-                  />
-                }
-                label="启用备用模型"
-              />
-            </FormGroup>
-          </div>
-        </TabPanel>
 
         {/* 性能设置 */}
-        <TabPanel value={activeTab} index={7}>
+        <TabPanel value={activeTab} index={6}>
           <div className="space-y-6">
             <Typography variant="h6">缓存设置</Typography>
             
