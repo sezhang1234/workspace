@@ -124,10 +124,10 @@ const PromptsPage: React.FC = () => {
     <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
       {/* Page header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl mb-4 shadow-xl">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
           <MessageSquare className="w-10 h-10 text-white" />
         </div>
-        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-purple-800 to-pink-900 mb-2">
+        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 mb-2">
           提示词管理
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
@@ -135,7 +135,7 @@ const PromptsPage: React.FC = () => {
         </p>
         <Link
           to="/dashboard/prompts/new"
-          className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           <Plus className="w-5 h-5" />
           <span>创建提示词</span>
@@ -145,10 +145,10 @@ const PromptsPage: React.FC = () => {
       {/* Search and filters */}
       <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
         <div className="flex items-center mb-4">
-          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
             <Search className="w-4 h-4 text-white" />
           </div>
-          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-purple-800">
+          <h2 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
             搜索与筛选
           </h2>
         </div>
@@ -156,13 +156,13 @@ const PromptsPage: React.FC = () => {
           {/* Search */}
           <div className="flex-1">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-purple-500 transition-colors duration-200" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" />
               <input
                 type="text"
                 placeholder="搜索提示词名称、描述或标签..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
               />
             </div>
           </div>
@@ -172,7 +172,7 @@ const PromptsPage: React.FC = () => {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
             >
               {categories.map(category => (
                 <option key={category.value} value={category.value}>
@@ -187,7 +187,7 @@ const PromptsPage: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-300 transition-all duration-200 bg-gray-50 focus:bg-white"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
             >
               <option value="name">按名称排序</option>
               <option value="created">按创建时间排序</option>
@@ -208,17 +208,17 @@ const PromptsPage: React.FC = () => {
             style={{ animationDelay: `${index * 100}ms` }}
           >
             {/* Gradient top border */}
-            <div className="h-1 bg-gradient-to-r from-purple-500 to-pink-600" />
+            <div className="h-1 bg-gradient-to-r from-blue-500 to-indigo-600" />
             
             {/* Prompt header */}
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-purple-200">
-                    <MessageSquare className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-blue-200">
+                    <MessageSquare className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-purple-800">
+                    <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
                       {prompt.name}
                     </h3>
                     <p className="text-sm text-gray-600 font-medium">{prompt.category}</p>
@@ -239,7 +239,7 @@ const PromptsPage: React.FC = () => {
                 {prompt.tags.slice(0, 3).map((tag, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border border-purple-200 hover:from-purple-200 hover:to-pink-200 transition-all duration-200"
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
                   >
                     <Tag className="w-3 h-3 mr-1" />
                     {tag}
@@ -256,13 +256,13 @@ const PromptsPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="text-center p-3 bg-gray-50 rounded-xl">
                   <p className="text-xs text-gray-500 font-medium mb-1">使用次数</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
                     {prompt.usageCount.toLocaleString()}
                   </p>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-xl">
                   <p className="text-xs text-gray-500 font-medium mb-1">版本</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
                     {prompt.version}
                   </p>
                 </div>
@@ -275,7 +275,7 @@ const PromptsPage: React.FC = () => {
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-xl">
                   <p className="text-xs text-gray-500 font-medium mb-1">作者</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
                     {prompt.author}
                   </p>
                 </div>
@@ -291,7 +291,7 @@ const PromptsPage: React.FC = () => {
                 </span>
                 <div className="text-right">
                   <p className="text-xs text-gray-500 font-medium">最后修改</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-purple-700">
+                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
                     {prompt.lastModified}
                   </p>
                 </div>
@@ -299,7 +299,7 @@ const PromptsPage: React.FC = () => {
             </div>
 
             {/* Actions */}
-            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-purple-50 border-t border-gray-100">
+            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Link
@@ -348,7 +348,7 @@ const PromptsPage: React.FC = () => {
           {!searchTerm && categoryFilter === 'all' && (
             <Link
               to="/dashboard/prompts/new"
-              className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               <Plus className="w-5 h-5" />
               <span>创建提示词</span>
