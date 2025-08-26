@@ -85,26 +85,16 @@ const AgentEditorEntryPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="max-w-5xl mx-auto px-6 py-8">
-        {/* Page header */}
-        <div className="mb-12">
-          <div className="flex items-center space-x-4 mb-6">
-            <Button
-              variant="outlined"
-              startIcon={<ArrowLeft />}
-              onClick={handleCancel}
-              className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
-            >
-              返回
-            </Button>
-          </div>
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">
-              创建智能体
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              选择编辑模式并配置智能体基本信息，开始构建您的AI智能体
-            </p>
-          </div>
+        {/* Back button */}
+        <div className="mb-6">
+          <Button
+            variant="outlined"
+            startIcon={<ArrowLeft />}
+            onClick={handleCancel}
+            className="border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
+          >
+            返回
+          </Button>
         </div>
 
         {/* Main content */}
