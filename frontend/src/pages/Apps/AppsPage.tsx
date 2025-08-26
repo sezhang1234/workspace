@@ -415,118 +415,121 @@ const AppsPage: React.FC = () => {
         </div>
       )}
 
-      {/* Customization Dialog */}
-      <Dialog 
-        open={showCustomizeDialog} 
-        onClose={() => setShowCustomizeDialog(false)}
-        maxWidth="md"
-        fullWidth
-        PaperProps={{
-          className: "rounded-2xl shadow-2xl border border-gray-100"
-        }}
-      >
-        <DialogTitle className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-              <Settings className="w-4 h-4 text-white" />
+      {/* Customization Modal */}
+      {showCustomizeDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+              <div className="flex items-center space-x-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                  <Settings className="w-4 h-4 text-white" />
+                </div>
+                <h6 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
+                  自定义 {selectedTemplate?.name}
+                </h6>
+              </div>
             </div>
-            <h6 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-              自定义 {selectedTemplate?.name}
-            </h6>
-          </div>
-        </DialogTitle>
-        <DialogContent className="pt-6">
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="应用名称"
-                value={customizationData.name}
-                onChange={(e) => setCustomizationData({ ...customizationData, name: e.target.value })}
-                placeholder="输入自定义应用名称"
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormControl fullWidth>
-                <InputLabel>分类</InputLabel>
-                <Select
-                  value={customizationData.category}
-                  label="分类"
-                  onChange={(e) => setCustomizationData({ ...customizationData, category: e.target.value })}
-                >
-                  {categories.filter(cat => cat !== 'all').map(category => (
-                    <MenuItem key={category} value={category}>{category}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                multiline
-                rows={3}
-                label="描述"
-                value={customizationData.description}
-                onChange={(e) => setCustomizationData({ ...customizationData, description: e.target.value })}
-                placeholder="描述您的自定义应用..."
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="标签"
-                value={customizationData.tags}
-                onChange={(e) => setCustomizationData({ ...customizationData, tags: e.target.value })}
-                placeholder="用逗号分隔多个标签"
-                helperText="例如: 研究, 分析, 学术"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <h6 className="text-lg font-semibold text-gray-900 mb-2">功能特性</h6>
-              <FormGroup>
-                {selectedTemplate?.features.map((feature, index) => (
-                  <FormControlLabel
-                    key={index}
-                    control={
-                      <Switch
-                        checked={customizationData.features.includes(feature)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setCustomizationData({
-                              ...customizationData,
-                              features: [...customizationData.features, feature]
-                            })
-                          } else {
-                            setCustomizationData({
-                              ...customizationData,
-                              features: customizationData.features.filter(f => f !== feature)
-                            })
-                          }
-                        }}
-                      />
-                    }
-                    label={feature}
+            
+            {/* Modal Content */}
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">应用名称</label>
+                  <input
+                    type="text"
+                    value={customizationData.name}
+                    onChange={(e) => setCustomizationData({ ...customizationData, name: e.target.value })}
+                    placeholder="输入自定义应用名称"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                ))}
-              </FormGroup>
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions className="bg-gray-50 px-6 py-4">
-          <button 
-            onClick={() => setShowCustomizeDialog(false)}
-            className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
-          >
-            取消
-          </button>
-          <button 
-            onClick={handleCustomize}
-            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-          >
-            创建应用
-          </button>
-        </DialogActions>
-      </Dialog>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">分类</label>
+                  <select
+                    value={customizationData.category}
+                    onChange={(e) => setCustomizationData({ ...customizationData, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    {categories.filter(cat => cat !== 'all').map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">描述</label>
+                  <textarea
+                    value={customizationData.description}
+                    onChange={(e) => setCustomizationData({ ...customizationData, description: e.target.value })}
+                    placeholder="描述您的自定义应用..."
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">标签</label>
+                  <input
+                    type="text"
+                    value={customizationData.tags}
+                    onChange={(e) => setCustomizationData({ ...customizationData, tags: e.target.value })}
+                    placeholder="用逗号分隔多个标签"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">例如: 研究, 分析, 学术</p>
+                </div>
+                
+                <div className="md:col-span-2">
+                  <h6 className="text-lg font-semibold text-gray-900 mb-4">功能特性</h6>
+                  <div className="space-y-3">
+                    {selectedTemplate?.features.map((feature, index) => (
+                      <label key={index} className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={customizationData.features.includes(feature)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setCustomizationData({
+                                ...customizationData,
+                                features: [...customizationData.features, feature]
+                              })
+                            } else {
+                              setCustomizationData({
+                                ...customizationData,
+                                features: customizationData.features.filter(f => f !== feature)
+                              })
+                            }
+                          }}
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <span className="text-gray-700">{feature}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Actions */}
+            <div className="bg-gray-50 px-6 py-4 rounded-b-2xl flex justify-end space-x-4">
+              <button 
+                onClick={() => setShowCustomizeDialog(false)}
+                className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
+              >
+                取消
+              </button>
+              <button 
+                onClick={handleCustomize}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              >
+                创建应用
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Snackbar */}
       <Snackbar
