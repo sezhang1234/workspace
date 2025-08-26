@@ -22,7 +22,7 @@ const ProfilePage: React.FC = () => {
     location: '北京市朝阳区',
     bio: '热爱AI技术，专注于智能体开发。拥有5年以上的软件开发经验，擅长Python、JavaScript和机器学习。',
     website: 'https://github.com/jiuwen',
-    company: '九问科技有限公司',
+    company: 'Jiuwen科技有限公司',
     position: '高级AI工程师',
     skills: ['Python', 'JavaScript', 'React', 'Machine Learning', 'LLM', 'AI Agent'],
     interests: ['人工智能', '机器学习', '自然语言处理', '智能体开发', '开源项目']
@@ -65,7 +65,7 @@ const ProfilePage: React.FC = () => {
       location: '北京市朝阳区',
       bio: '热爱AI技术，专注于智能体开发。拥有5年以上的软件开发经验，擅长Python、JavaScript和机器学习。',
               website: 'https://github.com/jiuwen',
-        company: '九问科技有限公司',
+        company: 'Jiuwen科技有限公司',
       position: '高级AI工程师',
       skills: ['Python', 'JavaScript', 'React', 'Machine Learning', 'LLM', 'AI Agent'],
       interests: ['人工智能', '机器学习', '自然语言处理', '智能体开发', '开源项目']

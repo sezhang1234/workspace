@@ -60,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               <JiuwenLogo width={32} height={32} />
             </div>
             {!isCollapsed && (
-              <span className="text-xl font-bold text-gray-900">九问</span>
+              <span className="text-xl font-bold text-gray-900">Jiuwen</span>
             )}
           </div>
           {/* Mobile close button only */}
@@ -207,7 +207,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
         <div className={`border-t border-gray-200 ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
           <div className={`flex items-center space-x-2 text-xs text-gray-500 ${isCollapsed ? 'justify-center' : ''}`}>
             <Zap className="w-4 h-4" />
-            {!isCollapsed && <span>九问 v1.0.0</span>}
+            {!isCollapsed && <span>Jiuwen v1.0.0</span>}
           </div>
         </div>
       </div>
