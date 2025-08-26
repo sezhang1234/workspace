@@ -2004,29 +2004,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                         </div>
                       </div>
 
-                      {/* Memory Usage */}
-                      <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border border-orange-200 p-4">
-                        <div className="flex items-center space-x-2 mb-3">
-                          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-                          <span className="font-semibold text-gray-800">内存使用</span>
-                        </div>
-                        <div className="space-y-3">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600 text-sm">使用率:</span>
-                            <span className="font-bold text-orange-600 text-lg">{agentConfig.debugStats.memoryUsage}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${agentConfig.debugStats.memoryUsage}%` }}
-                            ></div>
-                          </div>
-                          <div className="flex justify-between text-xs text-gray-500">
-                            <span>0%</span>
-                            <span>100%</span>
-                          </div>
-                        </div>
-                      </div>
+
 
                       {/* Conversation Stats Tree */}
                       <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl border border-teal-200 p-4">
