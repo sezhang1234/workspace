@@ -7,7 +7,7 @@ import { useContext, useState } from 'react';
 
 import { useClientContext, CommandService } from '@flowgram.ai/free-layout-editor';
 import { Button } from '@douyinfe/semi-ui';
-import { IconClose, IconSmallTriangleDown, IconSmallTriangleLeft } from '@douyinfe/semi-icons';
+import { X, ChevronDown, ChevronLeft } from 'lucide-react';
 
 import { toggleLoopExpanded } from '../../utils';
 import { FlowCommandId } from '../../shortcuts';
@@ -15,8 +15,8 @@ import { useIsSidebar, useNodeRenderContext } from '../../hooks';
 import { SidebarContext } from '../../context';
 import { NodeMenu } from '../../components/node-menu';
 import { getIcon } from './utils';
-import { TitleInput } from './title-input';
 import { Header, Operators } from './styles';
+import { TitleInput } from './title-input';
 
 export function FormHeader() {
   const { node, expanded, toggleExpand, readonly } = useNodeRenderContext();
@@ -46,7 +46,7 @@ export function FormHeader() {
       {node.renderData.expandable && !isSidebar && (
         <Button
           type="primary"
-          icon={expanded ? <IconSmallTriangleDown /> : <IconSmallTriangleLeft />}
+          icon={expanded ? <ChevronDown /> : <ChevronLeft />}
           size="small"
           theme="borderless"
           onClick={handleExpand}
@@ -60,7 +60,7 @@ export function FormHeader() {
       {isSidebar && (
         <Button
           type="primary"
-          icon={<IconClose />}
+          icon={<X />}
           size="small"
           theme="borderless"
           onClick={handleClose}

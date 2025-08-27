@@ -4,10 +4,9 @@
  */
 
 import { FormRenderProps, FormMeta } from '@flowgram.ai/free-layout-editor';
-import { Avatar } from '@douyinfe/semi-ui';
+import { FolderX } from 'lucide-react';
 
 import { FlowNodeJSON } from '../../typings';
-import iconEnd from '../../assets/icon-end.jpg';
 
 export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
   <>
@@ -20,16 +19,12 @@ export const renderForm = ({ form }: FormRenderProps<FlowNodeJSON>) => (
         justifyContent: 'center',
       }}
     >
-      <Avatar
-        shape="circle"
+      <FolderX
+        size={40}
         style={{
-          width: 40,
-          height: 40,
-          borderRadius: '50%',
+          color: '#dc2626',
           cursor: 'move',
         }}
-        alt="Icon"
-        src={iconEnd}
       />
     </div>
   </>

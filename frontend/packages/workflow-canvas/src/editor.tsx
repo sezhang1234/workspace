@@ -16,9 +16,9 @@ import { DemoTools } from './components/tools';
 import { SidebarProvider, SidebarRenderer } from './components/sidebar';
 
 export const Editor = () => {
-  const { id: workflowId } = useParams<{ id: string }>();
+  const { id: _workflowId } = useParams<{ id: string }>();
   const editorProps = useEditorProps(initialData, nodeRegistries);
-  const [minimapVisible, setMinimapVisible] = useState(true);
+  const [minimapVisible, setMinimapVisible] = useState(false);
 
   return (
     <div className="workflow-canvas-wrapper" style={{ 
@@ -52,7 +52,6 @@ export const Editor = () => {
             <DemoTools 
               minimapVisible={minimapVisible} 
               setMinimapVisible={setMinimapVisible} 
-              workflowId={workflowId}
             />
             <SidebarRenderer />
           </SidebarProvider>

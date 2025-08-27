@@ -43,6 +43,8 @@
     "@flowgram.ai/free-group-plugin": "^0.4",
     "@flowgram.ai/form-materials": "^0.4",
     "@flowgram.ai/runtime-js": "^0.4",
+    "lucide-react": "^0.263.1",
+    "@mui/icons-material": "^5.14.9",
     "lodash-es": "^4.17.21",
     "nanoid": "^4.0.2",
     "react": "^18",

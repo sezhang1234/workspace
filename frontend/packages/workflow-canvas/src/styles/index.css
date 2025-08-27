@@ -48,7 +48,7 @@
 .node-panel *,
 .tools-panel,
 .tools-panel * {
-  font-family: 'Inter', system-ui, sans-serif !important;
+  font-family: 'Inter', 'HarmonyOS Sans', 'HarmonyOS Sans SC', system-ui, sans-serif !important;
 }
 
 .gedit-selector-bounds-background {
@@ -92,6 +92,22 @@
   height: calc(100vh - 120px);
   min-height: calc(100vh - 120px);
   overflow: hidden;
+}
+
+/* Back button responsive positioning */
+.workflow-back-button {
+  position: fixed;
+  top: 80px;
+  z-index: 9999;
+  transition: left 0.3s ease-in-out;
+}
+
+.workflow-back-button.sidebar-collapsed {
+  left: 80px;
+}
+
+.workflow-back-button.sidebar-expanded {
+  left: 280px;
 }
 
 .doc-free-feature-overview {

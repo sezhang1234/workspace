@@ -4,7 +4,7 @@
  */
 
 import styled from 'styled-components';
-import { IconInfoCircle } from '@douyinfe/semi-icons';
+import { Info } from 'lucide-react';
 
 export const NodeWrapperStyle = styled.div`
   align-items: flex-start;
@@ -25,7 +25,7 @@ export const NodeWrapperStyle = styled.div`
 `;
 
 export const ErrorIcon = () => (
-  <IconInfoCircle
+  <Info
     style={{
       position: 'absolute',
       color: 'red',

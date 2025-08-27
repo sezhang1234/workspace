@@ -7,8 +7,7 @@ import { useCallback } from 'react';
 
 import { usePlayground, usePlaygroundTools } from '@flowgram.ai/free-layout-editor';
 import { IconButton, Tooltip } from '@douyinfe/semi-ui';
-
-import { IconAutoLayout } from '../../assets/icon-auto-layout';
+import { Network } from 'lucide-react';
 
 export const AutoLayout = () => {
   const tools = usePlaygroundTools();
@@ -24,7 +23,7 @@ export const AutoLayout = () => {
         type="tertiary"
         theme="borderless"
         onClick={autoLayout}
-        icon={IconAutoLayout}
+        icon={<Network size={18} className="text-gray-600 hover:text-blue-600" />}
       />
     </Tooltip>
   );

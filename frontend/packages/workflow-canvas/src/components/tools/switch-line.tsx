@@ -7,8 +7,7 @@ import { useCallback } from 'react';
 
 import { useService, WorkflowLinesManager } from '@flowgram.ai/free-layout-editor';
 import { IconButton, Tooltip } from '@douyinfe/semi-ui';
-
-import { IconSwitchLine } from '../../assets/icon-switch-line';
+import { GitBranch } from 'lucide-react';
 
 export const SwitchLine = () => {
   const linesManager = useService(WorkflowLinesManager);
@@ -18,7 +17,12 @@ export const SwitchLine = () => {
 
   return (
     <Tooltip content={'Switch Line'}>
-      <IconButton type="tertiary" theme="borderless" onClick={switchLine} icon={IconSwitchLine} />
+      <IconButton 
+        type="tertiary" 
+        theme="borderless" 
+        onClick={switchLine} 
+        icon={<GitBranch size={18} className="text-gray-600 hover:text-blue-600" />} 
+      />
     </Tooltip>
   );
 };

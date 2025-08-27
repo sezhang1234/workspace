@@ -69,7 +69,12 @@ export const CommentRender: FC<{
                   {/* 内容拖拽区域（点击后隐藏） */}
                   <ContentDragArea model={model} focused={focused} overflow={overflow} />
                   {/* 更多按钮 */}
-                  <MoreButton node={node} focused={focused} deleteNode={deleteNode} />
+                  <MoreButton 
+                    node={node} 
+                    focused={focused} 
+                    deleteNode={deleteNode} 
+                    updateTitleEdit={() => {}} 
+                  />
                 </>
               )}
             </Field>

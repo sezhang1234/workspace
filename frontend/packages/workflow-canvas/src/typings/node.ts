@@ -12,6 +12,7 @@ import {
   WorkflowNodeMeta,
 } from '@flowgram.ai/free-layout-editor';
 import { IFlowValue } from '@flowgram.ai/form-materials';
+import { ReactElement } from 'react';
 
 import { type JsonSchema } from './json-schema';
 import { WorkflowNodeType } from '../nodes';
@@ -63,7 +64,7 @@ export interface FlowNodeMeta extends WorkflowNodeMeta {
 export interface FlowNodeRegistry extends FlowNodeRegistryDefault {
   meta: FlowNodeMeta;
   info?: {
-    icon: string;
+    icon: string | ReactElement;
     description: string;
   };
   canAdd?: (ctx: FreeLayoutPluginContext) => boolean;

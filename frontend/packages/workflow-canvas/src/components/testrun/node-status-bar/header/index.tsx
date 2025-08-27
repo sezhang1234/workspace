@@ -3,12 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 
-import classNames from 'classnames';
-import { IconChevronDown } from '@douyinfe/semi-icons';
-
-import { useNodeRenderContext } from '../../../../hooks';
+import { Button } from '@douyinfe/semi-ui';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 import styles from './index.module.less';
 
@@ -54,7 +52,7 @@ export const NodeStatusHeader: React.FC<React.PropsWithChildren<NodeStatusBarPro
           {extraBtns.length > 0 ? extraBtns : null}
         </div>
         <div className={styles['status-btns']}>
-          <IconChevronDown
+          <ChevronDown
             className={classNames({
               [styles['is-show-detail']]: showDetail,
             })}

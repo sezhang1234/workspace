@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid';
 import { Field, FieldArray, WorkflowNodePortsData } from '@flowgram.ai/free-layout-editor';
 import { ConditionRow, ConditionRowValueType } from '@flowgram.ai/form-materials';
 import { Button } from '@douyinfe/semi-ui';
-import { IconPlus, IconCrossCircleStroked } from '@douyinfe/semi-icons';
+import { Plus, XCircle } from 'lucide-react';
 
 import { useNodeRenderContext } from '../../../hooks';
 import { FormItem } from '../../../form-components';
@@ -50,7 +50,7 @@ export function ConditionInputs() {
                       <Button
                         theme="borderless"
                         disabled={readonly}
-                        icon={<IconCrossCircleStroked />}
+                        icon={<XCircle />}
                         onClick={() => field.delete(index)}
                       />
                     )}
@@ -66,7 +66,7 @@ export function ConditionInputs() {
             <div>
               <Button
                 theme="borderless"
-                icon={<IconPlus />}
+                icon={<Plus />}
                 onClick={() =>
                   field.append({
                     key: `if_${nanoid(6)}`,

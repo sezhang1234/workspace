@@ -14,9 +14,9 @@ import {
   WorkflowSelectService,
 } from '@flowgram.ai/free-layout-editor';
 import { IconButton, Tooltip } from '@douyinfe/semi-ui';
+import { MessageSquare } from 'lucide-react';
 
 import { WorkflowNodeType } from '../../nodes';
-import { IconComment } from '../../assets/icon-comment';
 
 export const Comment = () => {
   const playground = usePlayground();
@@ -66,11 +66,9 @@ export const Comment = () => {
       <IconButton
         disabled={playground.config.readonly}
         icon={
-          <IconComment
-            style={{
-              width: 16,
-              height: 16,
-            }}
+          <MessageSquare
+            size={18}
+            className="text-gray-600 hover:text-blue-600"
           />
         }
         type="tertiary"

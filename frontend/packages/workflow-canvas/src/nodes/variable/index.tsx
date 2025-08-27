@@ -7,42 +7,36 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import iconVariable from '../../assets/icon-variable.png';
+import { Variable } from 'lucide-react';
 import { formMeta } from './form-meta';
-
-let index = 0;
 
 export const VariableNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Variable,
   info: {
-    icon: iconVariable,
-    description: 'Variable Assign and Declaration',
+    icon: <Variable size={20} className="text-blue-600" />,
+    description:
+      'Variable node for storing and managing data values.',
   },
   meta: {
+    defaultPorts: [{ type: 'input' }, { type: 'output' }],
     size: {
       width: 360,
-      height: 390,
+      height: 211,
     },
+    // 确保节点在面板中可见
+    nodePanelVisible: true,
   },
+  formMeta,
   onAdd() {
     return {
       id: `variable_${nanoid(5)}`,
       type: 'variable',
       data: {
-        title: `Variable_${++index}`,
-        assign: [
-          {
-            operator: 'declare',
-            left: 'sum',
-            right: {
-              type: 'constant',
-              content: 0,
-              schema: { type: 'integer' },
-            },
-          },
-        ],
+        title: 'Variable Node',
+        name: '',
+        value: '',
+        type: 'string',
       },
     };
   },
-  formMeta: formMeta,
 };

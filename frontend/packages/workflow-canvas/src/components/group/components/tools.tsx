@@ -5,15 +5,12 @@
 
 import { FC } from 'react';
 
-import { IconHandle } from '@douyinfe/semi-icons';
+import { GripVertical } from 'lucide-react';
 
-import { GroupTitle } from './title';
-import { GroupColor } from './color';
+interface ITools {}
 
-export const GroupTools: FC = () => (
+export const GroupTools: FC<ITools> = () => (
   <div className="workflow-group-tools">
-    <IconHandle className="workflow-group-tools-drag" />
-    <GroupTitle />
-    <GroupColor />
+    <GripVertical className="workflow-group-tools-drag" />
   </div>
 );

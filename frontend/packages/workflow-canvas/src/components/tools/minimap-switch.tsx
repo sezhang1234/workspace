@@ -3,22 +3,21 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { Tooltip, IconButton } from '@douyinfe/semi-ui';
+import { IconButton, Tooltip } from '@douyinfe/semi-ui';
+import { Map } from 'lucide-react';
 
-import { UIIconMinimap } from './styles';
-
-export const MinimapSwitch = (props: {
+interface MinimapSwitchProps {
   minimapVisible: boolean;
   setMinimapVisible: (visible: boolean) => void;
-}) => {
-  const { minimapVisible, setMinimapVisible } = props;
+}
 
+export const MinimapSwitch = ({ minimapVisible, setMinimapVisible }: MinimapSwitchProps) => {
   return (
     <Tooltip content="Minimap">
       <IconButton
         type="tertiary"
         theme="borderless"
-        icon={<UIIconMinimap visible={minimapVisible} />}
+        icon={<Map size={18} className={minimapVisible ? "text-blue-600" : "text-gray-500"} />}
         onClick={() => setMinimapVisible(!minimapVisible)}
       />
     </Tooltip>

@@ -13,14 +13,15 @@ interface IMoreButton {
   node: WorkflowNodeEntity;
   focused: boolean;
   deleteNode: () => void;
+  updateTitleEdit: (setEditing: boolean) => void;
 }
 
-export const MoreButton: FC<IMoreButton> = ({ node, focused, deleteNode }) => (
+export const MoreButton: FC<IMoreButton> = ({ node, focused, deleteNode, updateTitleEdit }) => (
   <div
     className={`workflow-comment-more-button ${
       focused ? 'workflow-comment-more-button-focused' : ''
     }`}
   >
-    <NodeMenu node={node} deleteNode={deleteNode} />
+    <NodeMenu node={node} deleteNode={deleteNode} updateTitleEdit={updateTitleEdit} />
   </div>
 );

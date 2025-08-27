@@ -3,12 +3,16 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { FC, useMemo, useState } from 'react';
+import { FC, useState, useMemo } from 'react';
+
+import { useService, WorkflowRuntimeService } from '@flowgram.ai/free-layout-editor';
+import { Button, Tooltip } from '@douyinfe/semi-ui';
+import { Loader2 } from 'lucide-react';
 
 import classnames from 'classnames';
 import { NodeReport, WorkflowStatus } from '@flowgram.ai/runtime-interface';
-import { Tag, Button, Select } from '@douyinfe/semi-ui';
-import { IconSpin } from '@douyinfe/semi-icons';
+import { Tag, Select } from '@douyinfe/semi-ui';
+
 
 import { NodeStatusHeader } from '../header';
 import { NodeStatusGroup } from '../group';
@@ -52,7 +56,7 @@ export const NodeStatusRender: FC<NodeStatusRenderProps> = ({ report }) => {
 
   const renderIcon = () => {
     if (isNodeProcessing) {
-      return <IconSpin spin className={classnames(styles.icon, styles.processing)} />;
+      return <Loader2 className={classnames(styles.icon, styles.processing, 'animate-spin')} />;
     }
     if (isNodeSucceed) {
       return <IconSuccessFill />;

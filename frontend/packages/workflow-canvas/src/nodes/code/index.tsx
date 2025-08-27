@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import iconCode from '../../assets/icon-script.png';
+import { Code2 } from 'lucide-react';
 import { formMeta } from './form-meta';
 
 let index = 0;
@@ -35,52 +35,29 @@ async function main({ params }) {
 export const CodeNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Code,
   info: {
-    icon: iconCode,
-    description: 'Run the Script',
+    icon: <Code2 size={20} className="text-blue-600" />,
+    description:
+      'Code execution node for running custom JavaScript or Python code.',
   },
   meta: {
+    defaultPorts: [{ type: 'input' }, { type: 'output' }],
     size: {
       width: 360,
-      height: 390,
+      height: 211,
     },
+    // 确保节点在面板中可见
+    nodePanelVisible: true,
   },
+  formMeta,
   onAdd() {
     return {
       id: `code_${nanoid(5)}`,
       type: 'code',
       data: {
-        title: `Code_${++index}`,
-        inputsValues: {
-          input: { type: 'constant', content: '' },
-        },
-        script: {
-          language: 'javascript',
-          content: defaultCode,
-        },
-        outputs: {
-          type: 'object',
-          properties: {
-            key0: {
-              type: 'string',
-            },
-            key1: {
-              type: 'array',
-              items: {
-                type: 'string',
-              },
-            },
-            key2: {
-              type: 'object',
-              properties: {
-                key21: {
-                  type: 'string',
-                },
-              },
-            },
-          },
-        },
+        title: 'Code Node',
+        language: 'javascript',
+        code: '// Your code here\nreturn input;',
       },
     };
   },
-  formMeta: formMeta,
 };
