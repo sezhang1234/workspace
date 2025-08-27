@@ -8,31 +8,27 @@ import { nanoid } from 'nanoid';
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
 import { Sparkles } from 'lucide-react';
-import { formMeta } from './form-meta';
 
+let index = 0;
 export const LLMNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.LLM,
   info: {
     icon: <Sparkles size={20} className="text-purple-600" />,
     description:
-      'Large Language Model node for AI-powered text generation and processing.',
+      '调用大语言模型，使用变量和提示词生成响应。',
   },
   meta: {
-    defaultPorts: [{ type: 'input' }, { type: 'output' }],
     size: {
-      width: 360,
-      height: 211,
+      width: 400, // Increased from 360 to accommodate wider labels
+      height: 390,
     },
-    // 确保节点在面板中可见
-    nodePanelVisible: true,
   },
-  formMeta,
   onAdd() {
     return {
       id: `llm_${nanoid(5)}`,
-      type: WorkflowNodeType.LLM,
+      type: 'llm',
       data: {
-        title: `LLM`,
+        title: `LLM_${++index}`,
         inputsValues: {
           modelName: {
             type: 'constant',
@@ -99,6 +95,3 @@ export const LLMNodeRegistry: FlowNodeRegistry = {
     };
   },
 };
-
-// 确保默认导出
-export default LLMNodeRegistry;
