@@ -81,10 +81,12 @@ export const Editor = () => {
             onClick={handleSaveWorkflow}
             style={{
               backgroundColor: 'rgba(171,181,255,0.3)',
-              color: '#3b82f6',
+              color: '#1f2937',
               border: 'none',
               borderRadius: '8px',
               padding: '6px 12px',
+              fontSize: '14px',
+              fontWeight: '500',
               cursor: 'pointer',
               height: '32px',
               display: 'flex',
@@ -107,10 +109,12 @@ export const Editor = () => {
             onClick={handleImportWorkflow}
             style={{
               backgroundColor: 'rgba(171,181,255,0.3)',
-              color: '#10b981',
+              color: '#1f2937',
               border: 'none',
               borderRadius: '8px',
               padding: '6px 12px',
+              fontSize: '14px',
+              fontWeight: '500',
               cursor: 'pointer',
               height: '32px',
               display: 'flex',
@@ -133,10 +137,12 @@ export const Editor = () => {
             onClick={handleExportWorkflow}
             style={{
               backgroundColor: 'rgba(171,181,255,0.3)',
-              color: '#f59e0b',
+              color: '#1f2937',
               border: 'none',
               borderRadius: '8px',
               padding: '6px 12px',
+              fontSize: '14px',
+              fontWeight: '500',
               cursor: 'pointer',
               height: '32px',
               display: 'flex',
@@ -159,10 +165,12 @@ export const Editor = () => {
             onClick={handleBack}
             style={{
               backgroundColor: 'rgba(171,181,255,0.3)',
-              color: '#6b7280',
+              color: '#1f2937',
               border: 'none',
               borderRadius: '8px',
               padding: '6px 12px',
+              fontSize: '14px',
+              fontWeight: '500',
               cursor: 'pointer',
               height: '32px',
               display: 'flex',
