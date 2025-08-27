@@ -85,7 +85,7 @@ export const Editor = () => {
             e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
           }}
         >
-          Save Workflow
+          保存
         </button>
         
         <button
@@ -113,7 +113,7 @@ export const Editor = () => {
             e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
           }}
         >
-          Import Workflow
+          导入
         </button>
         
         <button
@@ -124,6 +124,7 @@ export const Editor = () => {
             color: 'white',
             border: 'none',
             borderRadius: '8px',
+            fontSize: '14px',
             fontSize: '14px',
             fontWeight: '500',
             cursor: 'pointer',
@@ -141,7 +142,7 @@ export const Editor = () => {
             e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
           }}
         >
-          Export Workflow
+          导出
         </button>
         
         <button
@@ -169,7 +170,7 @@ export const Editor = () => {
             e.currentTarget.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
           }}
         >
-          Back
+          返回
         </button>
       </div>
 

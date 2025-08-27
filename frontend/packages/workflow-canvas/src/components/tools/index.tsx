@@ -22,7 +22,7 @@ import { Minimap } from './minimap';
 import { FitView } from './fit-view';
 import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
-import { WorkflowOperations } from './workflow-operations';
+
 
 interface DemoToolsProps {
   minimapVisible: boolean;
@@ -75,12 +75,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
     return () => disposable.dispose();
   }, [playground]);
 
-  const handleBack = () => {
-    if (window.confirm('确定要离开吗？未保存的更改将会丢失。')) {
-      // Navigate directly to workflows list page
-      window.location.href = '/dashboard/workflows';
-    }
-  };
+
 
   return (
     <>
@@ -105,7 +100,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
           <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
           <Readonly />
           <Comment />
-          <WorkflowOperations />
+
           <Tooltip content="撤销">
             <IconButton
               type="tertiary"
@@ -130,41 +125,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
         </ToolSection>
       </ToolContainer>
 
-      {/* Top Left Return Button */}
-      <div className={`workflow-back-button ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
-        <Button
-          type="tertiary"
-          theme="borderless"
-          icon={<ArrowLeft size={16} className="text-gray-600" />}
-          onClick={handleBack}
-          style={{ 
-            backgroundColor: '#ffffff',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            padding: '6px 12px',
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
-            color: '#374151',
-            fontWeight: '400',
-            fontSize: '13px',
-            transition: 'all 0.2s ease',
-            cursor: 'pointer',
-            minWidth: 'auto',
-            height: '32px'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)';
-            e.currentTarget.style.borderColor = '#d1d5db';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)';
-            e.currentTarget.style.borderColor = '#e5e7eb';
-          }}
-        >
-          返回
-        </Button>
-      </div>
+
     </>
   );
 }
