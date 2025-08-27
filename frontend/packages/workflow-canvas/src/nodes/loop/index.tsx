@@ -21,7 +21,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
   info: {
     icon: <RotateCcw size={20} className="text-cyan-600" />,
     description:
-      'Loop node for iterating over collections or repeating operations.',
+      'Used to repeatedly execute a series of tasks by setting the number of iterations and logic.',
   },
   meta: {
     /**
@@ -34,8 +34,8 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
      * 子画布默认大小设置
      */
     size: {
-      width: 360,
-      height: 211,
+      width: 424,
+      height: 244,
     },
     /**
      * The subcanvas padding setting
@@ -59,10 +59,7 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
       // 鼠标开始时所在位置不包括当前节点时才可选中
       return !transform.bounds.contains(mousePos.x, mousePos.y);
     },
-    defaultPorts: [{ type: 'input' }, { type: 'output' }],
-    expandable: true,
-    // 确保节点在面板中可见
-    nodePanelVisible: true,
+    // expandable: false, // disable expanded
     wrapperStyle: {
       minWidth: 'unset',
       width: '100%',
@@ -71,13 +68,34 @@ export const LoopNodeRegistry: FlowNodeRegistry = {
   onAdd() {
     return {
       id: `loop_${nanoid(5)}`,
-      type: 'loop',
+      type: WorkflowNodeType.Loop,
       data: {
-        title: 'Loop Node',
-        loopType: 'for',
-        maxIterations: 10,
-        items: [],
+        title: `Loop_${++index}`,
       },
+      blocks: [
+        {
+          id: `block_start_${nanoid(5)}`,
+          type: WorkflowNodeType.BlockStart,
+          meta: {
+            position: {
+              x: -80,
+              y: 120,
+            },
+          },
+          data: {},
+        },
+        {
+          id: `block_end_${nanoid(5)}`,
+          type: WorkflowNodeType.BlockEnd,
+          meta: {
+            position: {
+              x: 80,
+              y: 120,
+            },
+          },
+          data: {},
+        },
+      ],
     };
   },
   formMeta,

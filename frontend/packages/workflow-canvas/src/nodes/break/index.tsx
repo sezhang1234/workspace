@@ -10,29 +10,34 @@ import { Square } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
+let index = 0;
 export const BreakNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Break,
-  info: {
-    icon: <Square size={20} className="text-blue-600" />,
-    description:
-      'Break node for exiting loops early.',
-  },
   meta: {
     defaultPorts: [{ type: 'input' }],
+    sidebarDisabled: true,
     size: {
       width: 360,
-      height: 211,
+      height: 54,
     },
-    // 确保节点在面板中可见
-    nodePanelVisible: true,
+    expandable: false,
+    onlyInContainer: WorkflowNodeType.Loop,
   },
+  info: {
+    icon: <Square size={20} className="text-red-600" />,
+    description:
+      'The final node of the workflow, used to return the result information after the workflow is run.',
+  },
+  /**
+   * Render node via formMeta
+   */
   formMeta,
   onAdd() {
     return {
       id: `break_${nanoid(5)}`,
       type: 'break',
       data: {
-        title: 'Break Node',
+        title: `Break_${++index}`,
       },
     };
   },

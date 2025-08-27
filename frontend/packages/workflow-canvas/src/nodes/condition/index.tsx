@@ -26,8 +26,6 @@ export const ConditionNodeRegistry: FlowNodeRegistry = {
       width: 360,
       height: 210,
     },
-    // 确保节点在面板中可见
-    nodePanelVisible: true,
   },
   formMeta,
   onAdd() {
