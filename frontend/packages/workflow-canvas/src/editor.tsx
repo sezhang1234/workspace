@@ -184,6 +184,25 @@ const WorkflowOperationsHandler = () => {
     isVisible: false
   });
 
+  // Auto-layout functionality - triggers when workflow canvas is loaded
+  React.useEffect(() => {
+    // Small delay to ensure the canvas is fully rendered
+    const timer = setTimeout(() => {
+      try {
+        // Check if there are nodes to layout
+        const nodes = context.document.getNodes();
+        if (nodes && nodes.length > 0) {
+          // Trigger auto-layout using the existing tools.autoLayout()
+          context.tools.autoLayout();
+        }
+      } catch (error) {
+        console.log('Auto-layout not available or failed:', error);
+      }
+    }, 1000); // 1 second delay
+
+    return () => clearTimeout(timer);
+  }, [context.document, context.tools]);
+
   // Button handlers with context access
   const handleSaveWorkflow = () => {
     try {
