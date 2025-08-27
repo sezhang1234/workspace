@@ -9,7 +9,6 @@ import {
   MessageSquare, 
   Database, 
   BarChart3, 
-  Settings, 
   X, 
   ChevronRight,
   Zap,
@@ -37,7 +36,6 @@ const navigation = [
   { name: '提示词管理', href: '/dashboard/prompts', icon: MessageSquare },
   { name: '模型管理', href: '/dashboard/models', icon: Database },
   { name: '数据分析', href: '/dashboard/analytics', icon: BarChart3 },
-  { name: '系统设置', href: '/dashboard/settings', icon: Settings },
 ]
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
