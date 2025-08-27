@@ -11,7 +11,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 
 import { FlowNodeRegistry } from '../../typings';
-import { Repeat } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
@@ -19,7 +19,7 @@ let index = 0;
 export const LoopNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Loop,
   info: {
-    icon: <Repeat size={20} className="text-blue-600" />,
+    icon: <RotateCcw size={20} className="text-cyan-600" />,
     description:
       'Loop node for iterating over collections or repeating operations.',
   },

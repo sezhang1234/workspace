@@ -7,13 +7,13 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import { Brain } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { formMeta } from './form-meta';
 
 export const LLMNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.LLM,
   info: {
-    icon: <Brain size={20} className="text-blue-600" />,
+    icon: <Sparkles size={20} className="text-purple-600" />,
     description:
       'Large Language Model node for AI-powered text generation and processing.',
   },

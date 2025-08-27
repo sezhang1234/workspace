@@ -7,13 +7,13 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import { Globe } from 'lucide-react';
+import { Globe2 } from 'lucide-react';
 import { formMeta } from './form-meta';
 
 export const HTTPNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.HTTP,
   info: {
-    icon: <Globe size={20} className="text-blue-600" />,
+    icon: <Globe2 size={20} className="text-indigo-600" />,
     description:
       'HTTP request node for making API calls and web requests.',
   },

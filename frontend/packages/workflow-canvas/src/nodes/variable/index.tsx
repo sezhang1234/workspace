@@ -7,13 +7,13 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import { Variable } from 'lucide-react';
+import { Database } from 'lucide-react';
 import { formMeta } from './form-meta';
 
 export const VariableNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Variable,
   info: {
-    icon: <Variable size={20} className="text-blue-600" />,
+    icon: <Database size={20} className="text-slate-600" />,
     description:
       'Variable node for storing and managing data values.',
   },
