@@ -30,7 +30,7 @@ export function TitleInput(props: {
     <Title>
       <Field name="title">
         {({ field: { value, onChange }, fieldState }: FieldRenderProps<string>) => (
-          <div style={{ height: 24 }}>
+          <div style={{ height: 20 }}>
             {titleEditing ? (
               <Input
                 value={value}
