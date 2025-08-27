@@ -100,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
                   {user?.username}
                 </p>
                 <p className="text-xs text-blue-600 truncate font-medium whitespace-nowrap">
-                  {user?.role === 'admin' ? '管理员' : user?.role === '开发者' : '用户'}
+                  {user?.role === 'admin' ? '管理员' : user?.role === 'developer' ? '开发者' : '用户'}
                 </p>
               </div>
             </div>
