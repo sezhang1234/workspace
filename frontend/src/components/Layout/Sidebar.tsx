@@ -144,10 +144,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
                 <div className={`
                   overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
                   ${isCollapsed ? 'w-0 opacity-0 ml-0' : 'w-auto opacity-100 ml-3'}
+                  flex items-center justify-between flex-1
                 `}>
                   <span className="text-sm whitespace-nowrap">{item.name}</span>
                   {isActive && (
-                    <ChevronRight className="ml-auto h-4 w-4 text-white animate-pulse" />
+                    <ChevronRight className="h-4 w-4 text-white animate-pulse" />
                   )}
                 </div>
               </NavLink>
