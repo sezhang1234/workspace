@@ -7,13 +7,13 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import iconLLM from '../../assets/icon-llm.jpg';
+import { Sparkles } from 'lucide-react';
 
 let index = 0;
 export const LLMNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.LLM,
   info: {
-    icon: iconLLM,
+    icon: <Sparkles size={20} className="text-purple-600" />,
     description:
       '调用大语言模型，使用变量和提示词生成响应。',
   },

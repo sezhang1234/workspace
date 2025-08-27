@@ -6,7 +6,7 @@
 import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
-import iconContinue from '../../assets/icon-continue.jpg';
+import { SkipForward } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
@@ -24,7 +24,7 @@ export const ContinueNodeRegistry: FlowNodeRegistry = {
     onlyInContainer: WorkflowNodeType.Loop,
   },
   info: {
-    icon: iconContinue,
+    icon: <SkipForward size={20} className="text-blue-600" />,
     description:
       'The final node of the workflow, used to return the result information after the workflow is run.',
   },

@@ -6,14 +6,14 @@
 import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
-import iconCondition from '../../assets/icon-condition.svg';
+import { GitBranch } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
 export const ConditionNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Condition,
   info: {
-    icon: iconCondition,
+    icon: <GitBranch size={20} className="text-orange-600" />,
     description:
       'Connect multiple downstream branches. Only the corresponding branch will be executed if the set conditions are met.',
   },
