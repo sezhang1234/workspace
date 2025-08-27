@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { 
-  Brain, 
+  Bot, 
   Workflow, 
-  MessageSquare, 
+  FileText, 
   TrendingUp, 
   Users, 
   Zap,
@@ -18,7 +18,7 @@ const DashboardPage: React.FC = () => {
       value: '12',
       change: '+2',
       changeType: 'positive',
-      icon: Brain,
+      icon: Bot,
       color: 'bg-blue-500'
     },
     {
@@ -34,7 +34,7 @@ const DashboardPage: React.FC = () => {
       value: '45',
       change: '+5',
       changeType: 'positive',
-      icon: MessageSquare,
+      icon: FileText,
       color: 'bg-purple-500'
     },
     {
@@ -119,7 +119,7 @@ const DashboardPage: React.FC = () => {
     {
       name: '编写提示词',
       description: '创建和优化提示词模板',
-      icon: MessageSquare,
+      icon: FileText,
       href: '/dashboard/prompts/new',
       color: 'bg-purple-500 hover:bg-purple-600'
     },
