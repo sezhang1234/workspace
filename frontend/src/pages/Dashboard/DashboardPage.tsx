@@ -105,7 +105,7 @@ const DashboardPage: React.FC = () => {
     {
       name: '创建智能体',
       description: '开始构建新的AI智能体',
-      icon: Plus,
+      icon: Bot,
       href: '/dashboard/agents/new',
       color: 'bg-blue-500 hover:bg-blue-600'
     },
@@ -207,7 +207,7 @@ const DashboardPage: React.FC = () => {
               {/* Content */}
               <div className="relative flex items-center space-x-3">
                 <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                  <action.icon className="w-6 h-6 text-white" />
+                  <action.icon className="w-6 h-6 text-white flex-shrink-0" />
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-900 group-hover:text-blue-900 transition-colors duration-300">
