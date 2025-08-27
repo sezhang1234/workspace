@@ -4,7 +4,7 @@
  */
 
 import { FlowNodeRegistry } from '../../typings';
-import { Square } from 'lucide-react';
+import { Power } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
@@ -30,7 +30,7 @@ export const BlockEndNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: <Square size={20} className="text-red-600" />,
+    icon: <Power size={20} className="text-red-600" />,
     description: 'The final node of the block.',
   },
   /**
