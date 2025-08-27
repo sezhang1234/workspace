@@ -13,7 +13,7 @@ import { WorkflowNodeType } from '../constants';
 export const ConditionNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Condition,
   info: {
-    icon: <GitBranch size={20} className="text-blue-600" />,
+    icon: <GitBranch size={20} className="text-orange-600" />,
     description:
       'Connect multiple downstream branches. Only the corresponding branch will be executed if the set conditions are met.',
   },

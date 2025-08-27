@@ -7,7 +7,7 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import { Code2 } from 'lucide-react';
+import { Code } from 'lucide-react';
 import { formMeta } from './form-meta';
 
 let index = 0;
@@ -35,7 +35,7 @@ async function main({ params }) {
 export const CodeNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Code,
   info: {
-    icon: <Code2 size={20} className="text-blue-600" />,
+    icon: <Code size={20} className="text-emerald-600" />,
     description:
       'Code execution node for running custom JavaScript or Python code.',
   },
