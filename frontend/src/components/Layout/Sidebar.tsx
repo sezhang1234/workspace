@@ -82,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
 
         {/* User info */}
         <div className={`border-b border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-2 py-4' : 'px-6 py-4'}`}>
-          <div className={`flex items-center space-x-3 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'justify-center' : ''}`}>
+          <div className="flex items-center transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]">
             <div className="relative">
               <img
                 className="w-10 h-10 rounded-full ring-2 ring-blue-200/50 shadow-lg"
@@ -91,13 +91,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
               />
               <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
             </div>
-            <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+            <div className={`
+              overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
+              ${isCollapsed ? 'w-0 opacity-0 ml-0' : 'w-auto opacity-100 ml-3'}
+            `}>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-800 truncate whitespace-nowrap">
                   {user?.username}
                 </p>
                 <p className="text-xs text-blue-600 truncate font-medium whitespace-nowrap">
-                  {user?.role === 'admin' ? '管理员' : user?.role === 'developer' ? '开发者' : '用户'}
+                  {user?.role === 'admin' ? '管理员' : user?.role === '开发者' : '用户'}
                 </p>
               </div>
             </div>
@@ -133,19 +136,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
                 <item.icon 
                   className={`
                     transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
-                    ${isCollapsed ? 'mr-0' : 'mr-3'} h-6 w-6
+                    h-6 w-6
                     ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-blue-600'}
                     ${isActive ? 'scale-110' : 'group-hover:scale-105'}
                   `} 
                 />
-                {!isCollapsed && (
-                  <>
-                    <span className="text-sm">{item.name}</span>
-                    {isActive && (
-                      <ChevronRight className="ml-auto h-4 w-4 text-white animate-pulse" />
-                    )}
-                  </>
-                )}
+                <div className={`
+                  overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
+                  ${isCollapsed ? 'w-0 opacity-0 ml-0' : 'w-auto opacity-100 ml-3'}
+                `}>
+                  <span className="text-sm whitespace-nowrap">{item.name}</span>
+                  {isActive && (
+                    <ChevronRight className="ml-auto h-4 w-4 text-white animate-pulse" />
+                  )}
+                </div>
               </NavLink>
             )
           })}
@@ -155,11 +159,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
 
         {/* Footer */}
         <div className={`border-t border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
-          <div className={`flex items-center space-x-2 text-xs transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'justify-center' : ''}`}>
+          <div className="flex items-center transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]">
             <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
               <Zap className="w-3 h-3 text-white" />
             </div>
-            <div className={`overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+            <div className={`
+              overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
+              ${isCollapsed ? 'w-0 opacity-0 ml-0' : 'w-auto opacity-100 ml-2'}
+            `}>
               <span className="text-blue-600 font-medium whitespace-nowrap">Jiuwen v1.0.0</span>
             </div>
           </div>
