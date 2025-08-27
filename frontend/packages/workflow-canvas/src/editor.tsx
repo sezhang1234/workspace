@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { EditorRenderer, FreeLayoutEditorProvider } from '@flowgram.ai/free-layout-editor';
-import { useState } from 'react';
+import { EditorRenderer, FreeLayoutEditorProvider, useClientContext } from '@flowgram.ai/free-layout-editor';
+import { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Save, Upload, Download, ArrowLeft } from 'lucide-react';
 
@@ -21,35 +21,20 @@ export const Editor = () => {
   const editorProps = useEditorProps(initialData, nodeRegistries);
   const [minimapVisible, setMinimapVisible] = useState(false);
   const navigate = useNavigate();
+  const context = useClientContext();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Button handlers
   const handleSaveWorkflow = () => {
     try {
-      // TODO: Get the current workflow data from the canvas
-      // This would typically involve calling a method on the workflow editor
-      // For example: const workflowData = context.document.toJSON()
-      const workflowData = {
-        // Mock data for now - replace with actual workflow data
-        name: '工作流',
-        description: '工作流描述',
-        nodes: [],
-        edges: [],
-        timestamp: new Date().toISOString(),
-        version: '1.0.0',
-        lastSaved: new Date().toISOString()
-      };
+      // Get the current workflow data from the canvas
+      const workflowData = context.document.toJSON();
       
-      // TODO: Send the workflow data to the backend API
-      // This would typically involve an API call to save the workflow
-      // For example: await api.saveWorkflow(workflowData)
+      // For now, save to console (can be extended to save to backend)
       console.log('Saving workflow:', workflowData);
       
-      // Simulate API call delay
-      setTimeout(() => {
-        // Show success message
-        alert('工作流保存成功！\n\n注意：当前保存的是示例数据，实际保存需要集成工作流编辑器API和后端服务。');
-      }, 500);
-      
+      // Show success message
+      alert('工作流保存成功！\n\n工作流数据已保存到控制台。');
     } catch (error) {
       console.error('Save failed:', error);
       alert('保存失败：请重试\n\n错误详情：' + error.message);
@@ -57,86 +42,23 @@ export const Editor = () => {
   };
 
   const handleImportWorkflow = () => {
-    // Create a file input element
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.json';
-    fileInput.style.display = 'none';
-    
-    fileInput.onchange = (event) => {
-      const file = (event.target as HTMLInputElement).files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onchange = (e) => {
-          try {
-            const workflowData = JSON.parse(e.target?.result as string);
-            
-            // Validate the imported data structure
-            if (!workflowData || typeof workflowData !== 'object') {
-              throw new Error('Invalid workflow data format');
-            }
-            
-            // TODO: Load the workflow data into the canvas
-            // This would typically involve calling a method on the workflow editor
-            // For example: context.document.fromJSON(workflowData)
-            console.log('Imported workflow data:', workflowData);
-            
-            // Show success message
-            alert('工作流导入成功！\n\n注意：导入的数据已加载到控制台，实际加载到画布需要集成工作流编辑器API。');
-          } catch (error) {
-            console.error('Import failed:', error);
-            alert('导入失败：文件格式错误\n\n请确保选择的是有效的工作流JSON文件。');
-          }
-        };
-        reader.readAsText(file);
-      }
-    };
-    
-    // Trigger file selection
-    document.body.appendChild(fileInput);
-    fileInput.click();
-    document.body.removeChild(fileInput);
+    // Trigger file selection using the hidden file input
+    fileInputRef.current?.click();
   };
 
   const handleExportWorkflow = () => {
     try {
-      // TODO: Get the current workflow data from the canvas
-      // This would typically involve calling a method on the workflow editor
-      // For example: const workflowData = context.document.toJSON()
-      const workflowData = {
-        // Mock data for now - replace with actual workflow data
-        name: '工作流',
-        description: '工作流描述',
-        nodes: [],
-        edges: [],
-        timestamp: new Date().toISOString(),
-        version: '1.0.0',
-        metadata: {
-          exportedAt: new Date().toISOString(),
-          exportVersion: '1.0.0'
-        }
-      };
-      
-      // Convert to JSON string with proper formatting
+      // Get the current workflow data from the canvas
+      const workflowData = context.document.toJSON();
       const dataStr = JSON.stringify(workflowData, null, 2);
-      
-      // Create and download the file
-      const dataBlob = new Blob([dataStr], { type: 'application/json;charset=utf-8' });
-      const url = URL.createObjectURL(dataBlob);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
       const link = document.createElement('a');
-      link.href = url;
+      link.href = URL.createObjectURL(dataBlob);
       link.download = `workflow-export-${new Date().toISOString().split('T')[0]}.json`;
-      
-      // Trigger download
-      document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
       
-      // Clean up
-      URL.revokeObjectURL(url);
-      
-      // Show success message
-      alert('工作流导出成功！\n\n文件已下载到您的下载文件夹。\n\n注意：当前导出的是示例数据，实际导出需要集成工作流编辑器API。');
+      alert('工作流导出成功！');
     } catch (error) {
       console.error('Export failed:', error);
       alert('导出失败：请重试\n\n错误详情：' + error.message);
@@ -304,6 +226,37 @@ export const Editor = () => {
           </button>
         </div>
       </div>
+
+      {/* Hidden file input for import */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              try {
+                const importedData = JSON.parse(e.target?.result as string);
+                // Clear current workflow and load imported data
+                context.document.clear();
+                context.document.fromJSON(importedData);
+                alert('工作流导入成功！');
+              } catch (error) {
+                alert('导入失败：文件格式错误');
+                console.error('导入失败：文件格式错误', error);
+              }
+            };
+            reader.readAsText(file);
+          }
+          // Reset file input
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        }}
+        style={{ display: 'none' }}
+      />
 
       <div className="doc-free-feature-overview" style={{ 
         width: '100%', 
