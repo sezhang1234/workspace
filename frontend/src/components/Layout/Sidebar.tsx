@@ -163,9 +163,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
           <div className={`
             overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
             ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}
-            flex justify-center
+            ${isCollapsed ? 'flex justify-center' : 'flex justify-start'}
           `}>
-            <span className="text-blue-600 font-medium whitespace-nowrap">Jiuwen v1.0.0</span>
+            <span className={`whitespace-nowrap ${isCollapsed ? 'text-blue-600 font-medium' : 'text-gray-500 text-xs'}`}>Jiuwen v1.0.0</span>
           </div>
         </div>
         
