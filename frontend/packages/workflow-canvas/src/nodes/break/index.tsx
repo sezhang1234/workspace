@@ -24,7 +24,7 @@ export const BreakNodeRegistry: FlowNodeRegistry = {
     onlyInContainer: WorkflowNodeType.Loop,
   },
   info: {
-    icon: <XCircle size={20} className="text-red-600" />,
+    icon: <XCircle size={16} className="text-red-600" />,
     description:
       'The final node of the workflow, used to return the result information after the workflow is run.',
   },

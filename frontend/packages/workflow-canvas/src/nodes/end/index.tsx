@@ -21,7 +21,7 @@ export const EndNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: <Power size={20} className="text-red-600" />,
+    icon: <Power size={16} className="text-red-600" />,
     description:
       '工作流的最终节点，用于返回工作流运行后的结果信息。',
   },

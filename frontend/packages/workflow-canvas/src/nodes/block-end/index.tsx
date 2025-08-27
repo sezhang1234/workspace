@@ -30,7 +30,7 @@ export const BlockEndNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: <Power size={20} className="text-red-600" />,
+    icon: <Power size={16} className="text-red-600" />,
     description: 'The final node of the block.',
   },
   /**

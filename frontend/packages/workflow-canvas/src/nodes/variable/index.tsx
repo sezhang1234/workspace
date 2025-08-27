@@ -13,7 +13,7 @@ import { formMeta } from './form-meta';
 export const VariableNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Variable,
   info: {
-    icon: <Database size={20} className="text-slate-600" />,
+    icon: <Database size={16} className="text-slate-600" />,
     description:
       'Variable node for storing and managing data values.',
   },

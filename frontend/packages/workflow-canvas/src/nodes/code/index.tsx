@@ -35,7 +35,7 @@ async function main({ params }) {
 export const CodeNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Code,
   info: {
-    icon: <Code size={20} className="text-emerald-600" />,
+    icon: <Code size={16} className="text-emerald-600" />,
     description:
       'Code execution node for running custom JavaScript or Python code.',
   },
