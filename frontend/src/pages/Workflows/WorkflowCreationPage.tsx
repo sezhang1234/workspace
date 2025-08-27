@@ -25,7 +25,7 @@ const WorkflowCreationPage: React.FC = () => {
   const [formData, setFormData] = useState<WorkflowFormData>({
     name: '',
     description: '',
-    trigger: 'schedule',
+    trigger: 'manual',
     tags: []
   })
 
