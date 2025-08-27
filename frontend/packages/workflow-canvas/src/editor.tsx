@@ -49,19 +49,20 @@ export const Editor = () => {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Button Group - Upper Center */}
+      
+      {/* Upper Center Button Group - Copied from Bottom Control Panel */}
       <div style={{
         position: 'absolute',
         top: '16px',
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 99,
         display: 'flex',
         justifyContent: 'center',
         minWidth: '360px',
         pointerEvents: 'none',
         gap: '8px',
-        fontFamily: 'Inter, system-ui, sans-serif'
+        fontFamily: 'Inter, system-ui, sans-serif',
+        zIndex: 99
       }}>
         <div style={{
           display: 'flex',
@@ -79,26 +80,26 @@ export const Editor = () => {
           <button
             onClick={handleSaveWorkflow}
             style={{
-              padding: '4px 8px',
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(171,181,255,0.3)',
               color: '#3b82f6',
               border: 'none',
               borderRadius: '8px',
+              padding: '6px 12px',
               fontSize: '12px',
               fontWeight: '500',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
               height: '32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: '60px'
+              minWidth: 'auto',
+              transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.1)';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
             保存
@@ -107,26 +108,26 @@ export const Editor = () => {
           <button
             onClick={handleImportWorkflow}
             style={{
-              padding: '4px 8px',
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(171,181,255,0.3)',
               color: '#10b981',
               border: 'none',
               borderRadius: '8px',
+              padding: '6px 12px',
               fontSize: '12px',
               fontWeight: '500',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
               height: '32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: '60px'
+              minWidth: 'auto',
+              transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
             导入
@@ -135,26 +136,26 @@ export const Editor = () => {
           <button
             onClick={handleExportWorkflow}
             style={{
-              padding: '4px 8px',
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(171,181,255,0.3)',
               color: '#f59e0b',
               border: 'none',
               borderRadius: '8px',
+              padding: '6px 12px',
               fontSize: '12px',
               fontWeight: '500',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
               height: '32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: '60px'
+              minWidth: 'auto',
+              transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
             导出
@@ -163,26 +164,26 @@ export const Editor = () => {
           <button
             onClick={handleBack}
             style={{
-              padding: '4px 8px',
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(171,181,255,0.3)',
               color: '#6b7280',
               border: 'none',
               borderRadius: '8px',
+              padding: '6px 12px',
               fontSize: '12px',
               fontWeight: '500',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
               height: '32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: '60px'
+              minWidth: 'auto',
+              transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(107, 114, 128, 0.1)';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
             返回
