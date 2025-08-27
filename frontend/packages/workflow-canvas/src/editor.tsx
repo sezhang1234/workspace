@@ -6,6 +6,7 @@
 import { EditorRenderer, FreeLayoutEditorProvider } from '@flowgram.ai/free-layout-editor';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Save, Upload, Download, ArrowLeft } from 'lucide-react';
 
 import '@flowgram.ai/free-layout-editor/index.css';
 import './styles/index.css';
@@ -93,7 +94,8 @@ export const Editor = () => {
               alignItems: 'center',
               justifyContent: 'center',
               minWidth: 'auto',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              gap: '6px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
@@ -102,6 +104,7 @@ export const Editor = () => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
+            <Save size={16} />
             保存
           </button>
           
@@ -121,7 +124,8 @@ export const Editor = () => {
               alignItems: 'center',
               justifyContent: 'center',
               minWidth: 'auto',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              gap: '6px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
@@ -130,6 +134,7 @@ export const Editor = () => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
+            <Upload size={16} />
             导入
           </button>
           
@@ -149,7 +154,8 @@ export const Editor = () => {
               alignItems: 'center',
               justifyContent: 'center',
               minWidth: 'auto',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              gap: '6px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
@@ -158,6 +164,7 @@ export const Editor = () => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
+            <Download size={16} />
             导出
           </button>
           
@@ -177,7 +184,8 @@ export const Editor = () => {
               alignItems: 'center',
               justifyContent: 'center',
               minWidth: 'auto',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              gap: '6px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.5)';
@@ -186,6 +194,7 @@ export const Editor = () => {
               e.currentTarget.style.backgroundColor = 'rgba(171,181,255,0.3)';
             }}
           >
+            <ArrowLeft size={16} />
             返回
           </button>
         </div>
