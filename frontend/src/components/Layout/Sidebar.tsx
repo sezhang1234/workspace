@@ -7,7 +7,7 @@ import {
   Bot, 
   Workflow, 
   FileText, 
-  Cpu, 
+  Brain, 
   BarChart3, 
   X, 
   ChevronRight,
@@ -34,7 +34,7 @@ const navigation = [
   { name: '智能体开发', href: '/dashboard/agents', icon: Bot },
   { name: '工作流编排', href: '/dashboard/workflows', icon: Workflow },
   { name: '提示词管理', href: '/dashboard/prompts', icon: FileText },
-  { name: '模型管理', href: '/dashboard/models', icon: Cpu },
+  { name: '模型管理', href: '/dashboard/models', icon: Brain },
   { name: '数据分析', href: '/dashboard/analytics', icon: BarChart3 },
 ]
 
