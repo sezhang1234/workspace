@@ -4,7 +4,7 @@
  */
 
 import { FlowNodeRegistry } from '../../typings';
-import iconStart from '../../assets/icon-start.jpg';
+import { Play } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
@@ -30,7 +30,7 @@ export const BlockStartNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: iconStart,
+    icon: <Play size={20} className="text-green-600" />,
     description: 'The starting node of the block.',
   },
   /**

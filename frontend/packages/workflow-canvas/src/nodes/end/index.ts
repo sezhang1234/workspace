@@ -4,7 +4,7 @@
  */
 
 import { FlowNodeRegistry } from '../../typings';
-import iconEnd from '../../assets/icon-end.jpg';
+import { Square } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
@@ -21,7 +21,7 @@ export const EndNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: iconEnd,
+    icon: <Square size={20} className="text-red-600" />,
     description:
       '工作流的最终节点，用于返回工作流运行后的结果信息。',
   },

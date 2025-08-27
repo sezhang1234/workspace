@@ -6,7 +6,7 @@
 import { nanoid } from 'nanoid';
 
 import { FlowNodeRegistry } from '../../typings';
-import iconBreak from '../../assets/icon-break.jpg';
+import { Square } from 'lucide-react';
 import { formMeta } from './form-meta';
 import { WorkflowNodeType } from '../constants';
 
@@ -24,7 +24,7 @@ export const BreakNodeRegistry: FlowNodeRegistry = {
     onlyInContainer: WorkflowNodeType.Loop,
   },
   info: {
-    icon: iconBreak,
+    icon: <Square size={20} className="text-red-600" />,
     description:
       'The final node of the workflow, used to return the result information after the workflow is run.',
   },
