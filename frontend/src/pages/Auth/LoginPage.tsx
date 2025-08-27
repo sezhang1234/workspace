@@ -134,7 +134,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-8 px-4">
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center">
@@ -154,7 +154,7 @@ const LoginPage: React.FC = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onFormSubmit)}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                 邮箱地址
               </label>
               <input
@@ -167,7 +167,7 @@ const LoginPage: React.FC = () => {
                 })}
                 type="email"
                 id="email"
-                className="input-field"
+                className="input-field w-full"
                 placeholder="your@email.com"
               />
               {errors.email && (
@@ -176,10 +176,10 @@ const LoginPage: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 密码
               </label>
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   {...register('password', {
                     required: '请输入密码',
@@ -190,12 +190,12 @@ const LoginPage: React.FC = () => {
                   })}
                   type={showPassword ? 'text' : 'password'}
                   id="password"
-                  className="input-field pr-10"
+                  className="input-field w-full pr-12"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center justify-center w-10"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -261,7 +261,7 @@ const LoginPage: React.FC = () => {
               type="button"
               disabled={isLoadingRegister}
               onClick={handleRegister}
-              className="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 text-base font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full btn-secondary py-3 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoadingRegister ? (
                 <div className="flex items-center justify-center space-x-2">
