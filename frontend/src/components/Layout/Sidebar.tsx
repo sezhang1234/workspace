@@ -119,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
                   group flex items-center font-medium rounded-xl transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]
                   ${isCollapsed ? 'justify-center px-2 py-3 mx-2' : 'px-4 py-3 mx-2'}
                   ${isActive 
-                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25 border-r-2 border-blue-400' 
+                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25' 
                     : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 hover:shadow-md'
                   }
                 `}
