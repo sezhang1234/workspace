@@ -84,17 +84,17 @@ const agentTemplates: AgentTemplate[] = [
   },
   {
     id: 'compute-user',
-    name: 'Compute Use',
-    description: '计算用户智能体，专门处理数学计算、公式推导和复杂算法问题。',
-    category: '数学计算',
+    name: 'Computer Use',
+    description: '计算机操作智能体，能够像人类用户一样操作计算机、与软件交互、浏览网页、填写表单并执行各种任务。',
+    category: '计算机操作',
     difficulty: 'advanced',
-    tags: ['数学', '计算', '算法', '公式'],
-    icon: <Calculator className="w-8 h-8" />,
+    tags: ['计算机操作', '软件交互', '网页浏览', '任务执行'],
+    icon: <Code className="w-8 h-8" />,
     usageCount: 987,
     rating: 4.6,
     isCustomizable: true,
-    features: ['数学计算', '公式推导', '算法分析', '数值模拟'],
-    estimatedTime: '1-3分钟'
+    features: ['软件操作', '网页浏览', '表单填写', '任务自动化'],
+    estimatedTime: '5-15分钟'
   },
 
 ]
@@ -114,7 +114,7 @@ const AppsPage: React.FC = () => {
   })
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as any })
 
-  const categories = ['all', '研究分析', '数据分析', '编程开发', '数学计算']
+  const categories = ['all', '研究分析', '数据分析', '编程开发', '计算机操作']
   const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
 
   const getDifficultyText = (difficulty: string) => {
