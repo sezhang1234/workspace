@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { useClientContext, getNodeForm, FlowNodeEntity } from '@flowgram.ai/free-layout-editor';
 import { Button, Badge } from '@douyinfe/semi-ui';
+import { Save as SaveIcon } from 'lucide-react';
 
 export function Save(props: { disabled: boolean }) {
   const [errorCount, setErrorCount] = useState(0);
@@ -51,6 +52,7 @@ export function Save(props: { disabled: boolean }) {
         disabled={props.disabled}
         onClick={onSave}
         style={{ backgroundColor: 'rgba(171,181,255,0.3)', borderRadius: '8px' }}
+        icon={<SaveIcon size={16} className="text-blue-600" />}
       >
         Save
       </Button>
@@ -63,8 +65,9 @@ export function Save(props: { disabled: boolean }) {
         disabled={props.disabled}
         onClick={onSave}
         style={{ backgroundColor: 'rgba(255, 179, 171, 0.3)', borderRadius: '8px' }}
+        icon={<SaveIcon size={16} className="text-red-600" />}
       >
-          Save
+         Save
       </Button>
     </Badge>
   );

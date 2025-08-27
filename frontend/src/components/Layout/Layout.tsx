@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../stores/useAuthStore'
 import Sidebar from './Sidebar'
 import Header from './Header'
@@ -9,6 +9,20 @@ const Layout: React.FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const { user } = useAuthStore()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Auto-collapse sidebar when entering workflow editor
+  useEffect(() => {
+    if (location.pathname.includes('/workflows/editor')) {
+      setSidebarCollapsed(true)
+    }
+  }, [location.pathname])
+
+  // Set CSS custom properties for sidebar state
+  useEffect(() => {
+    document.documentElement.style.setProperty('--sidebar-collapsed', sidebarCollapsed ? '1' : '0')
+    document.documentElement.style.setProperty('--sidebar-width', sidebarCollapsed ? '64px' : '256px')
+  }, [sidebarCollapsed])
 
   // 如果用户未登录，重定向到登录页
   if (!user) {

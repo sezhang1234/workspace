@@ -11,5 +11,10 @@ import { Icon } from './styles';
 export const getIcon = (node: FlowNodeEntity) => {
   const icon = node.getNodeRegistry<FlowNodeRegistry>().info?.icon;
   if (!icon) return null;
-  return <Icon src={icon} />;
+  
+  if (typeof icon === 'string') {
+    return <Icon src={icon} />;
+  } else {
+    return icon;
+  }
 };

@@ -15,7 +15,7 @@ import {
 } from '@flowgram.ai/free-layout-editor';
 import { NodeIntoContainerService } from '@flowgram.ai/free-container-plugin';
 import { IconButton, Dropdown } from '@douyinfe/semi-ui';
-import { IconMore } from '@douyinfe/semi-icons';
+import { MoreHorizontal } from 'lucide-react';
 
 import { FlowNodeRegistry } from '../../typings';
 import { PasteShortcut } from '../../shortcuts/paste';
@@ -115,7 +115,7 @@ export const NodeMenu: FC<NodeMenuProps> = ({ node, deleteNode, updateTitleEdit 
         color="secondary"
         size="small"
         theme="borderless"
-        icon={<IconMore />}
+        icon={<MoreHorizontal size={18} className="text-gray-600 hover:text-blue-600" />}
         onClick={(e) => e.stopPropagation()}
       />
     </Dropdown>

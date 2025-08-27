@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import App from './App'
 import './index.css'
+import './utils/font-loader'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +27,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Inter, system-ui, sans-serif',
+    fontFamily: 'Inter, HarmonyOS Sans, HarmonyOS Sans SC, system-ui, sans-serif',
   },
   components: {
     MuiButton: {

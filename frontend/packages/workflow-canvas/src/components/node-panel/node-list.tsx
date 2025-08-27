@@ -106,6 +106,7 @@ interface NodeListProps {
 export const NodeList: FC<NodeListProps> = (props) => {
   const { onSelect, containerNode } = props;
   const context = useClientContext();
+  
   const handleClick = (e: React.MouseEvent, registry: FlowNodeRegistry) => {
     const json = registry.onAdd?.(context);
     onSelect({
@@ -114,28 +115,36 @@ export const NodeList: FC<NodeListProps> = (props) => {
       nodeJSON: json,
     });
   };
+  
+  const visibleRegistries = nodeRegistries
+    .filter((register) => register.meta.nodePanelVisible !== false)
+    .filter((register) => {
+      if (register.meta.onlyInContainer) {
+        return register.meta.onlyInContainer === containerNode?.flowNodeType;
+      }
+      return true;
+    });
+    
   return (
     <NodesWrap style={{ width: 320 }}>
       <NodePanelHeader>选择节点类型</NodePanelHeader>
-      {nodeRegistries
-        .filter((register) => register.meta.nodePanelVisible !== false)
-        .filter((register) => {
-          if (register.meta.onlyInContainer) {
-            return register.meta.onlyInContainer === containerNode?.flowNodeType;
+      {visibleRegistries.map((registry) => (
+        <Node
+          key={registry.type}
+          disabled={!(registry.canAdd?.(context) ?? true)}
+          icon={
+            typeof registry.info?.icon === 'string' ? (
+              <img style={{ width: 20, height: 20, borderRadius: 4 }} src={registry.info.icon} />
+            ) : (
+              <div style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {registry.info?.icon}
+              </div>
+            )
           }
-          return true;
-        })
-        .map((registry) => (
-          <Node
-            key={registry.type}
-            disabled={!(registry.canAdd?.(context) ?? true)}
-            icon={
-              <img style={{ width: 16, height: 16, borderRadius: 4 }} src={registry.info?.icon} />
-            }
-            label={nodeTypeTranslations[registry.type] || registry.type}
-            onClick={(e) => handleClick(e, registry)}
-          />
-        ))}
+          label={String(nodeTypeTranslations[registry.type] || registry.type)}
+          onClick={(e) => handleClick(e, registry)}
+        />
+      ))}
     </NodesWrap>
   );
 };

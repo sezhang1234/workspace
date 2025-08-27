@@ -36,7 +36,13 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'HarmonyOS Sans SC', 'HarmonyOS Sans', 'system-ui', 'sans-serif'],
+      },
+      fontWeight: {
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -9,14 +9,13 @@ import classnames from 'classnames';
 import { WorkflowInputs, WorkflowOutputs } from '@flowgram.ai/runtime-interface';
 import { useService } from '@flowgram.ai/free-layout-editor';
 import { Button, SideSheet, Switch } from '@douyinfe/semi-ui';
-import { IconClose, IconPlay, IconSpin } from '@douyinfe/semi-icons';
+import { X, Play, Loader2, Square } from 'lucide-react';
 
 import { TestRunJsonInput } from '../testrun-json-input';
 import { TestRunForm } from '../testrun-form';
 import { NodeStatusGroup } from '../node-status-bar/group';
 import { WorkflowRuntimeService } from '../../../plugins/runtime-plugin/runtime-service';
 import { SidebarContext } from '../../../context';
-import { IconCancel } from '../../../assets/icon-cancel';
 
 import styles from './index.module.less';
 
@@ -95,7 +94,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
 
   const renderRunning = (
     <div className={styles['testrun-panel-running']}>
-      <IconSpin spin size="large" />
+      <Loader2 className="animate-spin" size={24} />
       <div className={styles.text}>运行中...</div>
     </div>
   );
@@ -129,7 +128,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
   const renderButton = (
     <Button
       onClick={onTestRun}
-      icon={isRunning ? <IconCancel /> : <IconPlay size="small" />}
+      icon={isRunning ? <Square size={18} className="text-red-600" /> : <Play size={18} className="text-green-600" />}
       className={classnames(styles.button, {
         [styles.running]: isRunning,
         [styles.default]: !isRunning,
@@ -164,7 +163,7 @@ export const TestRunSidePanel: FC<TestRunSidePanelProps> = ({ visible, onCancel 
           <Button
             className={styles['testrun-panel-title']}
             type="tertiary"
-            icon={<IconClose />}
+            icon={<X size={18} className="text-gray-600 hover:text-red-600" />}
             size="small"
             theme="borderless"
             onClick={onClose}

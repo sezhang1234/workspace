@@ -4,8 +4,7 @@
  */
 
 import styled from 'styled-components';
-
-import { IconMinimap } from '../../assets/icon-minimap';
+import { Map } from 'lucide-react';
 
 export const ToolContainer = styled.div`
   position: absolute;
@@ -55,6 +54,6 @@ export const MinimapContainer = styled.div`
   pointer-events: auto;
 `;
 
-export const UIIconMinimap = styled(IconMinimap)<{ visible: boolean }>`
+export const UIIconMinimap = styled(Map)<{ visible: boolean }>`
   color: ${(props) => (props.visible ? undefined : '#060709cc')};
 `;

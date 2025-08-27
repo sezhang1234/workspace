@@ -7,9 +7,8 @@ import { useState, useEffect } from 'react';
 
 import { useRefresh } from '@flowgram.ai/free-layout-editor';
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { Tooltip, IconButton, Divider, Button, Select } from '@douyinfe/semi-ui';
-import { IconUndo, IconRedo, IconArrowLeft } from '@douyinfe/semi-icons';
-import { getAllWorkflows, type Workflow } from '/src/services/workflowService';
+import { Tooltip, IconButton, Divider, Button } from '@douyinfe/semi-ui';
+import { Undo2, Redo2, ArrowLeft } from 'lucide-react';
 
 import { TestRunButton } from '../testrun/testrun-button';
 import { AddNode } from '../add-node';
@@ -28,19 +27,39 @@ import { WorkflowOperations } from './workflow-operations';
 interface DemoToolsProps {
   minimapVisible: boolean;
   setMinimapVisible: (visible: boolean) => void;
-  workflowId?: string;
 }
 
-export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: DemoToolsProps) {
+export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps) {
   const { history, playground } = useClientContext();
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
-  const [currentWorkflowId, setCurrentWorkflowId] = useState(workflowId || '1');
-  const workflows = getAllWorkflows();
-  const currentWorkflow = workflows.find(w => w.id === currentWorkflowId);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   
-  // If no current workflow found, this might be a new workflow being created
-  const isNewWorkflow = !currentWorkflow && workflowId;
+  useEffect(() => {
+    const updateSidebarState = () => {
+      const isCollapsed = getComputedStyle(document.documentElement).getPropertyValue('--sidebar-collapsed') === '1';
+      setSidebarCollapsed(isCollapsed);
+    };
+
+    // Initial state
+    updateSidebarState();
+
+    // Listen for changes to CSS custom properties
+    const observer = new MutationObserver(updateSidebarState);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['style']
+    });
+
+    // Also listen for window resize events
+    window.addEventListener('resize', updateSidebarState);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateSidebarState);
+    };
+  }, []);
+  
   useEffect(() => {
     const disposable = history.undoRedoService.onChange(() => {
       setCanUndo(history.canUndo());
@@ -48,6 +67,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
     });
     return () => disposable.dispose();
   }, [history]);
+  
   const refresh = useRefresh();
 
   useEffect(() => {
@@ -60,12 +80,6 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
       // Navigate directly to workflows list page
       window.location.href = '/dashboard/workflows';
     }
-  };
-
-  const handleWorkflowChange = (workflowId: string) => {
-    setCurrentWorkflowId(workflowId);
-    // Here you could also load the workflow data into the canvas
-    // For now, we'll just update the selected workflow
   };
 
   return (
@@ -91,12 +105,12 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
           <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
           <Readonly />
           <Comment />
-          <WorkflowOperations currentWorkflow={currentWorkflow} isNewWorkflow={isNewWorkflow} />
+          <WorkflowOperations />
           <Tooltip content="撤销">
             <IconButton
               type="tertiary"
               theme="borderless"
-              icon={<IconUndo />}
+              icon={<Undo2 size={18} className="text-gray-600 hover:text-blue-600" />}
               disabled={!canUndo || playground.config.readonly}
               onClick={() => history.undo()}
             />
@@ -105,7 +119,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
             <IconButton
               type="tertiary"
               theme="borderless"
-              icon={<IconRedo />}
+              icon={<Redo2 size={18} className="text-gray-600 hover:text-blue-600" />}
               disabled={!canRedo || playground.config.readonly}
               onClick={() => history.redo()}
             />
@@ -116,62 +130,40 @@ export function DemoTools({ minimapVisible, setMinimapVisible, workflowId }: Dem
         </ToolSection>
       </ToolContainer>
 
-      {/* Top Center Workflow Switch Panel */}
-      <div style={{
-        position: 'fixed',
-        top: '120px',
-        left: 'calc(256px + (100vw - 256px) / 2)', // Center in main content area (after sidebar)
-        transform: 'translateX(-50%)',
-        zIndex: 9999
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          backgroundColor: '#fff',
-          border: '1px solid rgba(68, 83, 130, 0.25)',
-          borderRadius: '10px',
-          padding: '8px 12px',
-          boxShadow: 'rgba(0, 0, 0, 0.04) 0px 2px 6px 0px, rgba(0, 0, 0, 0.02) 0px 4px 12px 0px'
-        }}>
-          <span style={{ 
-            fontSize: '12px', 
-            color: '#666',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            whiteSpace: 'nowrap'
-          }}>
-            工作流切换
-          </span>
-          <Select
-            value={currentWorkflowId}
-            onChange={handleWorkflowChange}
-            style={{ width: '200px' }}
-            size="small"
-          >
-            {workflows.map((workflow) => (
-              <Select.Option key={workflow.id} value={workflow.id}>
-                {workflow.name}
-              </Select.Option>
-            ))}
-            {isNewWorkflow && (
-              <Select.Option value={workflowId} disabled>
-                新工作流 (正在创建...)
-              </Select.Option>
-            )}
-          </Select>
-          <Divider layout="vertical" style={{ height: '16px' }} margin={3} />
-          <Button
-            type="tertiary"
-            theme="borderless"
-            icon={<IconArrowLeft />}
-            onClick={handleBack}
-            style={{ 
-              color: '#F97316' // Orange color
-            }}
-          >
-            返回
-          </Button>
-        </div>
+      {/* Top Left Return Button */}
+      <div className={`workflow-back-button ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
+        <Button
+          type="tertiary"
+          theme="borderless"
+          icon={<ArrowLeft size={16} className="text-gray-600" />}
+          onClick={handleBack}
+          style={{ 
+            backgroundColor: '#ffffff',
+            border: '1px solid #e5e7eb',
+            borderRadius: '8px',
+            padding: '6px 12px',
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+            color: '#374151',
+            fontWeight: '400',
+            fontSize: '13px',
+            transition: 'all 0.2s ease',
+            cursor: 'pointer',
+            minWidth: 'auto',
+            height: '32px'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1)';
+            e.currentTarget.style.borderColor = '#d1d5db';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)';
+            e.currentTarget.style.borderColor = '#e5e7eb';
+          }}
+        >
+          返回
+        </Button>
       </div>
     </>
   );

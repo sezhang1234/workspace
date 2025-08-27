@@ -2,9 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 定义HarmonyOS Sans字体（英文字符） */
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('/fonts/HarmonyOS_Sans_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+0000-007F; /* 基本拉丁字符范围 */
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('/fonts/HarmonyOS_Sans_Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+0000-007F; /* 基本拉丁字符范围 */
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('/fonts/HarmonyOS_Sans_Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+0000-007F; /* 基本拉丁字符范围 */
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans';
+  src: url('/fonts/HarmonyOS_Sans_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+0000-007F; /* 基本拉丁字符范围 */
+}
+
+/* 定义HarmonyOS Sans SC字体（中文字符） */
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('/fonts/HarmonyOS_Sans_SC_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+4E00-9FFF; /* 中文字符范围 */
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('/fonts/HarmonyOS_Sans_SC_Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+4E00-9FFF; /* 中文字符范围 */
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('/fonts/HarmonyOS_Sans_SC_Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+4E00-9FFF; /* 中文字符范围 */
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src: url('/fonts/HarmonyOS_Sans_SC_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+  unicode-range: U+4E00-9FFF; /* 中文字符范围 */
+}
+
 @layer base {
   html {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'HarmonyOS Sans', 'HarmonyOS Sans SC', system-ui, sans-serif;
+  }
+  
+  /* 字体加载完成后的优化 */
+  html.fonts-loaded {
+    font-family: 'HarmonyOS Sans SC', 'HarmonyOS Sans', system-ui, sans-serif;
   }
   
   body {
@@ -24,9 +103,67 @@
   .card {
     @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
   }
-  
-  .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+
+  /* Sidebar specific styles */
+  .sidebar-nav-item {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar-nav-item-icon {
+    @apply flex items-center justify-center transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar-collapse-btn {
+    @apply transition-all duration-300 ease-in-out hover:scale-105;
+  }
+
+  .sidebar-collapse-btn:hover {
+    @apply shadow-md;
+  }
+
+  /* Sidebar state transitions */
+  .sidebar-transition {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Consistent spacing for sidebar sections */
+  .sidebar-section {
+    @apply border-b border-gray-200;
+  }
+
+  .sidebar-section-collapsed {
+    @apply px-2 py-3;
+  }
+
+  .sidebar-section-expanded {
+    @apply px-4 py-4;
+  }
+
+  .sidebar-section-header {
+    @apply px-6 py-4;
+  }
+
+  /* Smooth text transitions */
+  .sidebar-text-transition {
+    @apply overflow-hidden transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar-text-collapsed {
+    @apply w-0 opacity-0;
+  }
+
+  .sidebar-text-expanded {
+    @apply w-auto opacity-100;
+  }
+
+  /* Prevent text wrapping during transitions */
+  .sidebar-text-nowrap {
+    @apply whitespace-nowrap;
+  }
+
+  /* Smooth width transitions */
+  .sidebar-width-transition {
+    @apply transition-all duration-300 ease-in-out;
   }
 }
 

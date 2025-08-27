@@ -7,47 +7,37 @@ import { nanoid } from 'nanoid';
 
 import { WorkflowNodeType } from '../constants';
 import { FlowNodeRegistry } from '../../typings';
-import iconHTTP from '../../assets/icon-http.svg';
+import { Globe } from 'lucide-react';
 import { formMeta } from './form-meta';
-
-let index = 0;
 
 export const HTTPNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.HTTP,
   info: {
-    icon: iconHTTP,
-    description: 'Call the HTTP API',
+    icon: <Globe size={20} className="text-blue-600" />,
+    description:
+      'HTTP request node for making API calls and web requests.',
   },
   meta: {
+    defaultPorts: [{ type: 'input' }, { type: 'output' }],
     size: {
       width: 360,
-      height: 390,
+      height: 211,
     },
+    // 确保节点在面板中可见
+    nodePanelVisible: true,
   },
+  formMeta,
   onAdd() {
     return {
       id: `http_${nanoid(5)}`,
       type: 'http',
       data: {
-        title: `HTTP_${++index}`,
-        api: {
-          method: 'GET',
-        },
-        body: {
-          bodyType: 'JSON',
-        },
+        title: 'HTTP Node',
+        method: 'GET',
+        url: '',
         headers: {},
-        params: {},
-        outputs: {
-          type: 'object',
-          properties: {
-            body: { type: 'string' },
-            headers: { type: 'object' },
-            statusCode: { type: 'integer' },
-          },
-        },
+        body: '',
       },
     };
   },
-  formMeta: formMeta,
 };

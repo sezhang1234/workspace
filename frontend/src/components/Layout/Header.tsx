@@ -10,6 +10,7 @@ import {
   LogOut,
   ChevronDown
 } from 'lucide-react'
+import { AuthService } from '../../services/api/authService'
 
 interface HeaderProps {
   user: any
@@ -39,9 +40,19 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuClick }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
+  const handleLogout = async () => {
+    try {
+      // 调用AuthService的logout方法
+      await AuthService.logout()
+      // 清除本地状态
+      logout()
+      navigate('/login')
+    } catch (error) {
+      console.error('注销失败:', error)
+      // 即使API调用失败，也清除本地状态
+      logout()
+      navigate('/login')
+    }
   }
 
   const notifications = [

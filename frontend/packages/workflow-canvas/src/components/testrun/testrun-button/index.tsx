@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { useClientContext, getNodeForm, FlowNodeEntity } from '@flowgram.ai/free-layout-editor';
 import { Button, Badge } from '@douyinfe/semi-ui';
-import { IconPlay } from '@douyinfe/semi-icons';
+import { Play } from 'lucide-react';
 
 import { TestRunSidePanel } from '../testrun-panel';
 
@@ -57,7 +57,7 @@ export function TestRunButton(props: { disabled: boolean }) {
       <Button
         disabled={props.disabled}
         onClick={onTestRun}
-        icon={<IconPlay size="small" />}
+        icon={<Play size={18} className="text-green-600" />}
         className={styles.testrunSuccessButton}
       >
         测试运行
@@ -68,10 +68,10 @@ export function TestRunButton(props: { disabled: boolean }) {
           type="danger"
           disabled={props.disabled}
           onClick={onTestRun}
-          icon={<IconPlay size="small" />}
+          icon={<Play size={18} className="text-red-600" />}
           className={styles.testrunErrorButton}
         >
-                       测试运行
+          测试运行
         </Button>
       </Badge>
     );

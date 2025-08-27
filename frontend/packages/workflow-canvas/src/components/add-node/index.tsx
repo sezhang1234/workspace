@@ -4,7 +4,7 @@
  */
 
 import { Button } from '@douyinfe/semi-ui';
-import { IconPlus } from '@douyinfe/semi-icons';
+import { Plus } from 'lucide-react';
 
 import { useAddNode } from './use-add-node';
 
@@ -13,7 +13,7 @@ export const AddNode = (props: { disabled: boolean }) => {
   return (
     <Button
       data-testid="demo.free-layout.add-node"
-      icon={<IconPlus />}
+      icon={<Plus size={18} className="text-blue-600" />}
       color="highlight"
       style={{ backgroundColor: 'rgba(171,181,255,0.3)', borderRadius: '8px' }}
       disabled={props.disabled}

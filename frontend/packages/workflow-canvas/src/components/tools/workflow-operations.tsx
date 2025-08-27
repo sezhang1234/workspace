@@ -6,9 +6,15 @@
 import React, { useRef, useState } from 'react';
 
 import { useClientContext } from '@flowgram.ai/free-layout-editor';
-import { Tooltip, IconButton, Divider, Toast, Modal, Input, Button, Tag } from '@douyinfe/semi-ui';
-import { IconDownload, IconUpload, IconSave } from '@douyinfe/semi-icons';
-import { saveWorkflow } from '/src/services/workflowService';
+import { Tooltip, IconButton, Toast, Modal, Input, Button, Tag } from '@douyinfe/semi-ui';
+
+import { Download, Upload, Save } from 'lucide-react';
+
+// Mock function for saving workflow (can be replaced with actual API call later)
+const saveWorkflow = (name: string, description: string, data: any, tags: string[], id?: string) => {
+  console.log('Saving workflow:', { name, description, data, tags, id });
+  return { name, description, data, tags, id: id || `workflow_${Date.now()}` };
+};
 
 interface WorkflowOperationsProps {
   currentWorkflow?: {
@@ -20,7 +26,10 @@ interface WorkflowOperationsProps {
   isNewWorkflow?: boolean;
 }
 
-export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentWorkflow, isNewWorkflow }) => {
+export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ 
+  currentWorkflow, 
+  isNewWorkflow = true 
+}) => {
   const context = useClientContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [saveModalVisible, setSaveModalVisible] = useState(false);
@@ -109,7 +118,7 @@ export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentW
           const importedData = JSON.parse(e.target?.result as string);
           // Clear current workflow and load imported data
           context.document.clear();
-          context.document.loadFromJSON(importedData);
+          context.document.fromJSON(importedData);
           Toast.success('工作流导入成功！');
         } catch (error) {
           Toast.error('导入失败：文件格式错误');
@@ -131,7 +140,7 @@ export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentW
         <IconButton
           type="tertiary"
           theme="borderless"
-          icon={<IconSave />}
+          icon={<Save size={18} className="text-gray-600 hover:text-blue-600" />}
           onClick={handleSave}
           disabled={context.playground.config.readonly}
         />
@@ -142,7 +151,7 @@ export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentW
         <IconButton
           type="tertiary"
           theme="borderless"
-          icon={<IconUpload />}
+          icon={<Upload size={18} className="text-gray-600 hover:text-blue-600" />}
           onClick={() => fileInputRef.current?.click()}
           disabled={context.playground.config.readonly}
         />
@@ -153,7 +162,7 @@ export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentW
         <IconButton
           type="tertiary"
           theme="borderless"
-          icon={<IconDownload />}
+          icon={<Download size={18} className="text-gray-600 hover:text-blue-600" />}
           onClick={handleExport}
           disabled={context.playground.config.readonly}
         />
@@ -213,7 +222,11 @@ export const WorkflowOperations: React.FC<WorkflowOperationsProps> = ({ currentW
                 onChange={setCurrentTag}
                 placeholder="输入标签"
                 size="large"
-                onPressEnter={handleAddTag}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleAddTag();
+                  }
+                }}
                 style={{ flex: 1 }}
               />
               <Button onClick={handleAddTag} size="large">

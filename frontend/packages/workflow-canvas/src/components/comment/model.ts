@@ -13,7 +13,7 @@ export class CommentEditorModel {
 
   private emitter: Emitter<CommentEditorEventParams> = new Emitter();
 
-  private editor: HTMLTextAreaElement;
+  private editor!: HTMLTextAreaElement;
 
   /** 注册事件 */
   public on = this.emitter.event;
