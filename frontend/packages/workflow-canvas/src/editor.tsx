@@ -16,15 +16,12 @@ import { useEditorProps } from './hooks';
 import { DemoTools } from './components/tools';
 import { SidebarProvider, SidebarRenderer } from './components/sidebar';
 
-export const Editor = () => {
-  const { id: _workflowId } = useParams<{ id: string }>();
-  const editorProps = useEditorProps(initialData, nodeRegistries);
-  const [minimapVisible, setMinimapVisible] = useState(false);
-  const navigate = useNavigate();
+// Workflow Operations Handler Component - Has access to context
+const WorkflowOperationsHandler = () => {
   const context = useClientContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Button handlers
+  // Button handlers with context access
   const handleSaveWorkflow = () => {
     try {
       // Get the current workflow data from the canvas
@@ -63,6 +60,81 @@ export const Editor = () => {
       console.error('Export failed:', error);
       alert('导出失败：请重试\n\n错误详情：' + error.message);
     }
+  };
+
+  // Listen for custom events from the main Editor component
+  React.useEffect(() => {
+    const handleSaveEvent = () => handleSaveWorkflow();
+    const handleImportEvent = () => handleImportWorkflow();
+    const handleExportEvent = () => handleExportWorkflow();
+
+    window.addEventListener('workflow-save', handleSaveEvent);
+    window.addEventListener('workflow-import', handleImportEvent);
+    window.addEventListener('workflow-export', handleExportEvent);
+
+    return () => {
+      window.removeEventListener('workflow-save', handleSaveEvent);
+      window.removeEventListener('workflow-import', handleImportEvent);
+      window.removeEventListener('workflow-export', handleExportEvent);
+    };
+  }, []);
+
+  return (
+    <>
+      {/* Hidden file input for import */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              try {
+                const importedData = JSON.parse(e.target?.result as string);
+                // Clear current workflow and load imported data
+                context.document.clear();
+                context.document.fromJSON(importedData);
+                alert('工作流导入成功！');
+              } catch (error) {
+                alert('导入失败：文件格式错误');
+                console.error('导入失败：文件格式错误', error);
+              }
+            };
+            reader.readAsText(file);
+          }
+          // Reset file input
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        }}
+        style={{ display: 'none' }}
+      />
+    </>
+  );
+};
+
+export const Editor = () => {
+  const { id: _workflowId } = useParams<{ id: string }>();
+  const editorProps = useEditorProps(initialData, nodeRegistries);
+  const [minimapVisible, setMinimapVisible] = useState(false);
+  const navigate = useNavigate();
+
+  // Button handlers - these will be connected to the WorkflowOperationsHandler
+  const handleSaveWorkflow = () => {
+    // Trigger save through the WorkflowOperationsHandler
+    window.dispatchEvent(new CustomEvent('workflow-save'));
+  };
+
+  const handleImportWorkflow = () => {
+    // Trigger import through the WorkflowOperationsHandler
+    window.dispatchEvent(new CustomEvent('workflow-import'));
+  };
+
+  const handleExportWorkflow = () => {
+    // Trigger export through the WorkflowOperationsHandler
+    window.dispatchEvent(new CustomEvent('workflow-export'));
   };
 
   const handleBack = () => {
@@ -227,37 +299,6 @@ export const Editor = () => {
         </div>
       </div>
 
-      {/* Hidden file input for import */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".json"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              try {
-                const importedData = JSON.parse(e.target?.result as string);
-                // Clear current workflow and load imported data
-                context.document.clear();
-                context.document.fromJSON(importedData);
-                alert('工作流导入成功！');
-              } catch (error) {
-                alert('导入失败：文件格式错误');
-                console.error('导入失败：文件格式错误', error);
-              }
-            };
-            reader.readAsText(file);
-          }
-          // Reset file input
-          if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-          }
-        }}
-        style={{ display: 'none' }}
-      />
-
       <div className="doc-free-feature-overview" style={{ 
         width: '100%', 
         height: 'calc(100vh - 120px)',
@@ -284,6 +325,9 @@ export const Editor = () => {
               setMinimapVisible={setMinimapVisible} 
             />
             <SidebarRenderer />
+            
+            {/* Workflow Operations Handler - Has access to context */}
+            <WorkflowOperationsHandler />
           </SidebarProvider>
         </FreeLayoutEditorProvider>
       </div>
