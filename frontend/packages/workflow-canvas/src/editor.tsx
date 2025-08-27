@@ -525,7 +525,7 @@ export const Editor = () => {
             onClick={handleBack}
             style={{
               backgroundColor: 'rgba(171,181,255,0.3)',
-              color: '#0064fa',
+              color: '#dc2626',
               border: 'none',
               borderRadius: '8px',
               padding: '6px 12px',
