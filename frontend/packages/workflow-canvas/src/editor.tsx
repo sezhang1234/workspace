@@ -37,8 +37,8 @@ const ToastNotification = ({ message, type, isVisible, onClose }: {
   const getToastStyles = () => {
     const baseStyles = {
       position: 'fixed' as const,
-      top: '20px',
-      right: '20px',
+      bottom: '20px',
+      left: '20px',
       padding: '16px 20px',
       borderRadius: '12px',
       boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1)',
@@ -47,7 +47,7 @@ const ToastNotification = ({ message, type, isVisible, onClose }: {
       zIndex: 10000,
       maxWidth: '400px',
       wordWrap: 'break-word' as const,
-      transform: 'translateX(100%)',
+      transform: 'translateX(-100%)',
       opacity: 0,
       animation: 'slideIn 0.3s ease-out forwards',
       fontFamily: 'Inter, system-ui, sans-serif'
@@ -86,7 +86,7 @@ const ToastNotification = ({ message, type, isVisible, onClose }: {
         {`
           @keyframes slideIn {
             from {
-              transform: translateX(100%);
+              transform: translateX(-100%);
               opacity: 0;
             }
             to {
@@ -101,7 +101,7 @@ const ToastNotification = ({ message, type, isVisible, onClose }: {
               opacity: 1;
             }
             to {
-              transform: translateX(100%);
+              transform: translateX(-100%);
               opacity: 0;
             }
           }
