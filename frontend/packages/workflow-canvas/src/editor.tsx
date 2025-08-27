@@ -16,10 +16,173 @@ import { useEditorProps } from './hooks';
 import { DemoTools } from './components/tools';
 import { SidebarProvider, SidebarRenderer } from './components/sidebar';
 
+// Toast Notification Component
+const ToastNotification = ({ message, type, isVisible, onClose }: {
+  message: string;
+  type: 'success' | 'error' | 'info';
+  isVisible: boolean;
+  onClose: () => void;
+}) => {
+  React.useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3000); // Auto-hide after 3 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, onClose]);
+
+  if (!isVisible) return null;
+
+  const getToastStyles = () => {
+    const baseStyles = {
+      position: 'fixed' as const,
+      top: '20px',
+      right: '20px',
+      padding: '16px 20px',
+      borderRadius: '12px',
+      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1)',
+      fontSize: '14px',
+      fontWeight: '500',
+      zIndex: 10000,
+      maxWidth: '400px',
+      wordWrap: 'break-word' as const,
+      transform: 'translateX(100%)',
+      opacity: 0,
+      animation: 'slideIn 0.3s ease-out forwards',
+      fontFamily: 'Inter, system-ui, sans-serif'
+    };
+
+    switch (type) {
+      case 'success':
+        return {
+          ...baseStyles,
+          backgroundColor: '#10b981',
+          color: 'white',
+          borderLeft: '4px solid #059669'
+        };
+      case 'error':
+        return {
+          ...baseStyles,
+          backgroundColor: '#ef4444',
+          color: 'white',
+          borderLeft: '4px solid #dc2626'
+        };
+      case 'info':
+        return {
+          ...baseStyles,
+          backgroundColor: '#3b82f6',
+          color: 'white',
+          borderLeft: '4px solid #2563eb'
+        };
+      default:
+        return baseStyles;
+    }
+  };
+
+  return (
+    <>
+      <style>
+        {`
+          @keyframes slideIn {
+            from {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+            to {
+              transform: translateX(0);
+              opacity: 1;
+            }
+          }
+          
+          @keyframes slideOut {
+            from {
+              transform: translateX(0);
+              opacity: 1;
+            }
+            to {
+              transform: translateX(100%);
+              opacity: 0;
+            }
+          }
+        `}
+      </style>
+      <div style={getToastStyles()}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ 
+            width: '20px', 
+            height: '20px', 
+            borderRadius: '50%',
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            {type === 'success' && (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <polyline points="20,6 9,17 4,12"></polyline>
+              </svg>
+            )}
+            {type === 'error' && (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            )}
+            {type === 'info' && (
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            )}
+          </div>
+          <span>{message}</span>
+        </div>
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '8px',
+            right: '8px',
+            background: 'none',
+            border: 'none',
+            color: 'rgba(255, 255, 255, 0.7)',
+            cursor: 'pointer',
+            padding: '4px',
+            borderRadius: '4px',
+            fontSize: '16px',
+            lineHeight: '1'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 1)';
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
+            e.currentTarget.style.backgroundColor = 'transparent';
+          }}
+        >
+          ×
+        </button>
+      </div>
+    </>
+  );
+};
+
 // Workflow Operations Handler Component - Has access to context
 const WorkflowOperationsHandler = () => {
   const context = useClientContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [toast, setToast] = React.useState<{
+    message: string;
+    type: 'success' | 'error' | 'info';
+    isVisible: boolean;
+  }>({
+    message: '',
+    type: 'info',
+    isVisible: false
+  });
 
   // Button handlers with context access
   const handleSaveWorkflow = () => {
@@ -30,11 +193,19 @@ const WorkflowOperationsHandler = () => {
       // For now, save to console (can be extended to save to backend)
       console.log('Saving workflow:', workflowData);
       
-      // Show success message
-      alert('工作流保存成功！\n\n工作流数据已保存到控制台。');
+      // Show beautiful success toast
+      setToast({
+        message: '工作流保存成功！工作流数据已保存到控制台。',
+        type: 'success',
+        isVisible: true
+      });
     } catch (error) {
       console.error('Save failed:', error);
-      alert('保存失败：请重试\n\n错误详情：' + error.message);
+      setToast({
+        message: `保存失败：请重试。错误详情：${error.message}`,
+        type: 'error',
+        isVisible: true
+      });
     }
   };
 
@@ -55,10 +226,19 @@ const WorkflowOperationsHandler = () => {
       link.click();
       URL.revokeObjectURL(link.href);
       
-      alert('工作流导出成功！');
+      // Show beautiful success toast
+      setToast({
+        message: '工作流导出成功！文件已下载到您的下载文件夹。',
+        type: 'success',
+        isVisible: true
+      });
     } catch (error) {
       console.error('Export failed:', error);
-      alert('导出失败：请重试\n\n错误详情：' + error.message);
+      setToast({
+        message: `导出失败：请重试。错误详情：${error.message}`,
+        type: 'error',
+        isVisible: true
+      });
     }
   };
 
@@ -96,10 +276,20 @@ const WorkflowOperationsHandler = () => {
                 // Clear current workflow and load imported data
                 context.document.clear();
                 context.document.fromJSON(importedData);
-                alert('工作流导入成功！');
+                
+                // Show beautiful success toast
+                setToast({
+                  message: '工作流导入成功！导入的数据已加载到画布。',
+                  type: 'success',
+                  isVisible: true
+                });
               } catch (error) {
-                alert('导入失败：文件格式错误');
                 console.error('导入失败：文件格式错误', error);
+                setToast({
+                  message: '导入失败：文件格式错误。请确保选择的是有效的工作流JSON文件。',
+                  type: 'error',
+                  isVisible: true
+                });
               }
             };
             reader.readAsText(file);
@@ -110,6 +300,14 @@ const WorkflowOperationsHandler = () => {
           }
         }}
         style={{ display: 'none' }}
+      />
+      
+      {/* Beautiful Toast Notifications */}
+      <ToastNotification
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={() => setToast(prev => ({ ...prev, isVisible: false }))}
       />
     </>
   );
