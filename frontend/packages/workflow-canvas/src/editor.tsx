@@ -203,6 +203,41 @@ const WorkflowOperationsHandler = () => {
     return () => clearTimeout(timer);
   }, [context.document, context.tools]);
 
+  // Mouse wheel zoom functionality
+  React.useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      // Prevent default scrolling behavior
+      event.preventDefault();
+      
+      // Check if Ctrl/Cmd key is pressed (common for zoom)
+      if (event.ctrlKey || event.metaKey) {
+        try {
+          if (event.deltaY < 0) {
+            // Scroll up - zoom in
+            context.tools.zoomin();
+          } else {
+            // Scroll down - zoom out
+            context.tools.zoomout();
+          }
+        } catch (error) {
+          console.log('Zoom operation failed:', error);
+        }
+      }
+    };
+
+    // Add wheel event listener to the canvas container
+    const canvasContainer = document.querySelector('.demo-editor');
+    if (canvasContainer) {
+      canvasContainer.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      if (canvasContainer) {
+        canvasContainer.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [context.tools]);
+
   // Button handlers with context access
   const handleSaveWorkflow = () => {
     try {
