@@ -160,16 +160,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isCollapsed, onToggl
 
         {/* Footer */}
         <div className={`border-t border-blue-200/50 bg-gradient-to-r from-blue-50/30 to-indigo-50/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isCollapsed ? 'px-2 py-4' : 'px-4 py-4'}`}>
-          <div className="flex items-center transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]">
-            <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full p-0.5">
-              <Zap className="w-3 h-3 text-white" />
-            </div>
-            <div className={`
-              overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
-              ${isCollapsed ? 'w-0 opacity-0 ml-0' : 'w-auto opacity-100 ml-2'}
-            `}>
-              <span className="text-blue-600 font-medium whitespace-nowrap">Jiuwen v1.0.0</span>
-            </div>
+          <div className={`
+            overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
+            ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}
+            flex justify-center
+          `}>
+            <span className="text-blue-600 font-medium whitespace-nowrap">Jiuwen v1.0.0</span>
           </div>
         </div>
         
