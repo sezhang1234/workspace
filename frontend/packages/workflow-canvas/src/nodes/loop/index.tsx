@@ -19,7 +19,7 @@ let index = 0;
 export const LoopNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.Loop,
   info: {
-    icon: <RotateCcw size={20} className="text-cyan-600" />,
+    icon: <RotateCcw size={16} className="text-cyan-600" />,
     description:
       'Used to repeatedly execute a series of tasks by setting the number of iterations and logic.',
   },

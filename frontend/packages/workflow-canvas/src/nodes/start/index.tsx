@@ -22,7 +22,7 @@ export const StartNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: <Play size={20} className="text-green-600" />,
+    icon: <Play size={16} className="text-green-600" />,
     description:
       '工作流的起始节点，用于设置启动工作流所需的信息。',
   },

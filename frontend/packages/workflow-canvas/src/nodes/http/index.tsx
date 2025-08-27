@@ -13,7 +13,7 @@ import { formMeta } from './form-meta';
 export const HTTPNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.HTTP,
   info: {
-    icon: <Globe2 size={20} className="text-indigo-600" />,
+    icon: <Globe2 size={16} className="text-indigo-600" />,
     description:
       'HTTP request node for making API calls and web requests.',
   },

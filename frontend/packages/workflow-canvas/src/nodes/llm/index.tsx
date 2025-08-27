@@ -13,7 +13,7 @@ let index = 0;
 export const LLMNodeRegistry: FlowNodeRegistry = {
   type: WorkflowNodeType.LLM,
   info: {
-    icon: <Sparkles size={20} className="text-purple-600" />,
+    icon: <Sparkles size={16} className="text-purple-600" />,
     description:
       '调用大语言模型，使用变量和提示词生成响应。',
   },

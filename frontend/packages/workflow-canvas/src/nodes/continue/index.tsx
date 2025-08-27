@@ -24,7 +24,7 @@ export const ContinueNodeRegistry: FlowNodeRegistry = {
     onlyInContainer: WorkflowNodeType.Loop,
   },
   info: {
-    icon: <SkipForward size={20} className="text-blue-600" />,
+    icon: <SkipForward size={16} className="text-blue-600" />,
     description:
       'The final node of the workflow, used to return the result information after the workflow is run.',
   },

@@ -30,7 +30,7 @@ export const BlockStartNodeRegistry: FlowNodeRegistry = {
     },
   },
   info: {
-    icon: <Play size={20} className="text-green-600" />,
+    icon: <Play size={16} className="text-green-600" />,
     description: 'The starting node of the block.',
   },
   /**
