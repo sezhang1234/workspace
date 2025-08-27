@@ -22,6 +22,7 @@ import { Minimap } from './minimap';
 import { FitView } from './fit-view';
 import { Comment } from './comment';
 import { AutoLayout } from './auto-layout';
+import { Interactive } from './interactive';
 
 
 interface DemoToolsProps {
@@ -97,6 +98,7 @@ export function DemoTools({ minimapVisible, setMinimapVisible }: DemoToolsProps)
           <SwitchLine />
           <ZoomSelect />
           <FitView />
+          <Interactive />
           <MinimapSwitch minimapVisible={minimapVisible} setMinimapVisible={setMinimapVisible} />
           <Readonly />
           <Comment />
