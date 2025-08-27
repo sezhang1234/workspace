@@ -238,6 +238,114 @@ const WorkflowOperationsHandler = () => {
     };
   }, [context.tools]);
 
+  // Canvas dragging functionality
+  React.useEffect(() => {
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let lastTranslateX = 0;
+    let lastTranslateY = 0;
+
+    const handleMouseDown = (event: MouseEvent) => {
+      // Only respond to left mouse button clicks in blank areas
+      if (event.button === 0 && event.target === event.currentTarget) {
+        isDragging = true;
+        startX = event.clientX;
+        startY = event.clientY;
+        
+        // Change cursor to hand (grab)
+        if (event.currentTarget instanceof HTMLElement) {
+          event.currentTarget.style.cursor = 'grab';
+        }
+        
+        // Prevent text selection
+        event.preventDefault();
+      }
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!isDragging) return;
+
+      const deltaX = event.clientX - startX;
+      const deltaY = event.clientY - startY;
+
+      try {
+        // Get current transform
+        const currentTransform = context.playground.getTransform();
+        const newTranslateX = lastTranslateX + deltaX;
+        const newTranslateY = lastTranslateY + deltaY;
+
+        // Update canvas transform
+        context.playground.setTransform({
+          ...currentTransform,
+          x: newTranslateX,
+          y: newTranslateY
+        });
+      } catch (error) {
+        console.log('Canvas transform update failed:', error);
+      }
+    };
+
+    const handleMouseUp = (event: MouseEvent) => {
+      if (isDragging) {
+        isDragging = false;
+        
+        // Update last translate values
+        try {
+          const currentTransform = context.playground.getTransform();
+          lastTranslateX = currentTransform.x;
+          lastTranslateY = currentTransform.y;
+        } catch (error) {
+          console.log('Failed to update last translate values:', error);
+        }
+        
+        // Change cursor back to default
+        if (event.currentTarget instanceof HTMLElement) {
+          event.currentTarget.style.cursor = 'default';
+        }
+      }
+    };
+
+    const handleMouseLeave = () => {
+      if (isDragging) {
+        isDragging = false;
+        
+        // Update last translate values
+        try {
+          const currentTransform = context.playground.getTransform();
+          lastTranslateX = currentTransform.x;
+          lastTranslateY = currentTransform.y;
+        } catch (error) {
+          console.log('Failed to update last translate values:', error);
+        }
+        
+        // Change cursor back to default
+        const canvasContainer = document.querySelector('.demo-editor');
+        if (canvasContainer instanceof HTMLElement) {
+          canvasContainer.style.cursor = 'default';
+        }
+      }
+    };
+
+    // Add mouse event listeners to the canvas container
+    const canvasContainer = document.querySelector('.demo-editor');
+    if (canvasContainer) {
+      canvasContainer.addEventListener('mousedown', handleMouseDown);
+      canvasContainer.addEventListener('mousemove', handleMouseMove);
+      canvasContainer.addEventListener('mouseup', handleMouseUp);
+      canvasContainer.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (canvasContainer) {
+        canvasContainer.removeEventListener('mousedown', handleMouseDown);
+        canvasContainer.removeEventListener('mousemove', handleMouseMove);
+        canvasContainer.removeEventListener('mouseup', handleMouseUp);
+        canvasContainer.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, [context.playground]);
+
   // Button handlers with context access
   const handleSaveWorkflow = () => {
     try {
