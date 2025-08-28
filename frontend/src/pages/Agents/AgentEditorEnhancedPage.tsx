@@ -586,10 +586,8 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                     className="border border-blue-200 bg-blue-50 mt-6"
                   >
                     <Typography variant="body1" className="text-blue-800">
-                      <strong>系统提示词开发：</strong>
-                      系统提示词是智能体的核心配置，定义了智能体的角色、能力、行为准则和响应风格。
-                      通过编写清晰的系统提示词，可以让智能体更好地理解用户需求并提供准确的帮助。
-                      建议包含角色定义、行为准则、能力范围、示例对话和限制说明等关键要素。
+                      <strong>自动生成提示词：</strong>
+                      系统将根据您的简单需求或设定场景，自动生成符合要求的、具备明确指令与细节的提示文本，您可以根据需要进行调整和优化。
                     </Typography>
                   </Alert>
                 </Paper>
