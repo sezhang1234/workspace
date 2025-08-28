@@ -139,6 +139,11 @@ const AgentEditorEnhancedPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' | 'info' })
   
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+  
   // Get entry data from navigation state (for new agents) or determine if editing existing agent
   const entryData = location.state?.agentEntryData as AgentEntryData | undefined
   const isNew = !id || id === 'new'
