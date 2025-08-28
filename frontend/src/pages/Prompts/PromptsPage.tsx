@@ -11,7 +11,15 @@ import {
   Star,
   Eye,
   EyeOff,
-  Tag
+  Tag,
+  Bot,
+  Code,
+  Megaphone,
+  FileText,
+  Lightbulb,
+  Brain,
+  Zap,
+  Settings
 } from 'lucide-react'
 
 interface Prompt {
@@ -34,6 +42,30 @@ const PromptsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState<string>('name')
+
+  // Function to get appropriate icon based on prompt category
+  const getPromptIcon = (category: string) => {
+    switch (category.toLowerCase()) {
+      case '客服':
+        return Bot // Customer service - Bot icon
+      case '编程':
+        return Code // Programming - Code icon
+      case '营销':
+        return Megaphone // Marketing - Megaphone icon
+      case '创意':
+        return Lightbulb // Creative - Lightbulb icon
+      case '分析':
+        return Brain // Analysis - Brain icon
+      case '自动化':
+        return Zap // Automation - Zap icon
+      case '配置':
+        return Settings // Configuration - Settings icon
+      case '文档':
+        return FileText // Documentation - FileText icon
+      default:
+        return MessageSquare // Default - MessageSquare icon
+    }
+  }
 
   const prompts: Prompt[] = [
     {
@@ -80,6 +112,51 @@ const PromptsPage: React.FC = () => {
       author: '营销团队',
       createdAt: '2024-01-20',
       lastModified: '2024-01-25'
+    },
+    {
+      id: '4',
+      name: '创意写作助手',
+      description: '激发创意灵感，帮助创作各种类型的文学作品',
+      content: '你是一个富有想象力的创意写作专家，请帮助用户创作...',
+      category: '创意',
+      tags: ['创意', '写作', '文学', '灵感'],
+      version: '1.0.0',
+      usageCount: 345,
+      rating: 4.7,
+      isPublic: true,
+      author: '创意团队',
+      createdAt: '2024-01-22',
+      lastModified: '2024-01-26'
+    },
+    {
+      id: '5',
+      name: '数据分析专家',
+      description: '专业的数据分析和洞察生成提示词',
+      content: '你是一个数据分析专家，请帮助用户分析以下数据...',
+      category: '分析',
+      tags: ['分析', '数据', '洞察', '统计'],
+      version: '2.0.1',
+      usageCount: 678,
+      rating: 4.8,
+      isPublic: true,
+      author: '数据团队',
+      createdAt: '2024-01-18',
+      lastModified: '2024-01-24'
+    },
+    {
+      id: '6',
+      name: '工作流自动化',
+      description: '自动化工作流程和任务执行的提示词',
+      content: '你是一个工作流自动化专家，请帮助用户设计自动化流程...',
+      category: '自动化',
+      tags: ['自动化', '工作流', '效率', '流程'],
+      version: '1.3.0',
+      usageCount: 234,
+      rating: 4.5,
+      isPublic: false,
+      author: '自动化团队',
+      createdAt: '2024-01-25',
+      lastModified: '2024-01-27'
     }
   ]
 
@@ -87,7 +164,10 @@ const PromptsPage: React.FC = () => {
     { value: 'all', label: '所有分类' },
     { value: '客服', label: '客服' },
     { value: '编程', label: '编程' },
-    { value: '营销', label: '营销' }
+    { value: '营销', label: '营销' },
+    { value: '创意', label: '创意' },
+    { value: '分析', label: '分析' },
+    { value: '自动化', label: '自动化' }
   ]
 
   const filteredPrompts = prompts.filter(prompt => {
@@ -206,7 +286,7 @@ const PromptsPage: React.FC = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-blue-200">
-                    <MessageSquare className="w-6 h-6 text-blue-600" />
+                    {React.createElement(getPromptIcon(prompt.category), { className: "w-6 h-6 text-blue-600" })}
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
