@@ -43,7 +43,13 @@ import {
   AccordionDetails,
   Divider,
   Paper,
-  FormHelperText
+  FormHelperText,
+  Menu,
+  MenuItem as MenuItemComponent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material'
 
 interface TabPanelProps {
@@ -138,6 +144,15 @@ const AgentEditorEnhancedPage: React.FC = () => {
   
   const [activeTab, setActiveTab] = useState(0)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' | 'info' })
+  
+  // Context menu and optimization dialog state
+  const [contextMenu, setContextMenu] = useState<{
+    mouseX: number
+    mouseY: number
+    selectedText: string
+  } | null>(null)
+  const [optimizationDialog, setOptimizationDialog] = useState(false)
+  const [optimizationRequest, setOptimizationRequest] = useState('')
   
   // Scroll to top when component mounts
   useEffect(() => {
@@ -423,6 +438,37 @@ const AgentEditorEnhancedPage: React.FC = () => {
     setTestMessage('')
   }
 
+  // Context menu handlers
+  const handleContextMenu = (event: React.MouseEvent, selectedText: string) => {
+    event.preventDefault()
+    setContextMenu({
+      mouseX: event.clientX + 2,
+      mouseY: event.clientY - 6,
+      selectedText
+    })
+  }
+
+  const handleCloseContextMenu = () => {
+    setContextMenu(null)
+  }
+
+  const handleOptimizePrompt = () => {
+    setContextMenu(null)
+    setOptimizationDialog(true)
+  }
+
+  const handleOptimizationSubmit = () => {
+    // Here you would implement the actual prompt optimization logic
+    console.log('Optimizing prompt:', optimizationRequest)
+    setSnackbar({ 
+      open: true, 
+      message: '提示词优化请求已提交，正在处理中...', 
+      severity: 'info' 
+    })
+    setOptimizationDialog(false)
+    setOptimizationRequest('')
+  }
+
 
 
 
@@ -541,13 +587,28 @@ const AgentEditorEnhancedPage: React.FC = () => {
                   <Typography variant="subtitle1" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
                     系统提示词
                   </Typography>
-                  <textarea
-                    value={agentConfig.systemPrompt}
-                    onChange={(e) => setAgentConfig(prev => ({ ...prev, systemPrompt: e.target.value }))}
-                    placeholder="定义智能体的角色、能力和行为准则..."
-                    className="mt-2 w-full p-4 border border-gray-300 rounded-lg resize-y min-h-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm leading-relaxed"
-                    style={{ resize: 'vertical' }}
-                  />
+                  <div 
+                    className="mt-2 w-full border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent"
+                    onContextMenu={(e) => {
+                      const textarea = e.currentTarget.querySelector('textarea')
+                      if (textarea) {
+                        const start = textarea.selectionStart
+                        const end = textarea.selectionEnd
+                        const selectedText = textarea.value.substring(start, end)
+                        if (selectedText.trim()) {
+                          handleContextMenu(e, selectedText)
+                        }
+                      }
+                    }}
+                  >
+                    <textarea
+                      value={agentConfig.systemPrompt}
+                      onChange={(e) => setAgentConfig(prev => ({ ...prev, systemPrompt: e.target.value }))}
+                      placeholder="定义智能体的角色、能力和行为准则..."
+                      className="w-full p-4 border-0 rounded-lg resize-y min-h-[200px] focus:outline-none font-mono text-sm leading-relaxed"
+                      style={{ resize: 'vertical' }}
+                    />
+                  </div>
                   <div className="mt-6">
                     <Button
                       variant="contained"
@@ -2075,6 +2136,64 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
           </TabPanel>
         </Card>
       </div>
+
+      {/* Context Menu for Text Selection */}
+      <Menu
+        open={contextMenu !== null}
+        onClose={handleCloseContextMenu}
+        anchorReference="anchorPosition"
+        anchorPosition={
+          contextMenu !== null
+            ? { top: contextMenu.mouseY, left: contextMenu.mouseX }
+            : undefined
+        }
+      >
+        <MenuItemComponent onClick={handleOptimizePrompt}>
+          <div className="flex items-center space-x-2">
+            <Sparkles className="w-4 h-4" />
+            <span>自动优化提示词</span>
+          </div>
+        </MenuItemComponent>
+      </Menu>
+
+      {/* Optimization Dialog */}
+      <Dialog
+        open={optimizationDialog}
+        onClose={() => setOptimizationDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-bold">
+          提示词优化
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" className="mb-4 text-gray-600">
+            请描述您希望如何优化选中的提示词内容：
+          </Typography>
+          <TextField
+            autoFocus
+            multiline
+            rows={4}
+            fullWidth
+            variant="outlined"
+            placeholder="例如：让语言更简洁、增加具体示例、调整语气等..."
+            value={optimizationRequest}
+            onChange={(e) => setOptimizationRequest(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOptimizationDialog(false)}>
+            取消
+          </Button>
+          <Button 
+            onClick={handleOptimizationSubmit}
+            variant="contained"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          >
+            提交优化
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={snackbar.open}
