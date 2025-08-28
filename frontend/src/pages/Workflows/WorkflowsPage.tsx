@@ -376,7 +376,9 @@ const WorkflowsPage: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           gap: 1.5,
-          color: 'text.primary'
+          color: 'text.primary',
+          fontWeight: 800,
+          fontSize: '1rem'
         }}>
           <div style={{
             width: 24,
