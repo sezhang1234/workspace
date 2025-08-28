@@ -362,38 +362,55 @@ const WorkflowsPage: React.FC = () => {
       <Dialog
         open={deleteDialog.open}
         onClose={cancelDeleteWorkflow}
-        maxWidth="sm"
+        maxWidth="xs"
         fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+          }
+        }}
       >
-        <DialogTitle className="bg-gradient-to-r from-red-50 to-orange-50 border-b border-red-200">
-          <div className="flex items-center justify-center space-x-3">
-            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-              <Trash2 className="w-5 h-5 text-red-600" />
-            </div>
-            <Typography variant="h6" className="text-gray-900 font-semibold">
-              确认删除工作流
-            </Typography>
+        <DialogTitle sx={{ 
+          pb: 1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1.5,
+          color: 'text.primary'
+        }}>
+          <div style={{
+            width: 24,
+            height: 24,
+            borderRadius: '50%',
+            backgroundColor: '#fef2f2',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Trash2 size={16} color="#dc2626" />
           </div>
+          确认删除工作流
         </DialogTitle>
         
-        <DialogContent className="text-center pb-4">
-          <Typography variant="body1" className="text-gray-700 mb-4">
-            您确定要删除工作流 "{deleteDialog.workflowName}" 吗？此操作无法撤销。
+        <DialogContent sx={{ pb: 2, px: 3 }}>
+          <Typography variant="body2" color="text.secondary" align="center">
+            您确定要删除工作流 <strong>"{deleteDialog.workflowName}"</strong> 吗？此操作无法撤销。
           </Typography>
         </DialogContent>
         
-        <DialogActions className="justify-center pb-4 px-6">
+        <DialogActions sx={{ pb: 2, px: 3, justifyContent: 'center', gap: 1 }}>
           <MuiButton
             onClick={cancelDeleteWorkflow}
             variant="outlined"
-            className="px-6 py-2"
+            size="medium"
           >
             取消
           </MuiButton>
           <MuiButton
             onClick={confirmDeleteWorkflow}
             variant="contained"
-            className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white"
+            color="error"
+            size="medium"
             autoFocus
           >
             确认删除
