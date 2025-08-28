@@ -250,7 +250,6 @@ const WorkflowOperationsHandler = () => {
       const workflowData = context.document.toJSON();
       
       // Get the current node count from the canvas data
-      const workflowData = context.document.toJSON();
       const nodeCount = workflowData?.nodes ? Object.keys(workflowData.nodes).length : 0;
       
       if (workflowId && workflowId !== 'new') {
