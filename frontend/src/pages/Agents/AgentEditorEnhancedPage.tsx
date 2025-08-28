@@ -444,6 +444,13 @@ const AgentEditorEnhancedPage: React.FC = () => {
   // Context menu handlers
   const handleContextMenu = (event: React.MouseEvent, selectedText: string, textarea: HTMLTextAreaElement) => {
     event.preventDefault()
+    
+    // Ensure textarea maintains focus and selection remains visible
+    setTimeout(() => {
+      textarea.focus()
+      textarea.setSelectionRange(textarea.selectionStart, textarea.selectionEnd)
+    }, 0)
+    
     setContextMenu({
       mouseX: event.clientX + 2,
       mouseY: event.clientY - 6,
@@ -458,8 +465,11 @@ const AgentEditorEnhancedPage: React.FC = () => {
     // Restore text selection when context menu is closed
     if (contextMenu?.textareaRef) {
       const textarea = contextMenu.textareaRef
-      textarea.focus()
-      textarea.setSelectionRange(contextMenu.selectionStart, contextMenu.selectionEnd)
+      // Use setTimeout to ensure focus and selection are applied after the menu closes
+      setTimeout(() => {
+        textarea.focus()
+        textarea.setSelectionRange(contextMenu.selectionStart, contextMenu.selectionEnd)
+      }, 0)
     }
     setContextMenu(null)
   }
@@ -468,8 +478,11 @@ const AgentEditorEnhancedPage: React.FC = () => {
     // Restore text selection when opening optimization dialog
     if (contextMenu?.textareaRef) {
       const textarea = contextMenu.textareaRef
-      textarea.focus()
-      textarea.setSelectionRange(contextMenu.selectionStart, contextMenu.selectionEnd)
+      // Use setTimeout to ensure focus and selection are applied after the menu closes
+      setTimeout(() => {
+        textarea.focus()
+        textarea.setSelectionRange(contextMenu.selectionStart, contextMenu.selectionEnd)
+      }, 0)
     }
     setContextMenu(null)
     setOptimizationDialog(true)
@@ -629,7 +642,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
                       style={{ 
                         resize: 'vertical',
                         height: '500px',
-                        minHeight: '500px'
+                        minHeight: '200px'
                       }}
                     />
                   </div>
