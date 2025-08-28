@@ -67,19 +67,6 @@ export const agents: Agent[] = [
     tags: ['编程', '代码审查', '优化'],
     createdAt: '2024-01-10',
     apiEndpoint: 'https://api.jiuwen.ai/v1/agents/code-assistant'
-  },
-  {
-    id: '4',
-    name: '智能翻译器',
-    description: '多语言翻译智能体，支持实时翻译和语言学习',
-    avatar: '🌐',
-    status: 'unpublished',
-    model: 'Claude-3',
-    lastActive: '未激活',
-    usageCount: 0,
-    tags: ['翻译', '多语言', '学习'],
-    createdAt: '2024-01-25',
-    apiEndpoint: 'https://api.jiuwen.ai/v1/agents/translator'
   }
 ]
 
@@ -132,7 +119,6 @@ const generateApiEndpoint = (agentName: string): string => {
     '客服助手': 'customer-service',
     '数据分析师': 'data-analyst',
     '代码助手': 'code-assistant',
-    '智能翻译器': 'translator',
     '出行规划智能体': 'travel-planner',
     '智能客服': 'customer-service',
     '数据分析': 'data-analysis',
