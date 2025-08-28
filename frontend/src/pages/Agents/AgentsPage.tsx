@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getAllAgents, type Agent } from '../../services/agentService'
+import { getAllAgents, deleteAgent, type Agent } from '../../services/agentService'
+import { 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions, 
+  Button as MuiButton,
+  Typography
+} from '@mui/material'
 import { 
   Brain, 
   Plus, 
@@ -35,6 +43,17 @@ const AgentsPage: React.FC = () => {
 
   const [agents, setAgents] = useState<Agent[]>([])
   
+  // Delete confirmation dialog state
+  const [deleteDialog, setDeleteDialog] = useState<{
+    open: boolean
+    agentId: string
+    agentName: string
+  }>({
+    open: false,
+    agentId: '',
+    agentName: ''
+  })
+  
   // Load agents from service
   useEffect(() => {
     setAgents(getAllAgents())
@@ -58,6 +77,37 @@ const AgentsPage: React.FC = () => {
       window.removeEventListener('popstate', handlePopState)
     }
   }, [])
+  
+  // Handle agent deletion
+  const handleDeleteAgent = (agentId: string, agentName: string) => {
+    setDeleteDialog({
+      open: true,
+      agentId,
+      agentName
+    })
+  }
+  
+  // Confirm agent deletion
+  const confirmDeleteAgent = () => {
+    const { agentId, agentName } = deleteDialog
+    const success = deleteAgent(agentId)
+    
+    if (success) {
+      // Update local state immediately for better UX
+      setAgents(prev => prev.filter(agent => agent.id !== agentId))
+      setDeleteDialog({ open: false, agentId: '', agentName: '' })
+      
+      // Show success message (you could add a toast notification here)
+      console.log(`智能体"${agentName}"删除成功`)
+    } else {
+      console.error(`删除智能体"${agentName}"失败`)
+    }
+  }
+  
+  // Cancel agent deletion
+  const cancelDeleteAgent = () => {
+    setDeleteDialog({ open: false, agentId: '', agentName: '' })
+  }
 
   const filteredAgents = agents.filter(agent => {
     const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -266,7 +316,11 @@ const AgentsPage: React.FC = () => {
                   <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200">
                     <Copy className="w-4 h-4" />
                   </button>
-                  <button className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200">
+                  <button 
+                    className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200"
+                    onClick={() => handleDeleteAgent(agent.id, agent.name)}
+                    title="删除智能体"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
@@ -302,6 +356,68 @@ const AgentsPage: React.FC = () => {
           )}
         </div>
       )}
+      
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={deleteDialog.open}
+        onClose={cancelDeleteAgent}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+          }
+        }}
+      >
+        <DialogTitle sx={{ 
+          pb: 1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1.5,
+          color: 'text.primary',
+          fontWeight: 800,
+          fontSize: '1rem'
+        }}>
+          <div style={{
+            width: 24,
+            height: 24,
+            borderRadius: '50%',
+            backgroundColor: '#fef2f2',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Trash2 size={16} color="#dc2626" />
+          </div>
+          确认删除智能体
+        </DialogTitle>
+        
+        <DialogContent sx={{ pb: 2, px: 3 }}>
+          <Typography variant="body2" color="text.secondary" align="center">
+            您确定要删除智能体 <strong>"{deleteDialog.agentName}"</strong> 吗？此操作无法撤销。
+          </Typography>
+        </DialogContent>
+        
+        <DialogActions sx={{ pb: 2, px: 3, justifyContent: 'center', gap: 1 }}>
+          <MuiButton
+            onClick={cancelDeleteAgent}
+            variant="outlined"
+            size="medium"
+          >
+            取消
+          </MuiButton>
+          <MuiButton
+            onClick={confirmDeleteAgent}
+            variant="contained"
+            color="error"
+            size="medium"
+            autoFocus
+          >
+            确认删除
+          </MuiButton>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
