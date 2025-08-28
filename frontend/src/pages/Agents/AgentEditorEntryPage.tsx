@@ -84,7 +84,7 @@ const AgentEditorEntryPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="space-y-8 p-6">
         {/* Back button */}
         <div className="mb-6">
           <Button
