@@ -150,6 +150,9 @@ const AgentEditorEnhancedPage: React.FC = () => {
     mouseX: number
     mouseY: number
     selectedText: string
+    textareaRef: HTMLTextAreaElement | null
+    selectionStart: number
+    selectionEnd: number
   } | null>(null)
   const [optimizationDialog, setOptimizationDialog] = useState(false)
   const [optimizationRequest, setOptimizationRequest] = useState('')
@@ -439,20 +442,35 @@ const AgentEditorEnhancedPage: React.FC = () => {
   }
 
   // Context menu handlers
-  const handleContextMenu = (event: React.MouseEvent, selectedText: string) => {
+  const handleContextMenu = (event: React.MouseEvent, selectedText: string, textarea: HTMLTextAreaElement) => {
     event.preventDefault()
     setContextMenu({
       mouseX: event.clientX + 2,
       mouseY: event.clientY - 6,
-      selectedText
+      selectedText,
+      textareaRef: textarea,
+      selectionStart: textarea.selectionStart,
+      selectionEnd: textarea.selectionEnd
     })
   }
 
   const handleCloseContextMenu = () => {
+    // Restore text selection when context menu is closed
+    if (contextMenu?.textareaRef) {
+      const textarea = contextMenu.textareaRef
+      textarea.focus()
+      textarea.setSelectionRange(contextMenu.selectionStart, contextMenu.selectionEnd)
+    }
     setContextMenu(null)
   }
 
   const handleOptimizePrompt = () => {
+    // Restore text selection when opening optimization dialog
+    if (contextMenu?.textareaRef) {
+      const textarea = contextMenu.textareaRef
+      textarea.focus()
+      textarea.setSelectionRange(contextMenu.selectionStart, contextMenu.selectionEnd)
+    }
     setContextMenu(null)
     setOptimizationDialog(true)
   }
@@ -596,7 +614,9 @@ const AgentEditorEnhancedPage: React.FC = () => {
                         const end = textarea.selectionEnd
                         const selectedText = textarea.value.substring(start, end)
                         if (selectedText.trim()) {
-                          handleContextMenu(e, selectedText)
+                          // Prevent default context menu and keep text selected
+                          e.preventDefault()
+                          handleContextMenu(e, selectedText, textarea)
                         }
                       }
                     }}
@@ -605,8 +625,12 @@ const AgentEditorEnhancedPage: React.FC = () => {
                       value={agentConfig.systemPrompt}
                       onChange={(e) => setAgentConfig(prev => ({ ...prev, systemPrompt: e.target.value }))}
                       placeholder="定义智能体的角色、能力和行为准则..."
-                      className="w-full p-4 border-0 rounded-lg resize-y min-h-[200px] focus:outline-none font-mono text-sm leading-relaxed"
-                      style={{ resize: 'vertical' }}
+                      className="w-full p-4 border-0 rounded-lg resize-y focus:outline-none font-mono text-sm leading-relaxed"
+                      style={{ 
+                        resize: 'vertical',
+                        height: '500px',
+                        minHeight: '500px'
+                      }}
                     />
                   </div>
                   <div className="mt-6">
