@@ -365,10 +365,15 @@ const WorkflowsPage: React.FC = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle className="text-center">
-          <Typography variant="h6" className="text-gray-900 font-semibold">
-            确认删除工作流
-          </Typography>
+        <DialogTitle className="bg-gradient-to-r from-red-50 to-orange-50 border-b border-red-200">
+          <div className="flex items-center justify-center space-x-3">
+            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+              <Trash2 className="w-5 h-5 text-red-600" />
+            </div>
+            <Typography variant="h6" className="text-gray-900 font-semibold">
+              确认删除工作流
+            </Typography>
+          </div>
         </DialogTitle>
         
         <DialogContent className="text-center pb-4">
