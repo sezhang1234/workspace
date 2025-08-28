@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { getAllWorkflows, type Workflow } from '../../services/workflowService'
 import { 
   ArrowLeft, 
   Save, 
@@ -157,9 +158,36 @@ const AgentEditorEnhancedPage: React.FC = () => {
   const [optimizationDialog, setOptimizationDialog] = useState(false)
   const [optimizationRequest, setOptimizationRequest] = useState('')
   
+  // Workflow data state
+  const [workflows, setWorkflows] = useState<Workflow[]>([])
+  
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [])
+  
+  // Load workflows from service
+  useEffect(() => {
+    setWorkflows(getAllWorkflows())
+  }, [])
+  
+  // Refresh workflows when component gains focus (e.g., returning from workflow page)
+  useEffect(() => {
+    const handleFocus = () => {
+      setWorkflows(getAllWorkflows())
+    }
+    
+    // Also refresh when navigating back to this page
+    const handlePopState = () => {
+      setTimeout(() => setWorkflows(getAllWorkflows()), 100)
+    }
+    
+    window.addEventListener('focus', handleFocus)
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      window.removeEventListener('popstate', handlePopState)
+    }
   }, [])
   
   // Get entry data from navigation state (for new agents) or determine if editing existing agent
@@ -1452,45 +1480,21 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                           <Zap className="mr-3 w-6 h-6 text-emerald-500 drop-shadow-sm" />
                           工作流选择
                         </Typography>
+                        <div className="ml-auto">
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => setWorkflows(getAllWorkflows())}
+                            className="text-emerald-600 border-emerald-300 hover:bg-emerald-50"
+                          >
+                            刷新
+                          </Button>
+                        </div>
                       </AccordionSummary>
                       <AccordionDetails className="px-4 pb-4">
                         <div className="space-y-4">
                           <div className="space-y-3">
-                            {[
-                              { 
-                                id: '1', 
-                                name: '订单处理流程', 
-                                description: '自动化订单处理和状态更新，包括库存检查、支付验证和发货通知',
-                                icon: '📦',
-                                category: '电商流程',
-                                status: 'running',
-                                version: 'v2.1.0',
-                                nodes: 12,
-                                successRate: 98.5
-                              },
-                              { 
-                                id: '2', 
-                                name: '用户反馈分析', 
-                                description: '收集和分析用户反馈数据，自动生成洞察报告和优先级建议',
-                                icon: '📊',
-                                category: '数据分析',
-                                status: 'completed',
-                                version: 'v1.8.5',
-                                nodes: 8,
-                                successRate: 100
-                              },
-                              { 
-                                id: '3', 
-                                name: '数据同步流程', 
-                                description: '多系统数据同步和备份，确保数据一致性和完整性',
-                                icon: '🔄',
-                                category: '数据管理',
-                                status: 'scheduled',
-                                version: 'v3.2.1',
-                                nodes: 15,
-                                successRate: 95.2
-                              }
-                            ].map((workflow) => (
+                            {workflows.map((workflow) => (
                               <div
                                 key={workflow.id}
                                 className={`p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer ${
@@ -1515,7 +1519,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                         ? 'bg-emerald-100'
                                         : 'bg-gray-100'
                                     }`}>
-                                      {workflow.icon}
+                                      {workflow.status === 'running' ? '🔄' : 
+                                       workflow.status === 'completed' ? '✅' : 
+                                       workflow.status === 'scheduled' ? '⏰' : 
+                                       workflow.status === 'error' ? '❌' : '⏸️'}
                                     </div>
                                     <div className="flex-1">
                                       <div className="flex items-center space-x-3 mb-1">
@@ -1527,10 +1534,10 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                                           {workflow.name}
                                         </h4>
                                         <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                                          {workflow.category}
+                                          {workflow.trigger}
                                         </span>
                                         <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
-                                          {workflow.version}
+                                          {workflow.status}
                                         </span>
                                       </div>
                                       <p className="text-gray-600 text-sm leading-relaxed mb-2">
