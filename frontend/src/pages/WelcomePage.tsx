@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import JiuwenLogo from '../components/Common/JiuwenLogo'
 import { 
-  Brain, 
+  Bot, 
   Workflow, 
   MessageSquare, 
   Settings, 
@@ -15,7 +15,7 @@ import {
 const WelcomePage: React.FC = () => {
   const features = [
     {
-      icon: Brain,
+      icon: Bot,
       title: '智能体开发',
       description: '创建、训练和部署智能AI代理，支持多种LLM模型'
     },
