@@ -7,6 +7,7 @@ import React, { useState, useRef } from 'react';
 import { EditorRenderer, FreeLayoutEditorProvider, useClientContext } from '@flowgram.ai/free-layout-editor';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Save, Upload, Download, ArrowLeft } from 'lucide-react';
+import { addWorkflow, updateWorkflow, getWorkflowById, type Workflow } from '../../../src/services/workflowService';
 
 import '@flowgram.ai/free-layout-editor/index.css';
 import './styles/index.css';
@@ -173,6 +174,7 @@ const ToastNotification = ({ message, type, isVisible, onClose }: {
 // Workflow Operations Handler Component - Has access to context
 const WorkflowOperationsHandler = () => {
   const context = useClientContext();
+  const { id: workflowId } = useParams<{ id: string }>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [toast, setToast] = React.useState<{
     message: string;
@@ -246,15 +248,58 @@ const WorkflowOperationsHandler = () => {
       // Get the current workflow data from the canvas
       const workflowData = context.document.toJSON();
       
-      // For now, save to console (can be extended to save to backend)
-      console.log('Saving workflow:', workflowData);
+      // Get the current node count from the canvas
+      const nodes = context.document.getNodes();
+      const nodeCount = nodes ? nodes.length : 0;
       
-      // Show beautiful success toast
-      setToast({
-        message: '工作流保存成功！工作流数据已保存到控制台。',
-        type: 'success',
-        isVisible: true
-      });
+      if (workflowId && workflowId !== 'new') {
+        // Update existing workflow
+        const existingWorkflow = getWorkflowById(workflowId);
+        if (existingWorkflow) {
+          const updatedWorkflow = updateWorkflow(workflowId, {
+            nodes: nodeCount,
+            workflowData: workflowData
+          });
+          
+          if (updatedWorkflow) {
+            console.log('Workflow updated:', updatedWorkflow);
+            setToast({
+              message: `工作流"${updatedWorkflow.name}"更新成功！节点数：${nodeCount}`,
+              type: 'success',
+              isVisible: true
+            });
+          }
+        }
+      } else {
+        // Create new workflow
+        const newWorkflow: Omit<Workflow, 'id' | 'createdAt'> = {
+          name: `新工作流 ${new Date().toLocaleString()}`,
+          description: '从画布创建的新工作流',
+          status: 'stopped',
+          trigger: '手动触发',
+          lastRun: '从未运行',
+          nextRun: '未计划',
+          successRate: 0,
+          executionTime: '0s',
+          nodes: nodeCount,
+          tags: ['新建'],
+          workflowData: workflowData
+        };
+        
+        const createdWorkflow = addWorkflow(newWorkflow);
+        console.log('New workflow created:', createdWorkflow);
+        
+        setToast({
+          message: `新工作流创建成功！节点数：${nodeCount}`,
+          type: 'success',
+          isVisible: true
+        });
+      }
+      
+      // Also log to console for debugging
+      console.log('Saving workflow:', workflowData);
+      console.log('Node count:', nodeCount);
+      
     } catch (error) {
       console.error('Save failed:', error);
       setToast({
