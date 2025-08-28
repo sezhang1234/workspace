@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { getAllWorkflows, type Workflow } from '../../services/workflowService'
+import { addAgent, updateAgent, publishAgent, getAgentById, type Agent } from '../../services/agentService'
 import { 
   ArrowLeft, 
   Save, 
@@ -193,6 +194,29 @@ const AgentEditorEnhancedPage: React.FC = () => {
   // Get entry data from navigation state (for new agents) or determine if editing existing agent
   const entryData = location.state?.agentEntryData as AgentEntryData | undefined
   const isNew = !id || id === 'new'
+  
+  // Load existing agent data if editing
+  useEffect(() => {
+    if (!isNew && id) {
+      const existingAgent = getAgentById(id)
+      if (existingAgent) {
+        setAgentConfig(prev => ({
+          ...prev,
+          name: existingAgent.name,
+          description: existingAgent.description,
+          icon: existingAgent.avatar,
+          model: existingAgent.model,
+          systemPrompt: existingAgent.systemPrompt || prev.systemPrompt,
+          modelParams: existingAgent.modelParams || prev.modelParams,
+          plugins: existingAgent.plugins || prev.plugins,
+          workflows: existingAgent.workflows || prev.workflows,
+          knowledge: existingAgent.knowledge || prev.knowledge,
+          memory: existingAgent.memory || prev.memory,
+          openingRemarks: existingAgent.openingRemarks || prev.openingRemarks
+        }))
+      }
+    }
+  }, [id, isNew])
 
 
   // Agent configuration state
@@ -409,8 +433,75 @@ const AgentEditorEnhancedPage: React.FC = () => {
   }
 
   const handleSave = () => {
-    // Simulate saving
-    setSnackbar({ open: true, message: '智能体配置保存成功！', severity: 'success' })
+    try {
+      if (isNew) {
+        // Create new agent
+        const newAgent = addAgent({
+          name: agentConfig.name,
+          description: agentConfig.description,
+          avatar: agentConfig.icon,
+          status: 'draft',
+          model: agentConfig.model || 'GPT-4',
+          lastActive: '未激活',
+          usageCount: 0,
+          tags: ['新建'],
+          systemPrompt: agentConfig.systemPrompt,
+          modelParams: agentConfig.modelParams,
+          plugins: agentConfig.plugins,
+          workflows: agentConfig.workflows,
+          knowledge: agentConfig.knowledge || [],
+          memory: agentConfig.memory || [],
+          openingRemarks: agentConfig.openingRemarks
+        })
+        
+        setSnackbar({ 
+          open: true, 
+          message: `智能体"${newAgent.name}"创建成功！`, 
+          severity: 'success' 
+        })
+        
+        // Navigate to agents list after successful creation
+        setTimeout(() => {
+          navigate('/dashboard/agents')
+        }, 1500)
+      } else {
+        // Update existing agent
+        const updatedAgent = updateAgent(id!, {
+          name: agentConfig.name,
+          description: agentConfig.description,
+          avatar: agentConfig.icon,
+          model: agentConfig.model || 'GPT-4',
+          systemPrompt: agentConfig.systemPrompt,
+          modelParams: agentConfig.modelParams,
+          plugins: agentConfig.plugins,
+          workflows: agentConfig.workflows,
+          knowledge: agentConfig.knowledge || [],
+          memory: agentConfig.memory || [],
+          openingRemarks: agentConfig.openingRemarks
+        })
+        
+        if (updatedAgent) {
+          setSnackbar({ 
+            open: true, 
+            message: `智能体"${updatedAgent.name}"更新成功！`, 
+            severity: 'success' 
+          })
+        } else {
+          setSnackbar({ 
+            open: true, 
+            message: '智能体更新失败，请重试', 
+            severity: 'error' 
+          })
+        }
+      }
+    } catch (error) {
+      console.error('Save agent error:', error)
+      setSnackbar({ 
+        open: true, 
+        message: '保存失败，请重试', 
+        severity: 'error' 
+      })
+    }
   }
 
   const handleTest = async () => {
@@ -560,8 +651,43 @@ const AgentEditorEnhancedPage: React.FC = () => {
                 variant="contained"
                 startIcon={<Play />}
                 onClick={() => {
-                  // Handle publish agent logic
-                  console.log('Publishing agent...')
+                  try {
+                    if (isNew) {
+                      setSnackbar({ 
+                        open: true, 
+                        message: '请先保存智能体配置，再发布', 
+                        severity: 'warning' 
+                      })
+                      return
+                    }
+                    
+                    const publishedAgent = publishAgent(id!)
+                    if (publishedAgent) {
+                      setSnackbar({ 
+                        open: true, 
+                        message: `智能体"${publishedAgent.name}"发布成功！`, 
+                        severity: 'success' 
+                      })
+                      
+                      // Navigate to agents list after successful publication
+                      setTimeout(() => {
+                        navigate('/dashboard/agents')
+                      }, 1500)
+                    } else {
+                      setSnackbar({ 
+                        open: true, 
+                        message: '智能体发布失败，请重试', 
+                        severity: 'error' 
+                      })
+                    }
+                  } catch (error) {
+                    console.error('Publish agent error:', error)
+                    setSnackbar({ 
+                      open: true, 
+                      message: '发布失败，请重试', 
+                      severity: 'error' 
+                    })
+                  }
                 }}
                 className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg"
               >

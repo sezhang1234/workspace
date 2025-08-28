@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { getAllAgents, type Agent } from '../../services/agentService'
 import { 
   Brain, 
   Plus, 
@@ -32,60 +33,31 @@ const AgentsPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState<string>('name')
 
-  const agents: Agent[] = [
-    {
-      id: '1',
-      name: '客服助手',
-      description: '智能客服机器人，支持多轮对话和问题解答',
-      avatar: '🤖',
-      status: 'active',
-      model: 'GPT-4',
-      lastActive: '2小时前',
-      usageCount: 1234,
-      tags: ['客服', '对话', '多轮'],
-      createdAt: '2024-01-15',
-      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/customer-service'
-    },
-    {
-      id: '2',
-      name: '数据分析师',
-      description: '数据分析智能体，自动生成报告和洞察',
-      avatar: '📊',
-      status: 'inactive',
-      model: 'Claude-3',
-      lastActive: '1天前',
-      usageCount: 567,
-      tags: ['数据分析', '报告', '洞察'],
-      createdAt: '2024-01-20',
-      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/data-analyst'
-    },
-    {
-      id: '3',
-      name: '代码助手',
-      description: '编程辅助智能体，代码审查和优化建议',
-      avatar: '💻',
-      status: 'active',
-      model: 'GPT-4',
-      lastActive: '3小时前',
-      usageCount: 890,
-      tags: ['编程', '代码审查', '优化'],
-      createdAt: '2024-01-10',
-      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/code-assistant'
-    },
-    {
-      id: '4',
-      name: '智能翻译器',
-      description: '多语言翻译智能体，支持实时翻译和语言学习',
-      avatar: '🌐',
-      status: 'unpublished',
-      model: 'Claude-3',
-      lastActive: '未激活',
-      usageCount: 0,
-      tags: ['翻译', '多语言', '学习'],
-      createdAt: '2024-01-25',
-      apiEndpoint: 'https://api.jiuwen.ai/v1/agents/translator'
+  const [agents, setAgents] = useState<Agent[]>([])
+  
+  // Load agents from service
+  useEffect(() => {
+    setAgents(getAllAgents())
+  }, [])
+  
+  // Refresh agents when component gains focus
+  useEffect(() => {
+    const handleFocus = () => {
+      setAgents(getAllAgents())
     }
-  ]
+    
+    // Also refresh when navigating back to this page
+    const handlePopState = () => {
+      setTimeout(() => setAgents(getAllAgents()), 100)
+    }
+    
+    window.addEventListener('focus', handleFocus)
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [])
 
   const filteredAgents = agents.filter(agent => {
     const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
