@@ -319,14 +319,14 @@ const AgentEditorEnhancedPage: React.FC = () => {
       frequencyPenalty: 0.0,
       presencePenalty: 0.0
     },
-    plugins: ['web_search', 'calculator', 'file_reader'],
+    plugins: [],
     workflows: [],
-    triggers: ['greeting', 'question', 'complaint'],
-    knowledge: ['product_manual', 'faq_database', 'company_policies'],
+    triggers: [],
+    knowledge: [],
     memory: {
       maxTokens: 1000
     },
-    openingRemarks: '您好！我是您的智能助手，很高兴为您服务。请问有什么可以帮助您的吗？',
+    openingRemarks: '',
     
     // Preview and Debug
     testHistory: [
