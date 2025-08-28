@@ -594,14 +594,7 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                   </Alert>
                 </Paper>
 
-              {agentConfig.editMode === 'ai' && (
-                <Alert severity="info" icon={<Sparkles className="w-6 h-6" />} className="border border-blue-200 bg-blue-50">
-                  <Typography variant="body1" className="text-blue-800">
-                    <strong>提示词自动生成：</strong>
-                    系统已根据您的描述自动生成了系统提示词，您可以根据需要进行调整和优化。
-                  </Typography>
-                </Alert>
-              )}
+
 
               <Divider className="my-8" />
 
