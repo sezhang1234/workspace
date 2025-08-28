@@ -192,8 +192,9 @@ const WorkflowOperationsHandler = () => {
     const timer = setTimeout(() => {
       try {
         // Check if there are nodes to layout
-        const nodes = context.document.getNodes();
-        if (nodes && nodes.length > 0) {
+        const workflowData = context.document.toJSON();
+        const nodeCount = workflowData?.nodes ? Object.keys(workflowData.nodes).length : 0;
+        if (nodeCount > 0) {
           // Trigger auto-layout using the existing tools.autoLayout()
           context.tools.autoLayout();
         }
@@ -248,9 +249,9 @@ const WorkflowOperationsHandler = () => {
       // Get the current workflow data from the canvas
       const workflowData = context.document.toJSON();
       
-      // Get the current node count from the canvas
-      const nodes = context.document.getNodes();
-      const nodeCount = nodes ? nodes.length : 0;
+      // Get the current node count from the canvas data
+      const workflowData = context.document.toJSON();
+      const nodeCount = workflowData?.nodes ? Object.keys(workflowData.nodes).length : 0;
       
       if (workflowId && workflowId !== 'new') {
         // Update existing workflow
