@@ -67,6 +67,11 @@ interface AnalyticsData {
     successRate: number
     averageResponseTime: number
     totalTokens: number
+    // New LLM metrics
+    totalInputTokens: number
+    totalOutputTokens: number
+    averageQPS: number
+    averageCallLatency: number
   }
   trends: {
     date: string
@@ -74,6 +79,11 @@ interface AnalyticsData {
     successRate: number
     responseTime: number
     tokens: number
+    // New LLM trend metrics
+    inputTokens: number
+    outputTokens: number
+    qps: number
+    callLatency: number
   }[]
   topAgents: {
     id: string
@@ -104,6 +114,19 @@ interface AnalyticsData {
     successRate: number
     avgResponseTime: number
     cost: number
+  }[]
+  // New LLM performance data
+  llmPerformance: {
+    date: string
+    totalRequests: number
+    inputTokens: number
+    outputTokens: number
+    qps: number
+    avgLatency: number
+    p95Latency: number
+    p99Latency: number
+    errorRate: number
+    costPerDay: number
   }[]
 }
 
@@ -183,22 +206,27 @@ const AnalyticsPage: React.FC = () => {
       monthlyExecutions: 15420,
       successRate: 98.5,
       averageResponseTime: 2.3,
-      totalTokens: 2847500
+      totalTokens: 2847500,
+      // New LLM metrics
+      totalInputTokens: 12000000,
+      totalOutputTokens: 8000000,
+      averageQPS: 150,
+      averageCallLatency: 150
     },
     trends: [
-      { date: '2024-01-10', executions: 512, successRate: 98.2, responseTime: 2.1, tokens: 95000 },
-      { date: '2024-01-11', executions: 498, successRate: 98.7, responseTime: 2.4, tokens: 92000 },
-      { date: '2024-01-12', executions: 534, successRate: 98.1, responseTime: 2.2, tokens: 98000 },
-      { date: '2024-01-13', executions: 521, successRate: 98.9, responseTime: 2.0, tokens: 96000 },
-      { date: '2024-01-14', executions: 487, successRate: 98.3, responseTime: 2.3, tokens: 89000 },
-      { date: '2024-01-15', executions: 556, successRate: 98.6, responseTime: 2.1, tokens: 102000 },
-      { date: '2024-01-16', executions: 589, successRate: 98.8, responseTime: 2.0, tokens: 108000 },
-      { date: '2024-01-17', executions: 623, successRate: 99.1, responseTime: 1.9, tokens: 115000 },
-      { date: '2024-01-18', executions: 598, successRate: 98.9, responseTime: 2.0, tokens: 110000 },
-      { date: '2024-01-19', executions: 645, successRate: 99.2, responseTime: 1.8, tokens: 118000 },
-      { date: '2024-01-20', executions: 678, successRate: 99.0, responseTime: 1.9, tokens: 125000 },
-      { date: '2024-01-21', executions: 612, successRate: 98.7, responseTime: 2.1, tokens: 112000 },
-      { date: '2024-01-22', executions: 701, successRate: 99.3, responseTime: 1.8, tokens: 130000 }
+      { date: '2024-01-10', executions: 512, successRate: 98.2, responseTime: 2.1, tokens: 95000, inputTokens: 100000, outputTokens: 80000, qps: 120, callLatency: 120 },
+      { date: '2024-01-11', executions: 498, successRate: 98.7, responseTime: 2.4, tokens: 92000, inputTokens: 90000, outputTokens: 75000, qps: 115, callLatency: 130 },
+      { date: '2024-01-12', executions: 534, successRate: 98.1, responseTime: 2.2, tokens: 98000, inputTokens: 105000, outputTokens: 85000, qps: 125, callLatency: 125 },
+      { date: '2024-01-13', executions: 521, successRate: 98.9, responseTime: 2.0, tokens: 96000, inputTokens: 98000, outputTokens: 78000, qps: 122, callLatency: 122 },
+      { date: '2024-01-14', executions: 487, successRate: 98.3, responseTime: 2.3, tokens: 89000, inputTokens: 92000, outputTokens: 72000, qps: 118, callLatency: 128 },
+      { date: '2024-01-15', executions: 556, successRate: 98.6, responseTime: 2.1, tokens: 102000, inputTokens: 108000, outputTokens: 82000, qps: 128, callLatency: 120 },
+      { date: '2024-01-16', executions: 589, successRate: 98.8, responseTime: 2.0, tokens: 108000, inputTokens: 110000, outputTokens: 85000, qps: 130, callLatency: 118 },
+      { date: '2024-01-17', executions: 623, successRate: 99.1, responseTime: 1.9, tokens: 115000, inputTokens: 112000, outputTokens: 88000, qps: 132, callLatency: 115 },
+      { date: '2024-01-18', executions: 598, successRate: 98.9, responseTime: 2.0, tokens: 110000, inputTokens: 109000, outputTokens: 84000, qps: 129, callLatency: 121 },
+      { date: '2024-01-19', executions: 645, successRate: 99.2, responseTime: 1.8, tokens: 118000, inputTokens: 115000, outputTokens: 89000, qps: 131, callLatency: 119 },
+      { date: '2024-01-20', executions: 678, successRate: 99.0, responseTime: 1.9, tokens: 125000, inputTokens: 118000, outputTokens: 92000, qps: 133, callLatency: 117 },
+      { date: '2024-01-21', executions: 612, successRate: 98.7, responseTime: 2.1, tokens: 112000, inputTokens: 113000, outputTokens: 87000, qps: 130, callLatency: 122 },
+      { date: '2024-01-22', executions: 701, successRate: 99.3, responseTime: 1.8, tokens: 130000, inputTokens: 120000, outputTokens: 95000, qps: 135, callLatency: 116 }
     ],
     topAgents: [
       { id: '1', name: '智能客服助手', executions: 3240, successRate: 99.1, avgResponseTime: 1.8, totalTokens: 580000 },
@@ -233,6 +261,22 @@ const AnalyticsPage: React.FC = () => {
       { model: 'GPT-4', requests: 8240, tokens: 1580000, successRate: 98.8, avgResponseTime: 2.1, cost: 156.80 },
       { model: 'Claude-3', requests: 4560, tokens: 890000, successRate: 97.2, avgResponseTime: 3.4, cost: 89.20 },
       { model: 'Qwen Plus', requests: 2620, tokens: 377500, successRate: 98.1, avgResponseTime: 1.9, cost: 37.75 }
+    ],
+    // New LLM performance data
+    llmPerformance: [
+      { date: '2024-01-10', totalRequests: 1200, inputTokens: 1200000, outputTokens: 900000, qps: 120, avgLatency: 120, p95Latency: 130, p99Latency: 140, errorRate: 0.2, costPerDay: 15.68 },
+      { date: '2024-01-11', totalRequests: 1100, inputTokens: 1100000, outputTokens: 850000, qps: 110, avgLatency: 115, p95Latency: 125, p99Latency: 135, errorRate: 0.3, costPerDay: 14.20 },
+      { date: '2024-01-12', totalRequests: 1250, inputTokens: 1250000, outputTokens: 950000, qps: 125, avgLatency: 125, p95Latency: 135, p99Latency: 145, errorRate: 0.2, costPerDay: 15.80 },
+      { date: '2024-01-13', totalRequests: 1220, inputTokens: 1220000, outputTokens: 920000, qps: 122, avgLatency: 122, p95Latency: 132, p99Latency: 142, errorRate: 0.2, costPerDay: 15.40 },
+      { date: '2024-01-14', totalRequests: 1180, inputTokens: 1180000, outputTokens: 880000, qps: 118, avgLatency: 128, p95Latency: 138, p99Latency: 148, errorRate: 0.3, costPerDay: 14.90 },
+      { date: '2024-01-15', totalRequests: 1280, inputTokens: 1280000, outputTokens: 920000, qps: 128, avgLatency: 120, p95Latency: 130, p99Latency: 140, errorRate: 0.2, costPerDay: 15.60 },
+      { date: '2024-01-16', totalRequests: 1300, inputTokens: 1300000, outputTokens: 950000, qps: 130, avgLatency: 118, p95Latency: 128, p99Latency: 138, errorRate: 0.2, costPerDay: 15.80 },
+      { date: '2024-01-17', totalRequests: 1320, inputTokens: 1320000, outputTokens: 980000, qps: 132, avgLatency: 115, p95Latency: 125, p99Latency: 135, errorRate: 0.2, costPerDay: 15.40 },
+      { date: '2024-01-18', totalRequests: 1290, inputTokens: 1290000, outputTokens: 940000, qps: 129, avgLatency: 121, p95Latency: 131, p99Latency: 141, errorRate: 0.2, costPerDay: 15.60 },
+      { date: '2024-01-19', totalRequests: 1310, inputTokens: 1310000, outputTokens: 990000, qps: 131, avgLatency: 119, p95Latency: 129, p99Latency: 139, errorRate: 0.2, costPerDay: 15.40 },
+      { date: '2024-01-20', totalRequests: 1330, inputTokens: 1330000, outputTokens: 1020000, qps: 133, avgLatency: 117, p95Latency: 127, p99Latency: 137, errorRate: 0.2, costPerDay: 15.60 },
+      { date: '2024-01-21', totalRequests: 1300, inputTokens: 1300000, outputTokens: 870000, qps: 130, avgLatency: 122, p95Latency: 132, p99Latency: 142, errorRate: 0.2, costPerDay: 15.40 },
+      { date: '2024-01-22', totalRequests: 1350, inputTokens: 1350000, outputTokens: 950000, qps: 135, avgLatency: 116, p95Latency: 126, p99Latency: 136, errorRate: 0.2, costPerDay: 15.80 }
     ]
   })
 
@@ -391,6 +435,97 @@ const AnalyticsPage: React.FC = () => {
                 <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
                 <Typography variant="caption" className="text-green-600">
                   +5
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* LLM Performance Overview */}
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg mx-auto mb-3">
+                <BarChart3 className="w-6 h-6 text-indigo-600" />
+              </div>
+              <Typography variant="h4" className="font-bold text-gray-900">
+                {formatNumber(analyticsData.overview.totalInputTokens)}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                输入Token总数
+              </Typography>
+              <div className="flex items-center justify-center mt-2">
+                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                <Typography variant="caption" className="text-green-600">
+                  +8.2%
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 bg-teal-100 rounded-lg mx-auto mb-3">
+                <BarChart3 className="w-6 h-6 text-teal-600" />
+              </div>
+              <Typography variant="h4" className="font-bold text-gray-900">
+                {formatNumber(analyticsData.overview.totalOutputTokens)}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                输出Token总数
+              </Typography>
+              <div className="flex items-center justify-center mt-2">
+                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                <Typography variant="caption" className="text-green-600">
+                  +7.8%
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-3">
+                <Activity className="w-6 h-6 text-orange-600" />
+              </div>
+              <Typography variant="h4" className="font-bold text-gray-900">
+                {analyticsData.overview.averageQPS}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                平均QPS
+              </Typography>
+              <div className="flex items-center justify-center mt-2">
+                <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+                <Typography variant="caption" className="text-green-600">
+                  +5.2%
+                </Typography>
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent className="text-center">
+              <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-lg mx-auto mb-3">
+                <Activity className="w-6 h-6 text-red-600" />
+              </div>
+              <Typography variant="h4" className="font-bold text-gray-900">
+                {analyticsData.overview.averageCallLatency}ms
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                平均调用延迟
+              </Typography>
+              <div className="flex items-center justify-center mt-2">
+                <TrendingUp className="w-4 h-4 text-red-500 mr-1" />
+                <Typography variant="caption" className="text-red-600">
+                  +2.1ms
                 </Typography>
               </div>
             </CardContent>
@@ -675,6 +810,320 @@ const AnalyticsPage: React.FC = () => {
               </Card>
             </Grid>
           </Grid>
+
+      {/* LLM Performance Charts */}
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 font-bold">
+                Token消耗趋势
+              </Typography>
+              <div className="h-80">
+                <Line
+                  data={{
+                    labels: analyticsData.trends.slice(-12).map(trend => 
+                      new Date(trend.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                    ),
+                    datasets: [
+                      {
+                        label: '输入Token',
+                        data: analyticsData.trends.slice(-12).map(trend => trend.inputTokens),
+                        borderColor: 'rgb(99, 102, 241)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(99, 102, 241)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                      },
+                      {
+                        label: '输出Token',
+                        data: analyticsData.trends.slice(-12).map(trend => trend.outputTokens),
+                        borderColor: 'rgb(20, 184, 166)',
+                        backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(20, 184, 166)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                      }
+                    ]
+                  }}
+                  options={chartOptions}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600 font-bold">
+                LLM性能指标
+              </Typography>
+              <div className="h-80">
+                <Line
+                  data={{
+                    labels: analyticsData.trends.slice(-12).map(trend => 
+                      new Date(trend.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                    ),
+                    datasets: [
+                      {
+                        label: 'QPS',
+                        data: analyticsData.trends.slice(-12).map(trend => trend.qps),
+                        borderColor: 'rgb(249, 115, 22)',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(249, 115, 22)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        yAxisID: 'y'
+                      },
+                      {
+                        label: '调用延迟 (ms)',
+                        data: analyticsData.trends.slice(-12).map(trend => trend.callLatency),
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(239, 68, 68)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        yAxisID: 'y1'
+                      }
+                    ]
+                  }}
+                  options={{
+                    ...chartOptions,
+                    scales: {
+                      x: {
+                        ...chartOptions.scales.x
+                      },
+                      y: {
+                        type: 'linear' as const,
+                        display: true,
+                        position: 'left' as const,
+                        grid: {
+                          color: 'rgba(0, 0, 0, 0.05)',
+                          borderDash: [5, 5]
+                        },
+                        ticks: {
+                          font: { size: 11 }
+                        }
+                      },
+                      y1: {
+                        type: 'linear' as const,
+                        display: true,
+                        position: 'right' as const,
+                        grid: {
+                          drawOnChartArea: false
+                        },
+                        ticks: {
+                          font: { size: 11 },
+                          callback: function(value) {
+                            return value + 'ms'
+                          }
+                        }
+                      }
+                    }
+                  }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* LLM Performance Details */}
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={8}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 font-bold">
+                LLM性能详细数据
+              </Typography>
+              <div className="h-80">
+                <Line
+                  data={{
+                    labels: analyticsData.llmPerformance.slice(-12).map(perf => 
+                      new Date(perf.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                    ),
+                    datasets: [
+                      {
+                        label: '平均延迟 (ms)',
+                        data: analyticsData.llmPerformance.slice(-12).map(perf => perf.avgLatency),
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(59, 130, 246)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                      },
+                      {
+                        label: 'P95延迟 (ms)',
+                        data: analyticsData.llmPerformance.slice(-12).map(perf => perf.p95Latency),
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(16, 185, 129)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                      },
+                      {
+                        label: 'P99延迟 (ms)',
+                        data: analyticsData.llmPerformance.slice(-12).map(perf => perf.p99Latency),
+                        borderColor: 'rgb(245, 158, 11)',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(245, 158, 11)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                      }
+                    ]
+                  }}
+                  options={chartOptions}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 font-bold">
+                LLM成本统计
+              </Typography>
+              <div className="h-80">
+                <Line
+                  data={{
+                    labels: analyticsData.llmPerformance.slice(-12).map(perf => 
+                      new Date(perf.date).toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                    ),
+                    datasets: [
+                      {
+                        label: '日成本 (USD)',
+                        data: analyticsData.llmPerformance.slice(-12).map(perf => perf.costPerDay),
+                        borderColor: 'rgb(34, 197, 94)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgb(34, 197, 94)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                      }
+                    ]
+                  }}
+                  options={{
+                    ...chartOptions,
+                    scales: {
+                      x: {
+                        ...chartOptions.scales.x
+                      },
+                      y: {
+                        ...chartOptions.scales.y,
+                        ticks: {
+                          ...chartOptions.scales.y.ticks,
+                          callback: function(value) {
+                            return '$' + value
+                          }
+                        }
+                      }
+                    }
+                  }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* LLM Performance Table */}
+      <Card>
+        <CardContent>
+          <Typography variant="h6" className="mb-4 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-purple-600 font-bold">
+            LLM性能统计表
+          </Typography>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>日期</TableCell>
+                  <TableCell align="right">总请求数</TableCell>
+                  <TableCell align="right">输入Token</TableCell>
+                  <TableCell align="right">输出Token</TableCell>
+                  <TableCell align="right">QPS</TableCell>
+                  <TableCell align="right">平均延迟 (ms)</TableCell>
+                  <TableCell align="right">P95延迟 (ms)</TableCell>
+                  <TableCell align="right">P99延迟 (ms)</TableCell>
+                  <TableCell align="right">错误率 (%)</TableCell>
+                  <TableCell align="right">日成本 (USD)</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {analyticsData.llmPerformance.slice(-7).map((perf) => (
+                  <TableRow key={perf.date}>
+                    <TableCell>
+                      <Typography variant="subtitle2">
+                        {new Date(perf.date).toLocaleDateString('zh-CN')}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatNumber(perf.totalRequests)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatNumber(perf.inputTokens)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatNumber(perf.outputTokens)}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Chip
+                        label={perf.qps}
+                        size="small"
+                        color={perf.qps >= 130 ? 'success' : perf.qps >= 120 ? 'warning' : 'error'}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      {perf.avgLatency}ms
+                    </TableCell>
+                    <TableCell align="right">
+                      {perf.p95Latency}ms
+                    </TableCell>
+                    <TableCell align="right">
+                      {perf.p99Latency}ms
+                    </TableCell>
+                    <TableCell align="right">
+                      <Chip
+                        label={`${perf.errorRate}%`}
+                        size="small"
+                        color={perf.errorRate <= 0.2 ? 'success' : perf.errorRate <= 0.5 ? 'warning' : 'error'}
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      ${perf.costPerDay.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </Card>
 
       {/* Summary insights */}
       <Card>
