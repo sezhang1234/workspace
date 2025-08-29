@@ -643,7 +643,7 @@ const AnalyticsPage: React.FC = () => {
                       <TableCell align="right">Token数</TableCell>
                       <TableCell align="right">成功率</TableCell>
                       <TableCell align="right">平均响应时间</TableCell>
-                      <TableCell align="right">成本 (USD)</TableCell>
+                      <TableCell align="right">成本 (CNY)</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -669,7 +669,7 @@ const AnalyticsPage: React.FC = () => {
                           {model.avgResponseTime}s
                         </TableCell>
                         <TableCell align="right">
-                          ${model.cost.toFixed(2)}
+                          ¥{model.cost.toFixed(2)}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -1015,7 +1015,7 @@ const AnalyticsPage: React.FC = () => {
                     ),
                     datasets: [
                       {
-                        label: '日成本 (USD)',
+                        label: '日成本 (CNY)',
                         data: analyticsData.llmPerformance.slice(-12).map(perf => perf.costPerDay),
                         borderColor: 'rgb(34, 197, 94)',
                         backgroundColor: 'rgba(34, 197, 94, 0.1)',
@@ -1038,9 +1038,9 @@ const AnalyticsPage: React.FC = () => {
                         ...chartOptions.scales.y,
                         ticks: {
                           ...chartOptions.scales.y.ticks,
-                          callback: function(value) {
-                            return '$' + value
-                          }
+                                                  callback: function(value) {
+                          return '¥' + value
+                        }
                         }
                       }
                     }
@@ -1071,7 +1071,7 @@ const AnalyticsPage: React.FC = () => {
                   <TableCell align="right">P95延迟 (ms)</TableCell>
                   <TableCell align="right">P99延迟 (ms)</TableCell>
                   <TableCell align="right">错误率 (%)</TableCell>
-                  <TableCell align="right">日成本 (USD)</TableCell>
+                                        <TableCell align="right">日成本 (CNY)</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -1115,7 +1115,7 @@ const AnalyticsPage: React.FC = () => {
                       />
                     </TableCell>
                     <TableCell align="right">
-                      ${perf.costPerDay.toFixed(2)}
+                      ¥{perf.costPerDay.toFixed(2)}
                     </TableCell>
                   </TableRow>
                 ))}
