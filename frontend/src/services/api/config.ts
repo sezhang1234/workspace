@@ -104,26 +104,7 @@ export const API_ENDPOINTS = {
     METRICS: '/models/:id/metrics',
   },
   
-  // 提示词管理
-  PROMPTS: {
-    LIST: '/prompts',
-    DETAIL: '/prompts/:id',
-    CREATE: '/prompts',
-    UPDATE: '/prompts/:id',
-    DELETE: '/prompts/:id',
-    TEST: '/prompts/:id/test',
-    TEMPLATES: '/prompts/templates',
-  },
-  
-  // 分析统计
-  ANALYTICS: {
-    OVERVIEW: '/analytics/overview',
-    WORKFLOW_STATS: '/analytics/workflows',
-    AGENT_STATS: '/analytics/agents',
-    USER_STATS: '/analytics/users',
-    PERFORMANCE: '/analytics/performance',
-    REPORTS: '/analytics/reports',
-  },
+
   
   // 系统设置
   SETTINGS: {
