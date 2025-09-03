@@ -682,48 +682,18 @@ const AgentEditorEnhancedPage: React.FC = () => {
               <Button
                 variant="contained"
                 startIcon={<Play />}
+                disabled
                 onClick={() => {
-                  try {
-                    if (isNew) {
-                      setSnackbar({ 
-                        open: true, 
-                        message: '请先保存智能体配置，再发布', 
-                        severity: 'warning' 
-                      })
-                      return
-                    }
-                    
-                    const publishedAgent = publishAgent(id!)
-                    if (publishedAgent) {
-                      setSnackbar({ 
-                        open: true, 
-                        message: `智能体"${publishedAgent.name}"发布成功！`, 
-                        severity: 'success' 
-                      })
-                      
-                      // Navigate to agents list after successful publication
-                      setTimeout(() => {
-                        navigate('/dashboard/agents')
-                      }, 1500)
-                    } else {
-                      setSnackbar({ 
-                        open: true, 
-                        message: '智能体发布失败，请重试', 
-                        severity: 'error' 
-                      })
-                    }
-                  } catch (error) {
-                    console.error('Publish agent error:', error)
-                    setSnackbar({ 
-                      open: true, 
-                      message: '发布失败，请重试', 
-                      severity: 'error' 
-                    })
-                  }
+                  setSnackbar({ 
+                    open: true, 
+                    message: '发布功能即将开放，敬请期待！', 
+                    severity: 'info' 
+                  })
                 }}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg"
+                className="bg-gray-400 text-gray-600 cursor-not-allowed shadow-lg opacity-60"
+                title="此功能即将开放"
               >
-                运行智能体
+                发布智能体
               </Button>
               <Button
                 variant="outlined"
