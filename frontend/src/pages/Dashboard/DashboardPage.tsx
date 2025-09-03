@@ -105,8 +105,8 @@ const DashboardPage: React.FC = () => {
       color: 'bg-purple-500 hover:bg-purple-600'
     },
     {
-      name: '应用模板',
-      description: '浏览和使用预制应用模板',
+      name: '应用空间',
+      description: '浏览和使用预制智能体应用',
       icon: Layers,
       href: '/dashboard/apps',
       color: 'bg-orange-500 hover:bg-orange-600'
