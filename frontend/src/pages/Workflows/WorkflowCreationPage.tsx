@@ -16,7 +16,6 @@ import { addWorkflow } from '../../services/workflowService'
 interface WorkflowFormData {
   name: string
   description: string
-  trigger: string
   tags: string[]
 }
 
@@ -25,7 +24,6 @@ const WorkflowCreationPage: React.FC = () => {
   const [formData, setFormData] = useState<WorkflowFormData>({
     name: '',
     description: '',
-    trigger: 'manual',
     tags: []
   })
 
@@ -52,7 +50,7 @@ const WorkflowCreationPage: React.FC = () => {
       name: formData.name,
       description: formData.description,
       status: 'stopped',
-      trigger: formData.trigger,
+      trigger: '手动',
       lastRun: '从未运行',
       nextRun: '手动触发',
       successRate: 0,
@@ -138,21 +136,7 @@ const WorkflowCreationPage: React.FC = () => {
                         />
                       </div>
 
-                      {/* Trigger Type */}
-                      <div>
-                        <Typography variant="subtitle2" className="text-gray-700 mb-2 font-medium">
-                          触发类型
-                        </Typography>
-                        <select
-                          value={formData.trigger}
-                          onChange={(e) => handleInputChange('trigger', e.target.value)}
-                          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-                        >
-                          <option value="schedule">定时触发</option>
-                          <option value="manual">手动触发</option>
-                          <option value="event">事件触发</option>
-                        </select>
-                      </div>
+
 
                       {/* Tags */}
                       <div>
