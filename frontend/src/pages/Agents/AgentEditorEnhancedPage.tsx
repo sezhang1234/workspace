@@ -679,22 +679,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
               >
                 保存配置
               </Button>
-              <Button
-                variant="contained"
-                startIcon={<Play />}
-                disabled
-                onClick={() => {
-                  setSnackbar({ 
-                    open: true, 
-                    message: '发布功能即将开放，敬请期待！', 
-                    severity: 'info' 
-                  })
-                }}
-                className="bg-gray-400 text-gray-600 cursor-not-allowed shadow-lg opacity-60"
-                title="此功能即将开放"
-              >
-                发布智能体
-              </Button>
+
               <Button
                 variant="outlined"
                 startIcon={<ArrowLeft />}
