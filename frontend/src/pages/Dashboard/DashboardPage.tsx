@@ -3,14 +3,9 @@ import { Link } from 'react-router-dom'
 import { 
   Bot, 
   Workflow, 
-  FileText,
-  TrendingUp, 
-  Users, 
-  Zap,
   Plus,
   Brain,
-  Layers,
-  BarChart3
+  Layers
 } from 'lucide-react'
 
 const DashboardPage: React.FC = () => {
@@ -30,22 +25,6 @@ const DashboardPage: React.FC = () => {
       changeType: 'positive',
       icon: Workflow,
       color: 'bg-green-500'
-    },
-    {
-      name: '提示词总数',
-      value: '45',
-      change: '+5',
-      changeType: 'positive',
-      icon: FileText,
-      color: 'bg-purple-500'
-    },
-    {
-      name: '本月执行次数',
-      value: '1,234',
-      change: '+12%',
-      changeType: 'positive',
-      icon: TrendingUp,
-      color: 'bg-orange-500'
     }
   ]
 
@@ -148,7 +127,7 @@ const DashboardPage: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {stats.map((stat, index) => (
           <div 
             key={stat.name} 
@@ -332,52 +311,7 @@ const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Performance overview */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-        <div className="flex items-center mb-6">
-          <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mr-3">
-            <BarChart3 className="w-5 h-5 text-white" />
-          </div>
-          <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-purple-800">
-            性能概览
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="group text-center p-6 rounded-xl hover:bg-gradient-to-br hover:from-green-50 hover:to-emerald-50 transition-all duration-300 border border-transparent hover:border-green-200">
-            <div className="w-20 h-20 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <TrendingUp className="w-10 h-10 text-white" />
-            </div>
-            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-700 mb-2">
-              98.5%
-            </p>
-            <p className="text-sm font-semibold text-gray-700 group-hover:text-green-700 transition-colors duration-300">
-              系统可用性
-            </p>
-          </div>
-          <div className="group text-center p-6 rounded-xl hover:bg-gradient-to-br hover:from-blue-50 hover:to-cyan-50 transition-all duration-300 border border-transparent hover:border-blue-200">
-            <div className="w-20 h-20 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <Zap className="w-10 h-10 text-white" />
-            </div>
-            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-700 mb-2">
-              2.3s
-            </p>
-            <p className="text-sm font-semibold text-gray-700 group-hover:text-blue-700 transition-colors duration-300">
-              平均响应时间
-            </p>
-          </div>
-          <div className="group text-center p-6 rounded-xl hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 transition-all duration-300 border border-transparent hover:border-purple-200">
-            <div className="w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-              <Users className="w-10 h-10 text-white" />
-            </div>
-            <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-700 mb-2">
-              1,234
-            </p>
-            <p className="text-sm font-semibold text-gray-700 group-hover:text-purple-700 transition-colors duration-300">
-              本月活跃用户
-            </p>
-          </div>
-        </div>
-      </div>
+
     </div>
   )
 }
