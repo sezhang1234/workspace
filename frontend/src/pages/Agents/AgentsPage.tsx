@@ -13,12 +13,10 @@ import {
   Brain, 
   Plus, 
   Search, 
-  Play, 
-  Pause, 
+  TestTube, 
   Edit, 
   Trash2,
-  MoreVertical,
-  Settings
+  MoreVertical
 } from 'lucide-react'
 
 interface Agent {
@@ -271,27 +269,23 @@ const AgentsPage: React.FC = () => {
             <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  {agent.status === 'active' ? (
-                    <button className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200">
-                      <Pause className="w-4 h-4" />
-                    </button>
-                  ) : (
-                    <button className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-200">
-                      <Play className="w-4 h-4" />
-                    </button>
-                  )}
                   <Link
-                    to={`/dashboard/agents/${agent.id}`}
+                    to={`/dashboard/agents/${agent.id}?tab=preview`}
+                    className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-200"
+                    title="预览和测试运行"
+                  >
+                    <TestTube className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    to={`/dashboard/agents/${agent.id}?tab=prompt`}
                     className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+                    title="编辑系统提示词"
                   >
                     <Edit className="w-4 h-4" />
                   </Link>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200">
-                    <Settings className="w-4 h-4" />
-                  </button>
                   <button 
                     className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200"
                     onClick={() => handleDeleteAgent(agent.id, agent.name)}
