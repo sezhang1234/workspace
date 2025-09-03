@@ -163,8 +163,8 @@ const AgentEditorEntryPage: React.FC = () => {
                           AI 智能生成
                         </div>
                         <div className="text-sm text-gray-400 leading-relaxed">
-                          智能生成配置建议<br/>
-                          自动优化参数设置<br/>
+                          AI辅助配置模式<br/>
+                          简化设置流程<br/>
                           快速上手
                         </div>
                         <div className="mt-3 px-3 py-1 bg-yellow-100 border border-yellow-200 rounded-full">
