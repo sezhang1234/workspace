@@ -6,7 +6,6 @@ export interface Agent {
   status: 'active' | 'inactive' | 'error' | 'unpublished' | 'draft'
   model: string
   lastActive: string
-  usageCount: number
   tags: string[]
   createdAt: string
   apiEndpoint?: string
@@ -37,7 +36,6 @@ export const agents: Agent[] = [
     status: 'active',
     model: 'GPT-4',
     lastActive: '2小时前',
-    usageCount: 1234,
     tags: ['客服', '对话', '多轮'],
     createdAt: '2024-01-15',
     apiEndpoint: 'https://api.jiuwen.ai/v1/agents/customer-service'
