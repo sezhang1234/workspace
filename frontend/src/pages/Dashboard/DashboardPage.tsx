@@ -9,7 +9,8 @@ import {
   Zap,
   Plus,
   Brain,
-  Layers
+  Layers,
+  BarChart3
 } from 'lucide-react'
 
 const DashboardPage: React.FC = () => {
