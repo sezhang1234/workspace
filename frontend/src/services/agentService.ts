@@ -41,32 +41,6 @@ export const agents: Agent[] = [
     tags: ['客服', '对话', '多轮'],
     createdAt: '2024-01-15',
     apiEndpoint: 'https://api.jiuwen.ai/v1/agents/customer-service'
-  },
-  {
-    id: '2',
-    name: '数据分析师',
-    description: '数据分析智能体，自动生成报告和洞察',
-    avatar: '📊',
-    status: 'inactive',
-    model: 'Claude-3',
-    lastActive: '1天前',
-    usageCount: 567,
-    tags: ['数据分析', '报告', '洞察'],
-    createdAt: '2024-01-20',
-    apiEndpoint: 'https://api.jiuwen.ai/v1/agents/data-analyst'
-  },
-  {
-    id: '3',
-    name: '代码助手',
-    description: '编程辅助智能体，代码审查和优化建议',
-    avatar: '💻',
-    status: 'active',
-    model: 'GPT-4',
-    lastActive: '3小时前',
-    usageCount: 890,
-    tags: ['编程', '代码审查', '优化'],
-    createdAt: '2024-01-10',
-    apiEndpoint: 'https://api.jiuwen.ai/v1/agents/code-assistant'
   }
 ]
 
