@@ -165,7 +165,6 @@ const WorkflowsPage: React.FC = () => {
                     <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
                       {workflow.name}
                     </h3>
-                    <p className="text-sm text-gray-600 font-medium">{workflow.trigger}</p>
                   </div>
                 </div>
                 <div className="relative">
