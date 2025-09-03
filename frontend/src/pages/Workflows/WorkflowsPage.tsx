@@ -4,8 +4,6 @@ import {
   Workflow as WorkflowIcon, 
   Plus, 
   Search, 
-  Play, 
-  Pause, 
   Edit, 
   Trash2,
   MoreVertical,
@@ -215,15 +213,6 @@ const WorkflowsPage: React.FC = () => {
             <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  {workflow.status === 'running' ? (
-                    <button className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200">
-                      <Pause className="w-4 h-4" />
-                    </button>
-                  ) : (
-                    <button className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-200">
-                      <Play className="w-4 h-4" />
-                    </button>
-                  )}
                   <Link
                     to={`/dashboard/workflows/editor?id=${workflow.id}`}
                     className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
