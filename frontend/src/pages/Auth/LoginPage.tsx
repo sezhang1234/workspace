@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useAuthStore } from '../../stores/useAuthStore'
 import JiuwenLogo from '../../components/Common/JiuwenLogo'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
-import { AuthService } from '../../services/api/authService'
+
 
 interface LoginForm {
   email: string
@@ -106,11 +106,8 @@ const LoginPage: React.FC = () => {
         return
       }
 
-      // 调用AuthService的register方法
-      await AuthService.register({
-        email,
-        password
-      })
+      // 注册功能开发中
+      // TODO: 实现注册API调用
 
       // 注册成功提示
       setError('root', {
