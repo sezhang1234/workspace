@@ -9,12 +9,7 @@ import {
   Edit, 
   Trash2,
   MoreVertical,
-  Settings,
-  Copy,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  PauseCircle
+  Copy
 } from 'lucide-react'
 import { getAllWorkflows, deleteWorkflow, type Workflow } from '../../services/workflowService'
 import { 
@@ -29,7 +24,7 @@ import {
 
 const WorkflowsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
+
   const [sortBy, setSortBy] = useState<string>('name')
   const [workflows, setWorkflows] = useState<Workflow[]>(getAllWorkflows())
   
@@ -91,43 +86,10 @@ const WorkflowsPage: React.FC = () => {
                          workflow.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          workflow.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     
-    const matchesStatus = statusFilter === 'all' || workflow.status === statusFilter
-    
-    return matchesSearch && matchesStatus
+    return matchesSearch
   })
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'running': return 'bg-green-100 text-green-800'
-      case 'stopped': return 'bg-gray-100 text-gray-800'
-      case 'scheduled': return 'bg-blue-100 text-blue-800'
-      case 'error': return 'bg-red-100 text-red-800'
-      case 'completed': return 'bg-purple-100 text-purple-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'running': return '运行中'
-      case 'stopped': return '已停止'
-      case 'scheduled': return '已计划'
-      case 'error': return '异常'
-      case 'completed': return '已完成'
-      default: return '未知'
-    }
-  }
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'running': return <Play className="w-4 h-4" />
-      case 'stopped': return <Pause className="w-4 h-4" />
-      case 'scheduled': return <Clock className="w-4 h-4" />
-      case 'error': return <AlertCircle className="w-4 h-4" />
-      case 'completed': return <CheckCircle className="w-4 h-4" />
-      default: return <PauseCircle className="w-4 h-4" />
-    }
-  }
 
   return (
     <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
@@ -158,21 +120,7 @@ const WorkflowsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Status filter */}
-        <div className="sm:w-48">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-gray-50 focus:bg-white"
-          >
-            <option value="all">所有状态</option>
-            <option value="running">运行中</option>
-            <option value="stopped">已停止</option>
-            <option value="scheduled">已计划</option>
-            <option value="error">异常</option>
-            <option value="completed">已完成</option>
-          </select>
-        </div>
+
 
         {/* Sort by */}
         <div className="sm:w-48">
@@ -183,7 +131,6 @@ const WorkflowsPage: React.FC = () => {
           >
             <option value="name">按名称排序</option>
             <option value="created">按创建时间排序</option>
-            <option value="status">按状态排序</option>
             <option value="lastRun">按最后运行时间排序</option>
           </select>
         </div>
@@ -261,13 +208,7 @@ const WorkflowsPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Status */}
-              <div className="flex items-center mb-4">
-                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(workflow.status)}`}>
-                  {getStatusIcon(workflow.status)}
-                  <span className="ml-1">{getStatusText(workflow.status)}</span>
-                </span>
-              </div>
+
             </div>
 
             {/* Actions */}
@@ -292,9 +233,6 @@ const WorkflowsPage: React.FC = () => {
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-200">
-                    <Settings className="w-4 h-4" />
-                  </button>
                   <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200">
                     <Copy className="w-4 h-4" />
                   </button>
@@ -322,12 +260,12 @@ const WorkflowsPage: React.FC = () => {
             没有找到工作流
           </h3>
           <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
-            {searchTerm || statusFilter !== 'all' 
-              ? '尝试调整搜索条件或筛选器来找到您需要的工作流'
+            {searchTerm 
+              ? '尝试调整搜索条件来找到您需要的工作流'
               : '开始创建您的第一个自动化工作流，构建高效的业务流程'
             }
           </p>
-          {!searchTerm && statusFilter === 'all' && (
+          {!searchTerm && (
             <Link
               to="/dashboard/workflows/new"
               className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
