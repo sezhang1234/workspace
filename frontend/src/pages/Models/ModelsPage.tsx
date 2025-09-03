@@ -4,8 +4,6 @@ import {
   Plus, 
   Settings, 
   Trash2, 
-  Copy, 
-  TestTube,
   CheckCircle,
   Search
 } from 'lucide-react'
@@ -154,7 +152,7 @@ const ModelsPage: React.FC = () => {
 
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showEditDialog, setShowEditDialog] = useState(false)
-  const [showTestDialog, setShowTestDialog] = useState(false)
+
   const [selectedModel, setSelectedModel] = useState<ModelConfig | null>(null)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' })
   const [searchTerm, setSearchTerm] = useState('')
@@ -182,10 +180,7 @@ const ModelsPage: React.FC = () => {
     description: ''
   })
 
-  // Test state
-  const [testPrompt, setTestPrompt] = useState('')
-  const [testResult, setTestResult] = useState('')
-  const [isTesting, setIsTesting] = useState(false)
+
 
   const filteredModels = models.filter(model => {
     const matchesSearch = model.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -254,22 +249,9 @@ const ModelsPage: React.FC = () => {
     }
   }
 
-  const handleTestModel = async () => {
-    if (!testPrompt.trim() || !selectedModel) return
-    
-    setIsTesting(true)
-    
-    // Simulate model testing
-    setTimeout(() => {
-      setTestResult(`这是来自 ${selectedModel.name} 的测试回复：\n\n${testPrompt}\n\n模型配置：\n- 温度: ${selectedModel.temperature}\n- 最大Token: ${selectedModel.maxTokens}\n- 提供商: ${selectedModel.provider}`)
-      setIsTesting(false)
-    }, 2000)
-  }
 
-  const handleCopyApiKey = (apiKey: string) => {
-    navigator.clipboard.writeText(apiKey)
-    setSnackbar({ open: true, message: 'API密钥已复制到剪贴板', severity: 'success' })
-  }
+
+
 
   const toggleModelStatus = (modelId: string) => {
     setModels(models.map(model => 
@@ -369,7 +351,6 @@ const ModelsPage: React.FC = () => {
                 <TableCell className="font-semibold text-gray-700">提供商</TableCell>
                 <TableCell className="font-semibold text-gray-700">模型ID</TableCell>
                 <TableCell className="font-semibold text-gray-700">状态</TableCell>
-                <TableCell className="font-semibold text-gray-700">使用统计</TableCell>
                 <TableCell className="font-semibold text-gray-700">标签</TableCell>
                 <TableCell className="font-semibold text-gray-700">操作</TableCell>
               </TableRow>
@@ -410,22 +391,7 @@ const ModelsPage: React.FC = () => {
                       className={`font-semibold ${model.isActive ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-gray-100 text-gray-700 border border-gray-200'}`}
                     />
                   </TableCell>
-                  <TableCell>
-                    <div className="text-sm space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600">请求:</span>
-                        <span className="font-semibold text-blue-700">{model.usage.totalRequests.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600">成功率:</span>
-                        <span className="font-semibold text-green-700">{model.usage.successRate}%</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-600">平均响应:</span>
-                        <span className="font-semibold text-orange-700">{model.usage.averageResponseTime}s</span>
-                      </div>
-                    </div>
-                  </TableCell>
+
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {model.tags.map((tag, index) => (
@@ -441,18 +407,6 @@ const ModelsPage: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Tooltip title="测试模型">
-                        <IconButton
-                          size="small"
-                          onClick={() => {
-                            setSelectedModel(model)
-                            setShowTestDialog(true)
-                          }}
-                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                        >
-                          <TestTube className="w-4 h-4" />
-                        </IconButton>
-                      </Tooltip>
                       <Tooltip title="编辑模型">
                         <IconButton
                           size="small"
@@ -472,15 +426,6 @@ const ModelsPage: React.FC = () => {
                           className="text-green-600 hover:text-green-700 hover:bg-green-50"
                         >
                           {model.isActive ? <CheckCircle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="复制API密钥">
-                        <IconButton
-                          size="small"
-                          onClick={() => handleCopyApiKey(model.apiKey)}
-                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                        >
-                          <Copy className="w-4 h-4" />
                         </IconButton>
                       </Tooltip>
                       <Tooltip title="删除模型">
@@ -1008,81 +953,7 @@ const ModelsPage: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Test Model Dialog */}
-      <Dialog 
-        open={showTestDialog} 
-        onClose={() => setShowTestDialog(false)} 
-        maxWidth="md" 
-        fullWidth
-        PaperProps={{
-          className: "rounded-2xl shadow-2xl border border-gray-100"
-        }}
-      >
-        <DialogTitle className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-              <TestTube className="w-4 h-4 text-white" />
-            </div>
-            <Typography variant="h6" className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-              测试模型: {selectedModel?.name}
-            </Typography>
-          </div>
-        </DialogTitle>
-        <DialogContent>
-          <div className="space-y-4 pt-4">
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              label="测试提示词"
-              value={testPrompt}
-              onChange={(e) => setTestPrompt(e.target.value)}
-              placeholder="输入要测试的提示词..."
-            />
-            
-            <div className="flex space-x-3">
-              <Button
-                variant="contained"
-                startIcon={<TestTube />}
-                onClick={handleTestModel}
-                disabled={isTesting || !testPrompt.trim()}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:transform-none"
-              >
-                {isTesting ? '测试中...' : '开始测试'}
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  setTestPrompt('')
-                  setTestResult('')
-                }}
-                className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-all duration-200"
-              >
-                重置
-              </Button>
-            </div>
 
-            {testResult && (
-              <div>
-                <Typography variant="h6" className="mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 font-bold">
-                  测试结果
-                </Typography>
-                <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl border border-blue-200 p-4">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-700 font-mono bg-white p-3 rounded-lg border border-gray-200">{testResult}</pre>
-                </div>
-              </div>
-            )}
-          </div>
-        </DialogContent>
-        <DialogActions className="bg-gray-50 px-6 py-4">
-          <Button 
-            onClick={() => setShowTestDialog(false)}
-            className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
-          >
-            关闭
-          </Button>
-        </DialogActions>
-      </Dialog>
 
       <Snackbar
         open={snackbar.open}
