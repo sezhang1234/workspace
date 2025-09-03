@@ -29,34 +29,6 @@ export const workflows: Workflow[] = [
     nodes: 12,
     tags: ['订单', '自动化', '电商'],
     createdAt: '2024-01-15'
-  },
-  {
-    id: '2',
-    name: '用户反馈分析',
-    description: '收集和分析用户反馈数据，自动生成洞察报告和优先级建议',
-    status: 'completed',
-    trigger: '定时',
-    lastRun: '1小时前',
-    nextRun: '每天 9:00',
-    successRate: 100,
-    executionTime: '45s',
-    nodes: 8,
-    tags: ['分析', '反馈', '报告'],
-    createdAt: '2024-01-20'
-  },
-  {
-    id: '3',
-    name: '数据同步流程',
-    description: '多系统数据同步和备份，确保数据一致性和完整性',
-    status: 'scheduled',
-    trigger: '定时',
-    lastRun: '6小时前',
-    nextRun: '每4小时',
-    successRate: 95.2,
-    executionTime: '5.1s',
-    nodes: 15,
-    tags: ['同步', '备份', '数据'],
-    createdAt: '2024-01-10'
   }
 ]
 
