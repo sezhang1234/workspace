@@ -1757,16 +1757,23 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 </AccordionDetails>
               </Accordion>
 
-              {/* Knowledge Panel */}
-              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl bg-gradient-to-br from-white to-blue-50">
+              {/* Knowledge Panel - Disabled */}
+              <Accordion disabled className="shadow-lg border-2 border-gray-200 rounded-2xl bg-gray-50 opacity-60">
                 <AccordionSummary 
-                  expandIcon={<ChevronDown className="w-6 h-6 text-blue-600 transform transition-transform duration-200" />} 
-                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300"
+                  expandIcon={<ChevronDown className="w-6 h-6 text-gray-400" />} 
+                  className="px-6 py-4 cursor-not-allowed"
                 >
-                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-lg">
-                    <BookOpen className="mr-3 w-6 h-6 text-blue-500 drop-shadow-sm" />
-                    知识库配置
-                  </Typography>
+                  <div className="flex items-center justify-between w-full">
+                    <Typography variant="h6" className="flex items-center text-gray-500 font-bold text-lg">
+                      <BookOpen className="mr-3 w-6 h-6 text-gray-400" />
+                      知识库配置
+                    </Typography>
+                    <div className="ml-4 px-3 py-1 bg-yellow-100 border border-yellow-200 rounded-full">
+                      <Typography variant="caption" className="text-yellow-700 font-medium">
+                        此功能即将开放
+                      </Typography>
+                    </div>
+                  </div>
                 </AccordionSummary>
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
@@ -1842,16 +1849,23 @@ ${agentConfig.promptTuning.examples || '用户：你好\n助手：您好！我�
                 </AccordionDetails>
               </Accordion>
 
-              {/* Memory Panel */}
-              <Accordion defaultExpanded className="shadow-lg border-2 border-gradient-to-r from-purple-100 to-pink-100 rounded-2xl bg-gradient-to-br from-white to-purple-50">
+              {/* Memory Panel - Disabled */}
+              <Accordion disabled className="shadow-lg border-2 border-gray-200 rounded-2xl bg-gray-50 opacity-60">
                 <AccordionSummary 
-                  expandIcon={<ChevronDown className="w-6 h-6 text-purple-600 transform transition-transform duration-200" />} 
-                  className="px-6 py-4 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300"
+                  expandIcon={<ChevronDown className="w-6 h-6 text-gray-400" />} 
+                  className="px-6 py-4 cursor-not-allowed"
                 >
-                  <Typography variant="h6" className="flex items-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold text-lg">
-                    <Brain className="mr-3 w-6 h-6 text-purple-500 drop-shadow-sm" />
-                    记忆配置
-                  </Typography>
+                  <div className="flex items-center justify-between w-full">
+                    <Typography variant="h6" className="flex items-center text-gray-500 font-bold text-lg">
+                      <Brain className="mr-3 w-6 h-6 text-gray-400" />
+                      记忆配置
+                    </Typography>
+                    <div className="ml-4 px-3 py-1 bg-yellow-100 border border-yellow-200 rounded-full">
+                      <Typography variant="caption" className="text-yellow-700 font-medium">
+                        此功能即将开放
+                      </Typography>
+                    </div>
+                  </div>
                 </AccordionSummary>
                 <AccordionDetails className="px-6 pb-6">
                   <div className="space-y-6">
