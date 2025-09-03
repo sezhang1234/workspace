@@ -184,7 +184,6 @@ const WorkflowsPage: React.FC = () => {
             <option value="name">按名称排序</option>
             <option value="created">按创建时间排序</option>
             <option value="status">按状态排序</option>
-            <option value="successRate">按成功率排序</option>
             <option value="lastRun">按最后运行时间排序</option>
           </select>
         </div>
@@ -255,18 +254,6 @@ const WorkflowsPage: React.FC = () => {
                   </p>
                 </div>
                 <div className="text-center p-3 bg-gray-50 rounded-xl">
-                  <p className="text-xs text-gray-500 font-medium mb-1">执行时间</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
-                    {workflow.executionTime}
-                  </p>
-                </div>
-                <div className="text-center p-3 bg-gray-50 rounded-xl">
-                  <p className="text-xs text-gray-500 font-medium mb-1">成功率</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
-                    {workflow.successRate}%
-                  </p>
-                </div>
-                <div className="text-center p-3 bg-gray-50 rounded-xl">
                   <p className="text-xs text-gray-500 font-medium mb-1">最后运行</p>
                   <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
                     {workflow.lastRun}
@@ -274,18 +261,12 @@ const WorkflowsPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Status and next run */}
-              <div className="flex items-center justify-between mb-4">
+              {/* Status */}
+              <div className="flex items-center mb-4">
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(workflow.status)}`}>
                   {getStatusIcon(workflow.status)}
                   <span className="ml-1">{getStatusText(workflow.status)}</span>
                 </span>
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 font-medium">下次运行</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
-                    {workflow.nextRun}
-                  </p>
-                </div>
               </div>
             </div>
 
