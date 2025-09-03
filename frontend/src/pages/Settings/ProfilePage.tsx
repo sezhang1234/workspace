@@ -3,10 +3,7 @@ import { useAuthStore } from '../../stores/useAuthStore'
 import { 
   Save,
   Camera,
-  Edit3,
-  Shield,
-  Bell,
-  Globe
+  Edit3
 } from 'lucide-react'
 
 const ProfilePage: React.FC = () => {
@@ -20,12 +17,7 @@ const ProfilePage: React.FC = () => {
     lastName: '三',
     phone: '+86 138 0013 8000',
     location: '北京市朝阳区',
-    bio: '热爱AI技术，专注于智能体开发。拥有5年以上的软件开发经验，擅长Python、JavaScript和机器学习。',
-    website: 'https://github.com/jiuwen',
-    company: 'Jiuwen科技有限公司',
-    position: '高级AI工程师',
-    skills: ['Python', 'JavaScript', 'React', 'Machine Learning', 'LLM', 'AI Agent'],
-    interests: ['人工智能', '机器学习', '自然语言处理', '智能体开发', '开源项目']
+    bio: '热爱AI技术，专注于智能体开发。拥有5年以上的软件开发经验，擅长Python、JavaScript和机器学习。'
   })
 
   const handleInputChange = (field: string, value: string) => {
@@ -63,12 +55,7 @@ const ProfilePage: React.FC = () => {
       lastName: '三',
       phone: '+86 138 0013 8000',
       location: '北京市朝阳区',
-      bio: '热爱AI技术，专注于智能体开发。拥有5年以上的软件开发经验，擅长Python、JavaScript和机器学习。',
-              website: 'https://github.com/jiuwen',
-        company: 'Jiuwen科技有限公司',
-      position: '高级AI工程师',
-      skills: ['Python', 'JavaScript', 'React', 'Machine Learning', 'LLM', 'AI Agent'],
-      interests: ['人工智能', '机器学习', '自然语言处理', '智能体开发', '开源项目']
+      bio: '热爱AI技术，专注于智能体开发。拥有5年以上的软件开发经验，擅长Python、JavaScript和机器学习。'
     })
     setIsEditing(false)
   }
@@ -138,8 +125,8 @@ const ProfilePage: React.FC = () => {
             <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800 mb-1">
               {formData.firstName} {formData.lastName}
             </h2>
-            <p className="text-gray-600 mb-2 font-medium">{formData.position}</p>
-            <p className="text-sm text-gray-500 mb-6">{formData.company}</p>
+            <p className="text-gray-600 mb-2 font-medium">{user?.email}</p>
+            <p className="text-sm text-gray-500 mb-6">{formData.location}</p>
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4 py-4 border-t border-gray-200">
@@ -153,21 +140,7 @@ const ProfilePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Quick actions */}
-            <div className="space-y-2 pt-4 border-t border-gray-200">
-              <button className="w-full text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 py-2 rounded-lg transition-all duration-200 font-medium">
-                <Shield className="w-4 h-4 inline mr-2" />
-                安全设置
-              </button>
-              <button className="w-full text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 py-2 rounded-lg transition-all duration-200 font-medium">
-                <Bell className="w-4 h-4 inline mr-2" />
-                通知设置
-              </button>
-              <button className="w-full text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 py-2 rounded-lg transition-all duration-200 font-medium">
-                <Globe className="w-4 h-4 inline mr-2" />
-                隐私设置
-              </button>
-            </div>
+
           </div>
         </div>
 
@@ -257,53 +230,7 @@ const ProfilePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Professional Information */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Edit3 className="w-4 h-4 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">职业信息</h3>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  公司
-                </label>
-                <input
-                  type="text"
-                  value={formData.company}
-                  onChange={(e) => handleInputChange('company', e.target.value)}
-                  disabled={!isEditing}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  职位
-                </label>
-                <input
-                  type="text"
-                  value={formData.position}
-                  onChange={(e) => handleInputChange('position', e.target.value)}
-                  disabled={!isEditing}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  个人网站
-                </label>
-                <input
-                  type="url"
-                  value={formData.website}
-                  onChange={(e) => handleInputChange('website', e.target.value)}
-                  disabled={!isEditing}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300 transition-all duration-200 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
-                />
-              </div>
-            </div>
-          </div>
+
 
           {/* Bio */}
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
@@ -323,77 +250,9 @@ const ProfilePage: React.FC = () => {
             />
           </div>
 
-          {/* Skills */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Edit3 className="w-4 h-4 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">技能标签</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {formData.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 hover:from-blue-200 hover:to-indigo-200 transition-all duration-200"
-                >
-                  {skill}
-                  {isEditing && (
-                    <button
-                      onClick={() => {
-                        const newSkills = formData.skills.filter((_, i) => i !== index)
-                        handleInputChange('skills', JSON.stringify(newSkills))
-                      }}
-                      className="ml-2 text-blue-600 hover:text-blue-800 hover:bg-blue-200 rounded-full w-4 h-4 flex items-center justify-center"
-                    >
-                      ×
-                    </button>
-                  )}
-                </span>
-              ))}
-              {isEditing && (
-                <button className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-gray-100 to-blue-100 text-gray-700 border border-gray-200 hover:from-gray-200 hover:to-blue-200 transition-all duration-200">
-                  + 添加技能
-                </button>
-              )}
-            </div>
-          </div>
 
-          {/* Interests */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Edit3 className="w-4 h-4 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">兴趣爱好</h3>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {formData.interests.map((interest, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200 hover:from-green-200 hover:to-emerald-200 transition-all duration-200"
-                >
-                  {interest}
-                  {isEditing && (
-                    <button
-                      onClick={() => {
-                        const newInterests = formData.interests.filter((_, i) => i !== index)
-                        handleInputChange('interests', JSON.stringify(newInterests))
-                      }}
-                      className="ml-2 text-green-600 hover:text-green-800 hover:bg-green-200 rounded-full w-4 h-4 flex items-center justify-center"
-                    >
-                      ×
-                    </button>
-                  )}
-                </span>
-              ))}
-              {isEditing && (
-                <button className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-gray-100 to-green-100 text-gray-700 border border-gray-200 hover:from-gray-200 hover:to-green-200 transition-all duration-200">
-                  + 添加兴趣
-                </button>
-              )}
-            </div>
-          </div>
+
+
         </div>
       </div>
     </div>
