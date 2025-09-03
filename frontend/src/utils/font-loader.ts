@@ -3,7 +3,7 @@
  * 确保HarmonyOS字体在页面加载时被正确应用
  */
 
-import { smartFontPreload } from './font-preloader';
+
 
 // 字体加载状态
 let fontsLoaded = false;
@@ -71,9 +71,6 @@ export const applyFonts = (): void => {
 
 // 页面加载完成后自动加载字体
 if (typeof window !== 'undefined') {
-  // 启动智能字体预加载
-  smartFontPreload();
-  
   // 在DOMContentLoaded后加载字体
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadFonts);
