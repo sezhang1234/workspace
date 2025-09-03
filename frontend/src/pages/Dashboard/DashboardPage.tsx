@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { 
   Bot, 
   Workflow, 
+  FileText,
   TrendingUp, 
   Users, 
   Zap,
