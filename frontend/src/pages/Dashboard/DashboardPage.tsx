@@ -12,15 +12,15 @@ const DashboardPage: React.FC = () => {
   const stats = [
     {
       name: '智能体总数',
-      value: '12',
-      change: '+2',
+      value: '1',
+      change: '+1',
       changeType: 'positive',
       icon: Bot,
       color: 'bg-blue-500'
     },
     {
       name: '工作流总数',
-      value: '8',
+      value: '1',
       change: '+1',
       changeType: 'positive',
       icon: Workflow,
@@ -36,22 +36,6 @@ const DashboardPage: React.FC = () => {
       status: 'active',
       lastActive: '2小时前',
       avatar: '🤖'
-    },
-    {
-      id: 2,
-      name: '数据分析师',
-      description: '数据分析智能体，自动生成报告',
-      status: 'active',
-      lastActive: '1天前',
-      avatar: '📊'
-    },
-    {
-      id: 3,
-      name: '代码助手',
-      description: '编程辅助智能体，代码审查和优化',
-      status: 'active',
-      lastActive: '3小时前',
-      avatar: '💻'
     }
   ]
 
@@ -63,22 +47,6 @@ const DashboardPage: React.FC = () => {
       status: 'running',
       lastRun: '5分钟前',
       successRate: '98%'
-    },
-    {
-      id: 2,
-      name: '用户反馈分析',
-      description: '收集和分析用户反馈数据',
-      status: 'completed',
-      lastRun: '1小时前',
-      successRate: '100%'
-    },
-    {
-      id: 3,
-      name: '数据同步流程',
-      description: '多系统数据同步和备份',
-      status: 'completed',
-      lastRun: '6小时前',
-      successRate: '95%'
     }
   ]
 

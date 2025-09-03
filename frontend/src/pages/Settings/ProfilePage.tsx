@@ -131,11 +131,11 @@ const ProfilePage: React.FC = () => {
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4 py-4 border-t border-gray-200">
               <div className="text-center">
-                <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">12</p>
+                <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">1</p>
                 <p className="text-xs text-gray-500 font-medium">智能体</p>
               </div>
               <div className="text-center">
-                <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">8</p>
+                <p className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">1</p>
                 <p className="text-xs text-gray-500 font-medium">工作流</p>
               </div>
             </div>
