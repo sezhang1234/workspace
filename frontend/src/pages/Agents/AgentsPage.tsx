@@ -18,8 +18,7 @@ import {
   Edit, 
   Trash2,
   MoreVertical,
-  Settings,
-  Copy
+  Settings
 } from 'lucide-react'
 
 interface Agent {
@@ -33,7 +32,6 @@ interface Agent {
   usageCount: number
   tags: string[]
   createdAt: string
-  apiEndpoint: string
 }
 
 const AgentsPage: React.FC = () => {
@@ -267,25 +265,6 @@ const AgentsPage: React.FC = () => {
 
               {/* Last active */}
               <p className="text-xs text-gray-500 mb-4 font-medium">最后活跃: {agent.lastActive}</p>
-              
-              {/* API Endpoint - Only show for published agents */}
-              {agent.status !== 'unpublished' && (
-                <div className="mb-4">
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-2">智能体 API</p>
-                  <div className="flex items-center space-x-2">
-                    <code className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-mono flex-1 truncate">
-                      {agent.apiEndpoint}
-                    </code>
-                    <button 
-                      onClick={() => navigator.clipboard.writeText(agent.apiEndpoint)}
-                      className="p-1 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-all duration-200"
-                      title="复制API地址"
-                    >
-                      <Copy className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Actions */}
