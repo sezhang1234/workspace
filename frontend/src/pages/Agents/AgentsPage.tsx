@@ -13,7 +13,7 @@ import {
   Brain, 
   Plus, 
   Search, 
-  TestTube, 
+  Play, 
   Edit, 
   Trash2,
   MoreVertical
@@ -274,7 +274,7 @@ const AgentsPage: React.FC = () => {
                     className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-200"
                     title="预览和测试运行"
                   >
-                    <TestTube className="w-4 h-4" />
+                    <Play className="w-4 h-4" />
                   </Link>
                   <Link
                     to={`/dashboard/agents/${agent.id}?tab=prompt`}
