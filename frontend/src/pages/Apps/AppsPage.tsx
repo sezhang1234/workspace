@@ -6,21 +6,10 @@ import {
 import { 
   Plus, 
   Search, 
-  Filter, 
   Sparkles, 
-  Brain, 
-  Code, 
-  Database, 
-  Calculator,
   BookOpen,
-  MessageSquare,
-  Zap,
-  Settings,
   Play,
-  Copy,
   Star,
-  Eye,
-  Download,
   MoreVertical
 } from 'lucide-react'
 
@@ -53,68 +42,17 @@ const agentTemplates: AgentTemplate[] = [
     isCustomizable: true,
     features: ['多文档分析', '学术引用', '深度总结', '研究建议'],
     estimatedTime: '5-10分钟'
-  },
-  {
-    id: 'data-analyst',
-    name: 'Data Analysis',
-    description: '专业数据分析智能体，能够处理各种数据格式，生成可视化图表和洞察报告。',
-    category: '数据分析',
-    difficulty: 'intermediate',
-    tags: ['数据分析', '可视化', '统计', '报告'],
-    icon: <Database className="w-8 h-8" />,
-    usageCount: 2156,
-    rating: 4.9,
-    isCustomizable: true,
-    features: ['数据清洗', '统计分析', '图表生成', '趋势预测'],
-    estimatedTime: '3-8分钟'
-  },
-  {
-    id: 'code-assistant',
-    name: 'Code Assistant',
-    description: '编程助手智能体，支持多种编程语言，提供代码审查、优化建议和调试帮助。',
-    category: '编程开发',
-    difficulty: 'advanced',
-    tags: ['编程', '代码审查', '调试', '优化'],
-    icon: <Code className="w-8 h-8" />,
-    usageCount: 3421,
-    rating: 4.7,
-    isCustomizable: true,
-    features: ['多语言支持', '代码审查', '性能优化', '单元测试'],
-    estimatedTime: '2-5分钟'
-  },
-  {
-    id: 'compute-user',
-    name: 'Computer Use',
-    description: '计算机操作智能体，能够像人类用户一样操作计算机、与软件交互、浏览网页、填写表单并执行各种任务。',
-    category: '计算机操作',
-    difficulty: 'advanced',
-    tags: ['计算机操作', '软件交互', '网页浏览', '任务执行'],
-    icon: <Code className="w-8 h-8" />,
-    usageCount: 987,
-    rating: 4.6,
-    isCustomizable: true,
-    features: ['软件操作', '网页浏览', '表单填写', '任务自动化'],
-    estimatedTime: '5-15分钟'
-  },
-
+  }
 ]
 
 const AppsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedDifficulty, setSelectedDifficulty] = useState('all')
-  const [showCustomizeDialog, setShowCustomizeDialog] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState<AgentTemplate | null>(null)
-  const [customizationData, setCustomizationData] = useState({
-    name: '',
-    description: '',
-    category: '',
-    tags: '',
-    features: [] as string[]
-  })
+
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as any })
 
-  const categories = ['all', '研究分析', '数据分析', '编程开发', '计算机操作']
+  const categories = ['all', '研究分析']
   const difficulties = ['all', 'beginner', 'intermediate', 'advanced']
 
   const getDifficultyText = (difficulty: string) => {
@@ -145,34 +83,7 @@ const AppsPage: React.FC = () => {
     return matchesSearch && matchesCategory && matchesDifficulty
   })
 
-  const handleUseTemplate = (template: AgentTemplate) => {
-    if (template.isCustomizable) {
-      setSelectedTemplate(template)
-      setCustomizationData({
-        name: template.name,
-        description: template.description,
-        category: template.category,
-        tags: template.tags.join(', '),
-        features: template.features
-      })
-      setShowCustomizeDialog(true)
-    } else {
-      // Direct usage without customization
-      setSnackbar({ open: true, message: `正在使用 ${template.name}...`, severity: 'success' })
-    }
-  }
 
-  const handleCustomize = () => {
-    if (selectedTemplate) {
-      setSnackbar({ open: true, message: `正在创建自定义 ${selectedTemplate.name}...`, severity: 'success' })
-      setShowCustomizeDialog(false)
-    }
-  }
-
-  const handleCopyTemplate = (template: AgentTemplate) => {
-    navigator.clipboard.writeText(JSON.stringify(template, null, 2))
-    setSnackbar({ open: true, message: '模板信息已复制到剪贴板', severity: 'info' })
-  }
 
   return (
     <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 via-white to-blue-50 min-h-screen">
@@ -328,18 +239,11 @@ const AppsPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <button
-                    onClick={() => handleCopyTemplate(template)}
-                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
-                    title="添加到工作空间"
+                    onClick={() => setSnackbar({ open: true, message: `正在测试运行 ${template.name}...`, severity: 'info' })}
+                    className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all duration-200"
+                    title="测试运行"
                   >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleUseTemplate(template)}
-                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
-                    title={template.isCustomizable ? '自定义使用' : '直接使用'}
-                  >
-                    {template.isCustomizable ? <Settings className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                    <Play className="w-4 h-4" />
                   </button>
                 </div>
                 
@@ -381,121 +285,7 @@ const AppsPage: React.FC = () => {
         </div>
       )}
 
-      {/* Customization Modal */}
-      {showCustomizeDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-6 py-4 rounded-t-2xl">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                  <Settings className="w-4 h-4 text-white" />
-                </div>
-                <h6 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-blue-800">
-                  自定义 {selectedTemplate?.name}
-                </h6>
-              </div>
-            </div>
-            
-            {/* Modal Content */}
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">应用名称</label>
-                  <input
-                    type="text"
-                    value={customizationData.name}
-                    onChange={(e) => setCustomizationData({ ...customizationData, name: e.target.value })}
-                    placeholder="输入自定义应用名称"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">分类</label>
-                  <select
-                    value={customizationData.category}
-                    onChange={(e) => setCustomizationData({ ...customizationData, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    {categories.filter(cat => cat !== 'all').map(category => (
-                      <option key={category} value={category}>{category}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">描述</label>
-                  <textarea
-                    value={customizationData.description}
-                    onChange={(e) => setCustomizationData({ ...customizationData, description: e.target.value })}
-                    placeholder="描述您的自定义应用..."
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">标签</label>
-                  <input
-                    type="text"
-                    value={customizationData.tags}
-                    onChange={(e) => setCustomizationData({ ...customizationData, tags: e.target.value })}
-                    placeholder="用逗号分隔多个标签"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">例如: 研究, 分析, 学术</p>
-                </div>
-                
-                <div className="md:col-span-2">
-                  <h6 className="text-lg font-semibold text-gray-900 mb-4">功能特性</h6>
-                  <div className="space-y-3">
-                    {selectedTemplate?.features.map((feature, index) => (
-                      <label key={index} className="flex items-center space-x-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={customizationData.features.includes(feature)}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setCustomizationData({
-                                ...customizationData,
-                                features: [...customizationData.features, feature]
-                              })
-                            } else {
-                              setCustomizationData({
-                                ...customizationData,
-                                features: customizationData.features.filter(f => f !== feature)
-                              })
-                            }
-                          }}
-                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                        />
-                        <span className="text-gray-700">{feature}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Modal Actions */}
-            <div className="bg-gray-50 px-6 py-4 rounded-b-2xl flex justify-end space-x-4">
-              <button 
-                onClick={() => setShowCustomizeDialog(false)}
-                className="text-gray-600 hover:text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-all duration-200"
-              >
-                取消
-              </button>
-              <button 
-                onClick={handleCustomize}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-semibold transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                创建应用
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Snackbar */}
       <Snackbar
