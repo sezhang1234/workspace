@@ -93,7 +93,7 @@ const AppsPage: React.FC = () => {
           探索应用
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
-          探索和使用预构建的智能体模板，快速创建专业应用
+          探索和使用预构建的智能体，快速创建专业应用
         </p>
       </div>
 
