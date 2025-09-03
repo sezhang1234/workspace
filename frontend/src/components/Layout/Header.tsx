@@ -10,6 +10,7 @@ import {
   LogOut,
   ChevronDown
 } from 'lucide-react'
+import { AuthService } from '../../services/api/authService'
 
 
 interface HeaderProps {
@@ -42,7 +43,8 @@ const Header: React.FC<HeaderProps> = ({ user, onMenuClick }) => {
 
   const handleLogout = async () => {
     try {
-      // 登出功能（本地处理）
+      // 调用AuthService的logout方法
+      await AuthService.logout()
       // 清除本地状态
       logout()
       navigate('/login')

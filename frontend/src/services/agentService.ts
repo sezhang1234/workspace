@@ -84,3 +84,58 @@ export const deleteAgent = (id: string): boolean => {
   return false
 }
 
+// Helper function to generate API endpoint from agent name
+const generateApiEndpoint = (agentName: string): string => {
+  // Convert Chinese name to English slug or use English name directly
+  const nameMap: { [key: string]: string } = {
+    '客服助手': 'customer-service',
+    '数据分析师': 'data-analyst',
+    '代码助手': 'code-assistant',
+    '出行规划智能体': 'travel-planner',
+    '智能客服': 'customer-service',
+    '数据分析': 'data-analysis',
+    '编程助手': 'programming-assistant',
+    '翻译助手': 'translation-assistant'
+  }
+  
+  // If we have a mapping, use it
+  if (nameMap[agentName]) {
+    return `https://api.jiuwen.ai/v1/agents/${nameMap[agentName]}`
+  }
+  
+  // If it's already in English, convert to slug format
+  if (/^[a-zA-Z\s]+$/.test(agentName)) {
+    const slug = agentName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+    return `https://api.jiuwen.ai/v1/agents/${slug}`
+  }
+  
+  // For other cases, generate a unique identifier
+  const timestamp = Date.now()
+  const randomId = Math.random().toString(36).substring(2, 8)
+  return `https://api.jiuwen.ai/v1/agents/agent-${timestamp}-${randomId}`
+}
+
+// Publish agent (change status from draft/unpublished to active)
+export const publishAgent = (id: string): Agent | null => {
+  const agent = getAgentById(id)
+  if (agent && (agent.status === 'draft' || agent.status === 'unpublished')) {
+    return updateAgent(id, { 
+      status: 'active',
+      lastActive: '刚刚',
+      apiEndpoint: generateApiEndpoint(agent.name)
+    })
+  }
+  return null
+}
+
+// Unpublish agent (change status to unpublished)
+export const unpublishAgent = (id: string): Agent | null => {
+  const agent = getAgentById(id)
+  if (agent && agent.status === 'active') {
+    return updateAgent(id, { 
+      status: 'unpublished',
+      lastActive: '未激活'
+    })
+  }
+  return null
+}
