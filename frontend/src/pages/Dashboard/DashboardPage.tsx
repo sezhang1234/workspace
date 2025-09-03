@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { 
   Bot, 
   Workflow, 
-  FileText, 
   TrendingUp, 
   Users, 
   Zap,
   Plus,
-  BarChart3
+  Brain,
+  Layers
 } from 'lucide-react'
 
 const DashboardPage: React.FC = () => {
@@ -117,17 +117,17 @@ const DashboardPage: React.FC = () => {
       color: 'bg-green-500 hover:bg-green-600'
     },
     {
-      name: '编写提示词',
-      description: '创建和优化提示词模板',
-      icon: FileText,
-      href: '/dashboard/prompts/new',
+      name: '管理模型',
+      description: '配置和管理AI模型设置',
+      icon: Brain,
+      href: '/dashboard/models',
       color: 'bg-purple-500 hover:bg-purple-600'
     },
     {
-      name: '查看分析',
-      description: '查看详细的性能分析报告',
-      icon: BarChart3,
-      href: '/dashboard/analytics',
+      name: '应用模板',
+      description: '浏览和使用预制应用模板',
+      icon: Layers,
+      href: '/dashboard/apps',
       color: 'bg-orange-500 hover:bg-orange-600'
     }
   ]

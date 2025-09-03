@@ -12,10 +12,7 @@ import AgentEditorEnhancedPage from './pages/Agents/AgentEditorEnhancedPage'
 import WorkflowsPage from './pages/Workflows/WorkflowsPage'
 
 import WorkflowCreationPage from './pages/Workflows/WorkflowCreationPage'
-import PromptsPage from './pages/Prompts/PromptsPage'
-import PromptEditorPage from './pages/Prompts/PromptEditorPage'
 import ModelsPage from './pages/Models/ModelsPage'
-import AnalyticsPage from './pages/Analytics/AnalyticsPage'
 import SettingsPage from './pages/Settings/SettingsPage'
 import ProfilePage from './pages/Settings/ProfilePage'
 import { DemoFreeLayout } from 'workflow-canvas'
@@ -58,11 +55,7 @@ const App: React.FC = () => {
 
         <Route path="workflows/new" element={<WorkflowCreationPage />} />
         <Route path="workflows/editor/:id?" element={<DemoFreeLayout />} />
-        <Route path="prompts" element={<PromptsPage />} />
-        <Route path="prompts/:id" element={<PromptEditorPage />} />
-        <Route path="prompts/new" element={<PromptEditorPage />} />
         <Route path="models" element={<ModelsPage />} />
-        <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="profile" element={<ProfilePage />} />
       </Route>

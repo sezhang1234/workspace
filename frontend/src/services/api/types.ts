@@ -385,36 +385,7 @@ export interface UpdatePromptRequest {
   isTemplate?: boolean
 }
 
-// 分析统计相关类型
-export interface AnalyticsOverview {
-  totalWorkflows: number
-  totalAgents: number
-  totalUsers: number
-  activeWorkflows: number
-  totalExecutions: number
-  successRate: number
-  averageExecutionTime: number
-  systemHealth: SystemHealth
-  recentActivity: RecentActivity[]
-}
 
-export interface SystemHealth {
-  status: 'healthy' | 'warning' | 'critical'
-  cpuUsage: number
-  memoryUsage: number
-  diskUsage: number
-  networkLatency: number
-  lastUpdated: string
-}
-
-export interface RecentActivity {
-  id: string
-  type: 'workflow_execution' | 'user_login' | 'system_event' | 'error'
-  description: string
-  timestamp: string
-  severity: 'info' | 'warning' | 'error'
-  metadata?: Record<string, any>
-}
 
 // 通用查询参数
 export interface DateRangeParams {
