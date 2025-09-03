@@ -144,8 +144,40 @@ const AgentEditorEnhancedPage: React.FC = () => {
   const location = useLocation()
   const { id } = useParams()
   
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(() => {
+    // Check URL parameters to set initial tab
+    const urlParams = new URLSearchParams(location.search)
+    const tabParam = urlParams.get('tab')
+    
+    switch (tabParam) {
+      case 'prompt': return 0  // System Prompt Configuration
+      case 'orchestration': return 1  // Orchestration Configuration  
+      case 'preview': return 2  // Preview and Test Run
+      default: return 0  // Default to System Prompt Configuration
+    }
+  })
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' | 'info' })
+  
+  // Handle URL parameter changes for tab selection
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    const tabParam = urlParams.get('tab')
+    
+    switch (tabParam) {
+      case 'prompt': 
+        setActiveTab(0)
+        break
+      case 'orchestration': 
+        setActiveTab(1)
+        break
+      case 'preview': 
+        setActiveTab(2)
+        break
+      default: 
+        setActiveTab(0)
+        break
+    }
+  }, [location.search])
   
   // Context menu and optimization dialog state
   const [contextMenu, setContextMenu] = useState<{
