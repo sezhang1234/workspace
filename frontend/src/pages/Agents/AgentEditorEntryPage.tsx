@@ -150,40 +150,29 @@ const AgentEditorEntryPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* AI Edit Card */}
+                  {/* AI Edit Card - Disabled */}
                   <div
-                    onClick={() => setAgentData(prev => ({ ...prev, editMode: 'ai' }))}
-                    className={`p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
-                      agentData.editMode === 'ai'
-                        ? 'border-purple-500 bg-purple-50 shadow-lg'
-                        : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50'
-                    }`}
+                    className="p-4 border-2 rounded-xl cursor-not-allowed transition-all duration-200 border-gray-200 bg-gray-50 opacity-60"
                   >
                     <div className="flex flex-col items-center text-center space-y-3">
-                      <div className={`p-3 rounded-full ${
-                        agentData.editMode === 'ai' ? 'bg-purple-100' : 'bg-gray-100'
-                      }`}>
-                        <Sparkles className={`w-8 h-8 ${
-                          agentData.editMode === 'ai' ? 'text-purple-600' : 'text-gray-600'
-                        }`} />
+                      <div className="p-3 rounded-full bg-gray-100">
+                        <Sparkles className="w-8 h-8 text-gray-400" />
                       </div>
                       <div>
-                        <div className={`text-lg font-bold mb-1 ${
-                          agentData.editMode === 'ai' ? 'text-purple-800' : 'text-gray-800'
-                        }`}>
+                        <div className="text-lg font-bold mb-1 text-gray-500">
                           AI 智能生成
                         </div>
-                        <div className="text-sm text-gray-600 leading-relaxed">
+                        <div className="text-sm text-gray-400 leading-relaxed">
                           智能生成配置建议<br/>
                           自动优化参数设置<br/>
                           快速上手
                         </div>
-                      </div>
-                      {agentData.editMode === 'ai' && (
-                        <div className="w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
-                          <Check className="w-3 h-3 text-white" />
+                        <div className="mt-3 px-3 py-1 bg-yellow-100 border border-yellow-200 rounded-full">
+                          <div className="text-xs text-yellow-700 font-medium">
+                            此功能即将开放
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -259,20 +248,7 @@ const AgentEditorEntryPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* AI Edit Mode Info */}
-              {agentData.editMode === 'ai' && (
-                <Alert 
-                  severity="info" 
-                  icon={<Sparkles className="w-6 h-6" />}
-                  className="border border-blue-200 bg-blue-50"
-                >
-                  <Typography variant="body1" className="text-blue-800">
-                    <strong>自动生成提示词：</strong>
-                    系统将根据您的描述自动生成智能体配置，包括系统提示词、模型参数等。
-                    您可以在下一步中查看和调整生成的配置。
-                  </Typography>
-                </Alert>
-              )}
+
 
               {/* Action Buttons */}
               <div className="flex justify-end space-x-6 pt-8">
