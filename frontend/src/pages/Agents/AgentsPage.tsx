@@ -27,7 +27,6 @@ interface Agent {
   status: 'active' | 'inactive' | 'error' | 'unpublished'
   model: string
   lastActive: string
-  usageCount: number
   tags: string[]
   createdAt: string
 }
@@ -188,7 +187,6 @@ const AgentsPage: React.FC = () => {
           >
             <option value="name">按名称排序</option>
             <option value="created">按创建时间排序</option>
-            <option value="usage">按使用次数排序</option>
             <option value="lastActive">按最后活跃时间排序</option>
           </select>
         </div>
@@ -253,12 +251,7 @@ const AgentsPage: React.FC = () => {
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(agent.status)}`}>
                   {getStatusText(agent.status)}
                 </span>
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 font-medium">使用次数</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
-                    {agent.usageCount.toLocaleString()}
-                  </p>
-                </div>
+
               </div>
 
               {/* Last active */}

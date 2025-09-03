@@ -21,7 +21,6 @@ interface AgentTemplate {
   difficulty: 'beginner' | 'intermediate' | 'advanced'
   tags: string[]
   icon: React.ReactNode
-  usageCount: number
   rating: number
   isCustomizable: boolean
   features: string[]
@@ -37,7 +36,6 @@ const agentTemplates: AgentTemplate[] = [
     difficulty: 'intermediate',
     tags: ['研究', '分析', '学术', '文档处理'],
     icon: <BookOpen className="w-8 h-8" />,
-    usageCount: 1247,
     rating: 4.8,
     isCustomizable: true,
     features: ['多文档分析', '学术引用', '深度总结', '研究建议'],
@@ -202,12 +200,7 @@ const AppsPage: React.FC = () => {
                 <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getDifficultyColor(template.difficulty)}`}>
                   {getDifficultyText(template.difficulty)}
                 </span>
-                <div className="text-right">
-                  <p className="text-xs text-gray-500 font-medium">使用次数</p>
-                  <p className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-blue-700">
-                    {template.usageCount.toLocaleString()}
-                  </p>
-                </div>
+
               </div>
 
               {/* Features */}
