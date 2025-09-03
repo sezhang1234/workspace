@@ -67,9 +67,7 @@ const SettingsPage: React.FC = () => {
     timeFormat: '24h',
     autoSave: true,
     autoSaveInterval: 5,
-    maxFileSize: 10,
-    enableAnalytics: true,
-    enableTelemetry: false
+    maxFileSize: 10
   })
 
   // Security settings state
@@ -276,29 +274,7 @@ const SettingsPage: React.FC = () => {
               </Grid>
             )}
 
-            <Divider />
-            
-            <Typography variant="h6">隐私设置</Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={generalSettings.enableAnalytics}
-                    onChange={(e) => setGeneralSettings({ ...generalSettings, enableAnalytics: e.target.checked })}
-                  />
-                }
-                label="启用使用分析"
-              />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={generalSettings.enableTelemetry}
-                    onChange={(e) => setGeneralSettings({ ...generalSettings, enableTelemetry: e.target.checked })}
-                  />
-                }
-                label="启用遥测数据收集"
-              />
-            </FormGroup>
+
           </div>
         </TabPanel>
 
