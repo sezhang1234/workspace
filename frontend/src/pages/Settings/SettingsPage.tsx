@@ -59,7 +59,6 @@ const SettingsPage: React.FC = () => {
   // General settings state
   const [generalSettings, setGeneralSettings] = useState({
     language: 'zh-CN',
-    timezone: 'Asia/Shanghai',
     dateFormat: 'YYYY-MM-DD',
     timeFormat: '24h',
     autoSave: true,
@@ -176,26 +175,10 @@ const SettingsPage: React.FC = () => {
                   >
                     <MenuItem value="zh-CN">简体中文</MenuItem>
                     <MenuItem value="en-US">English</MenuItem>
-                    <MenuItem value="ja-JP">日本語</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               
-              <Grid item xs={12} md={6}>
-                <FormControl fullWidth>
-                  <InputLabel>时区</InputLabel>
-                  <Select
-                    value={generalSettings.timezone}
-                    label="时区"
-                    onChange={(e) => setGeneralSettings({ ...generalSettings, timezone: e.target.value })}
-                    className="[& .MuiOutlinedInput-root]:rounded-xl [& .MuiOutlinedInput-root]:border-gray-200 [& .MuiOutlinedInput-root]:focus:border-blue-300 [& .MuiOutlinedInput-root]:focus:ring-blue-500"
-                  >
-                    <MenuItem value="Asia/Shanghai">中国标准时间 (UTC+8)</MenuItem>
-                    <MenuItem value="America/New_York">美国东部时间 (UTC-5)</MenuItem>
-                    <MenuItem value="Europe/London">格林威治时间 (UTC+0)</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
             </Grid>
 
             <Divider />
