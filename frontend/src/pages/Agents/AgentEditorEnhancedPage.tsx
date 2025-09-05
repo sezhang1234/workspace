@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { getAllWorkflows, type Workflow } from '../../services/workflowService'
-import { addAgent, updateAgent, getAgentById, type Agent } from '../../services/agentService'
+import { addAgent, updateAgent, getAgentById } from '../../services/agentService'
 import { 
   ArrowLeft, 
   Save, 
@@ -102,7 +102,7 @@ interface AgentConfig {
   workflows: string[]
   triggers: string[]
   knowledge: string[]
-  memory: any[]
+  memory: { maxTokens: number }
   openingRemarks: string
   
   // Preview and Debug
@@ -477,7 +477,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
           plugins: agentConfig.plugins,
           workflows: agentConfig.workflows,
           knowledge: agentConfig.knowledge || [],
-          memory: agentConfig.memory || [],
+          memory: agentConfig.memory || { maxTokens: 1000 },
           openingRemarks: agentConfig.openingRemarks
         })
         
@@ -503,7 +503,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
           plugins: agentConfig.plugins,
           workflows: agentConfig.workflows,
           knowledge: agentConfig.knowledge || [],
-          memory: agentConfig.memory || [],
+          memory: agentConfig.memory || { maxTokens: 1000 },
           openingRemarks: agentConfig.openingRemarks
         })
         

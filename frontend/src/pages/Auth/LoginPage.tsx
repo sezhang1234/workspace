@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
 
     try {
       // 调用AuthService的login方法
-      // const response = await AuthService.login(loginRequest)
+      // const response = await AuthService.login(data)
 
       login({
         id: '1',
