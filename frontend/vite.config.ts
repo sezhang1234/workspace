@@ -25,15 +25,30 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false,
     rollupOptions: {
       external: [],
       onwarn: (warning, warn) => {
         // Ignore certain warnings to reduce memory usage
         if (warning.code === 'EVAL') return;
         warn(warning);
+      },
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          mui: ['@mui/material', '@emotion/react', '@emotion/styled'],
+          workflow: ['workflow-canvas'],
+          icons: ['lucide-react', '@mui/icons-material']
+        }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 2000,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
   },
 })
