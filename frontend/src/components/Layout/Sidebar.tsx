@@ -6,18 +6,11 @@ import {
   Home, 
   Bot, 
   Workflow, 
-  FileText, 
   Brain, 
-  BarChart3, 
   X, 
   ChevronRight,
-  Zap,
-  ChevronLeft,
-  ChevronRight as ChevronRightIcon,
   PanelLeftClose,
   PanelLeftOpen,
-  ArrowLeftRight,
-  SplitSquareVertical,
   Layers
 } from 'lucide-react'
 

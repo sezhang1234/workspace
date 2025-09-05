@@ -5,14 +5,12 @@ import {
 } from 'lucide-react'
 import { 
   TextField, 
-  Button, 
   Select, 
   MenuItem, 
   FormControl, 
   InputLabel, 
   Switch, 
   FormControlLabel,
-  Chip,
   Tabs,
   Tab,
   Box,
@@ -20,7 +18,6 @@ import {
   Alert,
   Snackbar,
   Grid,
-  Avatar,
   Divider,
   FormGroup
 } from '@mui/material'
@@ -70,49 +67,6 @@ const SettingsPage: React.FC = () => {
     maxFileSize: 10
   })
 
-  // Security settings state
-  const [securitySettings, setSecuritySettings] = useState({
-    twoFactorAuth: false,
-    sessionTimeout: 30,
-    maxLoginAttempts: 5,
-    passwordMinLength: 8,
-    requireSpecialChars: true,
-    requireNumbers: true,
-    requireUppercase: true,
-    enableAuditLog: true
-  })
-
-
-
-  // Profile settings state
-  const [profileSettings, setProfileSettings] = useState({
-    firstName: '张',
-    lastName: '三',
-    email: 'zhangsan@example.com',
-    phone: '+86 138 0013 8000',
-    company: '智能科技有限公司',
-    position: 'AI工程师',
-    bio: '专注于AI和机器学习技术，有5年以上的开发经验。',
-    location: '北京',
-    website: 'https://zhangsan.dev',
-    skills: ['React', 'TypeScript', 'AI/ML', 'Python'],
-    interests: ['人工智能', '开源项目', '技术分享']
-  })
-
-
-
-  // Appearance settings state
-  const [appearanceSettings, setAppearanceSettings] = useState({
-    theme: 'light',
-    primaryColor: '#3b82f6',
-    fontSize: 'medium',
-    compactMode: false,
-    showAnimations: true,
-    sidebarCollapsed: false,
-    showBreadcrumbs: true,
-    enableDarkMode: true,
-    autoSwitchTheme: false
-  })
 
 
 

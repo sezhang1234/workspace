@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuthStore } from '../../stores/useAuthStore'
 import JiuwenLogo from '../../components/Common/JiuwenLogo'
@@ -48,10 +48,6 @@ const LoginPage: React.FC = () => {
   const handleLogin = (data: LoginForm) => {
     setIsLoadingLogin(true)
 
-    const loginRequest = {
-      email: data.email,
-      password: data.password,
-    }
 
     try {
       // 调用AuthService的login方法

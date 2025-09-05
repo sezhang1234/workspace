@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { getAllWorkflows, type Workflow } from '../../services/workflowService'
-import { addAgent, updateAgent, publishAgent, getAgentById, type Agent } from '../../services/agentService'
+import { addAgent, updateAgent, getAgentById, type Agent } from '../../services/agentService'
 import { 
   ArrowLeft, 
   Save, 
   Play, 
-  TestTube,
   Copy,
   Download,
   Upload,
@@ -103,9 +102,7 @@ interface AgentConfig {
   workflows: string[]
   triggers: string[]
   knowledge: string[]
-  memory: {
-    maxTokens: number
-  }
+  memory: any[]
   openingRemarks: string
   
   // Preview and Debug
@@ -355,9 +352,7 @@ const AgentEditorEnhancedPage: React.FC = () => {
     workflows: [],
     triggers: [],
     knowledge: [],
-    memory: {
-      maxTokens: 1000
-    },
+    memory: [],
     openingRemarks: '',
     
     // Preview and Debug

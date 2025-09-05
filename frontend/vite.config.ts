@@ -26,5 +26,14 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    rollupOptions: {
+      external: [],
+      onwarn: (warning, warn) => {
+        // Ignore certain warnings to reduce memory usage
+        if (warning.code === 'EVAL') return;
+        warn(warning);
+      }
+    },
+    chunkSizeWarningLimit: 1000,
   },
 })

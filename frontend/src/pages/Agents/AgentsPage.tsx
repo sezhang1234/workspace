@@ -19,18 +19,6 @@ import {
   MoreVertical
 } from 'lucide-react'
 
-interface Agent {
-  id: string
-  name: string
-  description: string
-  avatar: string
-  status: 'active' | 'inactive' | 'error' | 'unpublished'
-  model: string
-  lastActive: string
-  tags: string[]
-  createdAt: string
-}
-
 const AgentsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
