@@ -36,7 +36,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'HarmonyOS Sans SC', 'HarmonyOS Sans', 'system-ui', 'sans-serif'],
+        sans: ['HarmonyOS Sans SC', 'HarmonyOS Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
       fontWeight: {
         normal: '400',

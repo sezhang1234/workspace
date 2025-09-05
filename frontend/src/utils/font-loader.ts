@@ -71,14 +71,15 @@ export const applyFonts = (): void => {
 
 // 页面加载完成后自动加载字体
 if (typeof window !== 'undefined') {
-  // 启动智能字体预加载
-  smartFontPreload();
-  
   // 在DOMContentLoaded后加载字体
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFonts);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFonts();
+      applyFonts();
+    });
   } else {
     loadFonts();
+    applyFonts();
   }
   
   // 在页面完全加载后再次确保字体应用

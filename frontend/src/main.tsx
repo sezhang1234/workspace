@@ -27,7 +27,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Inter, HarmonyOS Sans, HarmonyOS Sans SC, system-ui, sans-serif',
+    fontFamily: 'HarmonyOS Sans SC, HarmonyOS Sans, Inter, system-ui, sans-serif',
   },
   components: {
     MuiButton: {
