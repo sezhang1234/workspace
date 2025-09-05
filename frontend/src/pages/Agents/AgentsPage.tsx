@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { getAllAgents, deleteAgent, type Agent } from '../../services/agentService'
+import { getAllAgents, deleteAgent, type Agent as ServiceAgent } from '../../services/agentService'
 import { 
   Dialog, 
   DialogTitle, 
@@ -24,7 +24,7 @@ const AgentsPage: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [sortBy, setSortBy] = useState<string>('name')
 
-  const [agents, setAgents] = useState<Agent[]>([])
+  const [agents, setAgents] = useState<ServiceAgent[]>([])
   
   // Delete confirmation dialog state
   const [deleteDialog, setDeleteDialog] = useState<{
